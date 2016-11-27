@@ -13,7 +13,6 @@ public final class FeedReaderContract implements BaseColumns{
         public static final String TABLE_NAME="secring";
         public static final String TB_COL2_EMAIL="email";
         public static final String TB_COL3_SECKEY="seckey";
-        public static final String TB_COL4_PUBKEY="pubkey";
     }
     public static class PubRing implements BaseColumns{
         public static final String TABLE_NAME="pubring";

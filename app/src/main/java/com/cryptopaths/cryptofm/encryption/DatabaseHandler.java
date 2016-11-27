@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
+import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
+import net.sqlcipher.database.SQLiteStatement;
 
 import org.spongycastle.crypto.digests.LongDigest;
 
@@ -39,8 +41,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         boolean status=false;
         //create content values to put in db
         //not verifying email address here
+        SQLiteStatement p = mDB.compileStatement("insert into secring(email, seckey) values(?, ?)");
+
+        p.bindBlob(2, secKeyText);
+        p.bindString(1, email);
+        p.execute();
+        status=true;
         Log.d(TAG,"started inserting secret key");
-        ContentValues contentValues=new ContentValues();
+       /* ContentValues contentValues=new ContentValues();
         contentValues.put(FeedReaderContract.SecRing.TB_COL2_EMAIL,email);
         contentValues.put(FeedReaderContract.SecRing.TB_COL3_SECKEY,secKeyText);
         try{
@@ -52,6 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
             Log.d(TAG,"cannot insert secret key");
         }
+        */
         return status;
 
     }
@@ -81,5 +90,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+    public byte[] getSecretKeyFromDb(String email){
+        byte[] data=null;
+        Cursor query=mDB.rawQuery("select * from "+ FeedReaderContract.SecRing.TABLE_NAME,null);
+        Log.d("test","NUmber of rows: "+query.getCount());
+        return data;
     }
 }
