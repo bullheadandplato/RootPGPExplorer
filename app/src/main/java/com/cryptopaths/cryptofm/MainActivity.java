@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -16,13 +15,11 @@ import android.widget.TextView;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
 
-import org.spongycastle.bcpg.ArmoredInputStream;
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
 import org.spongycastle.openpgp.PGPPublicKeyRing;
 import org.spongycastle.openpgp.PGPSecretKeyRing;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -135,20 +132,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 PGPKeyRingGenerator keyRingGenerator=keyManagement.generateKey(email,password);
                 PGPPublicKeyRing publicKeys=keyRingGenerator.generatePublicKeyRing();
                 PGPSecretKeyRing secretKeys=keyRingGenerator.generateSecretKeyRing();
-                //save keys in db
-                //convert keys in String format
-                String pubKeyString= Base64.encodeToString(publicKeys.getPublicKey().getEncoded(),Base64.DEFAULT);
-                String secKeyString=Base64.encodeToString(secretKeys.getSecretKey().getEncoded(),Base64.DEFAULT);
-                //call the db methods to store
-                mDatabaseHandler.insertSecKey(email,secKeyString,pubKeyString);
-                File myDir=new File("/sdcard/PiercingArrow");
-                if(!myDir.exists()){
-                    Log.d(TAG,"Creating directory");
-                    myDir.mkdir();
-                }
 
                 //output keys in ascii armored format
-                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream("/sdcard/PiercingArrow/pub.asc"));
+                File file=new File(getFilesDir(),"pub.asc");
+                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream(file));
                 publicKeys.encode(pubOut);
                 pubOut.close();
                 ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
@@ -156,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 secretKeys.encode(secOut);
                 secOut.close();
                 byte[] test=outputStream.toByteArray();
-
+                //call the db methods to store
+                mDatabaseHandler.insertSecKey(email,test);
                 Log.d(TAG,"secret key written to file");
                 return  test;
 

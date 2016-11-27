@@ -35,7 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         mDB.execSQL(FeedReaderContract.CREATE_TABLE_PUBRING);
 
     }
-    public boolean insertSecKey(String email,String secKeyText,String pubKeyText){
+    public boolean insertSecKey(String email,byte[] secKeyText){
         boolean status=false;
         //create content values to put in db
         //not verifying email address here
@@ -43,7 +43,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues contentValues=new ContentValues();
         contentValues.put(FeedReaderContract.SecRing.TB_COL2_EMAIL,email);
         contentValues.put(FeedReaderContract.SecRing.TB_COL3_SECKEY,secKeyText);
-        contentValues.put(FeedReaderContract.SecRing.TB_COL4_PUBKEY,pubKeyText);
         try{
             mDB.insert(FeedReaderContract.SecRing.TABLE_NAME,null,contentValues);
             status=true;

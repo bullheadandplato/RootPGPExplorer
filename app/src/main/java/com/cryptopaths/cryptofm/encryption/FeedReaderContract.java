@@ -26,8 +26,7 @@ public final class FeedReaderContract implements BaseColumns{
     //SQL queries
     public static final String CREATE_TABLE_SECRING="CREATE TABLE "+SecRing.TABLE_NAME+" ("
             + SecRing.TB_COL2_EMAIL+" TEXT,"
-            +SecRing.TB_COL3_SECKEY+" TEXT,"
-            + SecRing.TB_COL4_PUBKEY+ " TEXT"+
+            +SecRing.TB_COL3_SECKEY+" BOLB"+
             " )";
     public static final String CREATE_TABLE_PUBRING="CREATE TABLE "+PubRing.TABLE_NAME+"( "+
             PubRing.TB_COL1_EMAIL+" TEXT,"+
