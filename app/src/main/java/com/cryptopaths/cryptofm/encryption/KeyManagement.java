@@ -144,14 +144,14 @@ public class KeyManagement implements KeyOperations {
 
 
     @Override
-    public PGPSecretKey getSecretKey(File binaryData,long keyID) throws Exception {
-        InputStream inputStream=new FileInputStream(binaryData);
+    public PGPSecretKey getSecretKey(InputStream binaryData,long keyID) throws Exception {
+        InputStream inputStream=PGPUtil.getDecoderStream(binaryData);
         JcaPGPSecretKeyRingCollection pgpSecretKeyRings=new JcaPGPSecretKeyRingCollection(PGPUtil.getDecoderStream(inputStream));
         PGPSecretKey secretKey=pgpSecretKeyRings.getSecretKey(keyID);
         if(secretKey!=null){
             return secretKey;
         }else{
-            throw new IllegalArgumentException("Key does not exist");
+            return secretKey;
         }
 
     }

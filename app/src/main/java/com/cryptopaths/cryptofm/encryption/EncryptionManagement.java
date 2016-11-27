@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm.encryption;
 
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 
 import org.spongycastle.bcpg.SymmetricKeyAlgorithmTags;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
@@ -64,9 +65,8 @@ public class EncryptionManagement implements EncryptionOperation {
     }
 
     @Override
-    public String decryptFile(File inputFile,File outputFile,File pubKey,File secKeyFile,char[] pass)throws Exception {
+    public String decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
         Security.addProvider(new BouncyCastleProvider());
-        PGPPublicKey pgpPublicKey=keyManagement.getPublicKey(pubKey);
         PGPSecretKey pgpSecretKey;
         InputStream in=PGPUtil.getDecoderStream(new FileInputStream(inputFile));
         JcaPGPObjectFactory pgpObjectFactory;
@@ -81,6 +81,7 @@ public class EncryptionManagement implements EncryptionOperation {
         Iterator<PGPPublicKeyEncryptedData> itt = encryptedDataList.getEncryptedDataObjects();
         PGPPrivateKey sKey = null;
         PGPPublicKeyEncryptedData encP = null;
+
         while (sKey == null && itt.hasNext()) {
             encP = itt.next();
             pgpSecretKey = keyManagement.getSecretKey(secKeyFile, encP.getKeyID());
@@ -126,10 +127,10 @@ public class EncryptionManagement implements EncryptionOperation {
         }
     }
     @Override
-    public  void encryptFile(File outputFile, File inputFile,File google) throws Exception {
+    public  void encryptFile(File outputFile, File inputFile,File pubKeyFile) throws Exception {
         OutputStream out=new FileOutputStream(outputFile);
         String fileName=inputFile.getPath();
-        PGPPublicKey encKey=keyManagement.getPublicKey(google);
+        PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
         ByteArrayOutputStream bOut = new ByteArrayOutputStream();

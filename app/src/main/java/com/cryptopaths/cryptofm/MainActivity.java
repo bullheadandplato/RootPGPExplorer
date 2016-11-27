@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,18 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
 
+import org.spongycastle.bcpg.ArmoredInputStream;
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
 import org.spongycastle.openpgp.PGPPublicKeyRing;
 import org.spongycastle.openpgp.PGPSecretKeyRing;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.Security;
@@ -120,10 +123,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     //async task
-    private class KeyGenerationTask extends AsyncTask<String,Void,String> {
+    private class KeyGenerationTask extends AsyncTask<String,Void,byte[]> {
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected byte[] doInBackground(String... strings) {
             String email=strings[0];
             char[] password=strings[1].toCharArray();
             KeyManagement keyManagement=new KeyManagement();
@@ -138,12 +141,29 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 String secKeyString=Base64.encodeToString(secretKeys.getSecretKey().getEncoded(),Base64.DEFAULT);
                 //call the db methods to store
                 mDatabaseHandler.insertSecKey(email,secKeyString,pubKeyString);
-                return  "Success";
+                File myDir=new File("/sdcard/PiercingArrow");
+                if(!myDir.exists()){
+                    Log.d(TAG,"Creating directory");
+                    myDir.mkdir();
+                }
+
+                //output keys in ascii armored format
+                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream("/sdcard/PiercingArrow/pub.asc"));
+                publicKeys.encode(pubOut);
+                pubOut.close();
+                ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+                ArmoredOutputStream secOut=new ArmoredOutputStream(outputStream);
+                secretKeys.encode(secOut);
+                secOut.close();
+                byte[] test=outputStream.toByteArray();
+
+                Log.d(TAG,"secret key written to file");
+                return  test;
 
             } catch (Exception e) {
                 Log.d(TAG,"Error generating keys");
                 e.printStackTrace();
-                return "Cannot generate keys";
+                return null;
 
             }
         }
@@ -162,10 +182,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
             mLoading.hide();
-            Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(MainActivity.this,IntermediateActivity.class);
+            intent.putExtra("key",s);
+            startActivity(intent);
         }
     }
     static {
