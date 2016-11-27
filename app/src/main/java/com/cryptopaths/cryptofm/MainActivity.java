@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private TextView        emailTextView;
     private TextView        passwordTextView;
     private DatabaseHandler mDatabaseHandler;
+    private ProgressDialog  mLoading;
+
 
     private static final String TAG         ="MainActivity";
     private static final int RC_PERMISSION  =1000;
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private void setVariablesReferences(){
         this.emailTextView      =(TextView)findViewById(R.id.input_email);
         this.passwordTextView   =(TextView)findViewById(R.id.input_password);
-        mDatabaseHandler=new DatabaseHandler(this);
+        this.mDatabaseHandler   =new DatabaseHandler(this);
+        this.mLoading           =new ProgressDialog(MainActivity.this);
+
     }
 
     /**
@@ -104,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         String password=passwordTextView.getText().toString();
         new KeyGenerationTask().execute(email,password);
     }
-    ProgressDialog mLoading;
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
@@ -135,28 +138,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 String secKeyString=Base64.encodeToString(secretKeys.getSecretKey().getEncoded(),Base64.DEFAULT);
                 //call the db methods to store
                 mDatabaseHandler.insertSecKey(email,secKeyString,pubKeyString);
-                //create  a folder for keys
-                File myDir=new File("/sdcard/PiercingArrow");
-                if(!myDir.exists()){
-                    Log.d(TAG,"Creating directory");
-                    myDir.mkdir();
-                }
-
-                //output keys in ascii armored format
-                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream("/sdcard/PiercingArrow/pub.asc"));
-                publicKeys.encode(pubOut);
-                pubOut.close();
-                ArmoredOutputStream secOut=new ArmoredOutputStream(new FileOutputStream("/sdcard/PiercingArrow/sec.asc"));
-                secretKeys.encode(secOut);
-                secOut.close();
-
-                Log.d(TAG,"secret key written to file");
-                //put key in database
-                String secKeyTex=secretKeys.getSecretKey().getEncoded().toString();
-
-                return "Key generation successful";
-
-
+                return  "Success";
 
             } catch (Exception e) {
                 Log.d(TAG,"Error generating keys");
@@ -170,9 +152,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         protected void onPreExecute() {
             super.onPreExecute();
             //show a progress dialog
-            mLoading=new ProgressDialog(MainActivity.this);
-            mLoading.setMessage("wait while generating keys...");
-            mLoading.setTitle("generating keys");
+            mLoading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mLoading.setIndeterminate(true);
+            mLoading.setTitle("Generating keys");
+            mLoading.setMessage("Please wait while generating keys");
             mLoading.setCancelable(false);
             mLoading.show();
 
@@ -181,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mLoading.dismiss();
+            mLoading.hide();
             Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
         }
     }
