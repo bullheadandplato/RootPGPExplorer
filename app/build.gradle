@@ -30,5 +30,6 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:pg:1.54.0.0'
     compile 'net.zetetic:android-database-sqlcipher:3.5.4@aar'
+    compile 'pub.devrel:easypermissions:0.1.5'
     testCompile 'junit:junit:4.12'
 }

@@ -67,7 +67,7 @@ public class EncryptionManagement implements EncryptionOperation {
     public String decryptFile(File inputFile,File outputFile,File pubKey,File secKeyFile,char[] pass)throws Exception {
         Security.addProvider(new BouncyCastleProvider());
         PGPPublicKey pgpPublicKey=keyManagement.getPublicKey(pubKey);
-        PGPSecretKey pgpSecretKey=keyManagement.getSecretKey(secKeyFile,pgpPublicKey.getKeyID());
+        PGPSecretKey pgpSecretKey;
         InputStream in=PGPUtil.getDecoderStream(new FileInputStream(inputFile));
         JcaPGPObjectFactory pgpObjectFactory;
         PGPObjectFactory objectFactory=new PGPObjectFactory(in,new BcKeyFingerprintCalculator());

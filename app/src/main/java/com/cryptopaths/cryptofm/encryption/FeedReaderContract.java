@@ -20,28 +20,19 @@ public final class FeedReaderContract implements BaseColumns{
         public static final String TB_COL1_EMAIL="email";
         public static final String TB_COL2_PUBKEY="pubkey";
     }
-    public static class DataTypes{
-        public static final String INTEGER="INTEGER";
-        public static final String TEXT="TEXT";
-        public static final String VARCHAR="VARCHAR 255";
 
-    }
 
-    public static final String COMMA_SEPARATOR =",";
-    public static final String CREATE_TABLE="CREATE TABLE";
-    public static final String OPENING_BRACE="(";
-    public static final String CLOSING_BRACE=")";
-    public static final String TERMINATOR=";";
+
     //SQL queries
-    public static final String CREATE_TABLE_SECRING=CREATE_TABLE+SecRing.TABLE_NAME+OPENING_BRACE+
-            SecRing.TB_COL2_EMAIL+DataTypes.VARCHAR+ COMMA_SEPARATOR +
-            SecRing.TB_COL3_SECKEY+DataTypes.TEXT+ COMMA_SEPARATOR +
-            SecRing.TB_COL4_PUBKEY+DataTypes.TEXT+ COMMA_SEPARATOR +
-            CLOSING_BRACE+TERMINATOR;
-    public static final String CREATE_TABLE_PUBRING=CREATE_TABLE+PubRing.TABLE_NAME+OPENING_BRACE+
-            PubRing.TB_COL1_EMAIL+DataTypes.VARCHAR+COMMA_SEPARATOR+
-            PubRing.TB_COL2_PUBKEY+DataTypes.TEXT+
-            CLOSING_BRACE+TERMINATOR;
+    public static final String CREATE_TABLE_SECRING="CREATE TABLE "+SecRing.TABLE_NAME+" ("
+            + SecRing.TB_COL2_EMAIL+" TEXT,"
+            +SecRing.TB_COL3_SECKEY+" TEXT,"
+            + SecRing.TB_COL4_PUBKEY+ " TEXT"+
+            " )";
+    public static final String CREATE_TABLE_PUBRING="CREATE TABLE "+PubRing.TABLE_NAME+"( "+
+            PubRing.TB_COL1_EMAIL+" TEXT,"+
+            PubRing.TB_COL2_PUBKEY+" TEXT " +
+            " )";
 
 
 

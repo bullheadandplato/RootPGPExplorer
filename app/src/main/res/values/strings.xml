@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Crypto FM</string>
+    <string name="permission_string">This app need access to your phone storage to work</string>
 </resources>
