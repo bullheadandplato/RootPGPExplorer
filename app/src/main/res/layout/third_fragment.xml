@@ -44,7 +44,7 @@
 
 
         <TextView
-            android:text="1. Database password"
+            android:text="@string/strike_databse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_email_layout"
@@ -52,7 +52,7 @@
             android:id="@+id/textView4" />
 
         <TextView
-            android:text="2. Keys generation"
+            android:text="@string/strike_keys"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"

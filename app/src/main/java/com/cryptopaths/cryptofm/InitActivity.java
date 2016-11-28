@@ -7,14 +7,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 
 public class InitActivity extends AppCompatActivity {
     private int mFragmentNumber=0;
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
+        mProgressBar=(ProgressBar)findViewById(R.id.setup_progressbar);
+        mProgressBar.setMax(100);
 
     }
     @ActionHandler
@@ -37,6 +41,8 @@ public class InitActivity extends AppCompatActivity {
                             commit();
                     //set fragment number to 1
                     mFragmentNumber=1;
+                    //set progress
+                    mProgressBar.setProgress(33);
 
                 }else{
                     passwordEditText.setError("password length should be greater than 3");
@@ -64,6 +70,7 @@ public class InitActivity extends AppCompatActivity {
                         replace(R.id.first_fragment,thirdFragment).
                         commit();
                 mFragmentNumber=2;
+                mProgressBar.setProgress(66);
                 break;
             case 2:
                 //choose dir and start encrypting it
@@ -71,6 +78,7 @@ public class InitActivity extends AppCompatActivity {
                 //change the button text to lets go
                 ((AppCompatButton) v).setText("Let's Go");
                 mFragmentNumber=3;
+                mProgressBar.setProgress(100);
                 break;
             case 3:
                 //start the encrypting activity

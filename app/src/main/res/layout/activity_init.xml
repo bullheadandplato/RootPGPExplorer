@@ -14,9 +14,9 @@
         android:indeterminate="false"
         android:indeterminateTint="#FF5252"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/setup_progressbar"
+        android:layout_marginTop="-5dp"
+        android:layout_marginStart="0dp" />
 
 
     <ImageView android:src="@drawable/logo"
@@ -25,7 +25,7 @@
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="76dp"
-        android:layout_below="@+id/progressBar2"
+        android:layout_below="@+id/setup_progressbar"
         android:layout_alignParentStart="true" />
     <fragment
         android:name="com.cryptopaths.cryptofm.FirstFragment"
