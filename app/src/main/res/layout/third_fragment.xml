@@ -32,11 +32,10 @@
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="17dp"
         android:textColor="#ffffff"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:text="choose"
         />
 </LinearLayout>

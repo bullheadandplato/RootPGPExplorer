@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:text="Next"
         android:onClick="onNextButtonClick"
         android:textSize="20dp"
