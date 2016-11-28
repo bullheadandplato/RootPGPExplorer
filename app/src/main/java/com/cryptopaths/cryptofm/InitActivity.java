@@ -1,47 +1,47 @@
 package com.cryptopaths.cryptofm;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+
 public class InitActivity extends AppCompatActivity {
-    private FragmentManager mFragmentManager;
     private int mFragmentNumber=0;
-    private FragmentTransaction mFragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-        //set initial fragment
-        mFragmentManager=getFragmentManager();
-        mFragmentTransaction=mFragmentManager.beginTransaction();
-        FirstFragment firstFragment=new FirstFragment();
-        mFragmentTransaction.add(R.id.first_fragment,firstFragment);
-        mFragmentTransaction.commit();
+
     }
+    @ActionHandler
     public void onNextButtonClick(View v){
         switch (mFragmentNumber){
             case 0:
                 EditText passwordEditText=
                         (EditText)findViewById(R.id.input_password_first_fragment);
-                if(isValidPassword(passwordEditText.getText())){
+                CharSequence sequence=passwordEditText.getText();
+                if(isValidPassword(sequence)){
+                    Log.d("fragment","replacing fragmnet "+mFragmentNumber);
                     //create encrypted database and set password of user choice
                     //TODO
                     //change fragment to next fragment
                     SecondFragment secondFragment=new SecondFragment();
-                    mFragmentTransaction.replace(R.id.first_fragment,secondFragment);
-                    mFragmentTransaction.commit();
+                    getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                                    R.anim.enter_from_left, R.anim.exit_to_right).
+                            replace(R.id.first_fragment,secondFragment).
+                            commit();
                     //set fragment number to 1
                     mFragmentNumber=1;
 
                 }else{
                     passwordEditText.setError("password length should be greater than 3");
                 }
+                Log.d("fragment","replacing fragmnet "+mFragmentNumber);
                 break;
             case 1:
                 passwordEditText=(EditText)findViewById(R.id.input_password_second_fragment);
@@ -56,6 +56,28 @@ public class InitActivity extends AppCompatActivity {
                 }
                 //generate keys
                 //TODO
+                //change fragment to third fragment
+                ThirdFragment thirdFragment=new ThirdFragment();
+                getSupportFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                                R.anim.enter_from_left, R.anim.exit_to_right).
+                        replace(R.id.first_fragment,thirdFragment).
+                        commit();
+                mFragmentNumber=2;
+                break;
+            case 2:
+                //choose dir and start encrypting it
+                //TODO
+                //change the button text to lets go
+                ((AppCompatButton) v).setText("Let's Go");
+                mFragmentNumber=3;
+                break;
+            case 3:
+                //start the encrypting activity
+                //TODO
+                break;
+
+
 
 
         }
@@ -64,10 +86,6 @@ public class InitActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
     private boolean isValidPassword(CharSequence password){
-        if(password.length()>2){
-            return true;
-        }else{
-            return false;
-        }
+        return password.length() > 2;
     }
 }

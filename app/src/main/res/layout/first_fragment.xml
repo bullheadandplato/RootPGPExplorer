@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/first_fragment"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
     <!--  Password Label -->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/input_password_layout"
+        android:id="@+id/input_password_layout_first_fragment"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
         <EditText android:id="@+id/input_password_first_fragment"
@@ -17,14 +21,14 @@
             android:inputType="textPassword"
             android:shadowColor="@color/textColorTertiary"
             android:hint="Password"
-            android:breakStrategy="high_quality" />
+            />
     </android.support.design.widget.TextInputLayout>
     <TextView
         android:text="1. Database password"
         android:layout_width="wrap_content"
         android:textColor="#ffffff"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/input_password_layout"
+        android:layout_below="@+id/input_password_layout_first_fragment"
         android:layout_marginTop="24dp"
         android:id="@+id/textView4" />
 
@@ -45,4 +49,6 @@
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignStart="@+id/textView" />
+</LinearLayout>
+
 </RelativeLayout>
