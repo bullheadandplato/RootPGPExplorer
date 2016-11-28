@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private TextView        emailTextView;
     private TextView        passwordTextView;
     private DatabaseHandler mDatabaseHandler;
-    private ProgressDialog  mLoading;
 
 
     private static final String TAG         ="MainActivity";
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         this.emailTextView      =(TextView)findViewById(R.id.input_email);
         this.passwordTextView   =(TextView)findViewById(R.id.input_password);
         this.mDatabaseHandler   =new DatabaseHandler(this,"google",true);
-        this.mLoading           =new ProgressDialog(MainActivity.this);
 
     }
 
@@ -128,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private void startGeneratingKeys(){
         String email    =emailTextView.getText().toString();
         String password =passwordTextView.getText().toString();
-        new KeyGenerationTask().execute(email,password);
     }
 
     @Override
@@ -141,70 +138,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    //async task
-    private class KeyGenerationTask extends AsyncTask<String,Void,byte[]> {
-
-        @Override
-        protected byte[] doInBackground(String... strings) {
-            String email                =strings[0];
-            char[] password             =strings[1].toCharArray();
-            KeyManagement keyManagement =new KeyManagement();
-            try {
-                Log.d(TAG,"start generating keys");
-                PGPKeyRingGenerator keyRingGenerator    =keyManagement.generateKey(email,password);
-                PGPPublicKeyRing publicKeys             =keyRingGenerator.generatePublicKeyRing();
-                PGPSecretKeyRing secretKeys             =keyRingGenerator.generateSecretKeyRing();
-
-                //output keys in ascii armored format
-                File file=new File(getFilesDir(),"pub.asc");
-                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream(file));
-                publicKeys.encode(pubOut);
-                pubOut.close();
-                ByteArrayOutputStream outputStream  =new ByteArrayOutputStream();
-                ArmoredOutputStream secOut          =new ArmoredOutputStream(outputStream);
-                secretKeys.encode(secOut);
-                secOut.close();
-                byte[] test=outputStream.toByteArray();
-                //call the db methods to store
-                mDatabaseHandler.insertSecKey(email,test);
-                //put in shared preferences
-                SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor=preferences.edit();
-                editor.putBoolean("key",true);
-                editor.putString("mail",email);
-                editor.apply();
-                editor.commit();
-                Log.d(TAG,"secret key written to file");
-                return  test;
-
-            } catch (Exception e) {
-                Log.d(TAG,"Error generating keys");
-                e.printStackTrace();
-                return null;
-
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //show a progress dialog
-            mLoading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mLoading.setIndeterminate(true);
-            mLoading.setTitle("Generating keys");
-            mLoading.setMessage("Please wait while generating keys");
-            mLoading.setCancelable(false);
-            mLoading.show();
-
-        }
-
-        @Override
-        protected void onPostExecute(byte[] s) {
-            super.onPostExecute(s);
-            mLoading.hide();
-            startIntermediateActivity(s);
-        }
-    }
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
