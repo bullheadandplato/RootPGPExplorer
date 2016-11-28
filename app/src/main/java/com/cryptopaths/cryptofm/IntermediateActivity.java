@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
@@ -25,6 +27,8 @@ public class IntermediateActivity extends AppCompatActivity {
     private InputStream             mSecKeyFile;
     private File                    mPubKeyFile;
     private EncryptionManagement    mEncryptionManagement;
+    private ProgressBar             mProgressBar;
+    private TextView                mTextView;
 
     private static final String TAG=    "InterActivity";
 
@@ -42,13 +46,14 @@ public class IntermediateActivity extends AppCompatActivity {
         }
         mPubKeyFile=new File(getFilesDir(),"pub.asc");
         mEncryptionManagement=new EncryptionManagement();
-
+        mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
+        mTextView=(TextView)findViewById(R.id.progress_text);
         //lets encrypt
         new EncryptTask().execute();
     }
 
 
-    private class EncryptTask extends AsyncTask<Void,Void,String>{
+    private class EncryptTask extends AsyncTask<Void,String,String>{
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -69,6 +74,7 @@ public class IntermediateActivity extends AppCompatActivity {
                         Log.d(TAG,"created file to encrypt into");
                     }
                     Log.d(TAG,"encrypting file: "+file.getName());
+                    publishProgress(file.getName());
                     mEncryptionManagement.encryptFile(outputFile,file,mPubKeyFile);
                     //after encryption delete original file
                     if(file.delete()){
@@ -88,6 +94,12 @@ public class IntermediateActivity extends AppCompatActivity {
             super.onPreExecute();
             Log.d("test","Encrypting file");
 
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            mTextView.setText(values[0]);
         }
 
         @Override

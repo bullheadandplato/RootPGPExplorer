@@ -56,13 +56,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
             //get the secret key from db
             String userEmail    =preferences.getString("mail",null);
-            mDatabaseHandler    =new DatabaseHandler(this);
+            mDatabaseHandler    =new DatabaseHandler(this,"google",false);
             byte[] key          =mDatabaseHandler.getSecretKeyFromDb(userEmail);
             //start IntermediateActivity
             startIntermediateActivity(key);
+        }else{
+            //map the references
+            setVariablesReferences();
         }
-        //map the references
-        setVariablesReferences();
+
 
     }
 
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private void setVariablesReferences(){
         this.emailTextView      =(TextView)findViewById(R.id.input_email);
         this.passwordTextView   =(TextView)findViewById(R.id.input_password);
-        this.mDatabaseHandler   =new DatabaseHandler(this);
+        this.mDatabaseHandler   =new DatabaseHandler(this,"google",true);
         this.mLoading           =new ProgressDialog(MainActivity.this);
 
     }

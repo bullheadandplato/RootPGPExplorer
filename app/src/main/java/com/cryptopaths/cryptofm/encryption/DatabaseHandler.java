@@ -9,6 +9,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 import net.sqlcipher.database.SQLiteStatement;
 
+import org.spongycastle.asn1.dvcs.Data;
 import org.spongycastle.crypto.digests.LongDigest;
 
 import java.io.File;
@@ -25,30 +26,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME="pierce";
     private static final int DATABASE_VERSION=1;
     private SQLiteDatabase mDB;
-    public DatabaseHandler(Context context){
+    public DatabaseHandler(Context context,String pass,Boolean isCreated){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
-        databaseFile.mkdirs();
-        databaseFile.delete();
-        mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,"test123",null);
-        mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
-        mDB.execSQL(FeedReaderContract.CREATE_TABLE_PUBRING);
+        if(isCreated){
+            mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
+            mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
+            mDB.execSQL(FeedReaderContract.CREATE_TABLE_PUBRING);
+
+        }else{
+            mDB=SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
+        }
 
     }
+
     public boolean insertSecKey(String email,byte[] secKeyText){
         boolean status=false;
         //create content values to put in db
         //not verifying email address here
-        SQLiteStatement p = mDB.compileStatement("insert into secring(email, seckey) values(?, ?)");
 
-        p.bindBlob(2, secKeyText);
-        p.bindString(1, email);
-        p.execute();
-        status=true;
         Log.d(TAG,"started inserting secret key");
-       /* ContentValues contentValues=new ContentValues();
+        ContentValues contentValues=new ContentValues();
         contentValues.put(FeedReaderContract.SecRing.TB_COL2_EMAIL,email);
         contentValues.put(FeedReaderContract.SecRing.TB_COL3_SECKEY,secKeyText);
         try{
@@ -60,7 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
             Log.d(TAG,"cannot insert secret key");
         }
-        */
+
         return status;
 
     }
@@ -93,8 +93,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     public byte[] getSecretKeyFromDb(String email){
         byte[] data=null;
-        Cursor query=mDB.rawQuery("select * from "+ FeedReaderContract.SecRing.TABLE_NAME,null);
-        Log.d("test","NUmber of rows: "+query.getCount());
+        String[] columns=
+                {FeedReaderContract.SecRing.TB_COL2_EMAIL,
+                        FeedReaderContract.SecRing.TB_COL3_SECKEY};
+        String selection= FeedReaderContract.SecRing.TB_COL2_EMAIL + " = ?";
+        String[] selectionArgs={email};
+        Cursor query=mDB.query(
+                FeedReaderContract.SecRing.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if(query.moveToFirst()){
+            int index=query.getColumnIndex(FeedReaderContract.SecRing.TB_COL3_SECKEY);
+            data=query.getBlob(index);
+            Log.d("test","NUmber of rows: "+query.getCount());
+        }
+        query.close();
+        mDB.close();
+        assert data!=null;
         return data;
     }
 }
