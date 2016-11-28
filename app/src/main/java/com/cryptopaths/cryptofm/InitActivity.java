@@ -1,11 +1,13 @@
 package com.cryptopaths.cryptofm;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
@@ -27,11 +30,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.Security;
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class InitActivity extends AppCompatActivity {
-    private int mFragmentNumber         =0;
-    private static final String TAG     ="InitActivity";
+public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+    private static final int RC_PICK_FILE_TO_SAVE_INTERNAL  =100;
+    private static final int RC_PERMISSION                  =101;
+    private int mFragmentNumber                             =0;
+    private static final String TAG                         ="InitActivity";
 
     private ProgressBar         mProgressBar;
     private DatabaseHandler     mDatabaseHandler;
@@ -102,16 +111,17 @@ public class InitActivity extends AppCompatActivity {
 
                 break;
             case 2:
-                //choose dir and start encrypting it
-                //TODO
-                //change the button text to lets go
-                ((AppCompatButton) v).setText("Let's Go");
-                mFragmentNumber=3;
-                mProgressBar.setProgress(100);
+                //get permission or check
+                if(checkPermissions()){
+                    fileChooser();
+                    //change the button text to lets go
+                    ((AppCompatButton) v).setText("Let's Go");
+                    mFragmentNumber=3;
+                    mProgressBar.setProgress(100);
+                }
                 break;
             case 3:
                 //start the encrypting activity
-                //TODO
                 break;
 
 
@@ -119,6 +129,45 @@ public class InitActivity extends AppCompatActivity {
 
         }
     }
+    /*
+    File chooser area
+    */
+    private void fileChooser() {
+        Intent fileExploreIntent = new Intent(
+                FileBrowserActivity.INTENT_ACTION_SELECT_DIR,
+                null,
+                this,
+               FileBrowserActivity.class
+        );
+
+        startActivityForResult(
+                fileExploreIntent,
+                RC_PICK_FILE_TO_SAVE_INTERNAL
+        );
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        if (requestCode == RC_PICK_FILE_TO_SAVE_INTERNAL) {
+            if(resultCode == this.RESULT_OK) {
+                String newDir = data.getStringExtra(
+                        FileBrowserActivity.returnDirectoryParameter);
+                Toast.makeText(
+                        this,
+                        "Received path from file browser:"+newDir,
+                        Toast.LENGTH_LONG
+                ).show();
+            } else {//if(resultCode == this.RESULT_OK) {
+                Toast.makeText(
+                        this,
+                        "Received NO result from file browser",
+                        Toast.LENGTH_LONG)
+                        .show();
+            }//END } else {//if(resultCode == this.RESULT_OK) {
+        }//if (requestCode == REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
@@ -126,7 +175,42 @@ public class InitActivity extends AppCompatActivity {
         return password.length() > 2;
     }
 
-    //async task for the generation of keys
+    /*
+    Permission area
+     */
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
+    }
+    @AfterPermissionGranted(RC_PERMISSION)
+    private boolean checkPermissions(){
+        String[] perms  ={Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if(EasyPermissions.hasPermissions(this,perms)){
+               return true;
+        }else{
+            EasyPermissions.requestPermissions(this,getString(R.string.permission_string),
+                    RC_PERMISSION,perms);
+        }
+        return false;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+
+    }
+
+    /*
+    Generating keys area
+     */
     private class KeyGenerationTask extends AsyncTask<String,Void,byte[]> {
 
         @Override
