@@ -18,6 +18,9 @@ import org.spongycastle.openpgp.PGPUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -115,5 +118,19 @@ public class IntermediateActivity extends AppCompatActivity {
             }
             return false;
         }
+        private void splitFile(File file) throws IOException {
+            byte[] bytes=new byte[2048];
+            File outputDir=new File(getFilesDir(),"ongoing");
+            if(!outputDir.exists()){
+                outputDir.mkdir();
+            }
+            File file1=new File(getFilesDir()+"ongoing","file1");
+            InputStream in=new FileInputStream(file);
+            OutputStream out=new FileOutputStream(file1);
+            for (int i=0;i<in.available();i++){
+
+            }
+        }
     }
+
 }
