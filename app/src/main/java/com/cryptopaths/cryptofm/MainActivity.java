@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         String[] perms  ={Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if(EasyPermissions.hasPermissions(this,perms)){
-            startGeneratingKeys();
+           // startGeneratingKeys();
         }else{
             EasyPermissions.requestPermissions(this,getString(R.string.permission_string),
                     RC_PERMISSION,perms);

@@ -111,14 +111,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
                 break;
             case 2:
-                //get permission or check
-                if(checkPermissions()){
-                    fileChooser();
-                    //change the button text to lets go
-                    ((AppCompatButton) v).setText("Let's Go");
-                    mFragmentNumber=3;
-                    mProgressBar.setProgress(100);
-                }
+
+
                 break;
             case 3:
                 //start the encrypting activity
@@ -129,10 +123,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         }
     }
+
     /*
     File chooser area
     */
-    private void fileChooser() {
+    public void fileChooser(View v) {
         Intent fileExploreIntent = new Intent(
                 FileBrowserActivity.INTENT_ACTION_SELECT_DIR,
                 null,
@@ -149,7 +144,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         if (requestCode == RC_PICK_FILE_TO_SAVE_INTERNAL) {
-            if(resultCode == this.RESULT_OK) {
+            if(resultCode == RESULT_OK) {
                 String newDir = data.getStringExtra(
                         FileBrowserActivity.returnDirectoryParameter);
                 Toast.makeText(
@@ -271,16 +266,24 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
-            mLoading.hide();
+            mLoading.dismiss();
             //change fragment to third fragment
-            ThirdFragment thirdFragment=new ThirdFragment();
+            ThirdFragment thirdFragment = new ThirdFragment();
             getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                             R.anim.enter_from_left, R.anim.exit_to_right).
-                    replace(R.id.first_fragment,thirdFragment).
+                    replace(R.id.first_fragment, thirdFragment).
                     commit();
-            mFragmentNumber=2;
+            mFragmentNumber = 2;
             mProgressBar.setProgress(66);
+            //get permission or check
+            checkPermissions();
+
+                //change the button text to lets go
+                //((AppCompatButton) v).setText("Let's Go");
+                // mFragmentNumber=3;
+                mProgressBar.setProgress(100);
+
         }
     }
     static {

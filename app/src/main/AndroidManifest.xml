@@ -21,6 +21,7 @@
         <activity android:name=".IntermediateActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UnlockDbActivity"></activity>
+        <activity android:name=".FileBrowserActivity"/>
     </application>
 
 </manifest>

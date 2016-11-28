@@ -31,12 +31,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase.loadLibs(context);
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
-        if(isCreated){
+        if(!isCreated){
+            Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_PUBRING);
 
         }else{
+            Log.d(TAG, "database was present, so opened");
             mDB=SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
         }
 
