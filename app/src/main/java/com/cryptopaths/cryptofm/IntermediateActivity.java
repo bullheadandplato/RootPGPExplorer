@@ -91,7 +91,8 @@ public class IntermediateActivity extends AppCompatActivity {
                             Log.d(TAG,"created file to encrypt into");
                         }
                         Log.d(TAG,"encrypting file: "+inputFile.getName());
-                        publishProgress(inputFile.getName());
+                        //1024 for bytes to KiB and 1024 for KiB to MiB
+                        publishProgress(inputFile.getName(),""+((inputFile.length()/1024)/1024));
                         mEncryptionManagement.encryptFile(outputFile,inputFile,mPubKeyFile);
                         //after encryption delete original file
                         if(inputFile.delete()){
@@ -117,7 +118,8 @@ public class IntermediateActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            mTextView.setText(values[0]);
+            //value[0] is filename and value[1] is file size
+            mTextView.setText("Encrypting file: "+values[0] +" ("+values[1]+" MBs)");
         }
 
         @Override
