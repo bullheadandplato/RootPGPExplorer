@@ -144,22 +144,26 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         if (requestCode == RC_PICK_FILE_TO_SAVE_INTERNAL) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 String newDir = data.getStringExtra(
                         FileBrowserActivity.returnDirectoryParameter);
                 Toast.makeText(
                         this,
-                        "Received path from file browser:"+newDir,
+                        "Received path from file browser:" + newDir,
                         Toast.LENGTH_LONG
                 ).show();
-            } else {//if(resultCode == this.RESULT_OK) {
+                //start encrypting
+                Log.d(TAG,"Starting encryption activity");
+                Intent intent=new Intent(this,IntermediateActivity.class);
+                startActivity(intent);
+            } else {
                 Toast.makeText(
                         this,
                         "Received NO result from file browser",
                         Toast.LENGTH_LONG)
                         .show();
-            }//END } else {//if(resultCode == this.RESULT_OK) {
-        }//if (requestCode == REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL) {
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

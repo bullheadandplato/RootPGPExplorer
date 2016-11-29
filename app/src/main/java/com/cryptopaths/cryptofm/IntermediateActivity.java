@@ -40,13 +40,13 @@ public class IntermediateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intermediate);
         //get the key from intent and convert it to file
-        byte[] key = getIntent().getExtras().getByteArray("key");
-        assert key!=null;
-        try {
-            mSecKeyFile = PGPUtil.getDecoderStream(new ByteArrayInputStream(key));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       // byte[] key = getIntent().getExtras().getByteArray("key");
+        //assert key!=null;
+       // try {
+        //    mSecKeyFile = PGPUtil.getDecoderStream(new ByteArrayInputStream(key));
+      //  } catch (IOException e) {
+         //   e.printStackTrace();
+       // }
         mPubKeyFile=new File(getFilesDir(),"pub.asc");
         mEncryptionManagement=new EncryptionManagement();
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
@@ -118,19 +118,7 @@ public class IntermediateActivity extends AppCompatActivity {
             }
             return false;
         }
-        private void splitFile(File file) throws IOException {
-            byte[] bytes=new byte[2048];
-            File outputDir=new File(getFilesDir(),"ongoing");
-            if(!outputDir.exists()){
-                outputDir.mkdir();
-            }
-            File file1=new File(getFilesDir()+"ongoing","file1");
-            InputStream in=new FileInputStream(file);
-            OutputStream out=new FileOutputStream(file1);
-            for (int i=0;i<in.available();i++){
 
-            }
-        }
     }
 
 }

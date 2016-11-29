@@ -128,32 +128,26 @@ public class EncryptionManagement implements EncryptionOperation {
     }
     @Override
     public  void encryptFile(File outputFile, File inputFile,File pubKeyFile) throws Exception {
-        OutputStream out=new FileOutputStream(outputFile);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
         String fileName=inputFile.getPath();
         PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
-        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+        PGPEncryptedDataGenerator   cPk = new PGPEncryptedDataGenerator(new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setSecureRandom(new SecureRandom()));
 
-        PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
+        cPk.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(encKey));
 
-        PGPUtil.writeFileToLiteralData(comData.open(bOut), PGPLiteralData.BINARY, new File(fileName));
+        OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
+
+        PGPCompressedDataGenerator  comData = new PGPCompressedDataGenerator(
+                PGPCompressedData.ZIP);
+
+        PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, new File(fileName), new byte[1 << 16]);
 
         comData.close();
 
-        PGPEncryptedDataGenerator cPk = new PGPEncryptedDataGenerator(new BcPGPDataEncryptorBuilder(SymmetricKeyAlgorithmTags.TRIPLE_DES).setSecureRandom(new SecureRandom()));
-
-        cPk.addMethod(new BcPublicKeyKeyEncryptionMethodGenerator(encKey));
-
-        byte[] bytes = bOut.toByteArray();
-
-        OutputStream cOut = cPk.open(out, bytes.length);
-
-        cOut.write(bytes);
-
         cOut.close();
-
-        out.close();
+        Log.d("encrypt","file successfully encrypted");
     }
 
 }
