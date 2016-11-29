@@ -114,6 +114,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 break;
             case 3:
                 //start the encrypting activity
+                startEncrypting();
                 break;
 
 
@@ -126,17 +127,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     File chooser area
     */
     public void fileChooser(View v) {
-        Intent fileExploreIntent = new Intent(
-                FileBrowserActivity.INTENT_ACTION_SELECT_DIR,
-                null,
-                this,
-               FileBrowserActivity.class
-        );
+        startEncrypting();
 
-        startActivityForResult(
-                fileExploreIntent,
-                RC_PICK_FILE_TO_SAVE_INTERNAL
-        );
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -174,7 +166,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
      */
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-
     }
 
     @Override
@@ -273,23 +264,28 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                             R.anim.enter_from_left, R.anim.exit_to_right).
                     replace(R.id.first_fragment, thirdFragment).
                     commit();
-            mFragmentNumber = 2;
+            mFragmentNumber = 3;
             mProgressBar.setProgress(66);
+
             //get permission or check
-            checkPermissions();
+            if(checkPermissions()){
+                mProgressBar.setProgress(100);
+               startEncrypting();
+            }
 
                 //change the button text to lets go
                 //((AppCompatButton) v).setText("Let's Go");
                 // mFragmentNumber=3;
-                mProgressBar.setProgress(100);
-            //start encrypting
-            Log.d(TAG,"Starting encryption activity");
-            Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
-            startActivity(intent);
 
         }
     }
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+    }
+    private void startEncrypting(){
+        //start encrypting
+        Log.d(TAG,"Starting encryption activity");
+        Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
+        startActivity(intent);
     }
 }

