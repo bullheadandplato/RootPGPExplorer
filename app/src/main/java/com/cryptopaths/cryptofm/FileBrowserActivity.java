@@ -38,6 +38,7 @@ public class FileBrowserActivity extends Activity {
 	// Intent Action Constants
 	public static final String INTENT_ACTION_SELECT_DIR = "ua.com.vassiliev.androidfilebrowser.SELECT_DIRECTORY_ACTION";
 	public static final String INTENT_ACTION_SELECT_FILE = "ua.com.vassiliev.androidfilebrowser.SELECT_FILE_ACTION";
+	private static String initDir;
 
 	// Intent parameters names constants
 	public static final String startDirectoryParameter = "ua.com.vassiliev.androidfilebrowser.directoryPath";
@@ -121,8 +122,11 @@ public class FileBrowserActivity extends Activity {
 		if (this.path == null) {// No or invalid directory supplied in intent
 								// parameter
 			if (Environment.getExternalStorageDirectory().isDirectory()
-					&& Environment.getExternalStorageDirectory().canRead())
+					&& Environment.getExternalStorageDirectory().canRead()){
 				path = Environment.getExternalStorageDirectory();
+				initDir=path.getPath();
+			}
+
 			else
 				path = new File("/");
 		}// if(this.path==null) {//No or invalid directory supplied in intent
@@ -141,9 +145,13 @@ public class FileBrowserActivity extends Activity {
 	}
 
 	private void initializeButtons() {
-		Button upDirButton = (Button) this.findViewById(R.id.upDirectoryButton);
+		final Button upDirButton = (Button) this.findViewById(R.id.upDirectoryButton);
 		upDirButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if(initDir.equals(path.getPath())){
+					Log.d("file","yes yes");
+					return;
+				}
 				Log.d(LOGTAG, "onclick for upDirButton");
 				loadDirectoryUp();
 				loadFileList();

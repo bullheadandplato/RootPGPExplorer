@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InitActivity">
+        <activity android:name=".FileBrowserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,6 @@
         <activity android:name=".IntermediateActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UnlockDbActivity"></activity>
-        <activity android:name=".FileBrowserActivity"/>
     </application>
 
 </manifest>

@@ -42,4 +42,22 @@ android:layout_below="@id/imageView"
         android:textColor="@color/dividerColor"
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Not encrypting file size greated than 100MBs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:id="@+id/textView5" />
+
+    <TextView
+        android:text="You can encrypt those files later manually"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:id="@+id/textView6"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

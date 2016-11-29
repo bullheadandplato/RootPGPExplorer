@@ -150,10 +150,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                         "Received path from file browser:" + newDir,
                         Toast.LENGTH_LONG
                 ).show();
-                //start encrypting
-                Log.d(TAG,"Starting encryption activity");
-                Intent intent=new Intent(this,IntermediateActivity.class);
-                startActivity(intent);
+
             } else {
                 Toast.makeText(
                         this,
@@ -285,6 +282,10 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 //((AppCompatButton) v).setText("Let's Go");
                 // mFragmentNumber=3;
                 mProgressBar.setProgress(100);
+            //start encrypting
+            Log.d(TAG,"Starting encryption activity");
+            Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
+            startActivity(intent);
 
         }
     }

