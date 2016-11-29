@@ -126,6 +126,8 @@ public class IntermediateActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Toast.makeText(IntermediateActivity.this, s, Toast.LENGTH_LONG).show();
+            //start the file manager
+            //TODO
         }
         /* Checks if external storage is available for read and write */
         public boolean isExternalStorageWritable() {

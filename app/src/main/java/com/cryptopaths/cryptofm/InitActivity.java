@@ -109,18 +109,24 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
                 break;
             case 2:
-
-
                 break;
             case 3:
-                //start the encrypting activity
-                startEncrypting();
+                //get permission or check
+                getPermissions();
+                if(checkPermissions()){
+                    mProgressBar.setProgress(100);
+                    startEncrypting();
+                }
                 break;
 
 
 
 
         }
+    }
+
+    private void getPermissions() {
+        checkPermissions();
     }
 
     /*
@@ -257,21 +263,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
             mLoading.dismiss();
-            //change fragment to third fragment
-            ThirdFragment thirdFragment = new ThirdFragment();
-            getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                            R.anim.enter_from_left, R.anim.exit_to_right).
-                    replace(R.id.first_fragment, thirdFragment).
-                    commit();
             mFragmentNumber = 3;
             mProgressBar.setProgress(66);
 
-            //get permission or check
-            if(checkPermissions()){
-                mProgressBar.setProgress(100);
-               startEncrypting();
-            }
 
                 //change the button text to lets go
                 //((AppCompatButton) v).setText("Let's Go");
