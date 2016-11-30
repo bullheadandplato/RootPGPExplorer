@@ -4,17 +4,25 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/list_imageview" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview_textview"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/activity_vertical_margin" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/list_imageview" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listview_textview"
+            android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/list_imageview"
+            android:layout_marginStart="14dp" />
+    </RelativeLayout>
+
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FileBrowserActivity extends Activity {
+public class FileBrowserActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,10 +30,10 @@ public class FileBrowserActivity extends Activity {
 		fillList();
 	}
 	private void fillList(){
-		//ListView listView=(ListView)findViewById(R.id.fileListView);
-	//	MyAdapter listAdapter=new MyAdapter(this);
-		//listAdapter.fillAdapter(Environment.getExternalStorageDirectory().getPath());
-		//listView.setAdapter(listAdapter);
+		ListView listView=(ListView)findViewById(R.id.fileListView);
+		MyAdapter listAdapter=new MyAdapter(this);
+		listAdapter.fillAdapter(Environment.getExternalStorageDirectory().getPath());
+		listView.setAdapter(listAdapter);
 
 	}
 
