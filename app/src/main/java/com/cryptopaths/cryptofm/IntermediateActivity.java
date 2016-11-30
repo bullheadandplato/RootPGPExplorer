@@ -92,7 +92,7 @@ public class IntermediateActivity extends AppCompatActivity {
                         }
                         Log.d(TAG,"encrypting file: "+inputFile.getName());
                         //1024 for bytes to KiB and 1024 for KiB to MiB
-                        publishProgress(inputFile.getName(),""+((inputFile.length()/1024)/1024));
+                        publishProgress(inputFile.getName(),""+((inputFile.length()/1024f)/1024f));
                         mEncryptionManagement.encryptFile(outputFile,inputFile,mPubKeyFile);
                         //after encryption delete original file
                         if(inputFile.delete()){
@@ -139,5 +139,7 @@ public class IntermediateActivity extends AppCompatActivity {
         }
 
     }
+
+    
 
 }
