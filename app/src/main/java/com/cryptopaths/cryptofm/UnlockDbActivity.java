@@ -10,6 +10,8 @@ import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 public class UnlockDbActivity extends AppCompatActivity {
 
     @Override
@@ -17,11 +19,12 @@ public class UnlockDbActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unlock_db);
     }
-    @ActionHandler(layoutResource = R.id.input_password__unlock)
+    @ActionHandler(layoutResource = R.id.button_unlock_db)
     public void onUnlockButtonClick(View view){
         EditText passwordEditText=
                 (EditText)findViewById(R.id.input_password__unlock);
         String pass=passwordEditText.getText().toString();
+        SQLiteDatabase.loadLibs(this);
         DatabaseHandler handler=new DatabaseHandler(this);
         if(handler.checkPass(pass)){
             //start the new activity as user is faithful
@@ -34,7 +37,7 @@ public class UnlockDbActivity extends AppCompatActivity {
     private void showErrorDialog(String s) {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setMessage(s);
-        builder.setNeutralButton("Okay", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //do nothing.

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      * button. It start the process for generating keys.
      * @param v the view for which this function is handler.
      */
-    @ActionHandler
+    @ActionHandler(layoutResource = R.id.btn_login)
     public void onGenerateKeysButtonClick(View v){
         //check if user enter required information correctly
         assert emailTextView    !=null;
