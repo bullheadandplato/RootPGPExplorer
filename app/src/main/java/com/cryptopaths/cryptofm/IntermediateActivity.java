@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,8 @@ public class IntermediateActivity extends AppCompatActivity {
                         }
                         Log.d(TAG,"encrypting file: "+inputFile.getName());
                         //1024 for bytes to KiB and 1024 for KiB to MiB
-                        publishProgress(inputFile.getName(),""+((inputFile.length()/1024f)/1024f));
+                        publishProgress(inputFile.getName(),""+
+                                ((round((inputFile.length()/1024f)/1024f,2))));
                         mEncryptionManagement.encryptFile(outputFile,inputFile,mPubKeyFile);
                         //after encryption delete original file
                         if(inputFile.delete()){
@@ -105,7 +108,7 @@ public class IntermediateActivity extends AppCompatActivity {
 
                 }
 
-            return "Fucked the whole universe";
+            return "Successfully encrypted all files";
         }
 
         @Override
@@ -127,7 +130,8 @@ public class IntermediateActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Toast.makeText(IntermediateActivity.this, s, Toast.LENGTH_LONG).show();
             //start the file manager
-            //TODO
+            Intent intent=new Intent(IntermediateActivity.this,FileBrowserActivity.class);
+            startActivity(intent);
         }
         /* Checks if external storage is available for read and write */
         public boolean isExternalStorageWritable() {
@@ -136,6 +140,17 @@ public class IntermediateActivity extends AppCompatActivity {
                 return true;
             }
             return false;
+        }
+        /**
+         * Round to certain number of decimals
+         *
+         * @param d
+         * @param decimalPlace the numbers of decimals
+         * @return
+         */
+
+        public float round(float d, int decimalPlace) {
+            return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
         }
 
     }
