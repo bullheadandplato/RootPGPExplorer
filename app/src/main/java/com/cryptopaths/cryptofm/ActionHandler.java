@@ -5,4 +5,5 @@ package com.cryptopaths.cryptofm;
  */
 
 public @interface ActionHandler {
+    int layoutResource();
 }

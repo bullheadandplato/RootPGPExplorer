@@ -62,7 +62,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         mProgressBar.setMax(100);
 
     }
-    @ActionHandler
+    @ActionHandler(layoutResource = R.id.next_button)
     public void onNextButtonClick(View v){
         switch (mFragmentNumber){
             case 0:

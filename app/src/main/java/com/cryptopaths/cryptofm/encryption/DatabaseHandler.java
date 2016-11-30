@@ -43,6 +43,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
     }
+    // this constructor will allow me to test input password
+    public DatabaseHandler(Context context){
+        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        this.context=context;
+
+    }
+    public Boolean checkPass(String pass){
+        File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
+        try{
+            SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 
     public boolean insertSecKey(String email,byte[] secKeyText){
         boolean status=false;

@@ -84,18 +84,8 @@ public class FileBrowserActivity extends Activity {
 		setContentView(R.layout.filebrowser_layout);
 
 		// Set action for this activity
-		Intent thisInt = this.getIntent();
 		currentAction = SELECT_DIRECTORY;// This would be a default action in
 											// case not set by intent
-		if (thisInt.getAction().equalsIgnoreCase(INTENT_ACTION_SELECT_FILE)) {
-			Log.d(LOGTAG, "SELECT ACTION - SELECT FILE");
-			currentAction = SELECT_FILE;
-		}
-
-		showHiddenFilesAndDirs = thisInt.getBooleanExtra(
-				showCannotReadParameter, true);
-
-		filterFileExtension = thisInt.getStringExtra(filterExtension);
 
 		setInitialDirectory();
 
@@ -109,19 +99,7 @@ public class FileBrowserActivity extends Activity {
 	}
 
 	private void setInitialDirectory() {
-		Intent thisInt = this.getIntent();
-		String requestedStartDir = thisInt
-				.getStringExtra(startDirectoryParameter);
-
-		if (requestedStartDir != null && requestedStartDir.length() > 0) {// if(requestedStartDir!=null
-			File tempFile = new File(requestedStartDir);
-			if (tempFile.isDirectory())
-				this.path = tempFile;
-		}// if(requestedStartDir!=null
-
-		if (this.path == null) {// No or invalid directory supplied in intent
-								// parameter
-			if (Environment.getExternalStorageDirectory().isDirectory()
+		if (Environment.getExternalStorageDirectory().isDirectory()
 					&& Environment.getExternalStorageDirectory().canRead()){
 				path = Environment.getExternalStorageDirectory();
 				initDir=path.getPath();
@@ -131,7 +109,6 @@ public class FileBrowserActivity extends Activity {
 				path = new File("/");
 		}// if(this.path==null) {//No or invalid directory supplied in intent
 			// parameter
-	}// private void setInitialDirectory() {
 
 	private void parseDirectoryPath() {
 		pathDirsList.clear();
