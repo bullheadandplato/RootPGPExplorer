@@ -108,19 +108,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 );
 
                 break;
-            case 2:
-                break;
-            case 3:
-                //get permission or check
-                getPermissions();
-                if(checkPermissions()){
-                    mProgressBar.setProgress(100);
-                    startEncrypting();
-                }
-                break;
-
-
-
 
         }
     }
@@ -129,13 +116,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         checkPermissions();
     }
 
-    /*
-    File chooser area
-    */
-    public void fileChooser(View v) {
-        startEncrypting();
 
-    }
 
 
     private boolean isValidEmail(CharSequence target) {
@@ -150,6 +131,16 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
      */
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Log.d(TAG,"permissions granted");
+        if (requestCode==RC_PERMISSION){
+            //change fragment to third fragment
+            ThirdFragment secondFragment=new ThirdFragment();
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                            R.anim.enter_from_left, R.anim.exit_to_right).
+                    replace(R.id.first_fragment,secondFragment).
+                    commit();
+        }
     }
 
     @Override
@@ -243,11 +234,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             mLoading.dismiss();
             mFragmentNumber = 3;
             mProgressBar.setProgress(66);
+            //get permission to read storage
+            getPermissions();
 
-
-                //change the button text to lets go
-                //((AppCompatButton) v).setText("Let's Go");
-                // mFragmentNumber=3;
 
         }
     }
