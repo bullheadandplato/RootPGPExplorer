@@ -21,6 +21,9 @@
         android:layout_width="wrap_content"
         android:id="@+id/choose_dir_list"
         android:layout_below="@id/textView7"
+        android:dividerHeight="1px"
+        android:scrollbarSize="1px"
+        android:divider="@color/dividerColor"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.ListViewCompat>

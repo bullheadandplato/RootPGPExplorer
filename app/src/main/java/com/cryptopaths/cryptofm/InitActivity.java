@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -108,6 +109,10 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 );
 
                 break;
+            case 2:
+                //get selected directories
+                CheckBox box=(CheckBox)findViewById(R.id.checkBox);
+                assert box!=null;
 
         }
     }
@@ -232,7 +237,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
             mLoading.dismiss();
-            mFragmentNumber = 3;
+            mFragmentNumber = 2;
             mProgressBar.setProgress(66);
             //get permission to read storage
             getPermissions();
