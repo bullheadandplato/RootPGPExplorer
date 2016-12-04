@@ -5,13 +5,7 @@
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true">
 
-    <android.support.v7.widget.ListViewCompat
-        android:layout_width="wrap_content"
-        android:id="@+id/choose_dir_list"
-        android:layout_below="@id/textView7"
-        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.ListViewCompat>
 
     <TextView
         android:text="Choose directories to encrypt"
@@ -23,4 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
+    <android.support.v7.widget.ListViewCompat
+        android:layout_width="wrap_content"
+        android:id="@+id/choose_dir_list"
+        android:layout_below="@id/textView7"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.ListViewCompat>
 </RelativeLayout>
