@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ChooseDirAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
-    private ArrayList<Integer> allSelectedPositions=new ArrayList<>();
+    private ArrayList<String> allSelectedPositions=new ArrayList<>();
     private List<String> mDataset;
     public ChooseDirAdapter(Context context){
         mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -75,13 +75,13 @@ public class ChooseDirAdapter extends BaseAdapter {
         return tempList;
     }
 
-    public void setAllSelectedPositions(ArrayList<Integer> allSelectedPositions) {
+    public void setAllSelectedPositions(ArrayList<String> allSelectedPositions) {
         this.allSelectedPositions = allSelectedPositions;
     }
     private boolean isSelected(int position){
-        for (Integer pos:
+        for (String pos:
                 allSelectedPositions) {
-            if(pos==position){
+            if(pos.equals("value"+position)){
                 return true;
             }
         }

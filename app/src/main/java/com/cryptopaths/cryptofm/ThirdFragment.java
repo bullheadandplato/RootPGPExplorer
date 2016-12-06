@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 public class ThirdFragment extends Fragment {
-    private ArrayList<Integer> allSelectedPositions=new ArrayList<>();
+    private ArrayList<String> allSelectedPositions=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,10 +37,10 @@ public class ThirdFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!isAlreadySelected(i)){
-                    allSelectedPositions.add(i);
+                    allSelectedPositions.add("value"+i);
 
                 }else{
-                    allSelectedPositions.remove(allSelectedPositions.indexOf(i));
+                    allSelectedPositions.remove("value"+i);
 
                 }
                 adapter.setAllSelectedPositions(allSelectedPositions);
@@ -51,9 +51,9 @@ public class ThirdFragment extends Fragment {
         return rootView;
     }
     private boolean isAlreadySelected(int position){
-        for (Integer pos:
+        for (String pos:
              allSelectedPositions) {
-            if(pos==position){
+            if(pos.equals("value"+position)){
                 return true;
             }
         }
