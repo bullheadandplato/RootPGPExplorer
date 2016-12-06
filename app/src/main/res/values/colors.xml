@@ -7,4 +7,5 @@
     <color name="textColorPrimary">#cdcdcd</color>
     <color name="colorAccent">#4caf50</color>
     <color name="textColorTertiary">#ffffff</color>
+    <color name="folderColor"> #ffc107</color>
 </resources>

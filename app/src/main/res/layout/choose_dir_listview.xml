@@ -4,9 +4,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/imageView" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/ic_folder_white_48dp"
+            android:tint="@color/folderColor"
+            android:id="@+id/folder_icon_image" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/folder_icon_image"
+            android:layout_toEndOf="@+id/folder_icon_image"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="13dp"
+            android:id="@+id/folder_name_textview" />
+    </RelativeLayout>
+
 </LinearLayout>

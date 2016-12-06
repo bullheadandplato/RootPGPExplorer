@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,12 +45,12 @@ public class ChooseDirAdapter extends BaseAdapter {
         if(view==null){
             view=mInflater.inflate(R.layout.choose_dir_listview,null);
         }
-        viewHolder.checkBox=(CheckBox)view.findViewById(R.id.checkBox);
-        viewHolder.checkBox.setText(mDataset.get(i));
+        viewHolder.textView=(TextView) view.findViewById(R.id.folder_name_textview);
+        viewHolder.textView.setText(mDataset.get(i));
         return view;
     }
     private class ViewHolder{
-        public CheckBox checkBox;
+        public TextView textView;
     }
     private List<String> getAllDirs(){
         List<String> tempList=new ArrayList<>();
