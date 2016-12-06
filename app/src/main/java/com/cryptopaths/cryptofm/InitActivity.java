@@ -112,8 +112,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 break;
             case 2:
                 //get selected directories
-                CheckBox box=(CheckBox)findViewById(R.id.checkBox);
-                assert box!=null;
 
         }
     }

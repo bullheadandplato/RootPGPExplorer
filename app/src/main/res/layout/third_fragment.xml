@@ -17,14 +17,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
-    <android.support.v7.widget.ListViewCompat
+    <ListView
         android:layout_width="wrap_content"
         android:id="@+id/choose_dir_list"
         android:layout_below="@id/textView7"
-        android:dividerHeight="1px"
-        android:scrollbarSize="1px"
         android:divider="@color/dividerColor"
+        android:dividerHeight="1px"
+        android:scrollbars="vertical"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.ListViewCompat>
+    </ListView>
 </RelativeLayout>
