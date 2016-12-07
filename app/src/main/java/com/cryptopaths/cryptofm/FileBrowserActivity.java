@@ -26,6 +26,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
+		setResult(RESULT_OK);
 		//fill list view
 		fillList();
 	}

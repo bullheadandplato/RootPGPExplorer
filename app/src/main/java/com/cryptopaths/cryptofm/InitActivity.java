@@ -60,7 +60,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             Intent intent=new Intent(this,UnlockDbActivity.class);
             //clear the stack
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            startActivityForResult(intent,1);
+            finish();
 
         }
         mProgressBar=(ProgressBar)findViewById(R.id.setup_progressbar);
@@ -125,7 +126,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     commitInitActivity();
                     //clear stack
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    startActivityForResult(intent,0);
+                    finish();
                 }else {
                     Toast.makeText(this,
                             "Please choose one or more directories",
@@ -135,6 +137,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         }
     }
+
+
 
     private void commitInitActivity() {
         //put in shared preferences

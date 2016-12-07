@@ -29,7 +29,8 @@ public class UnlockDbActivity extends AppCompatActivity {
         if(handler.checkPass(pass)){
             //start the new activity as user is faithful
             Intent intent=new Intent(this,FileBrowserActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,1);
+            finish();
         }else{
             showErrorDialog("Wrong password");
         }

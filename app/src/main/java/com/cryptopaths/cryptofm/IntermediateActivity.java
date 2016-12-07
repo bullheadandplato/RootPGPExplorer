@@ -35,6 +35,7 @@ public class IntermediateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intermediate);
+        setResult(RESULT_OK);
         //get the key from intent and convert it to file
        // byte[] key = getIntent().getExtras().getByteArray("key");
         //assert key!=null;
