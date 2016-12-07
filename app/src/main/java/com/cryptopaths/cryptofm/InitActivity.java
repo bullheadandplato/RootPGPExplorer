@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -59,6 +58,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         if(isNotFirstRun){
             //change activity to unlock db activity
             Intent intent=new Intent(this,UnlockDbActivity.class);
+            //clear the stack
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
         }
@@ -120,6 +121,10 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     //start the encryption activity as user selected directories
                     Intent intent=new Intent(this,IntermediateActivity.class);
                     intent.putExtra("dirs",tmp);
+                    //commit that all in set up activity is done well.
+                    commitInitActivity();
+                    //clear stack
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }else {
                     Toast.makeText(this,
@@ -129,6 +134,15 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 }
 
         }
+    }
+
+    private void commitInitActivity() {
+        //put in shared preferences
+        SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putBoolean("key",true);
+        editor.apply();
+        editor.commit();
     }
 
     private void getPermissions() {
@@ -219,13 +233,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 mDatabaseHandler.insertSecKey(email,test);
-                //put in shared preferences
-                SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor=preferences.edit();
-                editor.putBoolean("key",true);
-                editor.putString("mail",email);
-                editor.apply();
-                editor.commit();
+
                 Log.d(TAG,"secret key written to file");
                 return  test;
 
@@ -271,10 +279,5 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
-    private void startEncrypting(){
-        //start encrypting
-        Log.d(TAG,"Starting encryption activity");
-        Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
-        startActivity(intent);
-    }
+
 }

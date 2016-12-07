@@ -53,7 +53,11 @@ public class ChooseDirAdapter extends BaseAdapter {
         viewHolder.imageView=(ImageView)view.findViewById(R.id.folder_icon_image);
         if(isSelected(i)){
             viewHolder.imageView.setImageResource(R.drawable.ic_check_circle_white_48dp);
-            mSelectedFoldersPaths.add(viewHolder.textView.getText().toString());
+            if(!isSelectedFolder(viewHolder.textView.getText())){
+                mSelectedFoldersPaths.add(viewHolder.textView.getText().toString());
+
+            }
+
         }else{
             if(isSelectedFolder(viewHolder.textView.getText())){
                 mSelectedFoldersPaths.remove(viewHolder.textView.getText().toString());
