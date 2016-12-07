@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.Security;
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -45,6 +46,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private ProgressBar         mProgressBar;
     private DatabaseHandler     mDatabaseHandler;
     private ProgressDialog      mLoading;
+    private ThirdFragment       mThirdFragment;
 
 
     @Override
@@ -112,6 +114,14 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 break;
             case 2:
                 //get selected directories
+                assert mThirdFragment!=null;
+                ArrayList<String> tmp=mThirdFragment.getAllSelectedPositions();
+                if(tmp.size()>0){
+                    //start the encryption activity as user selected directories
+                    Intent intent=new Intent(this,IntermediateActivity.class);
+                    intent.putExtra("dirs",tmp);
+                    startActivity(intent);
+                }
 
         }
     }
@@ -147,6 +157,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                             R.anim.enter_from_left, R.anim.exit_to_right).
                     replace(R.id.first_fragment,secondFragment).
                     commit();
+            mFragmentNumber=2;
         }
     }
 

@@ -60,4 +60,7 @@ public class ThirdFragment extends Fragment {
         return false;
     }
 
+    public ArrayList<String> getAllSelectedPositions() {
+        return allSelectedPositions;
+    }
 }
