@@ -137,7 +137,7 @@ public class IntermediateActivity extends AppCompatActivity {
             dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    //do nothing
+                    startFileBrowserActivity();
                 }
             });
             dialog.show();
@@ -191,11 +191,14 @@ public class IntermediateActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Toast.makeText(IntermediateActivity.this, "Files deleted", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(IntermediateActivity.this,FileBrowserActivity.class);
-            //clear the back stack so user cannot get to this activity again
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            startFileBrowserActivity();
         }
+    }
+    private void startFileBrowserActivity(){
+        Intent intent=new Intent(IntermediateActivity.this,FileBrowserActivity.class);
+        //clear the back stack so user cannot get to this activity again
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 
