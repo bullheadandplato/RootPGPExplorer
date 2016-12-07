@@ -20,6 +20,7 @@ import java.util.List;
 public class ChooseDirAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<String> allSelectedPositions=new ArrayList<>();
+    private ArrayList<String> mSelectedFoldersPaths=new ArrayList<>();
     private List<String> mDataset;
     public ChooseDirAdapter(Context context){
         mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,12 +53,25 @@ public class ChooseDirAdapter extends BaseAdapter {
         viewHolder.imageView=(ImageView)view.findViewById(R.id.folder_icon_image);
         if(isSelected(i)){
             viewHolder.imageView.setImageResource(R.drawable.ic_check_circle_white_48dp);
+            mSelectedFoldersPaths.add(viewHolder.textView.getText().toString());
         }else{
+            if(isSelectedFolder(viewHolder.textView.getText())){
+                mSelectedFoldersPaths.remove(viewHolder.textView.getText().toString());
+            }
             viewHolder.imageView.setImageResource(R.drawable.ic_folder_white_48dp);
         }
         return view;
     }
 
+    private boolean isSelectedFolder(CharSequence text) {
+        for (String s:
+             mSelectedFoldersPaths) {
+            if(s.equals(text)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private class ViewHolder{
@@ -86,5 +100,9 @@ public class ChooseDirAdapter extends BaseAdapter {
             }
         }
         return false;
+    }
+
+    public ArrayList<String> getmSelectedFoldersPaths() {
+        return mSelectedFoldersPaths;
     }
 }

@@ -121,6 +121,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     Intent intent=new Intent(this,IntermediateActivity.class);
                     intent.putExtra("dirs",tmp);
                     startActivity(intent);
+                }else {
+                    Toast.makeText(this,
+                            "Please choose one or more directories",
+                            Toast.LENGTH_LONG
+                    ).show();
                 }
 
         }
@@ -151,11 +156,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             View logoImage=findViewById(R.id.logo_image);
             ((ViewGroup)logoImage.getParent()).removeView(logoImage);
             //change fragment to third fragment
-            ThirdFragment secondFragment=new ThirdFragment();
+            mThirdFragment=new ThirdFragment();
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
                             R.anim.enter_from_left, R.anim.exit_to_right).
-                    replace(R.id.first_fragment,secondFragment).
+                    replace(R.id.first_fragment,mThirdFragment).
                     commit();
             mFragmentNumber=2;
         }
@@ -252,6 +257,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             mLoading.dismiss();
             mFragmentNumber = 2;
             mProgressBar.setProgress(66);
+            //make a toast the keys successfully generated
+            Toast.makeText(InitActivity.this,
+                    "Successfully generated keys",
+                    Toast.LENGTH_LONG
+            ).show();
             //get permission to read storage
             getPermissions();
 

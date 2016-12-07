@@ -36,6 +36,7 @@ public class IntermediateActivity extends AppCompatActivity {
     private EncryptionManagement    mEncryptionManagement;
     private ProgressBar             mProgressBar;
     private TextView                mTextView;
+    private String[]                mSelectedFilesIndices;
 
     private static final String TAG     ="InterActivity";
     private List<String> mFilesList     =new ArrayList<>();
@@ -63,6 +64,7 @@ public class IntermediateActivity extends AppCompatActivity {
     }
 
     private void visitAllDirs(File root) {
+        Log.d(TAG, "visitAllDirs: directory path is: "+root.getPath());
         File[] list=root.listFiles();
         for (File f:
              list) {
@@ -78,7 +80,7 @@ public class IntermediateActivity extends AppCompatActivity {
     private void startVisitingDirectories(ArrayList<String> dirs){
         for (String directory:
              dirs) {
-            visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()+directory));
+            visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()+"/"+directory));
         }
     }
 
@@ -160,6 +162,7 @@ public class IntermediateActivity extends AppCompatActivity {
         }
 
     }
+
 
     
 

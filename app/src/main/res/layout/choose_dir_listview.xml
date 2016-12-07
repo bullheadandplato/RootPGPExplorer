@@ -24,7 +24,8 @@
             android:layout_marginStart="24dp"
             android:layout_marginBottom="13dp"
             android:id="@+id/folder_name_textview"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textColor="@color/textColorTertiary" />
     </RelativeLayout>
 
 </LinearLayout>

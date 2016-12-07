@@ -24,14 +24,15 @@ import java.util.List;
  */
 
 public class ThirdFragment extends Fragment {
+    private ChooseDirAdapter mAdapter;
     private ArrayList<String> allSelectedPositions=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.third_fragment,container,false);
-        final ChooseDirAdapter adapter=new ChooseDirAdapter(getActivity());
         final ListView listView=(ListView)rootView.findViewById(R.id.choose_dir_list);
-        listView.setAdapter(adapter);
+        mAdapter=new ChooseDirAdapter(getActivity());
+        listView.setAdapter(mAdapter);
         // set item selected in listview by just a Tap
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -43,8 +44,8 @@ public class ThirdFragment extends Fragment {
                     allSelectedPositions.remove("value"+i);
 
                 }
-                adapter.setAllSelectedPositions(allSelectedPositions);
-                adapter.notifyDataSetChanged();
+                mAdapter.setAllSelectedPositions(allSelectedPositions);
+                mAdapter.notifyDataSetChanged();
 
             }
         });
@@ -61,6 +62,6 @@ public class ThirdFragment extends Fragment {
     }
 
     public ArrayList<String> getAllSelectedPositions() {
-        return allSelectedPositions;
+        return mAdapter.getmSelectedFoldersPaths();
     }
 }
