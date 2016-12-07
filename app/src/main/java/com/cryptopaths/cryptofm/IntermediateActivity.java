@@ -57,7 +57,7 @@ public class IntermediateActivity extends AppCompatActivity {
         mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         mTextView=(TextView)findViewById(R.id.progress_text);
         // get all the files;
-        visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()));
+        startVisitingDirectories(getIntent().getExtras().getStringArrayList("dirs"));
         //lets encrypt
         new EncryptTask().execute();
     }
@@ -73,6 +73,12 @@ public class IntermediateActivity extends AppCompatActivity {
                 Log.d(TAG,"filename: "+f.getName());
                 mFilesList.add(f.getAbsolutePath());
             }
+        }
+    }
+    private void startVisitingDirectories(ArrayList<String> dirs){
+        for (String directory:
+             dirs) {
+            visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()+directory));
         }
     }
 
