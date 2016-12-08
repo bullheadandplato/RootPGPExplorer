@@ -35,13 +35,14 @@ public class FileBrowserActivity extends AppCompatActivity {
 	private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
 	private HashMap<Integer,String> mFolderSizes=new HashMap<>();
 	private HashMap<Integer,String> mFoldersEncryptionStatus=new HashMap<>();
+	private ArrayList<Integer> 		mFileIndices=new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
 		setResult(RESULT_OK);
-		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
+		mCurrentPath=getIntent().getExtras().getString("dir");
 		//fill list view
 		fillList();
 	}
@@ -57,18 +58,13 @@ public class FileBrowserActivity extends AppCompatActivity {
 				mCurrentPath+="/"+viewName;
 				File f=new File(mCurrentPath);
 				if(f.isDirectory()) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							Log.d("Google","am i a fucked up person");
-							fillAdapter(mCurrentPath);
-							listAdapter.notifyDataSetChanged();
-							listView.requestLayout();
-						}
-					});
-
+					Intent intent=new Intent(FileBrowserActivity.this,FileBrowserActivity.class);
+					intent.putExtra("dir",mCurrentPath);
+					startActivity(intent);
+					finish();
 					}
-				}
+
+			}
 		});
 
 	}
@@ -136,7 +132,13 @@ public class FileBrowserActivity extends AppCompatActivity {
 					(TextView)view.findViewById(R.id.encryption_status_textview);
 
 				mViewHodler.mTextView.setText(mAdapter.get(i));
+			if(isFileIndex(i)){
+				mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_insert_drive_file_white_48dp));
+
+			}else{
 				mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
+
+			}
 				mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
 				mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
 				mViewHodler.mEncryptionSatusTextView.setText(mFoldersEncryptionStatus.get(i));
@@ -167,6 +169,16 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 	}
 
+	private boolean isFileIndex(int index) {
+		for (Integer i:
+			 mFileIndices) {
+			if(i==index){
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public void fillAdapter(String dirPath){
 		//clear the adapter
@@ -177,7 +189,8 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 		File file=new File(dirPath);
 		if(file.isFile()){
-			//TODO
+			Log.d("google1","Filename is: "+file.getName());
+			return;
 		}
 		File[] files=file.listFiles();
 		// keep track of the index of a file not a folder
@@ -190,6 +203,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 				fillNumberofFiles(f,index++);
 			}else{
 				Log.d("google","Filename is: "+f.getName());
+				mFileIndices.add(index);
 				fillDataWithFile(file,index++);
 			}
 

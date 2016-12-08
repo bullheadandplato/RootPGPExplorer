@@ -3,6 +3,7 @@ package com.cryptopaths.cryptofm;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,6 +31,7 @@ public class UnlockDbActivity extends AppCompatActivity {
         if(handler.checkPass(pass)){
             //start the new activity as user is faithful
             Intent intent=new Intent(this,FileBrowserActivity.class);
+            intent.putExtra("dir", Environment.getExternalStorageDirectory().getPath());
             startActivityForResult(intent,1);
             finish();
         }else{
