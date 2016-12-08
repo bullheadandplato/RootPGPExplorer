@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
+import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 
 import java.io.File;
 import java.io.InputStream;

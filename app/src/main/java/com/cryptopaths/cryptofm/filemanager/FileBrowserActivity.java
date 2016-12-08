@@ -1,6 +1,5 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.filemanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -11,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cryptopaths.cryptofm.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,12 +88,12 @@ public class FileBrowserActivity extends AppCompatActivity {
 		@Override
 		public View getView(int i, View view, ViewGroup viewGroup) {
 			if(view==null){
-				view=mInflator.inflate(R.layout.listview,viewGroup,false);
+				view=mInflator.inflate(R.layout.filebrowse_lisrview,viewGroup,false);
 			}
-			mViewHodler.mTextView=(TextView)view.findViewById(R.id.listview_textview);
+			mViewHodler.mTextView=(TextView)view.findViewById(R.id.list_textview);
 			mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
 			mViewHodler.mTextView.setText(mAdapter.get(i));
-			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.folder_icon_light));
+			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
 			return view;
 		}
 

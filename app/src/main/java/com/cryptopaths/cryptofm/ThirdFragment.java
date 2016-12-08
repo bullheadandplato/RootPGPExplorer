@@ -1,22 +1,15 @@
 package com.cryptopaths.cryptofm;
 
-import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tripleheader on 11/28/16.
@@ -33,7 +26,7 @@ public class ThirdFragment extends Fragment {
         final ListView listView=(ListView)rootView.findViewById(R.id.choose_dir_list);
         mAdapter=new ChooseDirAdapter(getActivity());
         listView.setAdapter(mAdapter);
-        // set item selected in listview by just a Tap
+        // set item selected in filebrowse_lisrview by just a Tap
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
