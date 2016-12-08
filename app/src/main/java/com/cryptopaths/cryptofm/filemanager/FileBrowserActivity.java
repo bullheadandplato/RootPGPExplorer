@@ -6,9 +6,11 @@ import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,39 +22,64 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 public class FileBrowserActivity extends AppCompatActivity {
+	private String mCurrentPath;
+	private MyAdapter listAdapter;
+	private List<String>	 	mAdapter	=new ArrayList<>();
+	private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
+	private HashMap<Integer,String> mFolderSizes=new HashMap<>();
+	private HashMap<Integer,String> mFoldersEncryptionStatus=new HashMap<>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
 		setResult(RESULT_OK);
+		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		//fill list view
 		fillList();
 	}
 	private void fillList(){
-		ListView listView=(ListView)findViewById(R.id.fileListView);
-		MyAdapter listAdapter=new MyAdapter(this);
-		listAdapter.fillAdapter(Environment.getExternalStorageDirectory().getPath());
+		final ListView listView=(ListView)findViewById(R.id.fileListView);
+		listAdapter=new MyAdapter(this);
+		fillAdapter(mCurrentPath);
 		listView.setAdapter(listAdapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				String viewName=((TextView)(view.findViewById(R.id.list_textview))).getText().toString();
+				mCurrentPath+="/"+viewName;
+				File f=new File(mCurrentPath);
+				if(f.isDirectory()) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							Log.d("Google","am i a fucked up person");
+							fillAdapter(mCurrentPath);
+							listAdapter.notifyDataSetChanged();
+							listView.requestLayout();
+						}
+					});
+
+					}
+				}
+		});
 
 	}
 
 	private class MyAdapter extends BaseAdapter {
-		private List<String>	 	mAdapter	=new ArrayList<>();
-		private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
-		private HashMap<Integer,String> mFolderSizes=new HashMap<>();
-		private HashMap<Integer,String> mFoldersEncryptionStatus=new HashMap<>();
+
 		private LayoutInflater 		mInflator;
 		private	ViewHolder 			mViewHodler;
 
 		public MyAdapter(Context context){
 			mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-			mViewHodler=new ViewHolder();
 		}
 		@Override
 		public boolean areAllItemsEnabled() {
@@ -97,6 +124,9 @@ public class FileBrowserActivity extends AppCompatActivity {
 		public View getView(int i, View view, ViewGroup viewGroup) {
 			if(view==null){
 				view=mInflator.inflate(R.layout.filebrowse_lisrview,viewGroup,false);
+				mViewHodler=new ViewHolder();
+
+
 			}
 			mViewHodler.mTextView=(TextView)view.findViewById(R.id.list_textview);
 			mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
@@ -105,13 +135,16 @@ public class FileBrowserActivity extends AppCompatActivity {
 			mViewHodler.mEncryptionSatusTextView=
 					(TextView)view.findViewById(R.id.encryption_status_textview);
 
-			mViewHodler.mTextView.setText(mAdapter.get(i));
-			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
-			mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
-			mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
-			mViewHodler.mEncryptionSatusTextView.setText(mFoldersEncryptionStatus.get(i));
+				mViewHodler.mTextView.setText(mAdapter.get(i));
+				mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
+				mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
+				mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
+				mViewHodler.mEncryptionSatusTextView.setText(mFoldersEncryptionStatus.get(i));
+
 			return view;
 		}
+
+
 
 		@Override
 		public int getItemViewType(int i) {
@@ -122,70 +155,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 		public boolean isEmpty() {
 			return false;
 		}
-		public void fillAdapter(String dirPath){
-			//clear the adapter
-			mAdapter.clear();
-			File file=new File(dirPath);
-			File[] files=file.listFiles();
-			int index=0;
-			for (File f:
-					files) {
-				mAdapter.add(f.getName());
-				//file number of files adapter
-				fillNumberofFiles(f,index++);
-			}
-		}
-		private void fillNumberofFiles(File file,int folderPostion){
-			mNumberOfFiles.put(folderPostion,""+file.listFiles().length +" items");
-			mFolderSizes.put(folderPostion,""+round((getFolderSize(file)/1024f)/1024f,2)+"MBs");
-			mFoldersEncryptionStatus.put(folderPostion,isEncryptedFolder(file));
 
-		}
-
-
-		private long getFolderSize(File dir) {
-			long size = 0;
-			for (File file : dir.listFiles()) {
-				if (file.isFile()) {
-					System.out.println(file.getName() + " " + file.length());
-					size += file.length();
-				}
-				else
-					size += getFolderSize(file);
-			}
-			return size;
-		}
-		private String isEncryptedFolder(File dir){
-			//if all the files in folder are encrypted than this variable will be zero
-			if(dir.listFiles().length<1){
-				return "Cannot see";
-			}
-			int temp=dir.listFiles().length;
-			for (File f:
-				 dir.listFiles()) {
-				if(f.getName().contains("pgp")){
-					temp--;
-				}else{
-					temp++;
-				}
-			}
-			if(temp==0){
-				return "Encrypted";
-			}else{
-				return "Not Encrypted";
-			}
-		}
-		/**
-		 * Round to certain number of decimals
-		 *
-		 * @param d
-		 * @param decimalPlace the numbers of decimals
-		 * @return
-		 */
-
-		public float round(float d, int decimalPlace) {
-			return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
-		}
 
 		class ViewHolder{
 			public ImageView mImageView;
@@ -195,6 +165,114 @@ public class FileBrowserActivity extends AppCompatActivity {
 			public TextView mEncryptionSatusTextView;
 		}
 
+	}
+
+
+	public void fillAdapter(String dirPath){
+		//clear the adapter
+		mAdapter.clear();
+		mFoldersEncryptionStatus.clear();
+		mNumberOfFiles.clear();
+		mFolderSizes.clear();
+
+		File file=new File(dirPath);
+		if(file.isFile()){
+			//TODO
+		}
+		File[] files=file.listFiles();
+		// keep track of the index of a file not a folder
+		int index=0;
+		for (File f:
+				files) {
+			mAdapter.add(f.getName());
+			if(f.isDirectory()){
+				//file number of files adapter
+				fillNumberofFiles(f,index++);
+			}else{
+				Log.d("google","Filename is: "+f.getName());
+				fillDataWithFile(file,index++);
+			}
+
+		}
+	}
+
+	private void fillDataWithFile(File file, int position) {
+		mNumberOfFiles.put(position,""+getFileExtension(file));
+		mFolderSizes.put(position,""+round((file.length()/1024f)/1024f,2)+"MBs");
+		mFoldersEncryptionStatus.put(position,isEncryptedFolder(file));
+	}
+
+	private void fillNumberofFiles(File file,int folderPostion){
+		mNumberOfFiles.put(folderPostion,""+file.listFiles().length +" items");
+		mFolderSizes.put(folderPostion,""+round((getFolderSize(file)/1024f)/1024f,2)+"MBs");
+		mFoldersEncryptionStatus.put(folderPostion,isEncryptedFolder(file));
+
+	}
+	private String getFileExtension(File f){
+		if(!f.getName().contains(".")){
+			return "file";
+		}
+		String name=f.getName().substring(0,f.getName().length()-3);
+
+		if(f.getName().contains("pgp")){
+			return name.substring(name.lastIndexOf('.'),name.length());
+		}else{
+			return name.substring(name.lastIndexOf('.'),name.length());
+
+		}
+	}
+
+
+	private long getFolderSize(File dir) {
+		long size = 0;
+		for (File file : dir.listFiles()) {
+			if (file.isFile()) {
+				System.out.println(file.getName() + " " + file.length());
+				size += file.length();
+			}
+			else
+				size += getFolderSize(file);
+		}
+		return size;
+	}
+	private String isEncryptedFolder(File dir){
+		//if file is not a directory but just a file
+		if(dir.isFile()){
+			if(dir.getName().contains("pgp")){
+				return "Encrypted";
+			}else{
+				return "Not encrypted";
+			}
+		}
+		//if all the files in folder are encrypted than this variable will be zero
+		if(dir.listFiles().length<1){
+			return "Cannot see";
+		}
+		int temp=dir.listFiles().length;
+		for (File f:
+				dir.listFiles()) {
+			if(f.getName().contains("pgp")){
+				temp--;
+			}else{
+				temp++;
+			}
+		}
+		if(temp==0){
+			return "Encrypted";
+		}else{
+			return "Not Encrypted";
+		}
+	}
+	/**
+	 * Round to certain number of decimals
+	 *
+	 * @param d
+	 * @param decimalPlace the numbers of decimals
+	 * @return
+	 */
+
+	public float round(float d, int decimalPlace) {
+		return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
 	}
 
 }
