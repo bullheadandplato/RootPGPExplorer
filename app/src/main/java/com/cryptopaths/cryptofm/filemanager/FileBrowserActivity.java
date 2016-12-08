@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -39,6 +42,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 	private class MyAdapter extends BaseAdapter {
 		private List<String>	 	mAdapter	=new ArrayList<>();
+		private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
 		private LayoutInflater 		mInflator;
 		private	ViewHolder 			mViewHodler;
 
@@ -92,8 +96,12 @@ public class FileBrowserActivity extends AppCompatActivity {
 			}
 			mViewHodler.mTextView=(TextView)view.findViewById(R.id.list_textview);
 			mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
+			mViewHodler.mNumberFilesTextView=(TextView)view.findViewById(R.id.nofiles_textview);
+
 			mViewHodler.mTextView.setText(mAdapter.get(i));
 			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
+			mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
+
 			return view;
 		}
 
@@ -111,14 +119,21 @@ public class FileBrowserActivity extends AppCompatActivity {
 			mAdapter.clear();
 			File file=new File(dirPath);
 			File[] files=file.listFiles();
+			int index=0;
 			for (File f:
 					files) {
 				mAdapter.add(f.getName());
+				//file number of files adapter
+				fillNumberofFiles(f,index++);
 			}
+		}
+		private void fillNumberofFiles(File file,int folderPostion){
+			mNumberOfFiles.put(folderPostion,""+file.listFiles().length +" items");
 		}
 		class ViewHolder{
 			public ImageView mImageView;
 			public TextView mTextView;
+			public TextView mNumberFilesTextView;
 		}
 
 	}

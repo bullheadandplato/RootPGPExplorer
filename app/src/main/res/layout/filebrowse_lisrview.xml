@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_textview"
             android:layout_alignStart="@+id/list_textview"
-            android:id="@+id/textView18"
+            android:id="@+id/nofiles_textview"
             android:textSize="10sp" />
 
         <TextView
