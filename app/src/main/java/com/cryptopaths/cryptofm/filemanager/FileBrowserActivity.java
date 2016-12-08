@@ -53,7 +53,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 		@Override
 		public boolean isEnabled(int i) {
-			return false;
+			return true;
 		}
 
 		@Override
