@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,6 +46,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 		private List<String>	 	mAdapter	=new ArrayList<>();
 		private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
 		private HashMap<Integer,String> mFolderSizes=new HashMap<>();
+		private HashMap<Integer,String> mFoldersEncryptionStatus=new HashMap<>();
 		private LayoutInflater 		mInflator;
 		private	ViewHolder 			mViewHodler;
 
@@ -100,12 +102,14 @@ public class FileBrowserActivity extends AppCompatActivity {
 			mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
 			mViewHodler.mNumberFilesTextView=(TextView)view.findViewById(R.id.nofiles_textview);
 			mViewHodler.mFolderSizeTextView=(TextView)view.findViewById(R.id.folder_size_textview);
+			mViewHodler.mEncryptionSatusTextView=
+					(TextView)view.findViewById(R.id.encryption_status_textview);
 
 			mViewHodler.mTextView.setText(mAdapter.get(i));
 			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
 			mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
 			mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
-
+			mViewHodler.mEncryptionSatusTextView.setText(mFoldersEncryptionStatus.get(i));
 			return view;
 		}
 
@@ -134,6 +138,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 		private void fillNumberofFiles(File file,int folderPostion){
 			mNumberOfFiles.put(folderPostion,""+file.listFiles().length +" items");
 			mFolderSizes.put(folderPostion,""+round((getFolderSize(file)/1024f)/1024f,2)+"MBs");
+			mFoldersEncryptionStatus.put(folderPostion,isEncryptedFolder(file));
 
 		}
 
@@ -149,6 +154,26 @@ public class FileBrowserActivity extends AppCompatActivity {
 					size += getFolderSize(file);
 			}
 			return size;
+		}
+		private String isEncryptedFolder(File dir){
+			//if all the files in folder are encrypted than this variable will be zero
+			if(dir.listFiles().length<1){
+				return "Cannot see";
+			}
+			int temp=dir.listFiles().length;
+			for (File f:
+				 dir.listFiles()) {
+				if(f.getName().contains("pgp")){
+					temp--;
+				}else{
+					temp++;
+				}
+			}
+			if(temp==0){
+				return "Encrypted";
+			}else{
+				return "Not Encrypted";
+			}
 		}
 		/**
 		 * Round to certain number of decimals
@@ -167,6 +192,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 			public TextView mTextView;
 			public TextView mNumberFilesTextView;
 			public TextView mFolderSizeTextView;
+			public TextView mEncryptionSatusTextView;
 		}
 
 	}
