@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView19"
             android:layout_alignParentEnd="true"
-            android:id="@+id/textView20"
+            android:id="@+id/folder_size_textview"
             android:textSize="10sp" />
     </RelativeLayout>
 </LinearLayout>

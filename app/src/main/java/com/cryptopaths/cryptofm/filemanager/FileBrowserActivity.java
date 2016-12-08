@@ -18,6 +18,7 @@ import com.cryptopaths.cryptofm.R;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 	private class MyAdapter extends BaseAdapter {
 		private List<String>	 	mAdapter	=new ArrayList<>();
 		private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
+		private HashMap<Integer,String> mFolderSizes=new HashMap<>();
 		private LayoutInflater 		mInflator;
 		private	ViewHolder 			mViewHodler;
 
@@ -97,10 +99,12 @@ public class FileBrowserActivity extends AppCompatActivity {
 			mViewHodler.mTextView=(TextView)view.findViewById(R.id.list_textview);
 			mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
 			mViewHodler.mNumberFilesTextView=(TextView)view.findViewById(R.id.nofiles_textview);
+			mViewHodler.mFolderSizeTextView=(TextView)view.findViewById(R.id.folder_size_textview);
 
 			mViewHodler.mTextView.setText(mAdapter.get(i));
 			mViewHodler.mImageView.setImageDrawable(getDrawable(R.drawable.ic_folder_white_48dp));
 			mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
+			mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
 
 			return view;
 		}
@@ -129,11 +133,40 @@ public class FileBrowserActivity extends AppCompatActivity {
 		}
 		private void fillNumberofFiles(File file,int folderPostion){
 			mNumberOfFiles.put(folderPostion,""+file.listFiles().length +" items");
+			mFolderSizes.put(folderPostion,""+round((getFolderSize(file)/1024f)/1024f,2)+"MBs");
+
 		}
+
+
+		private long getFolderSize(File dir) {
+			long size = 0;
+			for (File file : dir.listFiles()) {
+				if (file.isFile()) {
+					System.out.println(file.getName() + " " + file.length());
+					size += file.length();
+				}
+				else
+					size += getFolderSize(file);
+			}
+			return size;
+		}
+		/**
+		 * Round to certain number of decimals
+		 *
+		 * @param d
+		 * @param decimalPlace the numbers of decimals
+		 * @return
+		 */
+
+		public float round(float d, int decimalPlace) {
+			return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
+		}
+
 		class ViewHolder{
 			public ImageView mImageView;
 			public TextView mTextView;
 			public TextView mNumberFilesTextView;
+			public TextView mFolderSizeTextView;
 		}
 
 	}
