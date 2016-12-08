@@ -11,6 +11,7 @@
         android:layout_height="48dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/list_imageview"
+        android:tint="@color/folderColor"
         android:layout_width="48dp" />
 
     <RelativeLayout
@@ -25,7 +26,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
-            android:id="@+id/list_textview" />
+            android:id="@+id/list_textview"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textColor="@color/textColorTertiary" />
 
         <TextView
             android:text="TextView"
