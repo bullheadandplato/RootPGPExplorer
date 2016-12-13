@@ -50,10 +50,16 @@ public class FileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(!mIsFragmentAlreadyLoaded){
 
-        }
         Log.d("googlef","im in create view");
+        this.mCurrentPath=getArguments().getString("dir");
+        //if file is empty them do nopt render listview
+        File file=new File(mCurrentPath);
+        if(file.listFiles().length<1){
+            Log.d("googlef", "onCreateView: yeah length is less than one.");
+            mIsFragmentAlreadyLoaded=true;
+            return inflater.inflate(R.layout.no_files_layout,container,false);
+        }
         View rootView=inflater.inflate(R.layout.file_fragment,container,false);
         mFileListView=(ListView)rootView.findViewById(R.id.fileListView);
         mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,9 +81,9 @@ public class FileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState==null){
-            this.mCurrentPath=getArguments().getString("dir");
+        if( !mIsFragmentAlreadyLoaded){
             MyAdapter adapter=new MyAdapter(getActivity());
+
             fillAdapter(mCurrentPath);
             Log.d("googlef","im in activity created"+mCurrentPath);
 
