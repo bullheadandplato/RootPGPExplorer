@@ -2,9 +2,7 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,10 +12,9 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.R;
 
 import java.io.File;
-import java.util.HashMap;
 
 
-public class FileBrowserActivity extends AppCompatActivity implements FileFragment.onClickListener{
+public class FileBrowserActivity extends AppCompatActivity {
 	private String mCurrentPath;
 	private String mRootPath;
 	private ListView mFileListView;
@@ -57,7 +54,7 @@ public class FileBrowserActivity extends AppCompatActivity implements FileFragme
 	private void changeDirectory() {
 		mmFileListAdapter.fillAdapter(mCurrentPath);
 		mmFileListAdapter.notifyDataSetChanged();
-		//mFileListView.setAdapter(mmFileListAdapter);
+		mFileListView.requestLayout();
 
 	}
 
@@ -68,15 +65,8 @@ public class FileBrowserActivity extends AppCompatActivity implements FileFragme
 		}else{
 			//modify the mCurrentPath
 			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
-			Log.d("googled","current batk in back is: "+mCurrentPath);
-		mmFileListAdapter.fillAdapter(mCurrentPath);
-		mFileListView.setAdapter(mmFileListAdapter);
+			changeDirectory();
 		}
 	}
 
-
-	@Override
-	public void onItemClick(String path) {
-		//chanegFragment(path);
-	}
 }
