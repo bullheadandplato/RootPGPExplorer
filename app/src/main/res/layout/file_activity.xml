@@ -3,11 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent">
-    <FrameLayout
+    <ListView
+        android:id="@+id/fileListView"
         android:layout_width="match_parent"
-        android:id="@+id/file_fragment"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:divider="@color/colorAccent"
+        android:dividerHeight="1px"
+        android:background="@color/colorPrimary"
+        />
 
 </LinearLayout>

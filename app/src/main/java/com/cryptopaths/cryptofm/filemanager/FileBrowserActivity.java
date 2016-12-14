@@ -1,37 +1,27 @@
 package com.cryptopaths.cryptofm.filemanager;
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.math.BigDecimal;
-import java.net.Inet4Address;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class FileBrowserActivity extends AppCompatActivity implements FileFragment.onClickListener{
 	private String mCurrentPath;
-	int previousEntryCount=0;
+	private String mRootPath;
+	private ListView mFileListView;
+	private FileListAdapter mmFileListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,44 +30,53 @@ public class FileBrowserActivity extends AppCompatActivity implements FileFragme
 		setResult(RESULT_OK);
 
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
-		chanegFragment(mCurrentPath);
-		//fill list view
-		fillList();
-	}
-	private void fillList(){
-		getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+		mRootPath=mCurrentPath;
+		mFileListView=(ListView)findViewById(R.id.fileListView);
+		mmFileListAdapter=new FileListAdapter(this);
+		mmFileListAdapter.fillAdapter(mCurrentPath);
+		mFileListView.setAdapter(mmFileListAdapter);
+		mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onBackStackChanged() {
-			//	if(!mCurrentPath.equals(Environment.getExternalStorageDirectory().getPath())){
-				//	if(getSupportFragmentManager().getBackStackEntryCount()<previousEntryCount){
-				//		Log.d("googlef","wao changed to: "+getSupportFragmentManager().getBackStackEntryCount());
-				//		chanegFragment(mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')));
-				//		previousEntryCount--;
-				//	}
-//
-				//}
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				String viewName=((TextView)(view.findViewById(R.id.list_textview))).getText().toString();
+
+				String tmp=mCurrentPath+"/"+viewName;
+				File f=new File(tmp);
+				if(f.isDirectory()) {
+					mCurrentPath=tmp;
+					changeDirectory();
+				}else {
+					Toast.makeText(FileBrowserActivity.this,"You clicked at file",Toast.LENGTH_SHORT).show();
+				}
+
+
 			}
 		});
+	}
+
+	private void changeDirectory() {
+		mmFileListAdapter.fillAdapter(mCurrentPath);
+		mmFileListAdapter.notifyDataSetChanged();
+		//mFileListView.setAdapter(mmFileListAdapter);
 
 	}
-	private void chanegFragment(String path){
-		FileFragment fileFragment=new FileFragment();
-		mCurrentPath=path;
-		Bundle args=new Bundle();
-		args.putString("dir",path);
-		fileFragment.setArguments(args);
-		getSupportFragmentManager().beginTransaction().
-				setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
-						R.anim.enter_from_left, R.anim.exit_to_right).
-				replace(R.id.file_fragment,fileFragment).
-				addToBackStack(path).
-				commit();
-		previousEntryCount++;
+
+	@Override
+	public void onBackPressed() {
+		if(mCurrentPath.equals(mRootPath)){
+			super.onBackPressed();
+		}else{
+			//modify the mCurrentPath
+			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
+			Log.d("googled","current batk in back is: "+mCurrentPath);
+		mmFileListAdapter.fillAdapter(mCurrentPath);
+		mFileListView.setAdapter(mmFileListAdapter);
+		}
 	}
 
 
 	@Override
 	public void onItemClick(String path) {
-		chanegFragment(path);
+		//chanegFragment(path);
 	}
 }
