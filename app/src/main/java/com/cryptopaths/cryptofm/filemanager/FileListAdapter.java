@@ -1,7 +1,9 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
+import android.content.ReceiverCallNotAllowedException;
 import android.database.DataSetObserver;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  * Created by tripleheader on 12/14/16.
  */
 
-public class FileListAdapter extends BaseAdapter{
+public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
     private HashMap<Integer,String> mNumberOfFiles=new HashMap<>();
     private HashMap<Integer,String> mFolderSizes=new HashMap<>();
     private HashMap<Integer,String> mFoldersEncryptionStatus=new HashMap<>();
@@ -39,85 +41,32 @@ public class FileListAdapter extends BaseAdapter{
         mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             this.mContext=context;
     }
-        @Override
-        public boolean areAllItemsEnabled() {
-        return false;
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context=parent.getContext();
+        LayoutInflater inflater=LayoutInflater.from(context);
+        View view=inflater.inflate(R.layout.filebrowse_lisrview,parent,false);
+
+        return new ViewHolder(view);
     }
 
-        @Override
-        public boolean isEnabled(int i) {
-        return true;
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        TextView textView=holder.mTextView;
+        textView.setText(mAdapter.get(position));
+        ImageView google
     }
 
-        @Override
-        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-    }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-    }
-
-        @Override
-        public int getCount() {
-        return mAdapter.size();
-    }
-
-        @Override
-        public Object getItem(int i) {
-        return null;
-    }
-
-        @Override
+    @Override
         public long getItemId(int i) {
         return 0;
     }
 
-        @Override
-        public boolean hasStableIds() {
-        return false;
+    @Override
+    public int getItemCount() {
+        return mAdapter.size();
     }
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view==null){
-            view=mInflator.inflate(R.layout.filebrowse_lisrview,viewGroup,false);
-            mViewHodler=new ViewHolder();
-        }
-        mViewHodler.mTextView=(TextView)view.findViewById(R.id.list_textview);
-        mViewHodler.mImageView=(ImageView)view.findViewById(R.id.list_imageview);
-        mViewHodler.mNumberFilesTextView=(TextView)view.findViewById(R.id.nofiles_textview);
-        mViewHodler.mFolderSizeTextView=(TextView)view.findViewById(R.id.folder_size_textview);
-        mViewHodler.mEncryptionSatusTextView=
-                (TextView)view.findViewById(R.id.encryption_status_textview);
-
-        mViewHodler.mTextView.setText(mAdapter.get(i));
-        if(isFileIndex(i)){
-            mViewHodler.mImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp));
-
-        }else{
-            mViewHodler.mImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_folder_white_48dp));
-
-        }
-        mViewHodler.mNumberFilesTextView.setText(mNumberOfFiles.get(i));
-        mViewHodler.mFolderSizeTextView.setText(mFolderSizes.get(i));
-        mViewHodler.mEncryptionSatusTextView.setText(mFoldersEncryptionStatus.get(i));
-
-        return view;
-    }
-
-
-
-        @Override
-        public int getItemViewType(int i) {
-        return 0;
-    }
-
-        @Override
-        public boolean isEmpty() {
-        return false;
-    }
-
 
 
     private boolean isFileIndex(int index) {
@@ -128,6 +77,10 @@ public class FileListAdapter extends BaseAdapter{
             }
         }
         return false;
+    }
+    // Easy access to the context object in the recyclerview
+    private Context getContext() {
+        return mContext;
     }
 
 
@@ -241,11 +194,24 @@ public class FileListAdapter extends BaseAdapter{
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
 
-    class ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
         public TextView mTextView;
         public TextView mNumberFilesTextView;
         public TextView mFolderSizeTextView;
         public TextView mEncryptionSatusTextView;
+        public ViewHolder(View itemView){
+                super(itemView);
+
+            mViewHodler.mTextView=(TextView)itemView.findViewById(R.id.list_textview);
+            mViewHodler.mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
+            mViewHodler.mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
+            mViewHodler.mFolderSizeTextView=(TextView)itemView.findViewById(R.id.folder_size_textview);
+            mViewHodler.mEncryptionSatusTextView=
+                    (TextView)itemView.findViewById(R.id.encryption_status_textview);
+
+
+        }
+
     }
 }

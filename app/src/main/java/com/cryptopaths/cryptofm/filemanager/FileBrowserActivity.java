@@ -3,6 +3,7 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ import java.io.File;
 public class FileBrowserActivity extends AppCompatActivity {
 	private String mCurrentPath;
 	private String mRootPath;
-	private ListView mFileListView;
+	private RecyclerView mFileListView;
 	private FileListAdapter mmFileListAdapter;
 
 	@Override
@@ -28,10 +29,11 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		mRootPath=mCurrentPath;
-		mFileListView=(ListView)findViewById(R.id.fileListView);
+		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.fillAdapter(mCurrentPath);
 		mFileListView.setAdapter(mmFileListAdapter);
+		
 		mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
