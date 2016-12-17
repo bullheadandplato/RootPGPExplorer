@@ -142,57 +142,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
 
 
-    private long getFolderSize(File dir) {
-        long size = 0;
-        for (File file : dir.listFiles()) {
-            if (file.isFile()) {
-                System.out.println(file.getName() + " " + file.length());
-                size += file.length();
-            }
-            else
-                size += getFolderSize(file);
-        }
-        return size;
-    }
-    private String isEncryptedFolder(File dir){
-        //if file is not a directory but just a file
-        if(dir.isFile()){
-            if(dir.getName().contains("pgp")){
-                return "Encrypted";
-            }else{
-                return "Not encrypted";
-            }
-        }
-        //if all the files in folder are encrypted than this variable will be zero
-        if(dir.listFiles().length<1){
-            return "Cannot see";
-        }
-        int temp=dir.listFiles().length;
-        for (File f:
-                dir.listFiles()) {
-            if(f.getName().contains("pgp")){
-                temp--;
-            }else{
-                temp++;
-            }
-        }
-        if(temp==0){
-            return "Encrypted";
-        }else{
-            return "Not Encrypted";
-        }
-    }
-    /**
-     * Round to certain number of decimals
-     *
-     * @param d
-     * @param decimalPlace the numbers of decimals
-     * @return
-     */
-
-    public float round(float d, int decimalPlace) {
-        return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
-    }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
