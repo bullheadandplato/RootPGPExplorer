@@ -23,7 +23,8 @@ public class DataModelFiles {
         if(FileUtils.isFile(filename)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
             this.fileExtensionOrItems=FileUtils.getExtension(filename);
-            this.fileSize=""+FileUtils.getFileSize(filename)+" MBs";
+            long size=FileUtils.getFileSize(filename);
+            this.fileSize=FileUtils.getReadableSize(size);
             this.fileEncryptionStatus=FileUtils.isEncryptedFile(filename);
         }else{
             this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);

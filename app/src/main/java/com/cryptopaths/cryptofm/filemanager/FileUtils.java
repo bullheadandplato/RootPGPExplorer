@@ -14,12 +14,11 @@ import java.util.List;
  */
 
 public class FileUtils {
-    private final static float BYTE_MB=1048576f;
     private static final String TAG="files";
     public static  String CURRENT_PATH = " ";
 
-    public static float getFileSize(String filename){
-        return round(new File(CURRENT_PATH+filename).length()/BYTE_MB,2);
+    public static long getFileSize(String filename){
+        return new File(CURRENT_PATH+filename).length();
     }
 
     public static long getFolderSize(String folderPath) {
@@ -115,7 +114,7 @@ public class FileUtils {
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
     public static String getReadableSize(long size) {
-        if(size <= 0) return "0";
+        if(size <= 0) return "0B";
         final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
