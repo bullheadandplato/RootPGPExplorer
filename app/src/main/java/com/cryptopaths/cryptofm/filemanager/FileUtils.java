@@ -95,7 +95,9 @@ public class FileUtils {
         }
         return result;
     }
-
+    public static Boolean isFile(String filename){
+        return new File(CURRENT_PATH+filename).isFile();
+    }
     /**
      * Round to certain number of decimals
      *
@@ -106,6 +108,7 @@ public class FileUtils {
     private static float round(float d, int decimalPlace) {
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
+
 
 
 }

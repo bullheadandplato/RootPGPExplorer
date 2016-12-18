@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.R;
 
 import java.io.File;
+import java.util.HashMap;
 
 
 public class FileBrowserActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 	private String mRootPath;
 	private RecyclerView mFileListView;
 	private FileListAdapter mmFileListAdapter;
-
+	private HashMap<String,FileFillerWrapper> mData=new HashMap<>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,11 +30,13 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		mRootPath=mCurrentPath;
+		// fill data
+		mData.put(mCurrentPath,new FileFillerWrapper(mCurrentPath,this));
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.fillAdapter(mCurrentPath);
 		mFileListView.setAdapter(mmFileListAdapter);
-		
+
 		mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

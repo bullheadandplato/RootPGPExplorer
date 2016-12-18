@@ -1,7 +1,10 @@
 package com.cryptopaths.cryptofm.filemanager;
 
+import android.content.Context;
+
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tripleheader on 12/18/16.
@@ -9,25 +12,23 @@ import java.util.HashMap;
  */
 
 public class FileFillerWrapper {
-    private HashMap<String,DataModelFolders> allFolders=new HashMap<>();
-    private HashMap<String,DataModelFiles> allFiles=new HashMap<>();
+    private List<DataModelFiles> allFiles=new ArrayList<>();
     private String currentPath;
 
-    public FileFillerWrapper(String currentPath) {
+    public FileFillerWrapper(String currentPath, Context context) {
         this.currentPath = currentPath;
         //be sure to change the path in File utilities
         FileUtils.CURRENT_PATH=currentPath;
-        File tmp=new File(currentPath);
-        for (File f:
-             tmp.listFiles()) {
-            fillData(f);
+        //for each file in current path fill data
+        File file=new File(currentPath);
+        if(file.listFiles().length>1){
+            for (File f:
+                 file.listFiles()) {
+                allFiles.add(new DataModelFiles(f.getName(),context));
+            }
         }
     }
-    private void fillData(File f){
-        if(f.isDirectory()){
-            allFolders.put(currentPath,new DataModelFolders(f.getName()));
-        }else if(f.isFile()){
-            allFiles.put(currentPath,new DataModelFiles(f.getName()));
-        }
+    public DataModelFiles getFileAtPosition(int position){
+        return allFiles.get(position);
     }
 }
