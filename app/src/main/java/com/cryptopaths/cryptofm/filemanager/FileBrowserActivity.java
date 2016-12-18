@@ -30,8 +30,6 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		mRootPath=mCurrentPath;
-		// fill data
-		mData.put(mCurrentPath,new FileFillerWrapper(mCurrentPath,this));
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.fillAdapter(mCurrentPath);

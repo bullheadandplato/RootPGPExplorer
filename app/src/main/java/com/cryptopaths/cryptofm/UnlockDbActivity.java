@@ -32,16 +32,10 @@ public class UnlockDbActivity extends AppCompatActivity {
                 (EditText)findViewById(R.id.input_password__unlock);
         String pass=passwordEditText.getText().toString();
         SQLiteDatabase.loadLibs(this);
-        DatabaseHandler handler=new DatabaseHandler(this);
-        if(handler.checkPass(pass)){
-            //start the new activity as user is faithful
-            Intent intent=new Intent(this,FileBrowserActivity.class);
-            intent.putExtra("dir", Environment.getExternalStorageDirectory().getPath());
-            startActivityForResult(intent,1);
-            finish();
-        }else{
-            showErrorDialog("Wrong password");
-        }
+        new IntialTask().execute(
+                pass,
+                Environment.getExternalStorageDirectory().getPath()
+        );
     }
     private void showErrorDialog(String s) {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
