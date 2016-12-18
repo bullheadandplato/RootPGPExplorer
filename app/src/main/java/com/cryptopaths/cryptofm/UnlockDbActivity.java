@@ -1,7 +1,9 @@
 package com.cryptopaths.cryptofm;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -11,11 +13,14 @@ import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-public class UnlockDbActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashMap;
 
+public class UnlockDbActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,5 +53,45 @@ public class UnlockDbActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    private ProgressDialog mProgressDialog;
+    private class IntialTask extends AsyncTask<String,Void,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... voids) {
+            String pass=voids[0];
+            String path=Environment.getExternalStorageDirectory().getPath();
+            DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
+            if(handler.checkPass(pass)){
+                //load data to fill file listview
+                FileBrowserActivity.mFilesData.put(path,new FileFillerWrapper(path,UnlockDbActivity.this));
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            mProgressDialog.hide();
+            if(result){
+                Intent intent=new Intent(UnlockDbActivity.this,FileBrowserActivity.class);
+                startActivityForResult(intent,1);
+                finish();
+            }else{
+                showErrorDialog("Wrong password, please try again");
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog=new ProgressDialog(UnlockDbActivity.this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("please wait....");
+            mProgressDialog.show();
+        }
     }
 }

@@ -21,7 +21,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 	private String mRootPath;
 	private RecyclerView mFileListView;
 	private FileListAdapter mmFileListAdapter;
-	private HashMap<String,FileFillerWrapper> mData=new HashMap<>();
+	public static HashMap<String,FileFillerWrapper> mFilesData=new HashMap<>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
