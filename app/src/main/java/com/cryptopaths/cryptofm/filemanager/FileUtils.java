@@ -2,9 +2,12 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tripleheader on 12/17/16.
+ * the file related operations
  */
 
 public class FileUtils {
@@ -76,6 +79,21 @@ public class FileUtils {
         }
         return fileName.substring(index + 1);
     }
+    public static List<String> getFileNamesInAFolder(String foldername) throws IllegalArgumentException{
+        List<String> result=new ArrayList<>();
+        File folder=new File(foldername);
+        File[] files=folder.listFiles();
+        if(files.length>0){
+            for (File f:
+                 files) {
+                result.add(f.getName());
+            }
+
+        } else{
+            throw new IllegalArgumentException("folder is empty");
+        }
+        return result;
+    }
 
     /**
      * Round to certain number of decimals
@@ -87,5 +105,6 @@ public class FileUtils {
     private static float round(float d, int decimalPlace) {
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
+
 
 }
