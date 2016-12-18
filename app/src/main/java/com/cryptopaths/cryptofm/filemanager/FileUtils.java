@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,18 @@ public class FileUtils {
     public static float getFileSize(String filename){
         return round(new File(CURRENT_PATH+filename).length()/BYTE_MB,2);
     }
-    public static float getFolderSize(String foldername) {
-        File dir=new File(CURRENT_PATH+foldername);
-        float size = 0f;
+
+    public static long getFolderSize(String folderPath) {
+        File dir=new File(folderPath);
+        long size=0;
         for (File file : dir.listFiles()) {
             if (file.isFile()) {
-                System.out.println(file.getName() + " " + file.length());
                 size += file.length();
             }
             else
-                size += getFolderSize(file.getAbsolutePath());
+                size += getFolderSize(file.getPath());
         }
-        return round(size/BYTE_MB,2);
+        return size;
     }
     public static String isEncryptedFolder(String filename){
         File dir=new File(CURRENT_PATH+filename);
@@ -112,6 +113,13 @@ public class FileUtils {
      */
     private static float round(float d, int decimalPlace) {
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+    public static String getReadableSize(long size) {
+        if(size <= 0) return "0";
+        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
+        int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
+                + " " + units[digitGroups];
     }
 
 

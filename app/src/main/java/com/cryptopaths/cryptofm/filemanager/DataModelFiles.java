@@ -23,14 +23,16 @@ public class DataModelFiles {
         if(FileUtils.isFile(filename)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
             this.fileExtensionOrItems=FileUtils.getExtension(filename);
-            this.fileSize=""+FileUtils.getFileSize(filename)+"MBs";
+            this.fileSize=""+FileUtils.getFileSize(filename)+" MBs";
             this.fileEncryptionStatus=FileUtils.isEncryptedFile(filename);
         }else{
             this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);
             //in case of folder file extension will be number of items in folder
-            this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+"items";
+            this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+" items";
             this.fileEncryptionStatus=FileUtils.isEncryptedFolder(filename);
-            this.fileSize=FileUtils.getFileSize(filename)+"MBs";
+            //concatenated current path because recursively look folders and find size
+            long size=FileUtils.getFolderSize(FileUtils.CURRENT_PATH+"/"+filename);
+            this.fileSize=FileUtils.getReadableSize(size);
         }
     }
 
