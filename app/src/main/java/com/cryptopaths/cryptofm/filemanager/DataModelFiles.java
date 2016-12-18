@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable;
 
 import com.cryptopaths.cryptofm.R;
 
-import java.util.ArrayList;
-
 /**
  * Created by tripleheader on 12/17/16.
  * Data model for the recyclerview
@@ -30,7 +28,7 @@ public class DataModelFiles {
         }else{
             this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);
             //in case of folder file extension will be number of items in folder
-            this.fileExtensionOrItems=FileUtils.getFileNamesInAFolder(filename)+"items";
+            this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+"items";
             this.fileEncryptionStatus=FileUtils.isEncryptedFolder(filename);
             this.fileSize=FileUtils.getFileSize(filename)+"MBs";
         }

@@ -48,11 +48,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DataModelFiles temp=mFile.getFileAtPosition(position);
-        TextView textView1=mViewHodler.mTextView;
-        ImageView imageView=mViewHodler.mImageView;
-        TextView textView2=mViewHodler.mFolderSizeTextView;
-        TextView textView3=mViewHodler.mEncryptionSatusTextView;
-        TextView textView4=mViewHodler.mNumberFilesTextView;
+        TextView textView1=holder.mTextView;
+        ImageView imageView=holder.mImageView;
+        TextView textView2=holder.mFolderSizeTextView;
+        TextView textView3=holder.mEncryptionSatusTextView;
+        TextView textView4=holder.mNumberFilesTextView;
 
         textView1.setText(temp.getFileName());
         textView2.setText(temp.getFileSize());
@@ -80,11 +80,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public ViewHolder(View itemView){
                 super(itemView);
 
-            mViewHodler.mTextView=(TextView)itemView.findViewById(R.id.list_textview);
-            mViewHodler.mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
-            mViewHodler.mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
-            mViewHodler.mFolderSizeTextView=(TextView)itemView.findViewById(R.id.folder_size_textview);
-            mViewHodler.mEncryptionSatusTextView=
+            mTextView=(TextView)itemView.findViewById(R.id.list_textview);
+            mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
+            mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
+            mFolderSizeTextView=(TextView)itemView.findViewById(R.id.folder_size_textview);
+            mEncryptionSatusTextView=
                     (TextView)itemView.findViewById(R.id.encryption_status_textview);
 
 

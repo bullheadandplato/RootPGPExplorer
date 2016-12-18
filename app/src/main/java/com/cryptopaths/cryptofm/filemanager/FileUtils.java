@@ -1,5 +1,7 @@
 package com.cryptopaths.cryptofm.filemanager;
 
+import android.util.Log;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class FileUtils {
     private final static float BYTE_MB=1048576f;
+    private static final String TAG="files";
     public static  String CURRENT_PATH = " ";
 
     public static float getFileSize(String filename){
@@ -67,7 +70,8 @@ public class FileUtils {
         }
     }
     public static int getNumberOfFiles(String  foldername){
-        return new File(CURRENT_PATH+foldername).listFiles().length;
+        Log.d(TAG, "getNumberOfFiles: ");
+        return new File(CURRENT_PATH+foldername).list().length;
     }
     public static String getExtension(String fileName){
         final String emptyExtension = "file";
@@ -83,6 +87,7 @@ public class FileUtils {
     public static List<String> getFileNamesInAFolder(String foldername) throws IllegalArgumentException{
         List<String> result=new ArrayList<>();
         File folder=new File(CURRENT_PATH+foldername);
+
         File[] files=folder.listFiles();
         if(files.length>0){
             for (File f:

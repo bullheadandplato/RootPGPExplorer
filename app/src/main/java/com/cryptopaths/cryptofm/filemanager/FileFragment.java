@@ -70,10 +70,8 @@ public class FileFragment extends Fragment {
         if( !mIsFragmentAlreadyLoaded){
             FileListAdapter adapter=new FileListAdapter(getActivity());
 
-            adapter.fillAdapter(mCurrentPath);
             Log.d("googlef","im in activity created"+mCurrentPath);
 
-            mFileListView.setAdapter(adapter);
         }
 
     }

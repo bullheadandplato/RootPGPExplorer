@@ -17,9 +17,6 @@ import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class UnlockDbActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +55,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
             if(handler.checkPass(pass)){
                 //load data to fill file listview
-                FileBrowserActivity.mFilesData.put(path,new FileFillerWrapper(path,UnlockDbActivity.this));
+                FileBrowserActivity.mFilesData.put(path,new FileFillerWrapper(path+"/",UnlockDbActivity.this));
                 return true;
             }else{
                 return false;
