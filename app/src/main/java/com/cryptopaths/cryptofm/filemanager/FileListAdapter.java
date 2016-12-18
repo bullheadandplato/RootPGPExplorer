@@ -79,7 +79,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public TextView mEncryptionSatusTextView;
         public ViewHolder(View itemView){
                 super(itemView);
-
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        
+                    }
+                });
             mTextView=(TextView)itemView.findViewById(R.id.list_textview);
             mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
             mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
