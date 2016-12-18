@@ -12,12 +12,13 @@ import java.util.List;
 
 public class FileUtils {
     private final static float BYTE_MB=1048576f;
+    public static  String CURRENT_PATH = " ";
 
     public static float getFileSize(String filename){
-        return round(new File(filename).length()/BYTE_MB,2);
+        return round(new File(CURRENT_PATH+filename).length()/BYTE_MB,2);
     }
     public static float getFolderSize(String foldername) {
-        File dir=new File(foldername);
+        File dir=new File(CURRENT_PATH+foldername);
         float size = 0f;
         for (File file : dir.listFiles()) {
             if (file.isFile()) {
@@ -30,7 +31,7 @@ public class FileUtils {
         return round(size/BYTE_MB,2);
     }
     public static String isEncryptedFolder(String filename){
-        File dir=new File(filename);
+        File dir=new File(CURRENT_PATH+filename);
         //if file is not a directory but just a file
         if(dir.isFile()){
             if(dir.getName().contains("pgp")){
@@ -66,7 +67,7 @@ public class FileUtils {
         }
     }
     public static int getNumberOfFiles(String  foldername){
-        return new File(foldername).listFiles().length;
+        return new File(CURRENT_PATH+foldername).listFiles().length;
     }
     public static String getExtension(String fileName){
         final String emptyExtension = "file";
@@ -81,7 +82,7 @@ public class FileUtils {
     }
     public static List<String> getFileNamesInAFolder(String foldername) throws IllegalArgumentException{
         List<String> result=new ArrayList<>();
-        File folder=new File(foldername);
+        File folder=new File(CURRENT_PATH+foldername);
         File[] files=folder.listFiles();
         if(files.length>0){
             for (File f:
