@@ -1,13 +1,16 @@
 package com.cryptopaths.cryptofm.filemanager;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.cryptopaths.cryptofm.R;
 
+import java.io.File;
 import java.util.HashMap;
 
 
@@ -23,36 +26,24 @@ public class FileBrowserActivity extends AppCompatActivity {
 		setContentView(R.layout.file_activity);
 		setResult(RESULT_OK);
 
+
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		mRootPath=mCurrentPath;
+
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
 		mFileListView.setAdapter(mmFileListAdapter);
-/*
-	//	mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-	//			String viewName=((TextView)(view.findViewById(R.id.list_textview))).getText().toString();/
-				String tmp=mCurrentPath+"/"+viewName;
-				File f=new File(tmp);
-				if(f.isDirectory()) {
-					mCurrentPath=tmp;
-					changeDirectory();
-				}else {
-					Toast.makeText(FileBrowserActivity.this,"You clicked at file",Toast.LENGTH_SHORT).show();
-				}
+		//start the file filing task to avoid later time overhead
+		new FileFillingTask().execute();
 
 
-			}
-		});*/
 	}
 
 	private void changeDirectory() {
-		//mmFileListAdapter.fillAdapter(mCurrentPath);
-		//mmFileListAdapter.notifyDataSetChanged();
-		//mFileListView.requestLayout();
+		mmFileListAdapter.notifyDataSetChanged();
+		mFileListView.requestLayout();
 
 	}
 
@@ -64,6 +55,29 @@ public class FileBrowserActivity extends AppCompatActivity {
 			//modify the mCurrentPath
 			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
 			changeDirectory();
+		}
+	}
+	private class FileFillingTask extends AsyncTask<Void,Void,Void>{
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			File file=new File(mCurrentPath);
+			fillData(file);
+			return null;
+		}
+
+		private void fillData(File file) {
+			Log.d("Files","current dir: "+file.getPath());
+			FileBrowserActivity.mFilesData.put(
+					file.getPath(),new FileFillerWrapper
+							(file.getPath()+"/",FileBrowserActivity.this)
+			);
+			for (File f:
+				 file.listFiles()) {
+				if(f.isDirectory()){
+					fillData(f);
+				}
+			}
 		}
 	}
 

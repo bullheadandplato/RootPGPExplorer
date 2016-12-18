@@ -7,10 +7,6 @@ import android.util.Log;
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
-import net.sqlcipher.database.SQLiteStatement;
-
-import org.spongycastle.asn1.dvcs.Data;
-import org.spongycastle.crypto.digests.LongDigest;
 
 import java.io.File;
 
@@ -52,7 +48,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Boolean checkPass(String pass){
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
         try{
-            SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
+            SQLiteDatabase db=SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
+            db.close();
             return true;
         }catch (Exception e){
             return false;
