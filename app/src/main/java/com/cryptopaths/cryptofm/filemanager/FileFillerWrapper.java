@@ -13,6 +13,7 @@ import java.util.List;
 
 public class FileFillerWrapper {
     private List<DataModelFiles> allFiles=new ArrayList<>();
+    private int totalFilesCount=0;
     private String currentPath;
 
     public FileFillerWrapper(String currentPath, Context context) {
@@ -21,7 +22,8 @@ public class FileFillerWrapper {
         FileUtils.CURRENT_PATH=currentPath;
         //for each file in current path fill data
         File file=new File(currentPath);
-        if(file.listFiles().length>1){
+        totalFilesCount=file.listFiles().length-1;
+        if(file.listFiles().length>0){
             for (File f:
                  file.listFiles()) {
                 allFiles.add(new DataModelFiles(f.getName(),context));
@@ -30,5 +32,9 @@ public class FileFillerWrapper {
     }
     public DataModelFiles getFileAtPosition(int position){
         return allFiles.get(position);
+    }
+
+    public int getTotalFilesCount() {
+        return totalFilesCount;
     }
 }

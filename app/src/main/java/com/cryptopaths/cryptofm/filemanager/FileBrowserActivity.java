@@ -3,16 +3,11 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 
-import java.io.File;
 import java.util.HashMap;
 
 
@@ -31,15 +26,15 @@ public class FileBrowserActivity extends AppCompatActivity {
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
 		mRootPath=mCurrentPath;
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
+		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		mmFileListAdapter=new FileListAdapter(this);
-		mmFileListAdapter.fillAdapter(mCurrentPath);
+		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
 		mFileListView.setAdapter(mmFileListAdapter);
-
-		mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+/*
+	//	mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				String viewName=((TextView)(view.findViewById(R.id.list_textview))).getText().toString();
-
+	//			String viewName=((TextView)(view.findViewById(R.id.list_textview))).getText().toString();/
 				String tmp=mCurrentPath+"/"+viewName;
 				File f=new File(tmp);
 				if(f.isDirectory()) {
@@ -51,13 +46,13 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 
 			}
-		});
+		});*/
 	}
 
 	private void changeDirectory() {
-		mmFileListAdapter.fillAdapter(mCurrentPath);
-		mmFileListAdapter.notifyDataSetChanged();
-		mFileListView.requestLayout();
+		//mmFileListAdapter.fillAdapter(mCurrentPath);
+		//mmFileListAdapter.notifyDataSetChanged();
+		//mFileListView.requestLayout();
 
 	}
 
