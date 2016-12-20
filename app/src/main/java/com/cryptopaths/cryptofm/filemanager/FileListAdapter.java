@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 
@@ -85,6 +86,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         String filename=textView.getText().toString();
                         if(FileUtils.isFile(filename)){
                             //open file TODO
+                            Toast.makeText(mContext, "You click at file: "+filename, Toast.LENGTH_SHORT).show();
                         }else{
                             //check if folder already visited
                             String folderPath=mFile.getCurrentPath()+filename;
