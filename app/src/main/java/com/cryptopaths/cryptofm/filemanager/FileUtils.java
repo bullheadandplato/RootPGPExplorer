@@ -70,7 +70,7 @@ public class FileUtils {
         }
     }
     public static int getNumberOfFiles(String  foldername){
-        Log.d(TAG, "getNumberOfFiles: ");
+        Log.d(TAG, "getNumberOfFiles: "+CURRENT_PATH+foldername);
         return new File(CURRENT_PATH+foldername).list().length;
     }
     public static String getExtension(String fileName){
