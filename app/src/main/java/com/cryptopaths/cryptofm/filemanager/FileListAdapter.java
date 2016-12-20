@@ -2,16 +2,14 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
-
-import java.util.ArrayList;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -21,11 +19,11 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
 
-    private ArrayList<String> mAdapter=new ArrayList<>();
     private Context                 mContext;
     private LayoutInflater          mInflator;
     private	ViewHolder 			    mViewHodler;
     private FileFillerWrapper       mFile;
+    private  static final String TAG="filesList";
 
         public FileListAdapter(Context context){
         mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -84,7 +82,24 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                     @Override
                     public void onClick(View view) {
                         TextView textView=(TextView)view.findViewById(R.id.list_textview);
-                        Toast.makeText(mContext,textView.getText()+" "+getAdapterPosition(),Toast.LENGTH_SHORT).show();
+                        String filename=textView.getText().toString();
+                        if(FileUtils.isFile(filename)){
+                            //open file TODO
+                        }else{
+                            //check if folder already visited
+                            String folderPath=FileUtils.CURRENT_PATH+filename;
+                            if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
+                                Log.d(TAG, "onClick: filepath is and yes: "+folderPath);
+                                mFile= FileBrowserActivity.mFilesData.get(filename);
+                            }else{
+                                //first visit folder
+                                Log.d(TAG, "onClick: filepath is: "+folderPath);
+                                mFile=new FileFillerWrapper(folderPath,mContext);
+                                FileBrowserActivity.mFilesData.put(filename,mFile);
+                                notifyDataSetChanged();
+
+                            }
+                        }
                     }
                 });
             mTextView=(TextView)itemView.findViewById(R.id.list_textview);

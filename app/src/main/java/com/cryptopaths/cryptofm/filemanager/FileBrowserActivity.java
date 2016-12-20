@@ -33,7 +33,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		mmFileListAdapter=new FileListAdapter(this);
-		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
+		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
 		mFileListView.setAdapter(mmFileListAdapter);
 		//start the file filing task to avoid later time overhead
 		new FileFillingTask().execute();
@@ -69,7 +69,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 		private void fillData(File file) {
 			Log.d("Files","current dir: "+file.getPath());
 			FileBrowserActivity.mFilesData.put(
-					file.getPath(),new FileFillerWrapper
+					file.getPath()+"/",new FileFillerWrapper
 							(file.getPath()+"/",FileBrowserActivity.this)
 			);
 			for (File f:
