@@ -37,4 +37,8 @@ public class FileFillerWrapper {
     public int getTotalFilesCount() {
         return totalFilesCount;
     }
+
+    public String getCurrentPath() {
+        return currentPath;
+    }
 }

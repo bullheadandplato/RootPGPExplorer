@@ -87,7 +87,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             //open file TODO
                         }else{
                             //check if folder already visited
-                            String folderPath=FileUtils.CURRENT_PATH+filename;
+                            String folderPath=mFile.getCurrentPath()+filename;
                             if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
                                 Log.d(TAG, "onClick: filepath is and yes: "+folderPath);
                                 mFile= FileBrowserActivity.mFilesData.get(filename);
