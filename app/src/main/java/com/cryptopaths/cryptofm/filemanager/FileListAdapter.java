@@ -95,7 +95,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                 //first visit folder
                                 Log.d(TAG, "onClick: filepath is: "+folderPath);
                                 mFile=new FileFillerWrapper(folderPath+"/",mContext);
-                                FileBrowserActivity.mFilesData.put(filename,mFile);
+                                FileBrowserActivity.mFilesData.put(folderPath+"/",mFile);
                                 notifyDataSetChanged();
 
                             }

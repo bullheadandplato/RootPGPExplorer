@@ -28,7 +28,7 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 
 		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
-		mRootPath=mCurrentPath;
+		mRootPath=mCurrentPath+"/";
 
 		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,19 +42,23 @@ public class FileBrowserActivity extends AppCompatActivity {
 	}
 
 	private void changeDirectory() {
-
+		Log.d("files","current path: "+mCurrentPath);
+		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
 		mmFileListAdapter.notifyDataSetChanged();
-
+		mFileListView.requestLayout();
 
 	}
 
 	@Override
 	public void onBackPressed() {
+		mCurrentPath=FileUtils.CURRENT_PATH;
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
 		}else{
 			//modify the mCurrentPath
 			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
+			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
+			FileUtils.CURRENT_PATH=mCurrentPath;
 			changeDirectory();
 		}
 	}
