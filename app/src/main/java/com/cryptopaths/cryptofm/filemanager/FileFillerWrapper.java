@@ -22,8 +22,8 @@ public class FileFillerWrapper {
         FileUtils.CURRENT_PATH=currentPath;
         //for each file in current path fill data
         File file=new File(currentPath);
-        totalFilesCount=file.listFiles().length-1;
-        if(file.listFiles().length>0){
+        totalFilesCount=file.list().length;
+        if(file.list().length>0){
             for (File f:
                  file.listFiles()) {
                 allFiles.add(new DataModelFiles(f.getName(),context));
