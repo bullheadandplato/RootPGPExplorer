@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 
@@ -82,7 +83,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        
+                        TextView textView=(TextView)view.findViewById(R.id.list_textview);
+                        Toast.makeText(mContext,textView.getText()+" "+getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     }
                 });
             mTextView=(TextView)itemView.findViewById(R.id.list_textview);
@@ -96,4 +98,5 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
 
     }
+
 }

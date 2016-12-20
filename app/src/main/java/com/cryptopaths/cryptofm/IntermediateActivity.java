@@ -72,7 +72,12 @@ public class IntermediateActivity extends AppCompatActivity {
     private void startVisitingDirectories(ArrayList<String> dirs){
         for (String directory:
              dirs) {
-            visitAllDirs(new File(Environment.getExternalStorageDirectory().getPath()+"/"+directory));
+            File file=new File(Environment.getExternalStorageDirectory().getPath()+"/"+directory);
+            if(file.isFile()){
+                mFilesList.add(file.getAbsolutePath());
+            }else{
+                visitAllDirs(file);
+            }
         }
     }
 
