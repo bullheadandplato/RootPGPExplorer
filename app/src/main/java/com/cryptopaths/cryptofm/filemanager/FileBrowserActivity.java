@@ -36,14 +36,15 @@ public class FileBrowserActivity extends AppCompatActivity {
 		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
 		mFileListView.setAdapter(mmFileListAdapter);
 		//start the file filing task to avoid later time overhead
-		new FileFillingTask().execute();
+		//new FileFillingTask().execute();
 
 
 	}
 
 	private void changeDirectory() {
+
 		mmFileListAdapter.notifyDataSetChanged();
-		mFileListView.requestLayout();
+
 
 	}
 
