@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +120,14 @@ public class FileUtils {
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
                 + " " + units[digitGroups];
+    }
+    public static String getLastModifiedDate(String filename){
+        String date="";
+        date=new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
+        Log.d(TAG, "getLastModifiedDate: date is: "+date);
+        return date;
+
+
     }
 
 
