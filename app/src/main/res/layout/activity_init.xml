@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
 
-    tools:context="com.cryptopaths.cryptofm.InitActivity">
+    tools:context="com.cryptopaths.cryptofm.startup.InitActivity">
 
     <ProgressBar
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_alignParentStart="true" />
 
     <fragment
-        android:name="com.cryptopaths.cryptofm.FirstFragment"
+        android:name="com.cryptopaths.cryptofm.startup.FirstFragment"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/logo_image"

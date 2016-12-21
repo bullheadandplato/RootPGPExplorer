@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.startup;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 

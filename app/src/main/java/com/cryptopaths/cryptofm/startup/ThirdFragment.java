@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.startup;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.cryptopaths.cryptofm.R;
 
 import java.util.ArrayList;
 

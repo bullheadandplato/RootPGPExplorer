@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.startup;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -17,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
+import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;

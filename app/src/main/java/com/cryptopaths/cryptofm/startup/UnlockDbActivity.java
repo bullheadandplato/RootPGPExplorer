@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.startup;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
+import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

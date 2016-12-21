@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm;
+package com.cryptopaths.cryptofm.startup;
 
 import android.content.Context;
 import android.os.Environment;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cryptopaths.cryptofm.R;
 
 import java.io.File;
 import java.util.ArrayList;
