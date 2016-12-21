@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 
 import java.io.File;
 import java.io.InputStream;
@@ -203,7 +202,7 @@ public class IntermediateActivity extends AppCompatActivity {
         }
     }
     private void startFileBrowserActivity(){
-        Intent intent=new Intent(IntermediateActivity.this,FileBrowserActivity.class);
+        Intent intent=new Intent(IntermediateActivity.this,UnlockDbActivity.class);
         //clear the back stack so user cannot get to this activity again
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
