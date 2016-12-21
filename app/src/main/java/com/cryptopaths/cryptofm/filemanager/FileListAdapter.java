@@ -89,15 +89,17 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             Toast.makeText(mContext, "You click at file: "+filename, Toast.LENGTH_SHORT).show();
                         }else{
                             //check if folder already visited
-                            String folderPath=mFile.getCurrentPath()+filename;
+                            String folderPath=mFile.getCurrentPath()+filename+"/";
                             if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
                                 Log.d(TAG, "onClick: filepath is and yes: "+folderPath);
-                                mFile= FileBrowserActivity.mFilesData.get(filename);
+                                mFile= FileBrowserActivity.mFilesData.get(folderPath);
+                                FileUtils.CURRENT_PATH=folderPath;
+                                notifyDataSetChanged();
                             }else{
                                 //first visit folder
                                 Log.d(TAG, "onClick: filepath is: "+folderPath);
-                                mFile=new FileFillerWrapper(folderPath+"/",mContext);
-                                FileBrowserActivity.mFilesData.put(folderPath+"/",mFile);
+                                mFile=new FileFillerWrapper(folderPath,mContext);
+                                FileBrowserActivity.mFilesData.put(folderPath,mFile);
                                 notifyDataSetChanged();
 
                             }
