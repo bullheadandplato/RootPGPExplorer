@@ -16,6 +16,8 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by tripleheader on 12/14/16.
+ *
+ *
  */
 
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
