@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -44,7 +43,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private int mFragmentNumber                             =0;
     private static final String TAG                         ="InitActivity";
 
-    private ProgressBar         mProgressBar;
     private DatabaseHandler     mDatabaseHandler;
     private ProgressDialog      mLoading;
     private ThirdFragment       mThirdFragment;
@@ -66,8 +64,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             finish();
 
         }
-        mProgressBar=(ProgressBar)findViewById(R.id.setup_progressbar);
-        mProgressBar.setMax(100);
 
     }
     @ActionHandler(layoutResource = R.id.next_button)
@@ -75,7 +71,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         switch (mFragmentNumber){
             case 0:
                 EditText passwordEditText=
-                        (EditText)findViewById(R.id.input_password_first_fragment);
+                        (EditText)findViewById(R.id.password);
                 CharSequence sequence=passwordEditText.getText();
                 if(isValidPassword(sequence)){
                     Log.d("fragment","replacing fragmnet "+mFragmentNumber);
@@ -90,8 +86,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                             commit();
                     //set fragment number to 1
                     mFragmentNumber=1;
-                    //set progress
-                    mProgressBar.setProgress(33);
 
                 }else{
                     passwordEditText.setError("password length should be greater than 3");
@@ -270,7 +264,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             super.onPostExecute(s);
             mLoading.dismiss();
             mFragmentNumber = 2;
-            mProgressBar.setProgress(66);
             //make a toast the keys successfully generated
             Toast.makeText(InitActivity.this,
                     "Successfully generated keys",

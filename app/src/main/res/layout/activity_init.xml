@@ -4,43 +4,22 @@
     android:id="@+id/activity_init"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
 
     tools:context="com.cryptopaths.cryptofm.startup.InitActivity">
 
-    <ProgressBar
-        android:layout_width="match_parent"
-        style="@android:style/Widget.Material.ProgressBar.Horizontal"
-        android:indeterminate="false"
-        android:indeterminateTint="#FF5252"
-        android:layout_height="wrap_content"
-        android:id="@+id/setup_progressbar"
-        android:layout_marginTop="-5dp"
-        android:layout_marginStart="0dp" />
 
 
     <ImageView android:src="@drawable/logo"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_height="72dp"
         android:id="@+id/logo_image"
+        android:tint="@color/colorAccent"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/setup_progressbar"
         android:layout_alignParentStart="true" />
 
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/next_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@color/colorPrimary"
-        android:text="Next"
-        android:onClick="onNextButtonClick"
-        android:textSize="20dp"
-        android:textColor="@color/textColorTertiary"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+
 
     <fragment
         android:name="com.cryptopaths.cryptofm.startup.FirstFragment"
@@ -49,7 +28,6 @@
         android:layout_below="@id/logo_image"
         android:id="@+id/first_fragment"
         android:layout_width="match_parent"
-        android:layout_above="@id/next_button"
         android:layout_marginEnd="20dp" />
 
 
