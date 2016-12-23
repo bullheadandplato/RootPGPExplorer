@@ -239,7 +239,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Log.d(TAG,"permissions granted");
         if (requestCode==RC_PERMISSION){
             View logoImage=findViewById(R.id.logo_image);
-            ((ViewGroup)logoImage.getParent()).removeView(logoImage);
+            if(logoImage!=null){
+                ((ViewGroup)logoImage.getParent()).removeView(logoImage);
+            }
             //change fragment to second fragment
             replaceFragment(FRAGMENT_TWO_NUMBER);
         }
