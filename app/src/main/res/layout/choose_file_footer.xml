@@ -9,12 +9,12 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/next_button"
+        android:id="@+id/lets_go_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Let's Go"
         android:background="@color/colorAccent"
-        android:onClick="onNextButtonClick"
+        android:onClick="onLetsGoButtonClick"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
         />
