@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -42,6 +43,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private static final int RC_PERMISSION                  =101;
     private int mFragmentNumber                             =0;
     private static final String TAG                         ="InitActivity";
+    private static final int CONTENT_FRAGMENT_LAYOUT        =100;
 
     private DatabaseHandler     mDatabaseHandler;
     private ProgressDialog      mLoading;
@@ -64,6 +66,16 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             finish();
 
         }
+        //add first fragment
+        FrameLayout frameLayout=(FrameLayout) findViewById(R.id.fragment_frame_layout);
+        frameLayout.setId(CONTENT_FRAGMENT_LAYOUT);
+        FirstFragment fragment=new FirstFragment();
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                        R.anim.enter_from_left, R.anim.exit_to_right).
+                replace(CONTENT_FRAGMENT_LAYOUT,fragment).
+                commit();
+
 
     }
     @ActionHandler(layoutResource = R.id.next_button)
@@ -82,7 +94,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     getSupportFragmentManager().beginTransaction().
                             setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
                                     R.anim.enter_from_left, R.anim.exit_to_right).
-                            replace(R.id.first_fragment,secondFragment).
+                            replace(CONTENT_FRAGMENT_LAYOUT,secondFragment).
                             commit();
                     //set fragment number to 1
                     mFragmentNumber=1;
@@ -160,7 +172,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
                             R.anim.enter_from_left, R.anim.exit_to_right).
-                    replace(R.id.first_fragment,mThirdFragment).
+                    replace(CONTENT_FRAGMENT_LAYOUT,mThirdFragment).
                     commit();
             mFragmentNumber=2;
         }

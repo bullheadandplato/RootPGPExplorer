@@ -19,16 +19,15 @@
         android:layout_alignParentStart="true" />
 
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/logo_image"
+    android:id="@+id/fragment_frame_layout"
+    >
 
+</FrameLayout>
 
-    <fragment
-        android:name="com.cryptopaths.cryptofm.startup.FirstFragment"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/logo_image"
-        android:id="@+id/first_fragment"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="20dp" />
 
 
 </RelativeLayout>
