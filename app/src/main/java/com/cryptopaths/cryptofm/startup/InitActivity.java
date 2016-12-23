@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -51,6 +52,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private DatabaseHandler mDatabaseHandler;
     private ProgressDialog  mLoading;
     private SecondFragment mSecondFragment;
+    private String         mUserSecretDatabase;
+    private String         mUserSecretKeyPassword;
+    private ProgressBar    mDatabaseProgressBar;
+    private ProgressBar    mKeygenProgressBar;
+    private ProgressBar    mEncryptionProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +86,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                         (EditText)findViewById(R.id.password);
                 CharSequence sequence=passwordEditText.getText();
                 if(isValidPassword(sequence)){
-
+                        mUserSecretKeyPassword=sequence.toString();
+                        mUserSecretDatabase=mUserSecretKeyPassword;
                     if(checkPermissions()){
                         //first remove the logo image from activity
                         View logoImage=findViewById(R.id.logo_image);
@@ -133,6 +140,10 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             case 2:
                 fragmentBackName="third";
                 fragment=new ThirdFragment();
+                // in third fragment user cannot go back so empty the backstack.
+                //twice because only two fragments are there first, we are sure about this
+                getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().popBackStack();
                 break;
             default:
                 return;
