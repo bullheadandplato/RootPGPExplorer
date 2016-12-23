@@ -105,40 +105,58 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     @ActionHandler(layoutResource = R.id.next_button)
     public void onNextButtonClick(View v){
-        String errorMessage="password length should be greater than 3";
-        EditText passwordEditText=
+        EditText passwordEditText       =
                 (EditText)findViewById(R.id.password);
-        CharSequence sequence=passwordEditText.getText();
-        CharSequence password2;
+        EditText passwordConfirm1       =
+                (EditText)findViewById(R.id.password_confirm);
+
+        String errorMessageLength       = "password length should be greater than 3";
+        String errorMessageMatch        = "password does not match";
+        CharSequence sequence           = passwordEditText.getText();
+        CharSequence sequenceConfirm    = passwordConfirm1.getText();
+
+
         //check if user wants different passwords
         if(IS_DIFFERENT_PASSWORD){
-            password2=((EditText)findViewById(R.id.password_databse)).getText();
+            EditText passwordEdit2          =
+                    (EditText)findViewById(R.id.password_databse);
+            EditText confirmPasswordEdit2   =
+                    (EditText)findViewById(R.id.password_confirm_database);
+
+            CharSequence password2 = passwordEdit2.getText();
             //check if password is valid
             if(isValidPassword(password2)){
-                mUserSecretDatabase=password2.toString();
+                if(password2.equals(confirmPasswordEdit2.getText())){
+                    mUserSecretDatabase=password2.toString();
+                }else{
+                    confirmPasswordEdit2.setError(errorMessageMatch);
+                }
             }else{
-                ((EditText)( findViewById(R.id.password_databse))).setError(errorMessage);
+                ((EditText)( findViewById(R.id.password_databse))).setError(errorMessageLength);
             }
         }
         if(isValidPassword(sequence)){
-            mUserSecretKeyPassword=sequence.toString();
-            if(!IS_DIFFERENT_PASSWORD){
-                mUserSecretDatabase=mUserSecretKeyPassword;
-            }
-            if(checkPermissions()){
-                //first remove the logo image from activity
-                View logoImage=findViewById(R.id.logo_image);
-                ((ViewGroup)logoImage.getParent()).removeView(logoImage);
-                //replace fragment to second fragment
-                replaceFragment(FRAGMENT_TWO_NUMBER);
-
-            }else{
+            if(sequence.equals(sequenceConfirm)) {
+                mUserSecretKeyPassword = sequence.toString();
+                if(!IS_DIFFERENT_PASSWORD){
+                    mUserSecretDatabase=mUserSecretKeyPassword;
+                }
+                if(checkPermissions()){
+                    //first remove the logo image from activity
+                    View logoImage=findViewById(R.id.logo_image);
+                    ((ViewGroup)logoImage.getParent()).removeView(logoImage);
+                    //replace fragment to second fragment
+                    replaceFragment(FRAGMENT_TWO_NUMBER);
+            } else{
                 // get read and write storage permission
                 getPermissions();
             }
 
         }else{
-            passwordEditText.setError(errorMessage);
+                passwordConfirm1.setError(errorMessageMatch);
+            }
+        }else{
+            passwordEditText.setError(errorMessageLength);
         }
 
 
