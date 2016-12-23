@@ -126,8 +126,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             CharSequence password2 = passwordEdit2.getText();
             //check if password is valid
             if(isValidPassword(password2)){
-                if(password2.equals(confirmPasswordEdit2.getText())){
-                    mUserSecretDatabase=password2.toString();
+                if(password2.toString().equals(confirmPasswordEdit2.getText())){
+                    mUserSecretDatabase = password2.toString();
                 }else{
                     confirmPasswordEdit2.setError(errorMessageMatch);
                 }
@@ -136,7 +136,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             }
         }
         if(isValidPassword(sequence)){
-            if(sequence.equals(sequenceConfirm)) {
+            if(sequence.toString().equals(sequenceConfirm.toString())) {
+                Log.d("password","one password and two: "+sequence +" : "+sequenceConfirm);
                 mUserSecretKeyPassword = sequence.toString();
                 if(!IS_DIFFERENT_PASSWORD){
                     mUserSecretDatabase=mUserSecretKeyPassword;
