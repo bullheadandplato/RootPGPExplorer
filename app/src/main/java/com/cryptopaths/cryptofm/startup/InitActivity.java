@@ -76,7 +76,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 if(isValidPassword(sequence)){
                     Log.d("fragment","replacing fragmnet "+mFragmentNumber);
                     //create encrypted database and set password of user choice
-                    mDatabaseHandler=new DatabaseHandler(this,sequence.toString(),false);
+                    //mDatabaseHandler=new DatabaseHandler(this,sequence.toString(),false);
                     //change fragment to next fragment
                     SecondFragment secondFragment=new SecondFragment();
                     getSupportFragmentManager().beginTransaction().
@@ -93,21 +93,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 Log.d("fragment","replacing fragmnet "+mFragmentNumber);
                 break;
             case 1:
-                passwordEditText=(EditText)findViewById(R.id.input_password_second_fragment);
-                EditText emailEditText=(EditText)findViewById(R.id.input_email_second_fragment);
-                if(!isValidEmail(emailEditText.getText())){
-                    emailEditText.setError("please enter valid email address");
-                    return;
-                }
-                if(!isValidPassword(passwordEditText.getText())){
-                    passwordEditText.setError("password length should be greater than 3");
-                    return;
-                }
-                //generate keys
-                new KeyGenerationTask().execute(
-                        emailEditText.getText().toString(),
-                        passwordEditText.getText().toString()
-                );
+
 
                 break;
             case 2:
