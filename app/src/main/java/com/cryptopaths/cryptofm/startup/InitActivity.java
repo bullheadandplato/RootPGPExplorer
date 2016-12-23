@@ -45,6 +45,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private static int FRAGMENT_ONE_NUMBER   = 0;
     private static int FRAGMENT_TWO_NUMBER   = 1;
     private static int FRAGMENT_THREE_NUMBER = 2;
+    private static Boolean IS_DIFFERENT_PASSWORD    = false;
 
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
@@ -89,37 +90,56 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     beginTransaction().
                     replace(R.id.frame_layout_password_two,new PasswordsFragment())
                     .commit();
+            IS_DIFFERENT_PASSWORD=true;
         }else{
             getSupportFragmentManager().
                     beginTransaction().
-                    remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout_password_two)).commit();
+                    remove(
+                            getSupportFragmentManager().
+                                    findFragmentById(R.id.frame_layout_password_two)
+                    ).commit();
+            IS_DIFFERENT_PASSWORD=false;
         }
 
     }
 
     @ActionHandler(layoutResource = R.id.next_button)
     public void onNextButtonClick(View v){
-                EditText passwordEditText=
-                        (EditText)findViewById(R.id.password);
-                CharSequence sequence=passwordEditText.getText();
-                if(isValidPassword(sequence)){
-                        mUserSecretKeyPassword=sequence.toString();
-                        mUserSecretDatabase=mUserSecretKeyPassword;
-                    if(checkPermissions()){
-                        //first remove the logo image from activity
-                        View logoImage=findViewById(R.id.logo_image);
-                        ((ViewGroup)logoImage.getParent()).removeView(logoImage);
-                        //replace fragment to second fragment
-                        replaceFragment(FRAGMENT_TWO_NUMBER);
+        String errorMessage="password length should be greater than 3";
+        EditText passwordEditText=
+                (EditText)findViewById(R.id.password);
+        CharSequence sequence=passwordEditText.getText();
+        CharSequence password2;
+        //check if user wants different passwords
+        if(IS_DIFFERENT_PASSWORD){
+            password2=((EditText)findViewById(R.id.password_databse)).getText();
+            //check if password is valid
+            if(isValidPassword(password2)){
+                mUserSecretDatabase=password2.toString();
+            }else{
+                ((EditText)( findViewById(R.id.password_databse))).setError(errorMessage);
+            }
+        }
+        if(isValidPassword(sequence)){
+            mUserSecretKeyPassword=sequence.toString();
+            if(!IS_DIFFERENT_PASSWORD){
+                mUserSecretDatabase=mUserSecretKeyPassword;
+            }
+            if(checkPermissions()){
+                //first remove the logo image from activity
+                View logoImage=findViewById(R.id.logo_image);
+                ((ViewGroup)logoImage.getParent()).removeView(logoImage);
+                //replace fragment to second fragment
+                replaceFragment(FRAGMENT_TWO_NUMBER);
 
-                    }else{
-                        // get read and write storage permission
-                        getPermissions();
-                    }
+            }else{
+                // get read and write storage permission
+                getPermissions();
+            }
 
-                }else{
-                    passwordEditText.setError("password length should be greater than 3");
-                }
+        }else{
+            passwordEditText.setError(errorMessage);
+        }
 
 
 
