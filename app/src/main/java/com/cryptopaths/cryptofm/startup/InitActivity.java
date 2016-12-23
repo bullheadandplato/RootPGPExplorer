@@ -51,12 +51,12 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     private DatabaseHandler mDatabaseHandler;
     private ProgressDialog  mLoading;
-    private SecondFragment mSecondFragment;
-    private String         mUserSecretDatabase;
-    private String         mUserSecretKeyPassword;
-    private ProgressBar    mDatabaseProgressBar;
-    private ProgressBar    mKeygenProgressBar;
-    private ProgressBar    mEncryptionProgressBar;
+    private SecondFragment  mSecondFragment;
+    private String          mUserSecretDatabase;
+    private String          mUserSecretKeyPassword;
+    private ProgressBar     mDatabaseProgressBar;
+    private ProgressBar     mKeygenProgressBar;
+    private ProgressBar     mEncryptionProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +64,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         setContentView(R.layout.activity_init);
 
         //first of all check shared preferences
-        SharedPreferences preferences   =getPreferences(Context.MODE_PRIVATE);
-        boolean isNotFirstRun           =preferences.getBoolean("key",false);
+        SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
+        boolean isNotFirstRun           = preferences.getBoolean("key",false);
         if(isNotFirstRun){
             //change activity to unlock db activity
-            Intent intent=new Intent(this,UnlockDbActivity.class);
+            Intent intent = new Intent(this,UnlockDbActivity.class);
             //clear the stack
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivityForResult(intent,1);
@@ -78,6 +78,14 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         //add first fragment
         replaceFragment(FRAGMENT_ONE_NUMBER);
 
+
+    }
+    @ActionHandler(layoutResource = R.id.checkBox)
+    public void showSecondPasswordCheckBox(View v){
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.frame_layout_password_two,new PasswordsFragment())
+                .commit();
     }
 
     @ActionHandler(layoutResource = R.id.next_button)
@@ -130,6 +138,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             case 0:
                 fragmentBackName="first";
                 fragment=new FirstFragment();
+
                 break;
             case 1:
                 fragmentBackName="second";
@@ -154,6 +163,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 replace(R.id.fragment_frame_layout, fragment).
                 addToBackStack(fragmentBackName).
                 commit();
+
     }
 
 
