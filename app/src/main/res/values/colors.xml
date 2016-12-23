@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="dividerColor">#bdbdbd</color>
     <color name="secondaryText">#FF5252</color>
-    <color name="textColorPrimary">#cdcdcd</color>
+    <color name="textColorPrimary">#212121</color>
     <color name="colorAccent">#4caf50</color>
     <color name="textColorTertiary">#ffffff</color>
     <color name="folderColor"> #ffc107</color>
