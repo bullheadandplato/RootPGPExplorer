@@ -90,14 +90,20 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     //create encrypted database and set password of user choice
                     //mDatabaseHandler=new DatabaseHandler(this,sequence.toString(),false);
                     //change fragment to next fragment
-                    SecondFragment secondFragment=new SecondFragment();
-                    getSupportFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
-                                    R.anim.enter_from_left, R.anim.exit_to_right).
-                            replace(CONTENT_FRAGMENT_LAYOUT,secondFragment).
-                            commit();
-                    //set fragment number to 1
-                    mFragmentNumber=1;
+
+                    if(checkPermissions()){
+                        ThirdFragment secondFragment=new ThirdFragment();
+                        getSupportFragmentManager().beginTransaction().
+                                setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                                        R.anim.enter_from_left, R.anim.exit_to_right).
+                                replace(CONTENT_FRAGMENT_LAYOUT,secondFragment).
+                                commit();
+                        //set fragment number to 1
+                        mFragmentNumber=1;
+                    }else{
+                        getPermissions();
+
+                    }
 
                 }else{
                     passwordEditText.setError("password length should be greater than 3");
