@@ -28,6 +28,8 @@ public class ThirdFragment extends Fragment {
         final ListView listView=(ListView)rootView.findViewById(R.id.choose_dir_list);
         mAdapter=new ChooseDirAdapter(getActivity());
         listView.setAdapter(mAdapter);
+        View footerView=inflater.inflate(R.layout.choose_file_footer,null,false);
+        listView.addFooterView(footerView);
         // set item selected in filebrowse_lisrview by just a Tap
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

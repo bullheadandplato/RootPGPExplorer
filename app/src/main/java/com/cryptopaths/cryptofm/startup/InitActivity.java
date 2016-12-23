@@ -92,6 +92,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     //change fragment to next fragment
 
                     if(checkPermissions()){
+                        //first remove the logo image from activity
+                        View logoImage=findViewById(R.id.logo_image);
+                        ((ViewGroup)logoImage.getParent()).removeView(logoImage);
                         ThirdFragment secondFragment=new ThirdFragment();
                         getSupportFragmentManager().beginTransaction().
                                 setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,

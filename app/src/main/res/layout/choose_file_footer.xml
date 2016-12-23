@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Let's Go"
+        android:background="@color/colorAccent"
+        android:onClick="onNextButtonClick"
+        android:textSize="20sp"
+        android:layout_below="@id/passwords_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+
+</LinearLayout>
