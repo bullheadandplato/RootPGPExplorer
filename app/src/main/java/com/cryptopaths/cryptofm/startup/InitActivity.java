@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -82,10 +83,18 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
     @ActionHandler(layoutResource = R.id.checkBox)
     public void showSecondPasswordCheckBox(View v){
-        getSupportFragmentManager().
-                beginTransaction().
-                replace(R.id.frame_layout_password_two,new PasswordsFragment())
-                .commit();
+        CheckBox b=(CheckBox)v;
+        if(b.isChecked()){
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.frame_layout_password_two,new PasswordsFragment())
+                    .commit();
+        }else{
+            getSupportFragmentManager().
+                    beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentById(R.id.frame_layout_password_two)).commit();
+        }
+
     }
 
     @ActionHandler(layoutResource = R.id.next_button)
