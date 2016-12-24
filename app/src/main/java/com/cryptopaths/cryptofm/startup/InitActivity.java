@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -259,10 +258,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         Log.d(TAG,"permissions granted");
         if (requestCode==RC_PERMISSION){
-            View logoImage=findViewById(R.id.logo_image);
-            if(logoImage!=null){
-                ((ViewGroup)logoImage.getParent()).removeView(logoImage);
-            }
             //change fragment to second fragment
             replaceFragment(FRAGMENT_TWO_NUMBER);
         }
