@@ -108,6 +108,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         }
                     }
                 });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Log.d("menu","yes im in Onlongclick");
+                    LongClickCallBack clickCallBack=(LongClickCallBack)mContext;
+                    clickCallBack.onLongClick();
+                    return true;
+                }
+            });
             mTextView=(TextView)itemView.findViewById(R.id.list_textview);
             mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
             mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
@@ -119,5 +128,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
 
     }
+
+    public interface LongClickCallBack{
+        public void onLongClick();
+    }
+
 
 }

@@ -3,17 +3,21 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.cryptopaths.cryptofm.R;
 
 import java.util.HashMap;
 
 
-public class FileBrowserActivity extends AppCompatActivity {
+public class FileBrowserActivity extends AppCompatActivity implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
 	private String mCurrentPath;
 	private String mRootPath;
 	private RecyclerView mFileListView;
@@ -61,8 +65,35 @@ public class FileBrowserActivity extends AppCompatActivity {
 			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
 			FileUtils.CURRENT_PATH=mCurrentPath;
 			changeDirectory();
+
 		}
 	}
 
 
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		MenuInflater inflater=getMenuInflater();
+		inflater.inflate(R.menu.file_select_options,menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		return false;
+	}
+
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		return false;
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+
+	}
+
+	@Override
+	public void onLongClick() {
+			startSupportActionMode(this);
+	}
 }
