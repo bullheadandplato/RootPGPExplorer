@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,6 +61,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private ProgressBar     mDatabaseProgressBar;
     private ProgressBar     mKeygenProgressBar;
     private ProgressBar     mEncryptionProgressBar;
+    private Drawable        mProgressBarDefaultDrawable;
+    private Drawable        mProgressBarAfterDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,15 +229,16 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         mEncryptionProgressBar  =(ProgressBar)findViewById(R.id.enc_progressbar);
         mDatabaseProgressBar    =(ProgressBar)findViewById(R.id.db_progressbar);
 
-        mKeygenProgressBar.setIndeterminate(false);
-        mEncryptionProgressBar.setIndeterminate(false);
-        mDatabaseProgressBar.setIndeterminate(false);
+        mProgressBarDefaultDrawable = mDatabaseProgressBar.getIndeterminateDrawable();
+        mProgressBarAfterDrawable   = getDrawable(R.drawable.ic_check_circle_white_48dp);
+        //change intermediate drawables
+        Drawable tmp=getDrawable(R.drawable.ic_watch_later_black_24dp);
+        mKeygenProgressBar.setIndeterminateDrawable(mProgressBarAfterDrawable);
+        mEncryptionProgressBar.setIndeterminateDrawable(tmp);
 
-        mKeygenProgressBar.setMax(100);
-        mEncryptionProgressBar.setMax(100);
-        mDatabaseProgressBar.setMax(100);
+
         //execute
-        new DatabaseSetupTask().execute();
+       new DatabaseSetupTask().execute();
     }
     private void commitInitActivity() {
         //put in shared preferences
@@ -356,21 +360,19 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         protected void onPreExecute() {
             super.onPreExecute();
             //show a progress dialog
-            mKeygenProgressBar.setIndeterminate(true);
+            mKeygenProgressBar.setIndeterminateDrawable(mProgressBarDefaultDrawable);
 
         }
 
         @Override
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
-            mKeygenProgressBar.setIndeterminate(false);
-            mKeygenProgressBar.setProgress(100);
+            mKeygenProgressBar.setIndeterminateDrawableTiled(mProgressBarAfterDrawable);
 
 
         }
     }
     private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
-
         @Override
         protected Void doInBackground(Void... voids) {
             SQLiteDatabase.loadLibs(InitActivity.this);
@@ -384,14 +386,13 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         @Override
         protected void onPreExecute() {
-            mDatabaseProgressBar.setIndeterminate(true);
-            mDatabaseProgressBar.setMax(100);
+
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mDatabaseProgressBar.setIndeterminate(false);
-            mDatabaseProgressBar.setProgress(100);
+            mDatabaseProgressBar.setIndeterminateDrawableTiled(mProgressBarAfterDrawable);
+
             //start the key generation task
             new KeyGenerationTask().execute();
         }
