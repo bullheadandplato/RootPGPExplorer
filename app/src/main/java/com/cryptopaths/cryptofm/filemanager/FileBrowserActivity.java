@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +35,10 @@ public class FileBrowserActivity extends AppCompatActivity {
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
+		DividerItemDecoration dividerItemDecoration =
+				new DividerItemDecoration(mFileListView.getContext(),
+						1);
+		mFileListView.addItemDecoration(dividerItemDecoration);
 		mFileListView.setAdapter(mmFileListAdapter);
 		//start the file filing task to avoid later time overhead
 		//new FileFillingTask().execute();
