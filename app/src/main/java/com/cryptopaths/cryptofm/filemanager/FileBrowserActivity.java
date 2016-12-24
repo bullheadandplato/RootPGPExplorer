@@ -99,6 +99,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	public void onLongClick() {
 		if(actionMode==null){
 			actionMode=startSupportActionMode(this);
+			actionMode.setTitle("Tofo");
 		}else{
 
 		}
