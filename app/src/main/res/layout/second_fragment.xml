@@ -28,6 +28,7 @@
 
          <ProgressBar
              android:layout_width="wrap_content"
+             android:id="@+id/db_progressbar"
              android:layout_height="wrap_content"
              style="?android:attr/progressBarStyleSmall"
              android:layout_toStartOf="@id/textViewFoo1"
@@ -51,6 +52,7 @@
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/key_progressbar"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_toStartOf="@id/textViewFoo2"
                 android:layout_marginRight="20dp"
@@ -73,6 +75,7 @@
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/enc_progressbar"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_toStartOf="@id/textViewFoo3"
                 android:layout_marginRight="20dp"

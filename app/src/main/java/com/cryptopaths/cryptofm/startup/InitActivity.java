@@ -1,7 +1,6 @@
 package com.cryptopaths.cryptofm.startup;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +22,8 @@ import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
 import org.spongycastle.openpgp.PGPPublicKeyRing;
@@ -39,7 +40,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , ThirdFragment.FragmentCreated{
     private static final int RC_PERMISSION   = 101;
     private static final String TAG          = "InitActivity";
     private static int FRAGMENT_ONE_NUMBER   = 0;
@@ -52,7 +53,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     private DatabaseHandler mDatabaseHandler;
-    private ProgressDialog  mLoading;
     private SecondFragment  mSecondFragment;
     private String          mUserSecretDatabase;
     private String          mUserSecretKeyPassword;
@@ -80,7 +80,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         }
         //add first fragment
         replaceFragment(FRAGMENT_ONE_NUMBER);
-
 
     }
     @ActionHandler(layoutResource = R.id.checkBox)
@@ -178,6 +177,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         if(tmp.size()>0){
             //change fragment to third fragment
             replaceFragment(FRAGMENT_THREE_NUMBER);
+            //set up progress bars
+
         }else {
             Toast.makeText(
                     this,
@@ -202,12 +203,10 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 mSecondFragment= (SecondFragment) fragment;
                 break;
             case 2:
-                fragmentBackName="third";
                 fragment=new ThirdFragment();
                 // in third fragment user cannot go back so empty the backstack.
                 //twice because only two fragments are there first, we are sure about this
-                getSupportFragmentManager().popBackStack();
-                getSupportFragmentManager().popBackStack();
+                fragmentBackName="third";
                 break;
             default:
                 return;
@@ -221,7 +220,22 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
+    private void setupProgressBarsAndExecute(){
+        Log.d("fragment","fragment three should be created");
+        mKeygenProgressBar      =(ProgressBar)findViewById(R.id.key_progressbar);
+        mEncryptionProgressBar  =(ProgressBar)findViewById(R.id.enc_progressbar);
+        mDatabaseProgressBar    =(ProgressBar)findViewById(R.id.db_progressbar);
 
+        mKeygenProgressBar.setIndeterminate(false);
+        mEncryptionProgressBar.setIndeterminate(false);
+        mDatabaseProgressBar.setIndeterminate(false);
+
+        mKeygenProgressBar.setMax(100);
+        mEncryptionProgressBar.setMax(100);
+        mDatabaseProgressBar.setMax(100);
+        //execute
+        new DatabaseSetupTask().execute();
+    }
     private void commitInitActivity() {
         //put in shared preferences
         SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
@@ -291,15 +305,21 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         super.onResume();
     }
 
+    @Override
+    public void onThirdFragmentCreated() {
+        Log.d("fragment","yes the fragment created");
+        setupProgressBarsAndExecute();
+    }
+
     /*
     Generating keys area
      */
-    private class KeyGenerationTask extends AsyncTask<String,Void,byte[]> {
+    private class KeyGenerationTask extends AsyncTask<Void,Void,byte[]> {
 
         @Override
-        protected byte[] doInBackground(String... strings) {
-            String email                =strings[0];
-            char[] password             =strings[1].toCharArray();
+        protected byte[] doInBackground(Void... strings) {
+            String email                =mUserName;
+            char[] password             =mUserSecretKeyPassword.toCharArray();
             KeyManagement keyManagement =new KeyManagement();
             try {
                 Log.d(TAG,"start generating keys");
@@ -330,61 +350,50 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
             }
         }
-        private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                mDatabaseHandler=new DatabaseHandler(
-                        InitActivity.this,
-                        mUserSecretDatabase,
-                        false
-                        );
-                return null;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                mDatabaseProgressBar=new ProgressBar(InitActivity.this);
-                mDatabaseProgressBar.setIndeterminate(true);
-                mDatabaseProgressBar.setMax(100);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                mDatabaseProgressBar.setIndeterminate(false);
-                mDatabaseProgressBar.setProgress(100);
-                //start the key generation task
-                new KeyGenerationTask().execute();
-            }
-        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             //show a progress dialog
-            mLoading=new ProgressDialog(InitActivity.this);
-            mLoading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mLoading.setIndeterminate(true);
-            mLoading.setTitle("Generating keys");
-            mLoading.setMessage("Please wait while generating keys");
-            mLoading.setCancelable(false);
-            mLoading.show();
+            mKeygenProgressBar.setIndeterminate(true);
 
         }
 
         @Override
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
-            mLoading.dismiss();
-            //make a toast the keys successfully generated
-            Toast.makeText(InitActivity.this,
-                    "Successfully generated keys",
-                    Toast.LENGTH_LONG
-            ).show();
-            //get permission to read storage
-            getPermissions();
+            mKeygenProgressBar.setIndeterminate(false);
+            mKeygenProgressBar.setProgress(100);
 
 
+        }
+    }
+    private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SQLiteDatabase.loadLibs(InitActivity.this);
+            mDatabaseHandler=new DatabaseHandler(
+                    InitActivity.this,
+                    mUserSecretDatabase,
+                    false
+            );
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDatabaseProgressBar.setIndeterminate(true);
+            mDatabaseProgressBar.setMax(100);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mDatabaseProgressBar.setIndeterminate(false);
+            mDatabaseProgressBar.setProgress(100);
+            //start the key generation task
+            new KeyGenerationTask().execute();
         }
     }
 }
