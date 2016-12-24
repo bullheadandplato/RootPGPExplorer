@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,18 +15,14 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 
 import java.io.File;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IntermediateActivity extends AppCompatActivity {
-    private InputStream             mSecKeyFile;
     private File                    mPubKeyFile;
     private EncryptionManagement    mEncryptionManagement;
-    private ProgressBar             mProgressBar;
     private TextView                mTextView;
-    private String[]                mSelectedFilesIndices;
 
     private static final String TAG     ="InterActivity";
     private List<String> mFilesList     =new ArrayList<>();
@@ -47,7 +42,6 @@ public class IntermediateActivity extends AppCompatActivity {
        // }
         mPubKeyFile=new File(getFilesDir(),"pub.asc");
         mEncryptionManagement=new EncryptionManagement();
-        mProgressBar=(ProgressBar)findViewById(R.id.progressBar);
         mTextView=(TextView)findViewById(R.id.progress_text);
         // get all the files;
         startVisitingDirectories(getIntent().getExtras().getStringArrayList("dirs"));
