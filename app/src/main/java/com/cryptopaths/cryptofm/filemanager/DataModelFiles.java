@@ -17,6 +17,8 @@ public class DataModelFiles {
     private String fileExtensionOrItems;
     private String fileSize;
     private Drawable fileIcon;
+    private Boolean isSelected=false;
+    private Boolean isFile=false;
 
     public DataModelFiles(String filename, Context context) {
         this.fileName = filename;
@@ -26,6 +28,7 @@ public class DataModelFiles {
             long size=FileUtils.getFileSize(filename);
             this.fileSize=FileUtils.getReadableSize(size);
             this.fileEncryptionStatus=FileUtils.isEncryptedFile(filename);
+            this.isFile=true;
         }else{
             this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);
             //in case of folder file extension will be number of items in folder
@@ -60,4 +63,15 @@ public class DataModelFiles {
         this.fileIcon=drawable;
     }
 
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
+    }
+
+    public Boolean getFile() {
+        return isFile;
+    }
 }

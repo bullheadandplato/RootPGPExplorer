@@ -29,6 +29,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private	ViewHolder 			mViewHodler;
     private FileFillerWrapper   mFile;
     private Drawable            mSelectedFileIcon;
+    private Drawable            mFileIcon;
+    private Drawable            mFolderIcon;
     private DataModelFiles      mDataModel;
 
     private Boolean  mSelectionMode             =false;
@@ -39,7 +41,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public FileListAdapter(Context context){
         mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             this.mContext=context;
-            mSelectedFileIcon=mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
+            mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
+            mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
+            mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
 
     }
 
@@ -145,7 +149,20 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     }
     private void selectionOperation(int position){
-        mDataModel.setFileIcon(mSelectedFileIcon);
+        mDataModel=        mFile.getFileAtPosition(position);
+        if(mDataModel.getSelected()){
+            mDataModel.setSelected(false);
+            if(mDataModel.getFile()){
+                mDataModel.setFileIcon(mFileIcon);
+            }else{
+                mDataModel.setFileIcon(mFolderIcon);
+            }
+
+        }else{
+            mDataModel.setFileIcon(mSelectedFileIcon);
+            mDataModel.setSelected(true);
+        }
+
         notifyItemChanged(position);
 
     }
