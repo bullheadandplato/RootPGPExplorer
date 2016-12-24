@@ -90,6 +90,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
 		mmFileListAdapter.setmSelectionMode(false);
+		actionMode=null;
 	}
 
 
