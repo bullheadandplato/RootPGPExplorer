@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:hint="Your name"
             android:inputType="text"
+            android:id="@+id/username_edittext"
             />
     </android.support.design.widget.TextInputLayout>
 

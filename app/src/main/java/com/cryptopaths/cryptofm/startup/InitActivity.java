@@ -56,6 +56,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private SecondFragment  mSecondFragment;
     private String          mUserSecretDatabase;
     private String          mUserSecretKeyPassword;
+    private String          mUserName;
     private ProgressBar     mDatabaseProgressBar;
     private ProgressBar     mKeygenProgressBar;
     private ProgressBar     mEncryptionProgressBar;
@@ -109,12 +110,19 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 (EditText)findViewById(R.id.password);
         EditText passwordConfirm1       =
                 (EditText)findViewById(R.id.password_confirm);
+        EditText usernameEdit           =
+                (EditText)findViewById(R.id.username_edittext);
 
         String errorMessageLength       = "password length should be greater than 3";
         String errorMessageMatch        = "password does not match";
         CharSequence sequence           = passwordEditText.getText();
         CharSequence sequenceConfirm    = passwordConfirm1.getText();
 
+        if(usernameEdit.getText().toString().length()<1){
+            usernameEdit.setError("Please give me your name");
+            return;
+        }
+        mUserName=usernameEdit.getText().toString();
 
         //check if user wants different passwords
         if(IS_DIFFERENT_PASSWORD){
@@ -320,6 +328,33 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 e.printStackTrace();
                 return null;
 
+            }
+        }
+        private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mDatabaseHandler=new DatabaseHandler(
+                        InitActivity.this,
+                        mUserSecretDatabase,
+                        false
+                        );
+                return null;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                mDatabaseProgressBar=new ProgressBar(InitActivity.this);
+                mDatabaseProgressBar.setIndeterminate(true);
+                mDatabaseProgressBar.setMax(100);
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mDatabaseProgressBar.setIndeterminate(false);
+                mDatabaseProgressBar.setProgress(100);
+                //start the key generation task
+                new KeyGenerationTask().execute();
             }
         }
 
