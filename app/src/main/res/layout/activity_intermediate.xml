@@ -9,7 +9,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorPrimary"
     tools:context="com.cryptopaths.cryptofm.startup.IntermediateActivity">
 
     <ImageView
@@ -17,6 +16,7 @@
         app:srcCompat="@drawable/logo"
         android:layout_marginTop="121dp"
         android:id="@+id/logo_image"
+        android:tint="@color/colorAccent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_width="150dp" />
@@ -39,7 +39,7 @@ android:layout_below="@id/logo_image"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:id="@+id/progress_text"
-        android:textColor="@color/dividerColor"
+        android:textColor="@color/textColorPrimary"
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true" />
 
