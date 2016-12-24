@@ -143,9 +143,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     mUserSecretDatabase=mUserSecretKeyPassword;
                 }
                 if(checkPermissions()){
-                    //first remove the logo image from activity
-                    View logoImage=findViewById(R.id.logo_image);
-                    ((ViewGroup)logoImage.getParent()).removeView(logoImage);
                     //replace fragment to second fragment
                     replaceFragment(FRAGMENT_TWO_NUMBER);
             } else{

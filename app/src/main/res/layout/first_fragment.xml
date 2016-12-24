@@ -74,10 +74,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwords_layout"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="46dp"
         android:onClick="showSecondPasswordCheckBox"
         android:id="@+id/checkBox" />
     <FrameLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_below="@id/checkBox"
         android:id="@+id/frame_layout_password_two"
