@@ -1,8 +1,10 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +24,22 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
 
-    private Context                 mContext;
-    private LayoutInflater          mInflator;
-    private	ViewHolder 			    mViewHodler;
-    private FileFillerWrapper       mFile;
-    private  static final String TAG="filesList";
+    private Context             mContext;
+    private LayoutInflater      mInflator;
+    private	ViewHolder 			mViewHodler;
+    private FileFillerWrapper   mFile;
+    private Drawable            mSelectedFileIcon;
+    private DataModelFiles      mDataModel;
+
+    private Boolean  mSelectionMode             =false;
+    private  static final String TAG            ="filesList";
+    private SparseIntArray mSelectedPosition    =new SparseIntArray();
+
 
         public FileListAdapter(Context context){
         mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             this.mContext=context;
+            mSelectedFileIcon=mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
 
     }
 
@@ -49,18 +58,19 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        DataModelFiles temp=mFile.getFileAtPosition(position);
+
+        mDataModel=mFile.getFileAtPosition(position);
         TextView textView1=holder.mTextView;
         ImageView imageView=holder.mImageView;
         TextView textView2=holder.mFolderSizeTextView;
         TextView textView3=holder.mEncryptionSatusTextView;
         TextView textView4=holder.mNumberFilesTextView;
 
-        textView1.setText(temp.getFileName());
-        textView2.setText(temp.getFileSize());
-        textView3.setText(temp.getFileEncryptionStatus());
-        textView4.setText(temp.getFileExtension());
-        imageView.setImageDrawable(temp.getFileIcon());
+        textView1.setText(mDataModel.getFileName());
+        textView2.setText(mDataModel.getFileSize());
+        textView3.setText(mDataModel.getFileEncryptionStatus());
+        textView4.setText(mDataModel.getFileExtension());
+        imageView.setImageDrawable(mDataModel.getFileIcon());
     }
 
     @Override
@@ -84,6 +94,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(mSelectionMode){
+                            selectionOperation(getAdapterPosition());
+                            return;
+                        }
                         TextView textView=(TextView)view.findViewById(R.id.list_textview);
                         String filename=textView.getText().toString();
                         if(FileUtils.isFile(filename)){
@@ -114,6 +128,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                     Log.d("menu","yes im in Onlongclick");
                     LongClickCallBack clickCallBack=(LongClickCallBack)mContext;
                     clickCallBack.onLongClick();
+                    mSelectionMode=true;
+                    selectionOperation(getAdapterPosition());
                     return true;
                 }
             });
@@ -126,6 +142,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
 
         }
+
+    }
+    private void selectionOperation(int position){
+        mDataModel.setFileIcon(mSelectedFileIcon);
+        notifyItemChanged(position);
 
     }
 

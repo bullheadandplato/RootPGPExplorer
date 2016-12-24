@@ -56,5 +56,8 @@ public class DataModelFiles {
     public Drawable getFileIcon(){
         return this.fileIcon;
     }
+    public void setFileIcon(Drawable drawable){
+        this.fileIcon=drawable;
+    }
 
 }

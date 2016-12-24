@@ -92,8 +92,15 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	}
 
+
+	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
-			startSupportActionMode(this);
+		if(actionMode==null){
+			actionMode=startSupportActionMode(this);
+		}else{
+
+		}
+
 	}
 }
