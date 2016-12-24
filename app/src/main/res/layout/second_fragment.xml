@@ -70,34 +70,7 @@
                 />
          </RelativeLayout>
 
-            <RelativeLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
 
-           android:layout_below="@id/layoutFoo2"
-                android:padding="10dp">
-
-
-
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Encrypting selected folders......"
-                   android:id="@+id/textViewFoo3"
-                   android:layout_centerVertical="true"
-                   android:layout_centerHorizontal="true" />
-               <ProgressBar
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/enc_progressbar"
-                   style="?android:attr/progressBarStyleSmall"
-                   android:layout_toStartOf="@id/textViewFoo3"
-                   android:layout_marginRight="20dp"
-                   android:indeterminateTint="@color/colorAccent"
-                   android:indeterminate="true"
-                   />
-
-            </RelativeLayout>
    </RelativeLayout>
 
 </RelativeLayout>

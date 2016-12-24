@@ -60,7 +60,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private String          mUserName;
     private ProgressBar     mDatabaseProgressBar;
     private ProgressBar     mKeygenProgressBar;
-    private ProgressBar     mEncryptionProgressBar;
     private Drawable        mProgressBarDefaultDrawable;
     private Drawable        mProgressBarAfterDrawable;
 
@@ -226,15 +225,12 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private void setupProgressBarsAndExecute(){
         Log.d("fragment","fragment three should be created");
         mKeygenProgressBar      =(ProgressBar)findViewById(R.id.key_progressbar);
-        mEncryptionProgressBar  =(ProgressBar)findViewById(R.id.enc_progressbar);
         mDatabaseProgressBar    =(ProgressBar)findViewById(R.id.db_progressbar);
 
         mProgressBarDefaultDrawable = mDatabaseProgressBar.getIndeterminateDrawable();
         mProgressBarAfterDrawable   = getDrawable(R.drawable.ic_check_circle_white_48dp);
         //change intermediate drawables
-        Drawable tmp=getDrawable(R.drawable.ic_watch_later_black_24dp);
         mKeygenProgressBar.setIndeterminateDrawable(mProgressBarAfterDrawable);
-        mEncryptionProgressBar.setIndeterminateDrawable(tmp);
 
 
         //execute
@@ -368,7 +364,12 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
             mKeygenProgressBar.setIndeterminateDrawableTiled(mProgressBarAfterDrawable);
-
+            //commit changes
+            commitInitActivity();
+            //start intermediateActivity
+            Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
+            startActivityForResult(intent,1);
+            finish();
 
         }
     }
@@ -392,9 +393,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected void onPostExecute(Void aVoid) {
             mDatabaseProgressBar.setIndeterminateDrawableTiled(mProgressBarAfterDrawable);
-
             //start the key generation task
             new KeyGenerationTask().execute();
         }
     }
+
+
+
 }
