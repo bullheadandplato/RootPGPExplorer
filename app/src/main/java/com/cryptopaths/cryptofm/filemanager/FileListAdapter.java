@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+
+import java.util.ArrayList;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -33,9 +34,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private Drawable            mFolderIcon;
     private DataModelFiles      mDataModel;
 
-    private Boolean  mSelectionMode             =false;
-    private  static final String TAG            ="filesList";
-    private SparseIntArray mSelectedPosition    =new SparseIntArray();
+    private Boolean  mSelectionMode                 =false;
+    private  static final String TAG                ="filesList";
+    private ArrayList<Integer> mSelectedPosition    = new ArrayList<>();
 
 
         public FileListAdapter(Context context){
@@ -152,6 +153,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         mDataModel=        mFile.getFileAtPosition(position);
         if(mDataModel.getSelected()){
             mDataModel.setSelected(false);
+            mSelectedPosition.remove((Object)position);
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(mFileIcon);
             }else{
@@ -159,6 +161,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             }
 
         }else{
+            mSelectedPosition.add(position);
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
         }
@@ -169,6 +172,19 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     public interface LongClickCallBack{
         public void onLongClick();
+    }
+    public void setmSelectionMode(Boolean value){
+        //first check if there are select files
+        if(mSelectedPosition.size()>0){
+            //to avoid concurrent exception
+            ArrayList<Integer> tmp=(ArrayList<Integer>) mSelectedPosition.clone();
+            //remove the selection.
+            for (Integer position:
+                 tmp) {
+                selectionOperation(position);
+            }
+        }
+        this.mSelectionMode=value;
     }
 
 
