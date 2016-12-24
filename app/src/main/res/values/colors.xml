@@ -6,6 +6,6 @@
     <color name="secondaryText">#FF5252</color>
     <color name="textColorPrimary">#212121</color>
     <color name="colorAccent">#4caf50</color>
-    <color name="textColorTertiary">#212121</color>
+    <color name="textColorTertiary">#616161</color>
     <color name="folderColor"> #ffc107</color>
 </resources>

@@ -45,7 +45,7 @@
                 android:textSize="10sp"
                 android:layout_toEndOf="@+id/nofiles_textview"
                 android:layout_marginStart="12dp"
-                 />
+                android:textColor="@color/textColorTertiary" />
 
             <TextView
                 android:text="TextView"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/nofiles_textview"
                 android:textSize="10sp"
-                 />
+                android:textColor="@color/textColorTertiary" />
 
             <TextView
                 android:text="TextView"
@@ -63,7 +63,8 @@
                 android:layout_alignBaseline="@+id/folder_size_textview"
                 android:layout_alignBottom="@+id/folder_size_textview"
                 android:layout_alignParentEnd="true"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textColor="@color/textColorTertiary" />
         </RelativeLayout>
 
 
