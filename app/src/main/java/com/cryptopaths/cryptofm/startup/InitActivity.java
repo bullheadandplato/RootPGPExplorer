@@ -130,6 +130,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     mUserSecretDatabase = password2.toString();
                 }else{
                     confirmPasswordEdit2.setError(errorMessageMatch);
+                    // password do not match get back
+                    return;
                 }
             }else{
                 ((EditText)( findViewById(R.id.password_databse))).setError(errorMessageLength);
