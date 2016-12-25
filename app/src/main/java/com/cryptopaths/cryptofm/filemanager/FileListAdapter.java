@@ -36,6 +36,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     private Boolean  mSelectionMode                 =false;
     private  static final String TAG                ="filesList";
+    private static final int NO_FILES_VIEW          = 100;
+    private static final int NORMAL_VIEW            = 50;
     private ArrayList<Integer> mSelectedPosition    = new ArrayList<>();
 
 
@@ -54,28 +56,47 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context=parent.getContext();
-        LayoutInflater inflater=LayoutInflater.from(context);
-        View view=inflater.inflate(R.layout.filebrowse_lisrview,parent,false);
+        if(viewType==NO_FILES_VIEW){
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_files_layout,parent,false));
+        }else{
+            Context context=parent.getContext();
+            LayoutInflater inflater=LayoutInflater.from(context);
+            View view=inflater.inflate(R.layout.filebrowse_lisrview,parent,false);
+            return new ViewHolder(view);
+        }
 
-        return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(mFile.getTotalFilesCount()<1){
+            return NO_FILES_VIEW;
+        }else{
+            return NORMAL_VIEW;
+        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if(mFile.getTotalFilesCount()<1){
+            Log.d("nofiles","Yes there are no files here");
+            ImageView view=holder.noFilesLayout;
+            view.setImageDrawable(mContext.getDrawable(R.drawable.nofiles_image));
+        }else {
+            mDataModel=mFile.getFileAtPosition(position);
+            TextView textView1=holder.mTextView;
+            ImageView imageView=holder.mImageView;
+            TextView textView2=holder.mFolderSizeTextView;
+            TextView textView3=holder.mEncryptionSatusTextView;
+            TextView textView4=holder.mNumberFilesTextView;
 
-        mDataModel=mFile.getFileAtPosition(position);
-        TextView textView1=holder.mTextView;
-        ImageView imageView=holder.mImageView;
-        TextView textView2=holder.mFolderSizeTextView;
-        TextView textView3=holder.mEncryptionSatusTextView;
-        TextView textView4=holder.mNumberFilesTextView;
+            textView1.setText(mDataModel.getFileName());
+            textView2.setText(mDataModel.getFileSize());
+            textView3.setText(mDataModel.getFileEncryptionStatus());
+            textView4.setText(mDataModel.getFileExtension());
+            imageView.setImageDrawable(mDataModel.getFileIcon());
+        }
 
-        textView1.setText(mDataModel.getFileName());
-        textView2.setText(mDataModel.getFileSize());
-        textView3.setText(mDataModel.getFileEncryptionStatus());
-        textView4.setText(mDataModel.getFileExtension());
-        imageView.setImageDrawable(mDataModel.getFileIcon());
     }
 
     @Override
@@ -85,11 +106,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
+        if(mFile.getTotalFilesCount()<1){
+            return 1;
+        }
         return mFile.getTotalFilesCount();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
+        public ImageView noFilesLayout;
         public TextView mTextView;
         public TextView mNumberFilesTextView;
         public TextView mFolderSizeTextView;
@@ -101,6 +126,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(mFile.getTotalFilesCount()<1){
+                            return;
+                        }
                         if(mSelectionMode){
                             clickCallBack.incrementSelectionCount();
                             selectionOperation(getAdapterPosition());
@@ -133,6 +161,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+                    if(mFile.getTotalFilesCount()<1){
+                        return false;
+                    }
                     Log.d("menu","yes im in Onlongclick");
                     clickCallBack.onLongClick();
                     mSelectionMode=true;
@@ -146,6 +177,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             mFolderSizeTextView=(TextView)itemView.findViewById(R.id.folder_size_textview);
             mEncryptionSatusTextView=
                     (TextView)itemView.findViewById(R.id.encryption_status_textview);
+            noFilesLayout=(ImageView) itemView.findViewById(R.id.no_files_image);
+
 
 
         }
@@ -189,6 +222,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
         this.mSelectionMode=value;
     }
-
+private class NoFilesView extends RecyclerView.ViewHolder{
+    public NoFilesView(View itemView) {
+        super(itemView);
+    }
+}
 
 }

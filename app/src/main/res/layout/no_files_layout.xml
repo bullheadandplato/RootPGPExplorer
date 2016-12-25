@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/no_files_layout"
     android:layout_height="match_parent">
 
+
     <TextView
-        android:text="no files"
+        android:text="Empty folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:layout_marginTop="200dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/nofiles_image"
-        android:layout_above="@+id/textView3"
-        android:tint="#DDDDDDDD"
+        android:src="@drawable/nofiles_image"
+        android:tint="@color/dividerColor"
+        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
-        android:id="@+id/imageView" />
+        android:id="@+id/no_files_image" />
 </RelativeLayout>
