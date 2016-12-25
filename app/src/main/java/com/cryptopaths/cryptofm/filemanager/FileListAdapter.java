@@ -94,12 +94,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public TextView mNumberFilesTextView;
         public TextView mFolderSizeTextView;
         public TextView mEncryptionSatusTextView;
+        LongClickCallBack clickCallBack;
         public ViewHolder(View itemView){
                 super(itemView);
-                itemView.setOnClickListener(new View.OnClickListener() {
+            clickCallBack=(LongClickCallBack)mContext;
+            itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(mSelectionMode){
+                            clickCallBack.incrementSelectionCount();
                             selectionOperation(getAdapterPosition());
                             return;
                         }
@@ -131,7 +134,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 @Override
                 public boolean onLongClick(View view) {
                     Log.d("menu","yes im in Onlongclick");
-                    LongClickCallBack clickCallBack=(LongClickCallBack)mContext;
                     clickCallBack.onLongClick();
                     mSelectionMode=true;
                     selectionOperation(getAdapterPosition());
@@ -172,6 +174,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     public interface LongClickCallBack{
         public void onLongClick();
+        public void incrementSelectionCount();
     }
     public void setmSelectionMode(Boolean value){
         //first check if there are select files

@@ -89,20 +89,25 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
+		selectCount=0;
 		mmFileListAdapter.setmSelectionMode(false);
 		actionMode=null;
 	}
 
 
 	ActionMode actionMode;
+	private int selectCount=0;
 	@Override
 	public void onLongClick() {
 		if(actionMode==null){
 			actionMode=startSupportActionMode(this);
-			actionMode.setTitle("Tofo");
+			actionMode.setTitle(++selectCount+" Selected");
 		}else{
-
+			actionMode.setTitle(++selectCount+" Selected");
 		}
-
+	}
+	@Override
+	public void incrementSelectionCount(){
+		actionMode.setTitle(++selectCount+" Selected");
 	}
 }
