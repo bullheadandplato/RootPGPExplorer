@@ -54,6 +54,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     private DatabaseHandler mDatabaseHandler;
     private SecondFragment  mSecondFragment;
+    private FirstFragment   mFirstFragment;
     private String          mUserSecretDatabase;
     private String          mUserSecretKeyPassword;
     private String          mUserName;
@@ -143,30 +144,38 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 }
             }else{
                 ((EditText)( findViewById(R.id.password_databse))).setError(errorMessageLength);
+                return;
             }
+
         }
-        if(isValidPassword(sequence)){
-            if(sequence.toString().equals(sequenceConfirm.toString())) {
-                Log.d("password","one password and two: "+sequence +" : "+sequenceConfirm);
-                mUserSecretKeyPassword = sequence.toString();
-                if(!IS_DIFFERENT_PASSWORD){
-                    mUserSecretDatabase=mUserSecretKeyPassword;
+            if(isValidPassword(sequence)){
+                if(sequence.toString().equals(sequenceConfirm.toString())) {
+                    Log.d("password","one password and two: "+sequence +" : "+sequenceConfirm);
+                    mUserSecretKeyPassword = sequence.toString();
+                    if(!IS_DIFFERENT_PASSWORD){
+                        mUserSecretDatabase=mUserSecretKeyPassword;
+                    }
+                    if(checkPermissions()){
+                        //replace fragment to second fragment
+                        replaceFragment(FRAGMENT_TWO_NUMBER);
+                    } else{
+                        // get read and write storage permission
+                        getPermissions();
+                    }
+
+                }else{
+                    passwordConfirm1.setError(errorMessageMatch);
                 }
-                if(checkPermissions()){
-                    //replace fragment to second fragment
-                    replaceFragment(FRAGMENT_TWO_NUMBER);
-            } else{
-                // get read and write storage permission
-                getPermissions();
+            }else{
+                passwordEditText.setError(errorMessageLength);
             }
 
-        }else{
-                passwordConfirm1.setError(errorMessageMatch);
-            }
-        }else{
-            passwordEditText.setError(errorMessageLength);
-        }
-
+        /*
+        set if different password to false . to avoid exception
+        if user switch fragments
+         */
+        ((CheckBox)findViewById(R.id.checkBox)).setChecked(false);
+            IS_DIFFERENT_PASSWORD=false;
 
 
     }
@@ -188,18 +197,19 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             ).show();
         }
     }
+    Boolean isInThirdFragment=false;
+    Boolean isInFirstFragment=false;
     private void replaceFragment(int fragmentNumber){
-        String fragmentBackName="";
         Fragment fragment;
         switch (fragmentNumber){
             case 0:
-                fragmentBackName="first";
-                fragment=new FirstFragment();
-
+                mFirstFragment=new FirstFragment();
+                fragment=mFirstFragment;
+                isInFirstFragment=true;
                 break;
             case 1:
-                fragmentBackName="second";
                 fragment=new SecondFragment();
+                isInFirstFragment=false;
                 // as I need it later
                 mSecondFragment= (SecondFragment) fragment;
                 break;
@@ -207,7 +217,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 fragment=new ThirdFragment();
                 // in third fragment user cannot go back so empty the backstack.
                 //twice because only two fragments are there first, we are sure about this
-                fragmentBackName="third";
+                isInThirdFragment=true;
                 break;
             default:
                 return;
@@ -216,7 +226,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
                         R.anim.enter_from_left, R.anim.exit_to_right).
                 replace(R.id.fragment_frame_layout, fragment).
-                addToBackStack(fragmentBackName).
                 commit();
 
     }
@@ -298,6 +307,26 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isInFirstFragment){
+            super.onBackPressed();
+        }
+        if(!isInThirdFragment){
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right,
+                            R.anim.enter_from_right, R.anim.exit_to_left).
+                    replace(R.id.fragment_frame_layout, mFirstFragment).
+                    commit();
+        }else{
+            Toast.makeText(
+                    this,
+                    "Please wait while I finish setup",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     @Override
