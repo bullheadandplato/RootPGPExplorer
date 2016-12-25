@@ -24,6 +24,7 @@ public class UnlockDbActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unlock_db);
+        setResult(RESULT_OK);
     }
     @ActionHandler(layoutResource = R.id.button_unlock_db)
     public void onUnlockButtonClick(View view){
