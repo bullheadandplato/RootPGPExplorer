@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import java.util.HashMap;
 
@@ -45,6 +48,14 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 		mFileListView.setAdapter(mmFileListAdapter);
 
 
+	}
+	@ActionHandler(layoutResource = R.id.floating_add)
+	public void onAddFloatingClicked(View v){
+		Toast.makeText(
+				this,
+				"yooo man ",
+				Toast.LENGTH_LONG
+		).show();
 	}
 
 	private void changeDirectory() {
