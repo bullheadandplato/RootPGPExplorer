@@ -24,12 +24,13 @@ import java.util.HashMap;
 
 
 public class FileBrowserActivity extends AppCompatActivity implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
-	private String mCurrentPath;
-	private String mRootPath;
-	private RecyclerView mFileListView;
+	private String 			mCurrentPath;
+	private String 			mRootPath;
+	private RecyclerView 	mFileListView;
 	private FileListAdapter mmFileListAdapter;
 
-	public static HashMap<String,FileFillerWrapper> mFilesData=new HashMap<>();
+	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,21 +38,24 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 		setResult(RESULT_OK);
 
 
-		mCurrentPath=Environment.getExternalStorageDirectory().getPath();
-		mRootPath=mCurrentPath+"/";
+		mCurrentPath 	  = Environment.getExternalStorageDirectory().getPath();
+		mRootPath	 	  = mCurrentPath+"/";
+		mFileListView 	  = (RecyclerView) findViewById(R.id.fileListView);
+		mmFileListAdapter = new FileListAdapter(this);
 
-		mFileListView=(RecyclerView) findViewById(R.id.fileListView);
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
-		mmFileListAdapter=new FileListAdapter(this);
 		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
+		// item decoration for displaying divider
 		DividerItemDecoration dividerItemDecoration =
 				new DividerItemDecoration(mFileListView.getContext(),
 						1);
 		mFileListView.addItemDecoration(dividerItemDecoration);
+
 		mFileListView.setAdapter(mmFileListAdapter);
 
 
 	}
+
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
 		createFileDialog();
@@ -67,14 +71,15 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public void onBackPressed() {
-		mCurrentPath=FileUtils.CURRENT_PATH;
+		mCurrentPath = FileUtils.CURRENT_PATH;
+
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
 		}else{
 			//modify the mCurrentPath
-			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
-			mCurrentPath=mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
-			FileUtils.CURRENT_PATH=mCurrentPath;
+			mCurrentPath		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
+			mCurrentPath 		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
+			FileUtils.CURRENT_PATH = mCurrentPath;
 			changeDirectory();
 
 		}
@@ -83,7 +88,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-		MenuInflater inflater=getMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.file_select_options,menu);
 		return true;
 	}
@@ -96,16 +101,16 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		if(item.getItemId()==R.id.encrypt_menu_item){
-
+				//TODO
 		}
 		return false;
 	}
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
-		selectCount=0;
+		selectCount = 0;
+		actionMode  = null;
 		mmFileListAdapter.setmSelectionMode(false);
-		actionMode=null;
 	}
 
 
@@ -114,8 +119,8 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	@Override
 	public void onLongClick() {
 		if(actionMode==null){
-			actionMode=startSupportActionMode(this);
-			actionMode.setTitle(++selectCount+" Selected");
+			actionMode = startSupportActionMode(this);
+			actionMode.setTitle(selectCount+" Selected");
 		}else{
 			actionMode.setTitle(++selectCount+" Selected");
 		}
@@ -130,7 +135,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 		actionMode.setTitle(--selectCount+" Selected");
 	}
 	private void createFileDialog(){
-		final Dialog dialog=new Dialog(this);
+		final Dialog dialog = new Dialog(this);
 		dialog.setTitle("Create Folder");
 		dialog.setContentView(R.layout.create_file_dialog);
 		final EditText folderEditText=(EditText)dialog.findViewById(R.id.foldername_edittext);
