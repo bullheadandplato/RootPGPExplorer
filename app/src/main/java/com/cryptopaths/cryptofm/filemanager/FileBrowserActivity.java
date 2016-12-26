@@ -22,6 +22,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	private String mRootPath;
 	private RecyclerView mFileListView;
 	private FileListAdapter mmFileListAdapter;
+
 	public static HashMap<String,FileFillerWrapper> mFilesData=new HashMap<>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,9 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		if(item.getItemId()==R.id.encrypt_menu_item){
+
+		}
 		return false;
 	}
 

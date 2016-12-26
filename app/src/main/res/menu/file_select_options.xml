@@ -6,6 +6,7 @@
     app:showAsAction="ifRoom"
     />
     <item app:showAsAction="ifRoom"
+        android:id="@+id/encrypt_menu_item"
         android:title="Encrypt"
         android:icon="@drawable/ic_lock_white_24dp"/>
 </menu>
