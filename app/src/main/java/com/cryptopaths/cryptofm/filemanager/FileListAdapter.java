@@ -34,11 +34,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private Drawable            mFolderIcon;
     private DataModelFiles      mDataModel;
 
-    private Boolean  mSelectionMode                 =false;
-    private  static final String TAG                ="filesList";
+    private Boolean  mSelectionMode                 = false;
+    private  static final String TAG                = "filesList";
     private static final int NO_FILES_VIEW          = 100;
     private static final int NORMAL_VIEW            = 50;
     private ArrayList<Integer> mSelectedPosition    = new ArrayList<>();
+    private ArrayList<String> mSelectedFilePaths    = new ArrayList<>();
 
 
         public FileListAdapter(Context context){
@@ -185,10 +186,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     }
     private void selectionOperation(int position){
-        mDataModel=        mFile.getFileAtPosition(position);
+        mDataModel  = mFile.getFileAtPosition(position);
         if(mDataModel.getSelected()){
             mDataModel.setSelected(false);
             mSelectedPosition.remove((Object)position);
+            mSelectedFilePaths.remove(mDataModel.getFilePath());
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(mFileIcon);
             }else{
@@ -197,6 +199,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
         }else{
             mSelectedPosition.add(position);
+            mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
         }
@@ -222,10 +225,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
         this.mSelectionMode=value;
     }
-private class NoFilesView extends RecyclerView.ViewHolder{
-    public NoFilesView(View itemView) {
-        super(itemView);
-    }
-}
+
 
 }

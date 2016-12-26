@@ -70,6 +70,9 @@ public class DataModelFiles {
     public void setSelected(Boolean selected) {
         isSelected = selected;
     }
+    public String getFilePath(){
+        return FileUtils.CURRENT_PATH+this.fileName;
+    }
 
     public Boolean getFile() {
         return isFile;
