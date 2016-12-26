@@ -138,8 +138,10 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 		final Dialog dialog = new Dialog(this);
 		dialog.setTitle("Create Folder");
 		dialog.setContentView(R.layout.create_file_dialog);
-		final EditText folderEditText=(EditText)dialog.findViewById(R.id.foldername_edittext);
-		Button okayButton=(Button)dialog.findViewById(R.id.create_file_button);
+
+		final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
+		Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
+
 		okayButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
