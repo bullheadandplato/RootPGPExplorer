@@ -26,6 +26,7 @@ public class UnlockDbActivity extends AppCompatActivity {
         setContentView(R.layout.activity_unlock_db);
         setResult(RESULT_OK);
     }
+
     @ActionHandler(layoutResource = R.id.button_unlock_db)
     public void onUnlockButtonClick(View view){
         EditText passwordEditText=
@@ -37,6 +38,7 @@ public class UnlockDbActivity extends AppCompatActivity {
                 Environment.getExternalStorageDirectory().getPath()
         );
     }
+
     private void showErrorDialog(String s) {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setMessage(s);
@@ -48,13 +50,15 @@ public class UnlockDbActivity extends AppCompatActivity {
         });
         builder.show();
     }
+
     private ProgressDialog mProgressDialog;
+
     private class IntialTask extends AsyncTask<String,Void,Boolean>{
 
         @Override
         protected Boolean doInBackground(String... voids) {
-            String pass=voids[0];
-            String path=Environment.getExternalStorageDirectory().getPath();
+            String pass = voids[0];
+            String path = Environment.getExternalStorageDirectory().getPath();
             DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
             if(handler.checkPass(pass)){
                 //load data to fill file listview
@@ -82,7 +86,8 @@ public class UnlockDbActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog=new ProgressDialog(UnlockDbActivity.this);
+            mProgressDialog = new ProgressDialog(UnlockDbActivity.this);
+
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("please wait....");
             mProgressDialog.show();

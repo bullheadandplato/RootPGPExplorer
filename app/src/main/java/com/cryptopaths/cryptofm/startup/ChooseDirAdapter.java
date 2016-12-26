@@ -20,13 +20,15 @@ import java.util.List;
  */
 
 public class ChooseDirAdapter extends BaseAdapter {
-    private LayoutInflater mInflater;
-    private ArrayList<String> allSelectedPositions=new ArrayList<>();
-    private ArrayList<String> mSelectedFoldersPaths=new ArrayList<>();
-    private List<String> mDataset;
+    private LayoutInflater    mInflater;
+    private List<String>      mDataset;
+
+    private ArrayList<String> allSelectedPositions  = new ArrayList<>();
+    private ArrayList<String> mSelectedFoldersPaths = new ArrayList<>();
+
     public ChooseDirAdapter(Context context){
-        mInflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mDataset=getAllDirs();
+        mInflater   = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mDataset    = getAllDirs();
     }
     @Override
     public int getCount() {
@@ -47,12 +49,13 @@ public class ChooseDirAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder=new ViewHolder();
         if(view==null){
-            view=mInflater.inflate(R.layout.choose_dir_listview,null);
+            view = mInflater.inflate(R.layout.choose_dir_listview,null);
         }
-        viewHolder.textView=(TextView) view.findViewById(R.id.folder_name_textview);
+        viewHolder.textView  = (TextView) view.findViewById(R.id.folder_name_textview);
+        viewHolder.imageView = (ImageView)view.findViewById(R.id.folder_icon_image);
+
         viewHolder.textView.setText(mDataset.get(i));
         //change image according to user selection
-        viewHolder.imageView=(ImageView)view.findViewById(R.id.folder_icon_image);
         if(isSelected(i)){
             viewHolder.imageView.setImageResource(R.drawable.ic_check_circle_white_48dp);
             if(!isSelectedFolder(viewHolder.textView.getText())){

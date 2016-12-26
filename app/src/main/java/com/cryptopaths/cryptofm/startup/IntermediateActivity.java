@@ -24,9 +24,9 @@ public class IntermediateActivity extends AppCompatActivity {
     private EncryptionManagement    mEncryptionManagement;
     private TextView                mTextView;
 
-    private static final String TAG     ="InterActivity";
-    private List<String> mFilesList     =new ArrayList<>();
-    private static final int MAX_SIZE   =102400; // 100MBs
+    private static final String TAG     = "InterActivity";
+    private List<String> mFilesList     = new ArrayList<>();
+    private static final int MAX_SIZE   = 102400; // 100MBs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +40,9 @@ public class IntermediateActivity extends AppCompatActivity {
       //  } catch (IOException e) {
          //   e.printStackTrace();
        // }
-        mPubKeyFile=new File(getFilesDir(),"pub.asc");
-        mEncryptionManagement=new EncryptionManagement();
-        mTextView=(TextView)findViewById(R.id.progress_text);
+        mPubKeyFile             = new File(getFilesDir(),"pub.asc");
+        mEncryptionManagement   = new EncryptionManagement();
+        mTextView               = (TextView)findViewById(R.id.progress_text);
         // get all the files;
         startVisitingDirectories(getIntent().getExtras().getStringArrayList("dirs"));
         //lets encrypt
@@ -66,7 +66,7 @@ public class IntermediateActivity extends AppCompatActivity {
     private void startVisitingDirectories(ArrayList<String> dirs){
         for (String directory:
              dirs) {
-            File file=new File(Environment.getExternalStorageDirectory().getPath()+"/"+directory);
+            File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+directory);
             if(file.isFile()){
                 mFilesList.add(file.getAbsolutePath());
             }else{
@@ -85,8 +85,8 @@ public class IntermediateActivity extends AppCompatActivity {
             }
                 for (String filename:
                      mFilesList) {
-                    File inputFile=new File(filename);
-                    File outputFile=new File(filename+".pgp");
+                    File inputFile  = new File(filename);
+                    File outputFile = new File(filename+".pgp");
                     try{
                         if(outputFile.createNewFile()){
                             Log.d(TAG,"created file to encrypt into");
@@ -175,7 +175,7 @@ public class IntermediateActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             for (String s:
                  mFilesList) {
-                File f=new File(s);
+                File f = new File(s);
                 publishProgress(f.getName());
                 f.delete();
             }

@@ -41,11 +41,11 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , ThirdFragment.FragmentCreated{
-    private static final int RC_PERMISSION   = 101;
-    private static final String TAG          = "InitActivity";
-    private static int FRAGMENT_ONE_NUMBER   = 0;
-    private static int FRAGMENT_TWO_NUMBER   = 1;
-    private static int FRAGMENT_THREE_NUMBER = 2;
+    private static final int RC_PERMISSION          = 101;
+    private static final String TAG                 = "InitActivity";
+    private static int FRAGMENT_ONE_NUMBER          = 0;
+    private static int FRAGMENT_TWO_NUMBER          = 1;
+    private static int FRAGMENT_THREE_NUMBER        = 2;
     private static Boolean IS_DIFFERENT_PASSWORD    = false;
 
     static {
@@ -107,12 +107,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     @ActionHandler(layoutResource = R.id.next_button)
     public void onNextButtonClick(View v){
-        EditText passwordEditText       =
-                (EditText)findViewById(R.id.password);
-        EditText passwordConfirm1       =
-                (EditText)findViewById(R.id.password_confirm);
-        EditText usernameEdit           =
-                (EditText)findViewById(R.id.username_edittext);
+        EditText passwordEditText       = (EditText)findViewById(R.id.password);
+        EditText passwordConfirm1       = (EditText)findViewById(R.id.password_confirm);
+        EditText usernameEdit           = (EditText)findViewById(R.id.username_edittext);
 
         String errorMessageLength       = "password length should be greater than 3";
         String errorMessageMatch        = "password does not match";
@@ -127,10 +124,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         //check if user wants different passwords
         if(IS_DIFFERENT_PASSWORD){
-            EditText passwordEdit2          =
-                    (EditText)findViewById(R.id.password_databse);
-            EditText confirmPasswordEdit2   =
-                    (EditText)findViewById(R.id.password_confirm_database);
+            EditText passwordEdit2          = (EditText)findViewById(R.id.password_databse);
+            EditText confirmPasswordEdit2   = (EditText)findViewById(R.id.password_confirm_database);
 
             CharSequence password2 = passwordEdit2.getText();
             //check if password is valid
@@ -197,8 +192,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             ).show();
         }
     }
-    Boolean isInThirdFragment=false;
-    Boolean isInFirstFragment=false;
+    Boolean isInThirdFragment = false;
+    Boolean isInFirstFragment = false;
     private void replaceFragment(int fragmentNumber){
         Fragment fragment;
         switch (fragmentNumber){
@@ -232,8 +227,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     private void setupProgressBarsAndExecute(){
         Log.d("fragment","fragment three should be created");
-        mKeygenProgressBar      =(ProgressBar)findViewById(R.id.key_progressbar);
-        mDatabaseProgressBar    =(ProgressBar)findViewById(R.id.db_progressbar);
+        mKeygenProgressBar          =(ProgressBar)findViewById(R.id.key_progressbar);
+        mDatabaseProgressBar        =(ProgressBar)findViewById(R.id.db_progressbar);
 
         mProgressBarDefaultDrawable = mDatabaseProgressBar.getIndeterminateDrawable();
         mProgressBarAfterDrawable   = getDrawable(R.drawable.ic_check_circle_white_48dp);
@@ -279,7 +274,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     @AfterPermissionGranted(RC_PERMISSION)
     private boolean checkPermissions(){
-        String[] perms  ={Manifest.permission.READ_EXTERNAL_STORAGE,
+        String[] perms  = {Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if(EasyPermissions.hasPermissions(this,perms)){
                return true;
@@ -342,24 +337,26 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         @Override
         protected byte[] doInBackground(Void... strings) {
-            String email                =mUserName;
-            char[] password             =mUserSecretKeyPassword.toCharArray();
-            KeyManagement keyManagement =new KeyManagement();
+            String email                = mUserName;
+            char[] password             = mUserSecretKeyPassword.toCharArray();
+            KeyManagement keyManagement = new KeyManagement();
             try {
                 Log.d(TAG,"start generating keys");
-                PGPKeyRingGenerator keyRingGenerator    =keyManagement.generateKey(email,password);
-                PGPPublicKeyRing publicKeys             =keyRingGenerator.generatePublicKeyRing();
-                PGPSecretKeyRing secretKeys             =keyRingGenerator.generateSecretKeyRing();
+                PGPKeyRingGenerator keyRingGenerator    = keyManagement.generateKey(email,password);
+                PGPPublicKeyRing publicKeys             = keyRingGenerator.generatePublicKeyRing();
+                PGPSecretKeyRing secretKeys             = keyRingGenerator.generateSecretKeyRing();
 
                 //output keys in ascii armored format
-                File file=new File(getFilesDir(),"pub.asc");
-                ArmoredOutputStream pubOut=new ArmoredOutputStream(new FileOutputStream(file));
+                File file                   = new File(getFilesDir(),"pub.asc");
+                ArmoredOutputStream pubOut  = new ArmoredOutputStream(new FileOutputStream(file));
                 publicKeys.encode(pubOut);
                 pubOut.close();
-                ByteArrayOutputStream outputStream  =new ByteArrayOutputStream();
-                ArmoredOutputStream secOut          =new ArmoredOutputStream(outputStream);
+
+                ByteArrayOutputStream outputStream  = new ByteArrayOutputStream();
+                ArmoredOutputStream secOut          = new ArmoredOutputStream(outputStream);
                 secretKeys.encode(secOut);
                 secOut.close();
+
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 mDatabaseHandler.insertSecKey(email,test);
@@ -391,7 +388,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             //commit changes
             commitInitActivity();
             //start intermediateActivity
-            Intent intent=new Intent(InitActivity.this,IntermediateActivity.class);
+            Intent intent = new Intent(InitActivity.this,IntermediateActivity.class);
             intent.putExtra("dirs",mSecondFragment.getAllSelectedPositions());
             startActivityForResult(intent,1);
             finish();
@@ -402,7 +399,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected Void doInBackground(Void... voids) {
             SQLiteDatabase.loadLibs(InitActivity.this);
-            mDatabaseHandler=new DatabaseHandler(
+            mDatabaseHandler = new DatabaseHandler(
                     InitActivity.this,
                     mUserSecretDatabase,
                     false

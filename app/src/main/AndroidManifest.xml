@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".startup.IntermediateActivity" />
-        <activity android:name=".startup.MainActivity" />
         <activity android:name=".startup.UnlockDbActivity"></activity>
         <activity android:name=".filemanager.FileBrowserActivity" android:clearTaskOnLaunch="true"/>
     </application>

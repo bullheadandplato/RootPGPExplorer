@@ -20,15 +20,16 @@ import java.util.ArrayList;
  */
 
 public class MoveTask extends AsyncTask<String,String,String> {
-    private Context mContext;
-    private ProgressDialog mProgressDialog;
-    private ArrayList<String> mFiles;
-    private String mDestinationFolder;
+    private Context             mContext;
+    private ProgressDialog      mProgressDialog;
+    private ArrayList<String>   mFiles;
+    private String              mDestinationFolder;
+
     public MoveTask(Context context,ArrayList<String> files,String destination){
-        this.mContext = context;
-        mProgressDialog=new ProgressDialog(mContext);
-        this.mFiles=files;
-        this.mDestinationFolder=destination;
+        this.mContext           = context;
+        mProgressDialog         = new ProgressDialog(mContext);
+        this.mFiles             = files;
+        this.mDestinationFolder = destination;
     }
     @Override
     protected String doInBackground(String... strings) {
@@ -36,13 +37,13 @@ public class MoveTask extends AsyncTask<String,String,String> {
             final int toAdd=2048;
             try{
                 publishProgress(source);
-                File sourceFile=TasksFileUtils.getFile(source);
-                String destinationPath=mDestinationFolder+sourceFile.getName();
-                File destinationFile=TasksFileUtils.getFile(destinationPath);
-                InputStream in=new BufferedInputStream(new FileInputStream(sourceFile));
-                OutputStream out=new BufferedOutputStream(new FileOutputStream(destinationFile));
-                byte[] data=new byte[2048];
-                int start=0;
+                File sourceFile        = TasksFileUtils.getFile(source);
+                String destinationPath = mDestinationFolder+sourceFile.getName();
+                File destinationFile   = TasksFileUtils.getFile(destinationPath);
+                InputStream in         = new BufferedInputStream(new FileInputStream(sourceFile));
+                OutputStream out       = new BufferedOutputStream(new FileOutputStream(destinationFile));
+                byte[] data            = new byte[2048];
+                int start              = 0;
                 for (int i = 0; i < sourceFile.length(); i+=toAdd) {
                     if(sourceFile.length()<start+toAdd){
                         out.write(in.read());

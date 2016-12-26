@@ -19,16 +19,21 @@ import java.util.ArrayList;
  */
 
 public class SecondFragment extends Fragment {
-    private ChooseDirAdapter mAdapter;
-    private ArrayList<String> allSelectedPositions=new ArrayList<>();
+    private ChooseDirAdapter     mAdapter;
+
+    private ArrayList<String>    allSelectedPositions  = new ArrayList<>();
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView= inflater.inflate(R.layout.third_fragment,container,false);
-        final ListView listView=(ListView)rootView.findViewById(R.id.choose_dir_list);
-        mAdapter=new ChooseDirAdapter(getActivity());
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView           = inflater.inflate(R.layout.third_fragment,container,false);
+        final ListView listView = (ListView)rootView.findViewById(R.id.choose_dir_list);
+        View footerView         = inflater.inflate(R.layout.choose_file_footer,container,false);
+        mAdapter                = new ChooseDirAdapter(getActivity());
+
         listView.setAdapter(mAdapter);
-        View footerView=inflater.inflate(R.layout.choose_file_footer,null,false);
         listView.addFooterView(footerView);
         // set item selected in filebrowse_lisrview by just a Tap
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

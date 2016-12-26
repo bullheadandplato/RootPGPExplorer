@@ -19,7 +19,7 @@ public class ThirdFragment extends Fragment {
     public interface FragmentCreated{
         public void onThirdFragmentCreated();
     }
-    private FragmentCreated fragmentCreated;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ThirdFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentCreated= (FragmentCreated) getActivity();
+        FragmentCreated fragmentCreated = (FragmentCreated) getActivity();
         fragmentCreated.onThirdFragmentCreated();
     }
 }
