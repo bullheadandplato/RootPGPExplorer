@@ -12,13 +12,14 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class DataModelFiles {
-    private String fileName;
-    private String fileEncryptionStatus;
-    private String fileExtensionOrItems;
-    private String fileSize;
-    private Drawable fileIcon;
-    private Boolean isSelected=false;
-    private Boolean isFile=false;
+    private String      fileName;
+    private String      fileEncryptionStatus;
+    private String      fileExtensionOrItems;
+    private String      fileSize;
+    private Drawable    fileIcon;
+
+    private Boolean     isSelected = false;
+    private Boolean     isFile     = false;
 
     public DataModelFiles(String filename, Context context) {
         this.fileName = filename;
