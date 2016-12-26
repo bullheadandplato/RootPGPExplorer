@@ -15,16 +15,17 @@ import java.util.List;
  */
 
 public class FileUtils {
-    private static final String TAG="files";
-    public static  String CURRENT_PATH = " ";
+    private static final String TAG     = "files";
+    public static  String CURRENT_PATH  = " ";
 
     public static long getFileSize(String filename){
         return new File(CURRENT_PATH+filename).length();
     }
 
     public static long getFolderSize(String folderPath) {
-        File dir=new File(folderPath);
-        long size=0;
+        File dir  = new File(folderPath);
+        long size = 0;
+
         for (File file : dir.listFiles()) {
             if (file.isFile()) {
                 size += file.length();
@@ -35,7 +36,7 @@ public class FileUtils {
         return size;
     }
     public static String isEncryptedFolder(String filename){
-        File dir=new File(CURRENT_PATH+filename);
+        File dir = new File(CURRENT_PATH+filename);
         //if file is not a directory but just a file
         if(dir.isFile()){
             if(dir.getName().contains("pgp")){
@@ -63,6 +64,7 @@ public class FileUtils {
             return "Not Encrypted";
         }
     }
+
     public static String isEncryptedFile(String filename){
         if(filename.contains(".pgp")){
             return "Encrypted";
@@ -70,10 +72,12 @@ public class FileUtils {
             return "Not encrypted";
         }
     }
+
     public static int getNumberOfFiles(String  foldername){
         Log.d(TAG, "getNumberOfFiles: "+CURRENT_PATH+foldername);
         return new File(CURRENT_PATH+foldername).list().length;
     }
+
     public static String getExtension(String fileName){
         final String emptyExtension = "file";
         if(fileName == null){
@@ -85,6 +89,7 @@ public class FileUtils {
         }
         return fileName.substring(index + 1);
     }
+
     public static List<String> getFileNamesInAFolder(String foldername) throws IllegalArgumentException{
         List<String> result=new ArrayList<>();
         File folder=new File(CURRENT_PATH+foldername);
@@ -101,6 +106,7 @@ public class FileUtils {
         }
         return result;
     }
+
     public static Boolean isFile(String filename){
         return new File(CURRENT_PATH+filename).isFile();
     }
@@ -114,16 +120,17 @@ public class FileUtils {
     private static float round(float d, int decimalPlace) {
         return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
     }
+
     public static String getReadableSize(long size) {
         if(size <= 0) return "0B";
         final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
-        int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
+        int digitGroups      = (int) (Math.log10(size)/Math.log10(1024));
+
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
                 + " " + units[digitGroups];
     }
     public static String getLastModifiedDate(String filename){
-        String date="";
-        date=new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
+        String date = new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
         Log.d(TAG, "getLastModifiedDate: date is: "+date);
         return date;
 
@@ -132,7 +139,7 @@ public class FileUtils {
 
 
     public static Boolean createFolder(String folderName) {
-        File temp=new File(CURRENT_PATH+folderName);
+        File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
             return false;
         }else{
