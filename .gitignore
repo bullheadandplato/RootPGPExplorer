@@ -7,3 +7,9 @@
 /build
 /captures
 .externalNativeBuild
+.idea/vcs.xml
+.idea/
+app/libs/
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat
