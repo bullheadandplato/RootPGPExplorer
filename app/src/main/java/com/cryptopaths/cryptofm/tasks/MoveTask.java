@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by tripleheader on 12/26/16.
@@ -22,22 +22,22 @@ import java.util.HashMap;
 public class MoveTask extends AsyncTask<String,String,String> {
     private Context mContext;
     private ProgressDialog mProgressDialog;
-    private HashMap<String,String> mFiles;
-    public MoveTask(Context context,HashMap<String,String> files){
+    private ArrayList<String> mFiles;
+    private String mDestinationFolder;
+    public MoveTask(Context context,ArrayList<String> files,String destination){
         this.mContext = context;
         mProgressDialog=new ProgressDialog(mContext);
         this.mFiles=files;
+        this.mDestinationFolder=destination;
     }
     @Override
     protected String doInBackground(String... strings) {
-        for (HashMap.Entry<String,String> entry:
-             mFiles.entrySet()) {
-            String sourcePath       = entry.getKey();
-            String destinationPath  = entry.getValue();
+        for (String source : mFiles) {
             final int toAdd=2048;
             try{
-                publishProgress(sourcePath);
-                File sourceFile=TasksFileUtils.getFile(sourcePath);
+                publishProgress(source);
+                File sourceFile=TasksFileUtils.getFile(source);
+                String destinationPath=mDestinationFolder+sourceFile.getName();
                 File destinationFile=TasksFileUtils.getFile(destinationPath);
                 InputStream in=new BufferedInputStream(new FileInputStream(sourceFile));
                 OutputStream out=new BufferedOutputStream(new FileOutputStream(destinationFile));
