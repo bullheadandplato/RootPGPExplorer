@@ -15,7 +15,6 @@ import com.cryptopaths.cryptofm.R;
 
 import java.util.ArrayList;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by tripleheader on 12/14/16.
@@ -26,8 +25,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
 
     private Context             mContext;
-    private LayoutInflater      mInflator;
-    private	ViewHolder 			mViewHodler;
     private FileFillerWrapper   mFile;
     private Drawable            mSelectedFileIcon;
     private Drawable            mFileIcon;
@@ -43,8 +40,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
 
         public FileListAdapter(Context context){
-        mInflator=(LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            this.mContext=context;
+            this.mContext     = context;
             mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
             mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
             mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
@@ -61,8 +57,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_files_layout,parent,false));
         }else{
             Context context=parent.getContext();
-            LayoutInflater inflater=LayoutInflater.from(context);
-            View view=inflater.inflate(R.layout.filebrowse_lisrview,parent,false);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view               = inflater.inflate(R.layout.filebrowse_lisrview,parent,false);
             return new ViewHolder(view);
         }
 
@@ -122,7 +118,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public TextView mEncryptionSatusTextView;
         public ViewHolder(View itemView){
                 super(itemView);
-            clickCallBack=(LongClickCallBack)mContext;
+            clickCallBack = (LongClickCallBack)mContext;
             itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -133,23 +129,23 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             selectionOperation(getAdapterPosition());
                             return;
                         }
-                        TextView textView=(TextView)view.findViewById(R.id.list_textview);
-                        String filename=textView.getText().toString();
+                        TextView textView   = (TextView)view.findViewById(R.id.list_textview);
+                        String filename     = textView.getText().toString();
                         if(FileUtils.isFile(filename)){
                             //open file TODO
                             Toast.makeText(mContext, "You click at file: "+filename, Toast.LENGTH_SHORT).show();
                         }else{
                             //check if folder already visited
-                            String folderPath=mFile.getCurrentPath()+filename+"/";
+                            String folderPath = mFile.getCurrentPath()+filename+"/";
                             if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
                                 Log.d(TAG, "onClick: filepath is and yes: "+folderPath);
-                                mFile= FileBrowserActivity.mFilesData.get(folderPath);
+                                mFile = FileBrowserActivity.mFilesData.get(folderPath);
                                 FileUtils.CURRENT_PATH=folderPath;
                                 notifyDataSetChanged();
                             }else{
                                 //first visit folder
                                 Log.d(TAG, "onClick: filepath is: "+folderPath);
-                                mFile=new FileFillerWrapper(folderPath,mContext);
+                                mFile = new FileFillerWrapper(folderPath,mContext);
                                 FileBrowserActivity.mFilesData.put(folderPath,mFile);
                                 notifyDataSetChanged();
 
@@ -165,24 +161,22 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                     }
                     Log.d("menu","yes im in Onlongclick");
                     clickCallBack.onLongClick();
-                    mSelectionMode=true;
+                    mSelectionMode = true;
                     selectionOperation(getAdapterPosition());
                     return true;
                 }
             });
-            mTextView=(TextView)itemView.findViewById(R.id.list_textview);
-            mImageView=(ImageView)itemView.findViewById(R.id.list_imageview);
-            mNumberFilesTextView=(TextView)itemView.findViewById(R.id.nofiles_textview);
-            mFolderSizeTextView=(TextView)itemView.findViewById(R.id.folder_size_textview);
-            mEncryptionSatusTextView=
-                    (TextView)itemView.findViewById(R.id.encryption_status_textview);
-            noFilesLayout=(ImageView) itemView.findViewById(R.id.no_files_image);
-
-
+            mTextView                = (TextView)itemView.findViewById(R.id.list_textview);
+            mImageView               = (ImageView)itemView.findViewById(R.id.list_imageview);
+            mNumberFilesTextView     = (TextView)itemView.findViewById(R.id.nofiles_textview);
+            mFolderSizeTextView      = (TextView)itemView.findViewById(R.id.folder_size_textview);
+            mEncryptionSatusTextView = (TextView)itemView.findViewById(R.id.encryption_status_textview);
+            noFilesLayout            = (ImageView) itemView.findViewById(R.id.no_files_image);
 
         }
 
     }
+
     private void selectionOperation(int position){
         mDataModel  = mFile.getFileAtPosition(position);
         if(mDataModel.getSelected()){
