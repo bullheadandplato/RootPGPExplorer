@@ -226,5 +226,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         this.mSelectionMode=value;
     }
 
-
+    public ArrayList<String> getmSelectedFilePaths() {
+        return mSelectedFilePaths;
+    }
 }
