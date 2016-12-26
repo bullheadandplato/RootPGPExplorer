@@ -112,7 +112,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
         return mFile.getTotalFilesCount();
     }
-
+    private LongClickCallBack clickCallBack;
     class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
         public ImageView noFilesLayout;
@@ -120,7 +120,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         public TextView mNumberFilesTextView;
         public TextView mFolderSizeTextView;
         public TextView mEncryptionSatusTextView;
-        LongClickCallBack clickCallBack;
         public ViewHolder(View itemView){
                 super(itemView);
             clickCallBack=(LongClickCallBack)mContext;
@@ -131,7 +130,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             return;
                         }
                         if(mSelectionMode){
-                            clickCallBack.incrementSelectionCount();
                             selectionOperation(getAdapterPosition());
                             return;
                         }
@@ -189,6 +187,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         mDataModel  = mFile.getFileAtPosition(position);
         if(mDataModel.getSelected()){
             mDataModel.setSelected(false);
+            clickCallBack.decrementSelectionCount();
             mSelectedPosition.remove((Object)position);
             mSelectedFilePaths.remove(mDataModel.getFilePath());
             if(mDataModel.getFile()){
@@ -198,6 +197,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             }
 
         }else{
+            clickCallBack.incrementSelectionCount();
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
@@ -211,6 +211,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     public interface LongClickCallBack{
         public void onLongClick();
         public void incrementSelectionCount();
+        public void decrementSelectionCount();
     }
     public void setmSelectionMode(Boolean value){
         //first check if there are select files

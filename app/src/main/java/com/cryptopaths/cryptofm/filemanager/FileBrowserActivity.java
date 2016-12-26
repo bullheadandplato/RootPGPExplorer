@@ -114,4 +114,9 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	public void incrementSelectionCount(){
 		actionMode.setTitle(++selectCount+" Selected");
 	}
+
+	@Override
+	public void decrementSelectionCount() {
+		actionMode.setTitle(--selectCount+" Selected");
+	}
 }
