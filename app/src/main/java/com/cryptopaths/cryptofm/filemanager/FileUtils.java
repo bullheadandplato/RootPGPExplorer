@@ -131,5 +131,16 @@ public class FileUtils {
     }
 
 
-
+    public static Boolean createFolder(String folderName) {
+        File temp=new File(CURRENT_PATH+folderName);
+        if(temp.exists()){
+            return false;
+        }else{
+            if(temp.mkdir()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 }

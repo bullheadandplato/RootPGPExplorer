@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <android.support.design.widget.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Folder Name"
+        android:inputType="text"
+        android:id="@+id/foldername_edittext"
+        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@color/colorAccent"
+                android:id="@+id/cancel_file_button"
+                android:textColor="#FFFFFF"
+                android:text="Cancel"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorAccent"
+                android:textColor="#FFFFFF"
+                android:id="@+id/create_file_button"
+                android:text="Create"
+                />
+        </RelativeLayout>
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>

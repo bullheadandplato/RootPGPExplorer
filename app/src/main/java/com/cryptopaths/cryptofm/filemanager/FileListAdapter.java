@@ -230,4 +230,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     public ArrayList<String> getmSelectedFilePaths() {
         return mSelectedFilePaths;
     }
+    public FileFillerWrapper getmFile(){
+        return this.mFile;
+    }
 }

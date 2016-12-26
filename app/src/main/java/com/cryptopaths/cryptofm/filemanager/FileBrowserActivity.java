@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -51,11 +54,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	}
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
-		Toast.makeText(
-				this,
-				"yooo man ",
-				Toast.LENGTH_LONG
-		).show();
+		createFileDialog();
 	}
 
 	private void changeDirectory() {
@@ -129,5 +128,45 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	@Override
 	public void decrementSelectionCount() {
 		actionMode.setTitle(--selectCount+" Selected");
+	}
+	private void createFileDialog(){
+		final Dialog dialog=new Dialog(this);
+		dialog.setTitle("Create Folder");
+		dialog.setContentView(R.layout.create_file_dialog);
+		final EditText folderEditText=(EditText)dialog.findViewById(R.id.foldername_edittext);
+		Button okayButton=(Button)dialog.findViewById(R.id.create_file_button);
+		okayButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				   String folderName=folderEditText.getText().toString();
+				if(folderName.length()<1){
+					folderEditText.setError("Give me the folder name");
+					return;
+				}else{
+					if(!FileUtils.createFolder(folderName)){
+						Toast.makeText(
+								FileBrowserActivity.this,
+								"Folder name already exist",
+								Toast.LENGTH_SHORT
+						).show();
+					}else{
+						dialog.dismiss();
+						String path=mmFileListAdapter.getmFile().getCurrentPath();
+						mFilesData.remove(path);
+						FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
+						mFilesData.put(path,temp);
+						mmFileListAdapter.setmFile(temp);
+						mmFileListAdapter.notifyDataSetChanged();
+					}
+				}
+			}
+		});
+		((Button)dialog.findViewById(R.id.cancel_file_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 }
