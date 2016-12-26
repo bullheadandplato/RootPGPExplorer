@@ -12,16 +12,17 @@ import java.util.List;
  */
 
 public class FileFillerWrapper {
-    private List<DataModelFiles> allFiles=new ArrayList<>();
-    private int totalFilesCount=0;
+    private List<DataModelFiles> allFiles   = new ArrayList<>();
+    private int totalFilesCount             = 0;
+
     private String currentPath;
 
     public FileFillerWrapper(String currentPath, Context context) {
         this.currentPath = currentPath;
         //be sure to change the path in File utilities
-        FileUtils.CURRENT_PATH=currentPath;
+        FileUtils.CURRENT_PATH = currentPath;
         //for each file in current path fill data
-        File file=new File(currentPath);
+        File file              = new File(currentPath);
         totalFilesCount=file.list().length;
         if(file.list().length>0){
             for (File f:
