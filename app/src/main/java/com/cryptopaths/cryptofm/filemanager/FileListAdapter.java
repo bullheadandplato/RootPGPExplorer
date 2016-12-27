@@ -193,6 +193,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }else{
             clickCallBack.incrementSelectionCount();
             mSelectedPosition.add(position);
+            Log.d("delete","added file: "+mDataModel.getFilePath());
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);

@@ -18,8 +18,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -100,8 +102,10 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		if(item.getItemId()==R.id.encrypt_menu_item){
-				//TODO
+		if(item.getItemId()==R.id.delete_menu_item){
+			DeleteTask task=new DeleteTask(this,mmFileListAdapter,mFileListView,(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
+			task.execute();
+			actionMode.finish();
 		}
 		return false;
 	}
