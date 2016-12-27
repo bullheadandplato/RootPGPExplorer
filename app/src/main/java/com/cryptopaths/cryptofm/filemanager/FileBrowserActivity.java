@@ -132,7 +132,11 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public void decrementSelectionCount() {
-		actionMode.setTitle(--selectCount+" Selected");
+		if(actionMode==null){
+			return;
+		}else{
+			actionMode.setTitle(--selectCount+" Selected");
+		}
 	}
 	private void createFileDialog(){
 		final Dialog dialog = new Dialog(this);
