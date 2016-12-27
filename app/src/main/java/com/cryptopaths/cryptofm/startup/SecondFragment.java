@@ -30,7 +30,7 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView           = inflater.inflate(R.layout.third_fragment,container,false);
         final ListView listView = (ListView)rootView.findViewById(R.id.choose_dir_list);
-        View footerView         = inflater.inflate(R.layout.choose_file_footer,container,false);
+        View footerView         = inflater.inflate(R.layout.choose_file_footer,null,false);
         mAdapter                = new ChooseDirAdapter(getActivity());
 
         listView.setAdapter(mAdapter);
