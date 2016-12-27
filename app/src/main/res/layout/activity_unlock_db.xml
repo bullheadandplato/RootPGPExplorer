@@ -10,19 +10,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cryptopaths.cryptofm.startup.UnlockDbActivity">
-    <ImageView android:src="@drawable/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="72dp"
-        android:id="@+id/logo_image"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="76dp"
-        android:layout_alignParentStart="true" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:id="@+id/get_password_layout"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_image"
         android:layout_alignParentStart="true">
         <!--  Password Label -->
         <android.support.design.widget.TextInputLayout
@@ -49,10 +44,15 @@
             android:background="@color/colorAccent"
             android:onClick="onUnlockButtonClick"
             android:text="Unlock"
-            android:textSize="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="20dp"/>
     </LinearLayout>
 
-
+    <ImageView android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/logo_image"
+        android:tint="@color/colorAccent"
+        android:layout_above="@id/get_password_layout"
+        />
 </RelativeLayout>

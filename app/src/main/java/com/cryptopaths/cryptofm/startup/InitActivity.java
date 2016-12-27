@@ -80,6 +80,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             finish();
 
         }
+
         //add first fragment
         replaceFragment(FRAGMENT_ONE_NUMBER);
 
@@ -90,7 +91,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         if(b.isChecked()){
             getSupportFragmentManager().
                     beginTransaction().
-                    replace(R.id.frame_layout_password_two,new PasswordsFragment())
+                    replace(R.id.password2_layout,new PasswordsFragment())
                     .commit();
             IS_DIFFERENT_PASSWORD=true;
         }else{
@@ -98,7 +99,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     beginTransaction().
                     remove(
                             getSupportFragmentManager().
-                                    findFragmentById(R.id.frame_layout_password_two)
+                                    findFragmentById(R.id.password2_layout)
                     ).commit();
             IS_DIFFERENT_PASSWORD=false;
         }

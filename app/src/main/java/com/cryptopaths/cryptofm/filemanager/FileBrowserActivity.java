@@ -122,7 +122,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 			actionMode = startSupportActionMode(this);
 			actionMode.setTitle(selectCount+" Selected");
 		}else{
-			actionMode.setTitle(++selectCount+" Selected");
+			actionMode.setTitle(selectCount+" Selected");
 		}
 	}
 	@Override

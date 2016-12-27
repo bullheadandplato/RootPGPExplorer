@@ -20,20 +20,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:background="@color/colorAccent"
+                android:background="@android:color/transparent"
                 android:id="@+id/cancel_file_button"
-                android:textColor="#FFFFFF"
                 android:text="Cancel"
-                />
+                android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:textSize="14sp"
+                style="@android:style/Widget.Material.Button" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
+                android:background="@android:color/transparent"
                 android:id="@+id/create_file_button"
                 android:text="Create"
-                />
+                android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:elevation="0dp"
+                style="@android:style/Widget.Material.Light.Button" />
         </RelativeLayout>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>
