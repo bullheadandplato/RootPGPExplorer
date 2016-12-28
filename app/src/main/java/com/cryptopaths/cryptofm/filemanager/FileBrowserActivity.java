@@ -186,6 +186,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	public void onDestroyActionMode(ActionMode mode) {
 		selectCount = 0;
 		actionMode  = null;
+		mmFileListAdapter.resetFileIcons();
 		mmFileListAdapter.setmSelectionMode(false);
 	}
 
@@ -194,12 +195,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	private int selectCount=0;
 	@Override
 	public void onLongClick() {
-		if(actionMode==null){
+		if(actionMode==null) {
 			actionMode = startSupportActionMode(this);
-			assert actionMode!=null;
-			actionMode.setTitle(selectCount+" Selected");
-		}else{
-			actionMode.setTitle(selectCount+" Selected");
 		}
 	}
 	@Override
@@ -251,6 +248,11 @@ public class FileBrowserActivity extends AppCompatActivity
 								Toast.LENGTH_SHORT
 						).show();
 					}else{
+						if(actionMode!=null) {
+
+							actionMode.finish();
+						}
+
 						dialog.dismiss();
 						String path=mmFileListAdapter.getmFile().getCurrentPath();
 						mFilesData.remove(path);

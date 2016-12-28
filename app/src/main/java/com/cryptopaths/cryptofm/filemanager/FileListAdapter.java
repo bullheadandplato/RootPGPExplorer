@@ -215,6 +215,20 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
         this.mSelectionMode=value;
     }
+    public void resetFileIcons(){
+        Log.d(TAG, "resetFileIcons: reseting file icons");
+        for (Integer pos:
+             mSelectedPosition) {
+            mDataModel = mFile.getFileAtPosition(pos);
+            if(mDataModel.getFile()){
+                mDataModel.setFileIcon(mFileIcon);
+            }else{
+                mDataModel.setFileIcon(mFolderIcon);
+            }
+            notifyItemChanged(pos);
+
+        }
+    }
 
     public ArrayList<String> getmSelectedFilePaths() {
         return mSelectedFilePaths;
