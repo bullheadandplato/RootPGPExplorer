@@ -130,19 +130,13 @@ public class FileBrowserActivity extends AppCompatActivity
 					if(folderName.length()<1){
 						folderEditText.setError("Give me the folder name");
 					}else{
-						if(!FileUtils.createFolder(folderName)){
-							Toast.makeText(
-									FileBrowserActivity.this,
-									"File name already exists",
-									Toast.LENGTH_SHORT
-							).show();
-						}else{
-							dialog.dismiss();
 							new RenameTask(
 									FileBrowserActivity.this,
 									mmFileListAdapter,
 									mmFileListAdapter.getmSelectedFilePaths().get(0),
-									folderName).execute();
+									folderName
+							).execute();
+							dialog.dismiss();
 							String path=mmFileListAdapter.getmFile().getCurrentPath();
 							mFilesData.remove(path);
 							FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
@@ -151,7 +145,6 @@ public class FileBrowserActivity extends AppCompatActivity
 							mmFileListAdapter.notifyDataSetChanged();
 							actionMode.finish();
 						}
-					}
 				}
 			});
 

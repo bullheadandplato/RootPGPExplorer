@@ -35,7 +35,9 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         try{
             File file = TasksFileUtils.getFile(mFilePath);
-            File renamedFile = new File(file.getAbsolutePath()+mRenamed);
+            String filename=file.getPath();
+            filename=filename.replace(file.getName(),"");
+            File renamedFile = new File(filename+mRenamed);
             if(file.renameTo(renamedFile)){
                 return "successfully renamed.";
             }
