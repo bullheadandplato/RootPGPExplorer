@@ -1,14 +1,17 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,13 +22,15 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
+import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class FileBrowserActivity extends AppCompatActivity implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
+public class FileBrowserActivity extends AppCompatActivity
+		implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
 	private String 			mCurrentPath;
 	private String 			mRootPath;
 	private RecyclerView 	mFileListView;
@@ -102,12 +107,86 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		if(item.getItemId()==R.id.delete_menu_item){
-			DeleteTask task=new DeleteTask(this,mmFileListAdapter,mFileListView,(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
-			task.execute();
-			actionMode.finish();
+		if (item.getItemId()==R.id.rename_menu_item){
+			final Dialog dialog=new Dialog(this);
+			dialog.setTitle("Rename file");
+			dialog.setContentView(R.layout.create_file_dialog);
+			dialog.show();
+			final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
+			Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
+			String currentFileName		  = mmFileListAdapter.getmSelectedFilePaths().get(0);
+			currentFileName=currentFileName.substring(currentFileName.lastIndexOf('/')+1,currentFileName.length());
+			folderEditText.setText(currentFileName);
+			dialog.findViewById(R.id.cancel_file_button).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					dialog.dismiss();
+				}
+			});
+			okayButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					String folderName=folderEditText.getText().toString();
+					if(folderName.length()<1){
+						folderEditText.setError("Give me the folder name");
+					}else{
+						if(!FileUtils.createFolder(folderName)){
+							Toast.makeText(
+									FileBrowserActivity.this,
+									"File name already exists",
+									Toast.LENGTH_SHORT
+							).show();
+						}else{
+							dialog.dismiss();
+							new RenameTask(
+									FileBrowserActivity.this,
+									mmFileListAdapter,
+									mmFileListAdapter.getmSelectedFilePaths().get(0),
+									folderName).execute();
+							String path=mmFileListAdapter.getmFile().getCurrentPath();
+							mFilesData.remove(path);
+							FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
+							mFilesData.put(path,temp);
+							mmFileListAdapter.setmFile(temp);
+							mmFileListAdapter.notifyDataSetChanged();
+							actionMode.finish();
+						}
+					}
+				}
+			});
+
 		}
-		return false;
+		if(item.getItemId()==R.id.delete_menu_item){
+			AlertDialog dialog=new AlertDialog.Builder(this).create();
+			dialog.setTitle("Delete confirmation");
+			dialog.setMessage("Do you really want to delete these files(s)?");
+			dialog.setButton(
+					DialogInterface.BUTTON_POSITIVE,
+					"yes",
+					new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					DeleteTask task=new DeleteTask(
+							FileBrowserActivity.this,
+							mmFileListAdapter,
+							mFileListView,
+							(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
+					task.execute();
+					actionMode.finish();
+				}
+			});
+			dialog.setButton(
+					DialogInterface.BUTTON_NEUTRAL,
+					"No",
+					new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					//do nothing
+				}
+			});
+		dialog.show();
+		}
+		return true;
 	}
 
 	@Override
@@ -124,6 +203,7 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	public void onLongClick() {
 		if(actionMode==null){
 			actionMode = startSupportActionMode(this);
+			assert actionMode!=null;
 			actionMode.setTitle(selectCount+" Selected");
 		}else{
 			actionMode.setTitle(selectCount+" Selected");
@@ -132,31 +212,44 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 	@Override
 	public void incrementSelectionCount(){
 		actionMode.setTitle(++selectCount+" Selected");
+		if(selectCount>1){
+			actionMode.getMenu().removeItem(R.id.rename_menu_item);
+		}
 	}
 
 	@Override
 	public void decrementSelectionCount() {
-		if(actionMode==null){
-			return;
-		}else{
+		if(actionMode!=null){
 			actionMode.setTitle(--selectCount+" Selected");
+			if(selectCount==0){
+				actionMode.finish();
+			}
+			else if(selectCount<2){
+				actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
+			}
 		}
 	}
 	private void createFileDialog(){
 		final Dialog dialog = new Dialog(this);
 		dialog.setTitle("Create Folder");
 		dialog.setContentView(R.layout.create_file_dialog);
+		dialog.show();
 
 		final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
 		Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
 
+		dialog.findViewById(R.id.cancel_file_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+			}
+		});
 		okayButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				   String folderName=folderEditText.getText().toString();
+				String folderName=folderEditText.getText().toString();
 				if(folderName.length()<1){
 					folderEditText.setError("Give me the folder name");
-					return;
 				}else{
 					if(!FileUtils.createFolder(folderName)){
 						Toast.makeText(
@@ -176,12 +269,5 @@ public class FileBrowserActivity extends AppCompatActivity implements ActionMode
 				}
 			}
 		});
-		((Button)dialog.findViewById(R.id.cancel_file_button)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
 	}
 }

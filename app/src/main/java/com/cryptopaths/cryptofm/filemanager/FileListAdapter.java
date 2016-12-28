@@ -180,10 +180,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private void selectionOperation(int position){
         mDataModel  = mFile.getFileAtPosition(position);
         if(mDataModel.getSelected()){
+            Log.d("rename", "selectionOperation: file is selected");
             mDataModel.setSelected(false);
             clickCallBack.decrementSelectionCount();
-            mSelectedPosition.remove((Object)position);
-            mSelectedFilePaths.remove(mDataModel.getFilePath());
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(mFileIcon);
             }else{
@@ -210,14 +209,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
     public void setmSelectionMode(Boolean value){
         //first check if there are select files
-        if(mSelectedPosition.size()>0){
-            //to avoid concurrent exception
-            ArrayList<Integer> tmp=(ArrayList<Integer>) mSelectedPosition.clone();
-            //remove the selection.
-            for (Integer position:
-                 tmp) {
-                selectionOperation(position);
-            }
+        if(mSelectedPosition.size()>0) {
+            mSelectedPosition.clear();
+            mSelectedFilePaths.clear();
         }
         this.mSelectionMode=value;
     }
