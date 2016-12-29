@@ -23,6 +23,7 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
