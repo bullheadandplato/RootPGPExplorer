@@ -39,6 +39,7 @@ public class FileBrowserActivity extends AppCompatActivity
     private Boolean         isChildChanged;
 
 	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
+    private static final String TAG = "FileBrowser";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +208,20 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
-	private void deleteFile(){
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: resuming activity");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: pausing activity");
+        super.onPause();
+    }
+
+    private void deleteFile(){
 		AlertDialog dialog=new AlertDialog.Builder(this).create();
 		dialog.setTitle("Delete confirmation");
 		dialog.setMessage("Do you really want to delete these files(s)?");
@@ -220,7 +234,6 @@ public class FileBrowserActivity extends AppCompatActivity
 						DeleteTask task=new DeleteTask(
 								FileBrowserActivity.this,
 								mmFileListAdapter,
-								mFileListView,
 								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
 						task.execute();
                         isChildChanged = true;

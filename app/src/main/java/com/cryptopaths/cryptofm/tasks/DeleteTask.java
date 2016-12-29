@@ -3,12 +3,9 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
-import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 
@@ -26,13 +23,11 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
     private FileListAdapter     mAdapter;
     private ProgressDialog      mProgressDialog;
     private Context             mContext;
-    private RecyclerView        mRecycle;
 
-    public DeleteTask(Context context, FileListAdapter adpater, RecyclerView rec, ArrayList<String> filePaths){
+    public DeleteTask(Context context, FileListAdapter adpater, ArrayList<String> filePaths){
         mFilePaths      = filePaths;
         mAdapter        = adpater;
         mContext        = context;
-        mRecycle        = rec;
         mProgressDialog = new ProgressDialog(context);
     }
     @Override
