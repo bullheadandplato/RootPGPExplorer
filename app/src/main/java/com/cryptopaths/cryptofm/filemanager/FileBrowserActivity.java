@@ -111,6 +111,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		UiUtils.actionMode=this.actionMode;
 		if (item.getItemId()==R.id.rename_menu_item){
 			renameFile();
 		}
@@ -196,11 +197,6 @@ public class FileBrowserActivity extends AppCompatActivity
 							folderName
 					).execute();
 					dialog.dismiss();
-					UiUtils.reloadData(
-							FileBrowserActivity.this,
-							mmFileListAdapter,
-							actionMode
-					);
 				}
 			}
 		});
@@ -221,11 +217,7 @@ public class FileBrowserActivity extends AppCompatActivity
 								mFileListView,
 								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
 						task.execute();
-						UiUtils.reloadData(
-								FileBrowserActivity.this,
-								mmFileListAdapter,
-								actionMode
-						);
+
 					}
 				});
 		dialog.setButton(
@@ -266,15 +258,8 @@ public class FileBrowserActivity extends AppCompatActivity
 						dialog.dismiss();
 						UiUtils.reloadData(
 								FileBrowserActivity.this,
-								mmFileListAdapter,
-								actionMode
+								mmFileListAdapter
 						);
-						/*String path=mmFileListAdapter.getmFile().getCurrentPath();
-						mFilesData.remove(path);
-						FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
-						mFilesData.put(path,temp);
-						mmFileListAdapter.setmFile(temp);
-						mmFileListAdapter.notifyDataSetChanged();*/
 					}
 				}
 			}

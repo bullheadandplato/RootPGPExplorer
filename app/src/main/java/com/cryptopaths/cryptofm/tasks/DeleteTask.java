@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.UiUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +76,10 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
                 s,
                 Toast.LENGTH_LONG
         ).show();
-
+        UiUtils.reloadData(
+                mContext,
+                mAdapter
+                );
     }
 
     @Override

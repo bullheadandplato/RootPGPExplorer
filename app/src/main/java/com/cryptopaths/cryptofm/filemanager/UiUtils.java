@@ -17,6 +17,7 @@ import static com.cryptopaths.cryptofm.filemanager.FileBrowserActivity.mFilesDat
  */
 
 public class UiUtils {
+    static ActionMode actionMode;
     public static Dialog createDialog(Context context, String title, String buttonTitle){
         final Dialog dialog=new Dialog(context);
         dialog.setTitle(title);
@@ -33,7 +34,7 @@ public class UiUtils {
         return dialog;
     }
 
-    public static void reloadData(Context context, FileListAdapter adapter, ActionMode actionMode){
+    public static void reloadData(Context context, FileListAdapter adapter){
         String path=adapter.getmFile().getCurrentPath();
         mFilesData.remove(path);
         FileFillerWrapper temp=new FileFillerWrapper(path,context);
