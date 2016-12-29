@@ -66,7 +66,8 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
-		createFileDialog();
+        UiUtils.actionMode = this.actionMode;
+		createFile();
 	}
 
 	private void changeDirectory() {
@@ -231,7 +232,7 @@ public class FileBrowserActivity extends AppCompatActivity
 				});
 		dialog.show();
 	}
-	private void createFileDialog(){
+	private void createFile(){
 		final Dialog dialog = UiUtils.createDialog(
 				this,
 				"Create Folder",
