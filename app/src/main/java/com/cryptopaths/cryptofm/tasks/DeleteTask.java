@@ -48,10 +48,12 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
             ex.printStackTrace();
             return "failed "+ ex.getMessage();
         }
-        return "success deleted file(s)";
+        return "successfully deleted file(s)";
 
     }
     private void deleteFile(File f) throws IOException{
+        publishProgress(f.getName());
+
         if(f.isDirectory() && f.listFiles().length>0){
             for (File tmp:
                  f.listFiles()) {

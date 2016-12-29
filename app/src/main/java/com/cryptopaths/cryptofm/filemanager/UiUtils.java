@@ -35,14 +35,15 @@ public class UiUtils {
     }
 
     public static void reloadData(Context context, FileListAdapter adapter){
+        if(actionMode!=null){
+            actionMode.finish();
+        }
         String path=adapter.getmFile().getCurrentPath();
         mFilesData.remove(path);
         FileFillerWrapper temp=new FileFillerWrapper(path,context);
         mFilesData.put(path,temp);
         adapter.setmFile(temp);
         adapter.notifyDataSetChanged();
-        if(actionMode!=null){
-            actionMode.finish();
-        }
+
     }
 }
