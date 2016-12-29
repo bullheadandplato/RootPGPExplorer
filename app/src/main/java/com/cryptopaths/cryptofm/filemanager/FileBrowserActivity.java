@@ -97,7 +97,6 @@ public class FileBrowserActivity extends AppCompatActivity
 	/**
 	 *start of ActionMode section
      */
-
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -166,7 +165,6 @@ public class FileBrowserActivity extends AppCompatActivity
 	/**
 	 * task executing section
 	 */
-
 	private void renameFile(){
 		final Dialog dialog = UiUtils.createDialog(
 				this,

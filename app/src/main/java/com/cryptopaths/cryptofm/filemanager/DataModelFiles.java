@@ -36,9 +36,6 @@ public class DataModelFiles {
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+" items";
             this.fileEncryptionStatus=FileUtils.isEncryptedFolder(filename);
-            //concatenated current path because recursively look folders and find size
-            //long size=FileUtils.getFolderSize(FileUtils.CURRENT_PATH+"/"+filename);
-            //long size=10000;
             this.fileSize=FileUtils.getLastModifiedDate(filename);
         }
     }
