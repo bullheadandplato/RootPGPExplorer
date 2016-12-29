@@ -30,6 +30,7 @@ import java.util.HashMap;
 
 public class FileBrowserActivity extends AppCompatActivity
 		implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
+
 	private String 			mCurrentPath;
 	private String 			mRootPath;
 	private RecyclerView 	mFileListView;
@@ -91,6 +92,9 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
 	}
 
+	/**
+	 *start of ActionMode section
+     */
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -107,79 +111,10 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		if (item.getItemId()==R.id.rename_menu_item){
-			final Dialog dialog = UiUtils.createDialog(
-					this,
-					"Rename file",
-					"rename"
-			);
-
-			final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
-			Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
-			String currentFileName		  = mmFileListAdapter.getmSelectedFilePaths().get(0);
-
-			currentFileName = currentFileName.substring(
-					currentFileName.lastIndexOf('/')+1,
-					currentFileName.length()
-			);
-			folderEditText.setText(currentFileName);
-
-			okayButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					String folderName=folderEditText.getText().toString();
-					if(folderName.length()<1){
-						folderEditText.setError("Give me the folder name");
-					}else{
-							new RenameTask(
-									FileBrowserActivity.this,
-									mmFileListAdapter,
-									mmFileListAdapter.getmSelectedFilePaths().get(0),
-									folderName
-							).execute();
-							dialog.dismiss();
-							UiUtils.reloadData(
-									FileBrowserActivity.this,
-									mmFileListAdapter,
-									actionMode
-							);
-						}
-				}
-			});
-
+			renameFile();
 		}
 		if(item.getItemId()==R.id.delete_menu_item){
-			AlertDialog dialog=new AlertDialog.Builder(this).create();
-			dialog.setTitle("Delete confirmation");
-			dialog.setMessage("Do you really want to delete these files(s)?");
-			dialog.setButton(
-					DialogInterface.BUTTON_POSITIVE,
-					"yes",
-					new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					DeleteTask task=new DeleteTask(
-							FileBrowserActivity.this,
-							mmFileListAdapter,
-							mFileListView,
-							(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
-					task.execute();
-					UiUtils.reloadData(
-							FileBrowserActivity.this,
-							mmFileListAdapter,
-							actionMode
-					);
-				}
-			});
-			dialog.setButton(
-					DialogInterface.BUTTON_NEUTRAL,
-					"No",
-					new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i) {
-					//do nothing
-				}
-			});
-		dialog.show();
+			deleteFile();
 		}
 		return true;
 	}
@@ -220,6 +155,88 @@ public class FileBrowserActivity extends AppCompatActivity
 				actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
 			}
 		}
+	}
+	/**
+	 * end of action mode section
+	 */
+
+	/**
+	 * task executing section
+	 */
+
+	private void renameFile(){
+		final Dialog dialog = UiUtils.createDialog(
+				this,
+				"Rename file",
+				"rename"
+		);
+
+		final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
+		Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
+		String currentFileName		  = mmFileListAdapter.getmSelectedFilePaths().get(0);
+
+		currentFileName = currentFileName.substring(
+				currentFileName.lastIndexOf('/')+1,
+				currentFileName.length()
+		);
+		folderEditText.setText(currentFileName);
+
+		okayButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				String folderName=folderEditText.getText().toString();
+				if(folderName.length()<1){
+					folderEditText.setError("Give me the folder name");
+				}else{
+					new RenameTask(
+							FileBrowserActivity.this,
+							mmFileListAdapter,
+							mmFileListAdapter.getmSelectedFilePaths().get(0),
+							folderName
+					).execute();
+					dialog.dismiss();
+					UiUtils.reloadData(
+							FileBrowserActivity.this,
+							mmFileListAdapter,
+							actionMode
+					);
+				}
+			}
+		});
+	}
+	private void deleteFile(){
+		AlertDialog dialog=new AlertDialog.Builder(this).create();
+		dialog.setTitle("Delete confirmation");
+		dialog.setMessage("Do you really want to delete these files(s)?");
+		dialog.setButton(
+				DialogInterface.BUTTON_POSITIVE,
+				"yes",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						DeleteTask task=new DeleteTask(
+								FileBrowserActivity.this,
+								mmFileListAdapter,
+								mFileListView,
+								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
+						task.execute();
+						UiUtils.reloadData(
+								FileBrowserActivity.this,
+								mmFileListAdapter,
+								actionMode
+						);
+					}
+				});
+		dialog.setButton(
+				DialogInterface.BUTTON_NEUTRAL,
+				"No",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						//do nothing
+					}
+				});
+		dialog.show();
 	}
 	private void createFileDialog(){
 		final Dialog dialog = UiUtils.createDialog(
@@ -262,4 +279,8 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
+	/**
+	 * end of task executing section
+	 */
+
 }

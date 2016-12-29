@@ -56,11 +56,6 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
                 s,
                 Toast.LENGTH_LONG
         ).show();
-        String curr = mAdapter.getmFile().getCurrentPath();
-        FileBrowserActivity.mFilesData.remove(curr);
-        FileFillerWrapper temp=new FileFillerWrapper(curr,mContext);
-        FileBrowserActivity.mFilesData.put(curr,temp);
-        mAdapter.setmFile(temp);
-        mAdapter.notifyDataSetChanged();
+
     }
 }
