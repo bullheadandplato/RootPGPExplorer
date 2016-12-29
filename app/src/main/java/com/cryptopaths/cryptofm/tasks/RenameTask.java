@@ -3,7 +3,6 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
@@ -63,6 +62,5 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
         FileBrowserActivity.mFilesData.put(curr,temp);
         mAdapter.setmFile(temp);
         mAdapter.notifyDataSetChanged();
-        //mRecycle.requestLayout();
     }
 }

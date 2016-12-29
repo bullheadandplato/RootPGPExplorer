@@ -11,7 +11,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -108,21 +107,22 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		if (item.getItemId()==R.id.rename_menu_item){
-			final Dialog dialog=new Dialog(this);
-			dialog.setTitle("Rename file");
-			dialog.setContentView(R.layout.create_file_dialog);
-			dialog.show();
+			final Dialog dialog = UiUtils.createDialog(
+					this,
+					"Rename file",
+					"rename"
+			);
+
 			final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
 			Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
 			String currentFileName		  = mmFileListAdapter.getmSelectedFilePaths().get(0);
-			currentFileName=currentFileName.substring(currentFileName.lastIndexOf('/')+1,currentFileName.length());
+
+			currentFileName = currentFileName.substring(
+					currentFileName.lastIndexOf('/')+1,
+					currentFileName.length()
+			);
 			folderEditText.setText(currentFileName);
-			dialog.findViewById(R.id.cancel_file_button).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					dialog.dismiss();
-				}
-			});
+
 			okayButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -137,13 +137,11 @@ public class FileBrowserActivity extends AppCompatActivity
 									folderName
 							).execute();
 							dialog.dismiss();
-							String path=mmFileListAdapter.getmFile().getCurrentPath();
-							mFilesData.remove(path);
-							FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
-							mFilesData.put(path,temp);
-							mmFileListAdapter.setmFile(temp);
-							mmFileListAdapter.notifyDataSetChanged();
-							actionMode.finish();
+							UiUtils.reloadData(
+									FileBrowserActivity.this,
+									mmFileListAdapter,
+									actionMode
+							);
 						}
 				}
 			});
@@ -165,7 +163,11 @@ public class FileBrowserActivity extends AppCompatActivity
 							mFileListView,
 							(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
 					task.execute();
-					actionMode.finish();
+					UiUtils.reloadData(
+							FileBrowserActivity.this,
+							mmFileListAdapter,
+							actionMode
+					);
 				}
 			});
 			dialog.setButton(
@@ -220,20 +222,15 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
 	}
 	private void createFileDialog(){
-		final Dialog dialog = new Dialog(this);
-		dialog.setTitle("Create Folder");
-		dialog.setContentView(R.layout.create_file_dialog);
-		dialog.show();
+		final Dialog dialog = UiUtils.createDialog(
+				this,
+				"Create Folder",
+				"create"
+		);
 
 		final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
 		Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
 
-		dialog.findViewById(R.id.cancel_file_button).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				dialog.dismiss();
-			}
-		});
 		okayButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -248,18 +245,18 @@ public class FileBrowserActivity extends AppCompatActivity
 								Toast.LENGTH_SHORT
 						).show();
 					}else{
-						if(actionMode!=null) {
-
-							actionMode.finish();
-						}
-
 						dialog.dismiss();
-						String path=mmFileListAdapter.getmFile().getCurrentPath();
+						UiUtils.reloadData(
+								FileBrowserActivity.this,
+								mmFileListAdapter,
+								actionMode
+						);
+						/*String path=mmFileListAdapter.getmFile().getCurrentPath();
 						mFilesData.remove(path);
 						FileFillerWrapper temp=new FileFillerWrapper(path,FileBrowserActivity.this);
 						mFilesData.put(path,temp);
 						mmFileListAdapter.setmFile(temp);
-						mmFileListAdapter.notifyDataSetChanged();
+						mmFileListAdapter.notifyDataSetChanged();*/
 					}
 				}
 			}

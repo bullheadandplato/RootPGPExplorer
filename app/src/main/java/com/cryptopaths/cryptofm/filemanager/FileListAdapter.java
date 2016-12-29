@@ -31,12 +31,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private Drawable            mFolderIcon;
     private DataModelFiles      mDataModel;
 
-    private Boolean  mSelectionMode                 = false;
-    private  static final String TAG                = "filesList";
-    private static final int NO_FILES_VIEW          = 100;
-    private static final int NORMAL_VIEW            = 50;
-    private ArrayList<Integer> mSelectedPosition    = new ArrayList<>();
-    private ArrayList<String> mSelectedFilePaths    = new ArrayList<>();
+    private Boolean                 mSelectionMode      = false;
+    private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
+    private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
+    private  static final String    TAG                 = "filesList";
+    private static final int        NO_FILES_VIEW       = 100;
+    private static final int        NORMAL_VIEW         = 50;
 
 
         public FileListAdapter(Context context){
@@ -76,7 +76,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if(mFile.getTotalFilesCount()<1){
-            Log.d("nofiles","Yes there are no files here");
             ImageView view=holder.noFilesLayout;
             view.setImageDrawable(mContext.getDrawable(R.drawable.nofiles_image));
         }else {
@@ -84,7 +83,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
-            TextView textView3=holder.mEncryptionSatusTextView;
+            TextView textView3=holder.mEncryptionStatusTextView;
             TextView textView4=holder.mNumberFilesTextView;
 
             textView1.setText(mDataModel.getFileName());
@@ -110,15 +109,16 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
     private LongClickCallBack clickCallBack;
     class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mImageView;
-        public ImageView noFilesLayout;
-        public TextView mTextView;
-        public TextView mNumberFilesTextView;
-        public TextView mFolderSizeTextView;
-        public TextView mEncryptionSatusTextView;
-        public ViewHolder(View itemView){
+        ImageView   mImageView;
+        ImageView   noFilesLayout;
+        TextView    mTextView;
+        TextView    mNumberFilesTextView;
+        TextView    mFolderSizeTextView;
+        TextView    mEncryptionStatusTextView;
+        ViewHolder(View itemView){
                 super(itemView);
             clickCallBack = (LongClickCallBack)mContext;
+
             itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -133,18 +133,20 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         String filename     = textView.getText().toString();
                         if(FileUtils.isFile(filename)){
                             //open file TODO
-                            Toast.makeText(mContext, "You click at file: "+filename, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                    mContext,
+                                    "You click at file: "+filename,
+                                    Toast.LENGTH_SHORT)
+                                    .show();
                         }else{
-                            //check if folder already visited
                             String folderPath = mFile.getCurrentPath()+filename+"/";
+                            //check if folder already visited
                             if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
-                                Log.d(TAG, "onClick: filepath is and yes: "+folderPath);
                                 mFile = FileBrowserActivity.mFilesData.get(folderPath);
                                 FileUtils.CURRENT_PATH=folderPath;
                                 notifyDataSetChanged();
                             }else{
                                 //first visit folder
-                                Log.d(TAG, "onClick: filepath is: "+folderPath);
                                 mFile = new FileFillerWrapper(folderPath,mContext);
                                 FileBrowserActivity.mFilesData.put(folderPath,mFile);
                                 notifyDataSetChanged();
@@ -153,25 +155,26 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         }
                     }
                 });
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     if(mFile.getTotalFilesCount()<1){
                         return false;
                     }
-                    Log.d("menu","yes im in Onlongclick");
                     clickCallBack.onLongClick();
                     mSelectionMode = true;
                     selectionOperation(getAdapterPosition());
                     return true;
                 }
             });
-            mTextView                = (TextView)itemView.findViewById(R.id.list_textview);
-            mImageView               = (ImageView)itemView.findViewById(R.id.list_imageview);
-            mNumberFilesTextView     = (TextView)itemView.findViewById(R.id.nofiles_textview);
-            mFolderSizeTextView      = (TextView)itemView.findViewById(R.id.folder_size_textview);
-            mEncryptionSatusTextView = (TextView)itemView.findViewById(R.id.encryption_status_textview);
-            noFilesLayout            = (ImageView) itemView.findViewById(R.id.no_files_image);
+
+            mTextView                   = (TextView)itemView.findViewById(R.id.list_textview);
+            mImageView                  = (ImageView)itemView.findViewById(R.id.list_imageview);
+            noFilesLayout               = (ImageView) itemView.findViewById(R.id.no_files_image);
+            mNumberFilesTextView        = (TextView)itemView.findViewById(R.id.nofiles_textview);
+            mFolderSizeTextView         = (TextView)itemView.findViewById(R.id.folder_size_textview);
+            mEncryptionStatusTextView   = (TextView)itemView.findViewById(R.id.encryption_status_textview);
 
         }
 
@@ -179,8 +182,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     private void selectionOperation(int position){
         mDataModel  = mFile.getFileAtPosition(position);
+
         if(mDataModel.getSelected()){
-            Log.d("rename", "selectionOperation: file is selected");
             mDataModel.setSelected(false);
             clickCallBack.decrementSelectionCount();
             if(mDataModel.getFile()){
@@ -188,11 +191,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
-
         }else{
             clickCallBack.incrementSelectionCount();
             mSelectedPosition.add(position);
-            Log.d("delete","added file: "+mDataModel.getFilePath());
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
@@ -202,12 +203,13 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     }
 
-    public interface LongClickCallBack{
-        public void onLongClick();
-        public void incrementSelectionCount();
-        public void decrementSelectionCount();
+    interface LongClickCallBack{
+        void onLongClick();
+        void incrementSelectionCount();
+        void decrementSelectionCount();
     }
-    public void setmSelectionMode(Boolean value){
+
+    void setmSelectionMode(Boolean value){
         //first check if there are select files
         if(mSelectedPosition.size()>0) {
             mSelectedPosition.clear();
@@ -215,8 +217,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
         this.mSelectionMode=value;
     }
-    public void resetFileIcons(){
-        Log.d(TAG, "resetFileIcons: reseting file icons");
+
+    void resetFileIcons(){
         for (Integer pos:
              mSelectedPosition) {
             mDataModel = mFile.getFileAtPosition(pos);
@@ -230,7 +232,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         }
     }
 
-    public ArrayList<String> getmSelectedFilePaths() {
+    ArrayList<String> getmSelectedFilePaths() {
         return mSelectedFilePaths;
     }
     public FileFillerWrapper getmFile(){
