@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
-import com.cryptopaths.cryptofm.startup.IntermediateActivity;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
@@ -59,16 +58,24 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             for (File tmp: f.listFiles()) {
                 encryptFile(tmp);
             }
-        }
-        File out = new File(f.getAbsolutePath()+".pgp");
-        if(out.createNewFile()){
-            Log.d(TAG, "encryptFile: created file ro encrypt into");
-        }
-        publishProgress(f.getName(),""+
-                ((FileUtils.getReadableSize((f.length())))));
+        }else {
+            File out = new File(f.getAbsolutePath()+".pgp");
+            if(out.createNewFile()){
+                Log.d(TAG, "encryptFile: created file to encrypt into");
+            }
+            publishProgress(f.getName(),""+
+                    ((FileUtils.getReadableSize((f.length())))));
 
-        encryptionManagement.encryptFile(out,f,pubKeyFile);
+            encryptionManagement.encryptFile(out,f,pubKeyFile);
 
+        }
+
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+
+        mProgressDialog.setMessage(values[0]);
     }
 
     @Override

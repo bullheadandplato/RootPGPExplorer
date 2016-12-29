@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
+import com.cryptopaths.cryptofm.tasks.EncryptTask;
 import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -36,7 +37,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String 			mRootPath;
 	private RecyclerView 	mFileListView;
 	private FileListAdapter mmFileListAdapter;
-    private Boolean         isChildChanged;
+    private boolean         isChildChanged;
 
 	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
     private static final String TAG = "FileBrowser";
@@ -126,6 +127,9 @@ public class FileBrowserActivity extends AppCompatActivity
 		if(item.getItemId()==R.id.delete_menu_item){
 			deleteFile();
 		}
+        else if (item.getItemId()==R.id.encrypt_menu_item){
+            new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
+        }
 		return true;
 	}
 
