@@ -36,6 +36,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String 			mRootPath;
 	private RecyclerView 	mFileListView;
 	private FileListAdapter mmFileListAdapter;
+    private Boolean         isChildChanged;
 
 	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
 
@@ -72,10 +73,16 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	private void changeDirectory() {
 		Log.d("files","current path: "+mCurrentPath);
-		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
-		mmFileListAdapter.notifyDataSetChanged();
-		mFileListView.requestLayout();
-
+        mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
+        if(isChildChanged){
+            UiUtils.reloadData(
+                    this,
+                    mmFileListAdapter
+            );
+            isChildChanged = false;
+        }else{
+            mmFileListAdapter.notifyDataSetChanged();
+        }
 	}
 
 	@Override
@@ -196,6 +203,7 @@ public class FileBrowserActivity extends AppCompatActivity
 							folderName
 					).execute();
 					dialog.dismiss();
+                    isChildChanged = true;
 				}
 			}
 		});
@@ -216,6 +224,7 @@ public class FileBrowserActivity extends AppCompatActivity
 								mFileListView,
 								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
 						task.execute();
+                        isChildChanged = true;
 
 					}
 				});
@@ -259,6 +268,7 @@ public class FileBrowserActivity extends AppCompatActivity
 								FileBrowserActivity.this,
 								mmFileListAdapter
 						);
+                        isChildChanged = true;
 					}
 				}
 			}
