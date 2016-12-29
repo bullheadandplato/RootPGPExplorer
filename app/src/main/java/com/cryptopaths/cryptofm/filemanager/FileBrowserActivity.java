@@ -203,7 +203,6 @@ public class FileBrowserActivity extends AppCompatActivity
 							folderName
 					).execute();
 					dialog.dismiss();
-                    isChildChanged = true;
 				}
 			}
 		});
