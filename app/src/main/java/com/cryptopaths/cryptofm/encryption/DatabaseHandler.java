@@ -129,7 +129,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         query.close();
-        mDB.close();
         assert data!=null;
         return data;
     }
@@ -141,4 +140,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return mDb;
     }
+
 }

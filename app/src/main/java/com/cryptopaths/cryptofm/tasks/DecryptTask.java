@@ -3,11 +3,14 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import org.spongycastle.openpgp.PGPUtil;
@@ -35,6 +38,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private String mFileName=null;
     private File mPubKey;
     private String mKeyPass;
+    private String rootPath;
     private static final String TAG="decrypt";
 
     public DecryptTask(Context context,FileListAdapter adapter,
@@ -52,17 +56,25 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
     }
     private DecryptTask(Context context, FileListAdapter adapter,String DbPass,String mUsername,String f){
-        this.mContext=context;
-        this.mAdapter=adapter;
-        this.mFileName=f;
-        this.mDbPassword=DbPass;
-        this.mUsername=mUsername;
-        this.mProgressDialog=new ProgressDialog(mContext);
-        this.encryptionManagement=new EncryptionManagement();
+        this.mContext               = context;
+        this.mAdapter               = adapter;
+        this.mFileName              = f;
+        this.mDbPassword            = DbPass;
+        this.mUsername              = mUsername;
+        this.mSecKey                =  getSecretKey();
+        this.mProgressDialog        = new ProgressDialog(mContext);
+        this.encryptionManagement   = new EncryptionManagement();
     }
     @Override
     protected String doInBackground(Void... voids) {
         try{
+            File root= new File(Environment.getExternalStorageDirectory(),"decrypted");
+            if(!root.exists()){
+                if(!root.mkdir()){
+                    return "cannot decrypt file";
+                }
+            }
+            rootPath=root.getPath();
             if(mFileName==null){
                 for (String s : mFilePaths) {
                     File f =TasksFileUtils.getFile(s);
@@ -70,14 +82,17 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
-                File out= new File(in.getPath()+in.getName()+TasksFileUtils.getEncryptedFileExtension(mFileName));
+                File out= new File(root.getPath()+in.getName().substring(0,in.getName().lastIndexOf('.')));
+                if(out.exists()){
+                    throw new Exception("file already decrypted");
+                }
                 out.createNewFile();
                 encryptionManagement.decryptFile(in,out,mPubKey,mSecKey,mKeyPass.toCharArray());
             }
 
         }catch (Exception ex){
             ex.printStackTrace();
-            return "cannot decrypt file";
+            return ex.getMessage();
         }
 
         return "decryption successful";
@@ -88,7 +103,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 decryptFile(tmp);
             }
         }else {
-            File out = new File(f.getPath() + f.getName() + TasksFileUtils.getEncryptedFileExtension(mFileName));
+            Log.d(TAG, "decryptFile: rootpath is : "+rootPath);
+            File out = new File(rootPath,f.getName().substring(0,f.getName().lastIndexOf('.')));
+            if(out.exists()){
+                throw new Exception("file already decrypted");
+            }
             if (out.createNewFile()) {
                 Log.d(TAG, "encryptFile: created file to decrypt into");
             }
@@ -109,5 +128,24 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         }
         assert mSecKey!=null;
         return mSecKey;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        mProgressDialog.dismiss();
+        Toast.makeText(mContext,
+                s,
+                Toast.LENGTH_LONG)
+                .show();
+        UiUtils.reloadData(mContext,mAdapter);
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+        mProgressDialog.setTitle("Decrypting data");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.show();
     }
 }

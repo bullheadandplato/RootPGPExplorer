@@ -136,17 +136,36 @@ public class FileBrowserActivity extends AppCompatActivity
         }else if(item.getItemId()==R.id.decrypt_menu_item){
             if(mKeyPass==null){
                 final Dialog dialog   = UiUtils.createDialog(FileBrowserActivity.this,"Key Password","Decrypt");
+                final EditText editText=(EditText)dialog.findViewById(R.id.foldername_edittext);
                 dialog.findViewById(R.id.create_file_button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mKeyPass        = ((EditText)dialog.findViewById(R.id.foldername_edittext)).getText().toString();
+                        if(editText.getText().length()<1){
+                            editText.setError("please give me your encryption password");
+                            return;
+                        }else{
+                            mKeyPass        = editText.getText().toString();
+                            dialog.dismiss();
+                        }
                         Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
-                        new DecryptTask(FileBrowserActivity.this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
+                        new DecryptTask(FileBrowserActivity.this,
+                                mmFileListAdapter,
+                                mmFileListAdapter.getmSelectedFilePaths(),
+                                mDbPassword,
+                                mUsername,
+                                mKeyPass).
+                                execute();
                     }
                 });
             }else{
                 Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
-                new DecryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
+                new DecryptTask(FileBrowserActivity.this,
+                        mmFileListAdapter,
+                        mmFileListAdapter.getmSelectedFilePaths(),
+                        mDbPassword,
+                        mUsername,
+                        mKeyPass).
+                        execute();
             }
 		}
 		return true;
