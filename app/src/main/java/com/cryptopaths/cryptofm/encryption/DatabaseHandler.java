@@ -16,7 +16,7 @@ import java.io.File;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
-
+    private static DatabaseHandler mDb;
 
     private static final String TAG="database";
     private static final String DATABASE_NAME="pierce";
@@ -130,5 +130,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         mDB.close();
         assert data!=null;
         return data;
+    }
+
+    public static DatabaseHandler getInstance(String pass,Context context,Boolean isCreated){
+        if(mDb==null){
+            mDb = new DatabaseHandler(context,pass,isCreated);
+        }
+        return mDb;
     }
 }

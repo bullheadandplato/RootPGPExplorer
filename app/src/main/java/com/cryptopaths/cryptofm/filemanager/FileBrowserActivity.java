@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +39,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	private RecyclerView 	mFileListView;
 	private FileListAdapter mmFileListAdapter;
     private boolean         isChildChanged;
-
+	private String			mDbPassword;
+	private String 			mUsername;
 	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
     private static final String TAG = "FileBrowser";
 
@@ -48,7 +50,8 @@ public class FileBrowserActivity extends AppCompatActivity
 		setContentView(R.layout.file_activity);
 		setResult(RESULT_OK);
 
-
+        mDbPassword 	  = getIntent().getExtras().getString("dbpass");
+		mUsername		  = getPreferences(Context.MODE_PRIVATE).getString("username","default");
 		mCurrentPath 	  = Environment.getExternalStorageDirectory().getPath();
 		mRootPath	 	  = mCurrentPath+"/";
 		mFileListView 	  = (RecyclerView) findViewById(R.id.fileListView);

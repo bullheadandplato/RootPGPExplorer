@@ -22,5 +22,24 @@ public class TasksFileUtils {
             return temp;
         }
     }
+    static String getEncryptedFileExtension(String FileName){
+        String emptyExtension="file";
+        if(FileName==null){
+            return emptyExtension;
+        }else{
+            int index=FileName.lastIndexOf('.');
+            if(index==-1){
+                return emptyExtension;
+            }else{
+                emptyExtension=FileName.substring(0,index+1);
+                index=emptyExtension.lastIndexOf('.');
+                if(index==-1){
+                    return "file";
+                }else{
+                    return emptyExtension.substring(index+1);
+                }
+            }
+        }
+    }
 
 }

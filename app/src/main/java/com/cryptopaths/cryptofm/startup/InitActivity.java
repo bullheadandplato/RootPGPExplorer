@@ -63,6 +63,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private Drawable        mProgressBarDefaultDrawable;
     private Drawable        mProgressBarAfterDrawable;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,6 +246,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putBoolean("key",true);
+        editor.putString("username",mUserName);
         editor.apply();
         editor.commit();
     }

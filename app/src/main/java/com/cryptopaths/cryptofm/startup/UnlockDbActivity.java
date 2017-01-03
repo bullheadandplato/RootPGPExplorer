@@ -54,10 +54,10 @@ public class UnlockDbActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     private class IntialTask extends AsyncTask<String,Void,Boolean>{
-
+        String pass;
         @Override
         protected Boolean doInBackground(String... voids) {
-            String pass = voids[0];
+            pass        = voids[0];
             String path = Environment.getExternalStorageDirectory().getPath();
             DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
             if(handler.checkPass(pass)){
@@ -76,6 +76,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             mProgressDialog.hide();
             if(result){
                 Intent intent=new Intent(UnlockDbActivity.this,FileBrowserActivity.class);
+                intent.putExtra("dbpass",pass);
                 startActivityForResult(intent,1);
                 finish();
             }else{
