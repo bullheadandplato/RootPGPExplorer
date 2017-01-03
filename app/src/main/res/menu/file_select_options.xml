@@ -10,6 +10,10 @@
         android:id="@+id/encrypt_menu_item"
         android:title="Encrypt"
         android:icon="@drawable/ic_lock_white_24dp"/>
+    <item app:showAsAction="ifRoom"
+        android:title="decrypt"
+        android:id="@+id/decrypt_menu_item"
+        android:icon="@drawable/ic_lock_open_white_48dp"/>
     <item
         android:id="@+id/rename_menu_item"
         android:title="Rename"

@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
 import com.cryptopaths.cryptofm.tasks.RenameTask;
@@ -41,10 +42,11 @@ public class FileBrowserActivity extends AppCompatActivity
     private boolean         isChildChanged;
 	private String			mDbPassword;
 	private String 			mUsername;
-	public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
+	private String          mKeyPass = null;
+    public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
     private static final String TAG = "FileBrowser";
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
@@ -132,7 +134,13 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
         else if (item.getItemId()==R.id.encrypt_menu_item){
             new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
-        }
+        }else if(item.getItemId()==R.id.decrypt_menu_item){
+            if(mKeyPass==null){
+                Dialog dialog   = UiUtils.createDialog(this,"Key Password","Decrypt");
+                mKeyPass        = ((EditText)dialog.findViewById(R.id.foldername_edittext)).getText().toString();
+            }
+			new DecryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
+		}
 		return true;
 	}
 
