@@ -1,7 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -53,7 +52,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		setResult(RESULT_OK);
 
         mDbPassword 	  = getIntent().getExtras().getString("dbpass");
-		mUsername		  = getPreferences(Context.MODE_PRIVATE).getString("username","default");
+		mUsername		  = getIntent().getExtras().getString("username","default");
 		mCurrentPath 	  = Environment.getExternalStorageDirectory().getPath();
 		mRootPath	 	  = mCurrentPath+"/";
 		mFileListView 	  = (RecyclerView) findViewById(R.id.fileListView);
@@ -136,10 +135,19 @@ public class FileBrowserActivity extends AppCompatActivity
             new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
         }else if(item.getItemId()==R.id.decrypt_menu_item){
             if(mKeyPass==null){
-                Dialog dialog   = UiUtils.createDialog(this,"Key Password","Decrypt");
-                mKeyPass        = ((EditText)dialog.findViewById(R.id.foldername_edittext)).getText().toString();
+                final Dialog dialog   = UiUtils.createDialog(FileBrowserActivity.this,"Key Password","Decrypt");
+                dialog.findViewById(R.id.create_file_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mKeyPass        = ((EditText)dialog.findViewById(R.id.foldername_edittext)).getText().toString();
+                        Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
+                        new DecryptTask(FileBrowserActivity.this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
+                    }
+                });
+            }else{
+                Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
+                new DecryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
             }
-			new DecryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths(),mDbPassword,mUsername,mKeyPass);
 		}
 		return true;
 	}

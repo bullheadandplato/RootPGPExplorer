@@ -106,6 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
     public byte[] getSecretKeyFromDb(String email){
+        Log.d("goo34", "getSecretKeyFromDb: "+email);
         byte[] data=null;
         String[] columns=
                 {FeedReaderContract.SecRing.TB_COL2_EMAIL,
@@ -126,6 +127,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             data=query.getBlob(index);
             Log.d("test","NUmber of rows: "+query.getCount());
         }
+
         query.close();
         mDB.close();
         assert data!=null;
@@ -134,6 +136,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static DatabaseHandler getInstance(String pass,Context context,Boolean isCreated){
         if(mDb==null){
+            Log.d("dec", "getInstance: "+pass);
             mDb = new DatabaseHandler(context,pass,isCreated);
         }
         return mDb;

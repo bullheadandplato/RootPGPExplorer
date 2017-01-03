@@ -77,6 +77,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             if(result){
                 Intent intent=new Intent(UnlockDbActivity.this,FileBrowserActivity.class);
                 intent.putExtra("dbpass",pass);
+                intent.putExtra("username",getIntent().getExtras().getString("username"));
                 startActivityForResult(intent,1);
                 finish();
             }else{

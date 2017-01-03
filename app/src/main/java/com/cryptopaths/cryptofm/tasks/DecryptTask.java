@@ -45,8 +45,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mFilePaths             = filePaths;
         this.mUsername              = mUsername;
         this.mKeyPass               = keypass;
-        this.mSecKey                = getSecretKey();
         this.mDbPassword            = DbPass;
+        this.mSecKey                = getSecretKey();
         this.mProgressDialog        = new ProgressDialog(mContext);
         this.encryptionManagement   = new EncryptionManagement();
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");

@@ -72,9 +72,11 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         //first of all check shared preferences
         SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
         boolean isNotFirstRun           = preferences.getBoolean("key",false);
+        String username                 = preferences.getString("username","default");
         if(isNotFirstRun){
             //change activity to unlock db activity
             Intent intent = new Intent(this,UnlockDbActivity.class);
+            intent.putExtra("username",username);
             //clear the stack
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivityForResult(intent,1);
