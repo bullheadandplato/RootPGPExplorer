@@ -3,10 +3,12 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import org.spongycastle.openpgp.PGPUtil;
 
@@ -33,6 +35,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private String mFileName=null;
     private File mPubKey;
     private String mKeyPass;
+    private static final String TAG="decrypt";
+
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
                        String DbPass,String mUsername,String keypass){
@@ -62,6 +66,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             if(mFileName==null){
                 for (String s : mFilePaths) {
                     File f =TasksFileUtils.getFile(s);
+                    decryptFile(f);
                 }
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
@@ -76,6 +81,23 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         }
 
         return "decryption successful";
+    }
+    private void decryptFile(File f) throws Exception{
+        if(f.isDirectory()){
+            for (File tmp: f.listFiles()) {
+                decryptFile(tmp);
+            }
+        }else {
+            File out = new File(f.getPath() + f.getName() + TasksFileUtils.getEncryptedFileExtension(mFileName));
+            if (out.createNewFile()) {
+                Log.d(TAG, "encryptFile: created file to decrypt into");
+            }
+            publishProgress(f.getName(), "" +
+                    ((FileUtils.getReadableSize((f.length())))));
+
+            encryptionManagement.decryptFile(f, out, mPubKey, mSecKey, mKeyPass.toCharArray());
+        }
+
     }
 
     private InputStream getSecretKey() {

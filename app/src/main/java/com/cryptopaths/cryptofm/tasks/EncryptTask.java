@@ -74,7 +74,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-
         mProgressDialog.setMessage(values[0]);
     }
 
