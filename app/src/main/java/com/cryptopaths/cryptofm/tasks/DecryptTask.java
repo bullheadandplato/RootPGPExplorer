@@ -13,11 +13,9 @@ import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
-import org.spongycastle.openpgp.PGPUtil;
-
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -86,7 +84,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 if(out.exists()){
                     throw new Exception("file already decrypted");
                 }
-                out.createNewFile();
+                //out.createNewFile();
                 encryptionManagement.decryptFile(in,out,mPubKey,mSecKey,mKeyPass.toCharArray());
             }
 
@@ -108,9 +106,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             if(out.exists()){
                 throw new Exception("file already decrypted");
             }
-            if (out.createNewFile()) {
-                Log.d(TAG, "encryptFile: created file to decrypt into");
-            }
+           // if (out.createNewFile()) {
+             //   Log.d(TAG, "encryptFile: created file to decrypt into");
+           // }
             publishProgress(f.getName(), "" +
                     ((FileUtils.getReadableSize((f.length())))));
 
@@ -122,8 +120,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private InputStream getSecretKey() {
         DatabaseHandler handler=DatabaseHandler.getInstance(mDbPassword,mContext,true);
         try {
-            mSecKey= PGPUtil.getDecoderStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
-        } catch (IOException e) {
+            mSecKey= new BufferedInputStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         assert mSecKey!=null;

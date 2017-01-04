@@ -173,6 +173,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
+		Log.d("action","destroying action mode");
 		selectCount = 0;
 		actionMode  = null;
 		mmFileListAdapter.resetFileIcons();

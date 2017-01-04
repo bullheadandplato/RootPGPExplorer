@@ -7,11 +7,14 @@ import org.spongycastle.bcpg.sig.KeyFlags;
 import org.spongycastle.crypto.generators.RSAKeyPairGenerator;
 import org.spongycastle.crypto.params.RSAKeyGenerationParameters;
 import org.spongycastle.openpgp.PGPEncryptedData;
+import org.spongycastle.openpgp.PGPException;
 import org.spongycastle.openpgp.PGPKeyPair;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
+import org.spongycastle.openpgp.PGPPrivateKey;
 import org.spongycastle.openpgp.PGPPublicKey;
 import org.spongycastle.openpgp.PGPPublicKeyRing;
 import org.spongycastle.openpgp.PGPSecretKey;
+import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
 import org.spongycastle.openpgp.PGPSignature;
 import org.spongycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.spongycastle.openpgp.PGPUtil;
@@ -23,11 +26,13 @@ import org.spongycastle.openpgp.operator.bc.BcPBESecretKeyEncryptorBuilder;
 import org.spongycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
 import org.spongycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
 import org.spongycastle.openpgp.operator.bc.BcPGPKeyPair;
+import org.spongycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Iterator;
@@ -154,5 +159,17 @@ public class KeyManagement implements KeyOperations {
             return secretKey;
         }
 
+    }
+    public PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
+            throws PGPException, NoSuchProviderException
+    {
+        PGPSecretKey pgpSecKey = pgpSec.getSecretKey(keyID);
+
+        if (pgpSecKey == null)
+        {
+            return null;
+        }
+
+        return pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
     }
 }

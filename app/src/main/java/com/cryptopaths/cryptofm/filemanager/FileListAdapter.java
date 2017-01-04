@@ -212,6 +212,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     void setmSelectionMode(Boolean value){
         //first check if there are select files
         if(mSelectedPosition.size()>0) {
+            for (Integer pos : mSelectedPosition) {
+                mDataModel =  mFile.getFileAtPosition(pos);
+                mDataModel.setSelected(false);
+            }
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
         }
