@@ -28,7 +28,6 @@ import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -37,8 +36,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	private String 			mCurrentPath;
 	private String 			mRootPath;
-	private RecyclerView 	mFileListView;
-	private FileListAdapter mmFileListAdapter;
+    private FileListAdapter mmFileListAdapter;
     private boolean         isChildChanged;
 	private String			mDbPassword;
 	private String 			mUsername;
@@ -52,11 +50,11 @@ public class FileBrowserActivity extends AppCompatActivity
 		setContentView(R.layout.file_activity);
 		setResult(RESULT_OK);
 
-        mDbPassword 	  = getIntent().getExtras().getString("dbpass");
-		mUsername		  = getIntent().getExtras().getString("username","default");
-		mCurrentPath 	  = Environment.getExternalStorageDirectory().getPath();
-		mRootPath	 	  = mCurrentPath+"/";
-		mFileListView 	  = (RecyclerView) findViewById(R.id.fileListView);
+        mDbPassword 	           = getIntent().getExtras().getString("dbpass");
+		mUsername		           = getIntent().getExtras().getString("username","default");
+		mCurrentPath 	           = Environment.getExternalStorageDirectory().getPath();
+		mRootPath	 	           = mCurrentPath+"/";
+        RecyclerView mFileListView = (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter = new FileListAdapter(this);
 
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
@@ -257,7 +255,7 @@ public class FileBrowserActivity extends AppCompatActivity
 						DeleteTask task=new DeleteTask(
 								FileBrowserActivity.this,
 								mmFileListAdapter,
-								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
+                                mmFileListAdapter.getmSelectedFilePaths());
 						task.execute();
                         isChildChanged = true;
 
@@ -351,6 +349,9 @@ public class FileBrowserActivity extends AppCompatActivity
                     mKeyPass).
                     execute();
         }
+    }
+    public void resetmKeyPass(){
+        mKeyPass=null;
     }
     /**
 	 * end of task executing section

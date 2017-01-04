@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
+import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -89,6 +90,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }
 
         }catch (Exception ex){
+            //let the activity know that password is incorrect and don't save it
+            ((FileBrowserActivity)mContext).resetmKeyPass();
             ex.printStackTrace();
             return ex.getMessage();
         }
