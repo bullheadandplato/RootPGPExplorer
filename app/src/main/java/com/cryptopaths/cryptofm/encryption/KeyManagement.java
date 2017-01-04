@@ -164,12 +164,17 @@ public class KeyManagement implements KeyOperations {
             throws PGPException, NoSuchProviderException
     {
         PGPSecretKey pgpSecKey = pgpSec.getSecretKey(keyID);
-
+        PGPPrivateKey x;
         if (pgpSecKey == null)
         {
             return null;
         }
 
-        return pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
+        try{
+           x =pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
+        }catch (Exception ex){
+            return null;
+        }
+        return x;
     }
 }

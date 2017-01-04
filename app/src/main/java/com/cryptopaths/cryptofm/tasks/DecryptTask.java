@@ -106,9 +106,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             if(out.exists()){
                 throw new Exception("file already decrypted");
             }
-           // if (out.createNewFile()) {
-             //   Log.d(TAG, "encryptFile: created file to decrypt into");
-           // }
+
             publishProgress(f.getName(), "" +
                     ((FileUtils.getReadableSize((f.length())))));
 

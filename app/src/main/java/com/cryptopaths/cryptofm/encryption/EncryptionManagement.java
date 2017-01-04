@@ -128,6 +128,7 @@ public class EncryptionManagement implements EncryptionOperation {
 
             if (sKey == null)
             {
+                Log.d("decrypt", "decryptFile: no key found");
                 throw new IllegalArgumentException("secret key for message not found.");
             }
 
