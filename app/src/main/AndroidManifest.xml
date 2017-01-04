@@ -11,16 +11,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".startup.InitActivity">
+        <activity
+            android:name=".startup.InitActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".startup.IntermediateActivity" />
-        <activity android:name=".startup.UnlockDbActivity"></activity>
-        <activity android:name=".filemanager.FileBrowserActivity" android:clearTaskOnLaunch="true"/>
+        <activity
+            android:name=".startup.IntermediateActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
+        <activity android:name=".startup.UnlockDbActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
+        <activity
+            android:name=".filemanager.FileBrowserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:clearTaskOnLaunch="true"/>
     </application>
 
 </manifest>
