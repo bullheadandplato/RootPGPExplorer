@@ -53,6 +53,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mProgressDialog        = new ProgressDialog(mContext);
         this.encryptionManagement   = new EncryptionManagement();
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
+
+
     }
     private DecryptTask(Context context, FileListAdapter adapter,String DbPass,String mUsername,String f){
         this.mContext               = context;
@@ -104,7 +106,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 decryptFile(tmp);
             }
         }else {
-            Log.d(TAG, "decryptFile: rootpath is : "+rootPath);
+            Log.d(TAG, "decryptFile: rootpath is : "+f.getPath());
             File out = new File(rootPath,f.getName().substring(0,f.getName().lastIndexOf('.')));
             if(out.exists()){
                 throw new Exception("file already decrypted");

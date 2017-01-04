@@ -17,9 +17,9 @@ import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
 import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
 import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
-import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
+import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 import org.spongycastle.util.io.Streams;
 
@@ -42,6 +42,9 @@ import java.util.Iterator;
  */
 
 public class EncryptionManagement implements EncryptionOperation {
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
     private KeyManagement keyManagement;
     public EncryptionManagement(){
         keyManagement=new KeyManagement();
@@ -88,7 +91,6 @@ public class EncryptionManagement implements EncryptionOperation {
             String      defaultFileName)
             throws IOException, NoSuchProviderException
     {
-        Security.addProvider(new BouncyCastleProvider());
         Log.d("decrypt","yoo nigga decrypting");
         in = PGPUtil.getDecoderStream(in);
 
@@ -132,7 +134,7 @@ public class EncryptionManagement implements EncryptionOperation {
                 throw new IllegalArgumentException("secret key for message not found.");
             }
 
-            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
+            InputStream         clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey));
 
             JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
 
