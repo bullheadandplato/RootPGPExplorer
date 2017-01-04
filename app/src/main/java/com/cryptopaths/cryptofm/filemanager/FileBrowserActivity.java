@@ -143,44 +143,12 @@ public class FileBrowserActivity extends AppCompatActivity
         else if (item.getItemId()==R.id.encrypt_menu_item){
             new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
         }else if(item.getItemId()==R.id.decrypt_menu_item){
-            if(mKeyPass==null){
-                final Dialog dialog   = UiUtils.createDialog(FileBrowserActivity.this,"Key Password","Decrypt");
-                final EditText editText=(EditText)dialog.findViewById(R.id.foldername_edittext);
-                dialog.findViewById(R.id.create_file_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(editText.getText().length()<1){
-                            editText.setError("please give me your encryption password");
-                            return;
-                        }else{
-                            mKeyPass        = editText.getText().toString();
-                            dialog.dismiss();
-                        }
-                        Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
-                        new DecryptTask(FileBrowserActivity.this,
-                                mmFileListAdapter,
-                                mmFileListAdapter.getmSelectedFilePaths(),
-                                mDbPassword,
-                                mUsername,
-                                mKeyPass).
-                                execute();
-                    }
-                });
-            }else{
-                Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
-                new DecryptTask(FileBrowserActivity.this,
-                        mmFileListAdapter,
-                        mmFileListAdapter.getmSelectedFilePaths(),
-                        mDbPassword,
-                        mUsername,
-                        mKeyPass).
-                        execute();
-            }
+            decryptFile();
 		}
 		return true;
 	}
 
-	@Override
+    @Override
 	public void onDestroyActionMode(ActionMode mode) {
 		Log.d("action","destroying action mode");
 		selectCount = 0;
@@ -339,7 +307,50 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
-	/**
+    private void decryptFile() {
+        if(mKeyPass==null){
+            final Dialog dialog   = new Dialog(this);
+            dialog.setContentView(R.layout.password_dialog_layout);
+            dialog.show();
+            findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            final EditText editText=(EditText)dialog.findViewById(R.id.key_password);
+            dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(editText.getText().length()<1){
+                        editText.setError("please give me your encryption password");
+                        return;
+                    }else{
+                        mKeyPass        = editText.getText().toString();
+                        dialog.dismiss();
+                    }
+                    Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
+                    new DecryptTask(FileBrowserActivity.this,
+                            mmFileListAdapter,
+                            mmFileListAdapter.getmSelectedFilePaths(),
+                            mDbPassword,
+                            mUsername,
+                            mKeyPass).
+                            execute();
+                }
+            });
+        }else{
+            Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
+            new DecryptTask(FileBrowserActivity.this,
+                    mmFileListAdapter,
+                    mmFileListAdapter.getmSelectedFilePaths(),
+                    mDbPassword,
+                    mUsername,
+                    mKeyPass).
+                    execute();
+        }
+    }
+    /**
 	 * end of task executing section
 	 */
 
