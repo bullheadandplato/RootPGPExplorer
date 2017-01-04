@@ -109,7 +109,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
     private LongClickCallBack clickCallBack;
 
-    public void selectAllFiles() {
+    void selectAllFiles() {
         for (int i = 0; i < mFile.getTotalFilesCount(); i++) {
             mDataModel = mFile.getFileAtPosition(i);
             selectFile(i);

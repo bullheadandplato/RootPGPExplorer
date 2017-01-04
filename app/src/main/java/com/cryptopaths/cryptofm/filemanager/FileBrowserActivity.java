@@ -314,7 +314,7 @@ public class FileBrowserActivity extends AppCompatActivity
             final Dialog dialog   = new Dialog(this);
             dialog.setContentView(R.layout.password_dialog_layout);
             dialog.show();
-            findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
+            dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
