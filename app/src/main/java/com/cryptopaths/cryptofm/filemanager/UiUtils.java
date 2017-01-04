@@ -18,7 +18,7 @@ import static com.cryptopaths.cryptofm.filemanager.FileBrowserActivity.mFilesDat
 
 public class UiUtils {
     static ActionMode actionMode;
-    public static Dialog createDialog(Context context, String title, String buttonTitle){
+    static Dialog createDialog(Context context, String title, String buttonTitle){
         final Dialog dialog=new Dialog(context);
         dialog.setTitle(title);
         dialog.setContentView(R.layout.create_file_dialog);
