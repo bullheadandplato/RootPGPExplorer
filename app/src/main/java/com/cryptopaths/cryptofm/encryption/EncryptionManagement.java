@@ -38,6 +38,7 @@ import java.util.Iterator;
 
 /**
  * Created by osama on 10/13/16.
+ * the encryption related operations
  */
 
 public class EncryptionManagement implements EncryptionOperation {
@@ -181,7 +182,7 @@ public class EncryptionManagement implements EncryptionOperation {
         }
         catch (PGPException e)
         {
-            System.err.println(e);
+            e.printStackTrace();
             if (e.getUnderlyingException() != null)
             {
                 e.getUnderlyingException().printStackTrace();
