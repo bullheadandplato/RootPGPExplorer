@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -62,11 +61,6 @@ public class FileBrowserActivity extends AppCompatActivity
 
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
-		// item decoration for displaying divider
-		DividerItemDecoration dividerItemDecoration =
-				new DividerItemDecoration(mFileListView.getContext(),
-						1);
-		mFileListView.addItemDecoration(dividerItemDecoration);
 
 		mFileListView.setAdapter(mmFileListAdapter);
 
