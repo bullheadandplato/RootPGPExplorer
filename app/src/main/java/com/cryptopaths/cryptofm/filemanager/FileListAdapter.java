@@ -108,6 +108,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         return mFile.getTotalFilesCount();
     }
     private LongClickCallBack clickCallBack;
+
+    public void selectAllFiles() {
+        for (int i = 0; i < mFile.getTotalFilesCount(); i++) {
+            mDataModel = mFile.getFileAtPosition(i);
+            selectFile(i);
+        }
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView   mImageView;
         ImageView   noFilesLayout;
@@ -192,15 +201,20 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 mDataModel.setFileIcon(mFolderIcon);
             }
         }else{
+            selectFile(position);
+        }
+
+        notifyItemChanged(position);
+
+    }
+    private void selectFile(int position){
+        if(!mDataModel.getSelected()) {
             clickCallBack.incrementSelectionCount();
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
         }
-
-        notifyItemChanged(position);
-
     }
 
     interface LongClickCallBack{

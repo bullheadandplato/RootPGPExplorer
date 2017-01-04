@@ -144,7 +144,9 @@ public class FileBrowserActivity extends AppCompatActivity
             new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
         }else if(item.getItemId()==R.id.decrypt_menu_item){
             decryptFile();
-		}
+		}else if(item.getItemId()==R.id.selectall_menu_item){
+            mmFileListAdapter.selectAllFiles();
+        }
 		return true;
 	}
 
