@@ -17,9 +17,9 @@ import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
 import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
 import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
-import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 import org.spongycastle.util.io.Streams;
 
@@ -134,7 +134,7 @@ public class EncryptionManagement implements EncryptionOperation {
                 throw new IllegalArgumentException("secret key for message not found.");
             }
 
-            InputStream         clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey));
+            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
 
             JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
 
