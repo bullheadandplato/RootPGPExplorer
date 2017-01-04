@@ -127,6 +127,7 @@ public class IntermediateActivity extends AppCompatActivity {
             Toast.makeText(IntermediateActivity.this, s, Toast.LENGTH_LONG).show();
             //ask the user if he/she wants to delete the unencrypted version of file
             AlertDialog.Builder dialog=new AlertDialog.Builder(IntermediateActivity.this);
+            dialog.setCancelable(false);
             dialog.setMessage("Do you want to delete the unencrypted version of folders?");
             dialog.setTitle("Delete unencrypted files");
             dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
