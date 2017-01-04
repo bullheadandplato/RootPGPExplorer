@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.utils;
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -147,6 +148,19 @@ public class FileUtils {
                 return true;
             }else{
                 return false;
+            }
+        }
+    }
+
+    public static void deleteDecryptedFolder() {
+        File f=new File(Environment.getExternalStorageDirectory().getPath(),"decrypted");
+        if(f.exists()){
+            for (File child:
+                 f.listFiles()) {
+                child.delete();
+            }
+            if(!f.delete()){
+                Log.d(TAG, "deleteDecryptedFolder: cannot delete decrypted folder");
             }
         }
     }

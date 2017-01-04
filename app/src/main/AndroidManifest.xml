@@ -32,6 +32,11 @@
             android:name=".filemanager.FileBrowserActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:clearTaskOnLaunch="true"/>
+
+        <service
+            android:name=".services.CleanupService"
+            android:stopWithTask="false"
+            />
     </application>
 
 </manifest>

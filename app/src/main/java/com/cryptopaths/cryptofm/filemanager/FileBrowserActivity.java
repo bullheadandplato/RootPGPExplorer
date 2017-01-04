@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.services.CleanupService;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
@@ -107,7 +109,20 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
 	}
 
-	/**
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: destroying activity");
+        super.onDestroy();
+        FileUtils.deleteDecryptedFolder();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    /**
 	 *start of ActionMode section
      */
 	@Override
@@ -261,6 +276,7 @@ public class FileBrowserActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         Log.d(TAG, "onPause: pausing activity");
+        startService(new Intent(this,CleanupService.class));
         super.onPause();
     }
 
@@ -332,5 +348,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	/**
 	 * end of task executing section
 	 */
+
+
 
 }
