@@ -394,6 +394,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             commitInitActivity();
             //start intermediateActivity
             Intent intent = new Intent(InitActivity.this,IntermediateActivity.class);
+            intent.putExtra("username",mUserName);
             intent.putExtra("dirs",mSecondFragment.getAllSelectedPositions());
             startActivityForResult(intent,1);
             finish();
