@@ -36,7 +36,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private String mUsername;
     private String mFileName=null;
     private File mPubKey;
-    private String mKeyPass;
+    private char[] mKeyPass;
     private String rootPath;
     private static final String TAG="decrypt";
 
@@ -47,7 +47,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mAdapter               = adapter;
         this.mFilePaths             = filePaths;
         this.mUsername              = mUsername;
-        this.mKeyPass               = keypass;
+        this.mKeyPass               = keypass.toCharArray();
         this.mDbPassword            = DbPass;
         this.mSecKey                = getSecretKey();
         this.mProgressDialog        = new ProgressDialog(mContext);
@@ -78,6 +78,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             rootPath=root.getPath();
             if(mFileName==null){
                 for (String s : mFilePaths) {
+                    Log.d(TAG, "doInBackground: +"+mFilePaths.size());
                     File f =TasksFileUtils.getFile(s);
                     decryptFile(f);
                 }
@@ -88,7 +89,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     throw new Exception("file already decrypted");
                 }
                 //out.createNewFile();
-                encryptionManagement.decryptFile(in,out,mPubKey,mSecKey,mKeyPass.toCharArray());
+                mSecKey=getSecretKey();
+                encryptionManagement.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
             }
 
         }catch (Exception ex){
@@ -115,7 +117,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             publishProgress(f.getName(), "" +
                     ((FileUtils.getReadableSize((f.length())))));
 
-            encryptionManagement.decryptFile(f, out, mPubKey, mSecKey, mKeyPass.toCharArray());
+            encryptionManagement.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
         }
 
     }

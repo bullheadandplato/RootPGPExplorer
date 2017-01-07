@@ -54,6 +54,7 @@ public class EncryptionManagement implements EncryptionOperation {
     public void decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
         InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
         decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath());
+        Log.d("decrypt","loook like i can handle it");
         secKeyFile.close();
         in.close();
     }
@@ -84,7 +85,7 @@ public class EncryptionManagement implements EncryptionOperation {
     /**
      * decrypt the passed in message stream
      */
-    private  void decryptFile(
+    private void decryptFile(
             InputStream in,
             InputStream keyIn,
             char[]      passwd,

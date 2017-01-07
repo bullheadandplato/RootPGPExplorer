@@ -1,5 +1,7 @@
 package com.cryptopaths.cryptofm.encryption;
 
+import android.util.Log;
+
 import org.spongycastle.bcpg.HashAlgorithmTags;
 import org.spongycastle.bcpg.SymmetricKeyAlgorithmTags;
 import org.spongycastle.bcpg.sig.Features;
@@ -171,8 +173,10 @@ public class KeyManagement implements KeyOperations {
         }
 
         try{
+            Log.d("decrypt", "findSecretKey: fixing something");
            x =pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
         }catch (Exception ex){
+            ex.printStackTrace();
             return null;
         }
         return x;
