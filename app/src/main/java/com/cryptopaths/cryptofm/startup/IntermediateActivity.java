@@ -200,6 +200,7 @@ public class IntermediateActivity extends AppCompatActivity {
         Intent intent=new Intent(IntermediateActivity.this,UnlockDbActivity.class);
         //clear the back stack so user cannot get to this activity again
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("username",getIntent().getExtras().getString("username"));
         startActivityForResult(intent,1);
         finish();
     }
