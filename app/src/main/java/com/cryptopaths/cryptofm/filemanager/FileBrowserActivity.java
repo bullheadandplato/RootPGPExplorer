@@ -28,6 +28,8 @@ import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
+import java.util.ArrayList;
+
 
 public class FileBrowserActivity extends AppCompatActivity
 		implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
@@ -128,7 +130,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			deleteFile();
 		}
         else if (item.getItemId()==R.id.encrypt_menu_item){
-            new EncryptTask(this,mmFileListAdapter,mmFileListAdapter.getmSelectedFilePaths()).execute();
+            new EncryptTask(this,mmFileListAdapter, (ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone()).execute();
         }else if(item.getItemId()==R.id.decrypt_menu_item){
             decryptFile();
 		}else if(item.getItemId()==R.id.selectall_menu_item){
@@ -253,7 +255,7 @@ public class FileBrowserActivity extends AppCompatActivity
 						DeleteTask task=new DeleteTask(
 								FileBrowserActivity.this,
 								mmFileListAdapter,
-                                mmFileListAdapter.getmSelectedFilePaths());
+								(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
 						task.execute();
 
 					}
@@ -328,7 +330,7 @@ public class FileBrowserActivity extends AppCompatActivity
                     Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
                     new DecryptTask(FileBrowserActivity.this,
                             mmFileListAdapter,
-                            mmFileListAdapter.getmSelectedFilePaths(),
+							(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone(),
                             mDbPassword,
                             mUsername,
                             mKeyPass).
@@ -339,7 +341,7 @@ public class FileBrowserActivity extends AppCompatActivity
             Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
             new DecryptTask(FileBrowserActivity.this,
                     mmFileListAdapter,
-                    mmFileListAdapter.getmSelectedFilePaths(),
+					(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone(),
                     mDbPassword,
                     mUsername,
                     mKeyPass).
