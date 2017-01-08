@@ -51,7 +51,7 @@ public class FileBrowserActivity extends AppCompatActivity
         mDbPassword 	           = getIntent().getExtras().getString("dbpass");
 		mUsername		           = getIntent().getExtras().getString("username","default");
 		mCurrentPath 	           = Environment.getExternalStorageDirectory().getPath()+"/";
-		mRootPath	 	           = mCurrentPath+"/";
+		mRootPath	 	           = mCurrentPath;
         RecyclerView mFileListView = (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter = new FileListAdapter(this);
 
