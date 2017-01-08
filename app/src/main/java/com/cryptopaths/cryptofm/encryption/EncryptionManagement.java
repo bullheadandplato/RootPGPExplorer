@@ -21,7 +21,6 @@ import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
-import org.spongycastle.util.io.Streams;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -53,8 +52,8 @@ public class EncryptionManagement implements EncryptionOperation {
     @Override
     public void decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
         InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
-        decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath());
-        Log.d("decrypt","loook like i can handle it");
+        decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath(),inputFile.length());
+        Log.d("decrypt","look like i can handle it");
         secKeyFile.close();
         in.close();
     }
@@ -98,7 +97,9 @@ public class EncryptionManagement implements EncryptionOperation {
             InputStream in,
             InputStream keyIn,
             char[]      passwd,
-            String      defaultFileName)
+            String      defaultFileName,
+            long limit
+            )
             throws IOException, NoSuchProviderException
     {
         Log.d("decrypt","yoo nigga decrypting");
@@ -161,10 +162,17 @@ public class EncryptionManagement implements EncryptionOperation {
 
 
                 InputStream unc = ld.getInputStream();
-                Log.d("decrypt","yoo google is null: "+defaultFileName);
+                Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
 
-                Streams.pipeAll(unc, fOut);
+                //Streams.pipeAllLimited(unc, limit,fOut);
+                //while ()
+                try {
+                    pipeAll(unc,fOut,limit);
+                } catch (Exception e) {
+                    Log.d("Google","nicely fucked");
+                    e.printStackTrace();
+                }
 
                 fOut.close();
             }
@@ -200,6 +208,19 @@ public class EncryptionManagement implements EncryptionOperation {
             {
                 e.getUnderlyingException().printStackTrace();
             }
+        }
+    }
+    private void pipeAll(InputStream inStr,OutputStream outStr,long limit) throws Exception{
+        long total = 0;
+        byte[] bs = new byte[4096];
+        int numRead;
+        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0)
+        {
+            if((limit-total)<numRead){
+                return;
+            }
+            total += numRead;
+            outStr.write(bs, 0, numRead);
         }
     }
 
