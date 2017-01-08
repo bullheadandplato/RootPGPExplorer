@@ -1,6 +1,5 @@
 package com.cryptopaths.cryptofm.tasks;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 public class EncryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<String>       mFilePaths;
     private FileListAdapter         mAdapter;
-    private ProgressDialog          mProgressDialog;
+    private MyProgressDialog        mProgressDialog;
     private Context                 mContext;
     private File                    pubKeyFile;
 
@@ -34,7 +33,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         this.mAdapter               = adapter;
         this.mContext               = context;
         this.mFilePaths             = filePaths;
-        this.mProgressDialog        = new ProgressDialog(mContext);
+        this.mProgressDialog        = new MyProgressDialog(context,"Encrypting");
         this.pubKeyFile             = new File(mContext.getFilesDir(),"pub.asc");
     }
 
@@ -72,12 +71,12 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-        mProgressDialog.setMessage(values[0]);
+        mProgressDialog.setmProgressTextViewText(values[0]);
     }
 
     @Override
     protected void onPostExecute(String s) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismiss("Encryption successful");
         Toast.makeText(
                 mContext,
                 s,
@@ -111,9 +110,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog.setTitle("Encrypting data");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.show();
     }
 }
