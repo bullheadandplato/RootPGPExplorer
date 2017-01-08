@@ -51,7 +51,8 @@ public class MyProgressDialog {
         mNotBuilder.setContentText(mCurrentFilename);
         mNotBuilder.setSmallIcon(R.drawable.logo);
         Log.d("notification","yoo nigga showing notification");
-        mNotBuilder.setProgress(100,0,true);
+        mNotBuilder.setProgress(0,0,true);
+        mNotBuilder.setOngoing(true);
         mNotificationManager.notify(1,mNotBuilder.build());
     }
 
@@ -67,6 +68,7 @@ public class MyProgressDialog {
     void dismiss(){
         if(isInNotificationMode){
             mNotBuilder.setContentText("Decryption completed");
+            mNotBuilder.setOngoing(false);
             mNotBuilder.setProgress(100,100,false);
             mNotificationManager.notify(1,mNotBuilder.build());
         }else{
