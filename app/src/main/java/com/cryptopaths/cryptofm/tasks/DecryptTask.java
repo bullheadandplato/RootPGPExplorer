@@ -134,7 +134,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismiss("Decryption completed");
         CleanupService.IS_DECRYPTION_RUNNING=false;
         Toast.makeText(mContext,
                 s,

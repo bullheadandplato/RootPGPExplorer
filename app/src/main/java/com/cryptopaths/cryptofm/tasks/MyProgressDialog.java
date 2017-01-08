@@ -65,9 +65,9 @@ public class MyProgressDialog {
             this.mProgressTextView.setText(text);
         }
     }
-    void dismiss(){
+    void dismiss(String text){
         if(isInNotificationMode){
-            mNotBuilder.setContentText("Decryption completed");
+            mNotBuilder.setContentText(text);
             mNotBuilder.setOngoing(false);
             mNotBuilder.setProgress(100,100,false);
             mNotificationManager.notify(1,mNotBuilder.build());
