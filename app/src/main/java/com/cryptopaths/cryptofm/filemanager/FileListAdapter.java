@@ -1,14 +1,18 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -138,12 +142,21 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         TextView textView   = (TextView)view.findViewById(R.id.list_textview);
                         String filename     = textView.getText().toString();
                         if(FileUtils.isFile(filename)){
-                            //open file TODO
-                            Toast.makeText(
-                                    mContext,
-                                    "You click at file: "+filename,
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                            //open file
+                            String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(FileUtils.getExtension(filename));
+                            Intent intent=new Intent();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                Uri uri = FileProvider.getUriForFile(mContext,
+                                        mContext.getApplicationContext().getPackageName() + ".provider",
+                                        FileUtils.getFile(filename));
+                                intent.setDataAndType(uri,mimeType);
+                            }else {
+                                intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)),mimeType);
+                            }
+                            intent.setAction(Intent.ACTION_VIEW);
+                            mContext.startActivity(intent);
+
                         }else{
                             String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
                             FileFillerWrapper.fillData(folderPath,mContext);

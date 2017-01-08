@@ -164,4 +164,7 @@ public class FileUtils {
             }
         }
     }
+    public static File getFile(String filename){
+        return new File(CURRENT_PATH+filename);
+    }
 }
