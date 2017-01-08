@@ -1,20 +1,17 @@
 package com.cryptopaths.cryptofm.tasks;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
+import com.cryptopaths.cryptofm.services.CleanupService;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.BufferedInputStream;
@@ -31,7 +28,7 @@ import java.util.ArrayList;
 public class DecryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<String> mFilePaths;
     private FileListAdapter mAdapter;
-    private Dialog mProgressDialog;
+    private MyProgressDialog mProgressDialog;
     private Context mContext;
     private InputStream mSecKey;
     private String mDbPassword;
@@ -40,7 +37,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private File mPubKey;
     private char[] mKeyPass;
     private String rootPath;
-    private TextView mProgressTextView;
     private static final String TAG="decrypt";
 
     public DecryptTask(Context context,FileListAdapter adapter,
@@ -53,7 +49,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mKeyPass               = keypass.toCharArray();
         this.mDbPassword            = DbPass;
         this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new Dialog(mContext);
+        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting");
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
 
 
@@ -65,10 +61,12 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mDbPassword            = DbPass;
         this.mUsername              = mUsername;
         this.mSecKey                =  getSecretKey();
-        this.mProgressDialog        = new ProgressDialog(mContext);
+        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting");
     }
     @Override
     protected String doInBackground(Void... voids) {
+        //let the service know that decryption is running
+        CleanupService.IS_DECRYPTION_RUNNING=true;
         try{
             File root= new File(Environment.getExternalStorageDirectory(),"decrypted");
             if(!root.exists()){
@@ -137,6 +135,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         mProgressDialog.dismiss();
+        CleanupService.IS_DECRYPTION_RUNNING=false;
         Toast.makeText(mContext,
                 s,
                 Toast.LENGTH_LONG)
@@ -147,16 +146,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-        mProgressTextView.setText(values[0]);
+        mProgressDialog.setmProgressTextViewText(values[0]);
     }
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog.setTitle("Decrypting data");
-        mProgressDialog.setContentView(R.layout.task_progress_layout);
-        ((TextView)mProgressDialog.findViewById(R.id.progress_dialog_title)).setText("Decrypting");
         mProgressDialog.show();
-        mProgressTextView=((TextView) mProgressDialog.findViewById(R.id.filename_progress_textview));
-
     }
 }

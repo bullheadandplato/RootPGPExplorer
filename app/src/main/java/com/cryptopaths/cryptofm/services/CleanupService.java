@@ -13,7 +13,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
  */
 
 public class CleanupService  extends Service{
-
+    public static Boolean IS_DECRYPTION_RUNNING=false;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,7 +28,9 @@ public class CleanupService  extends Service{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        FileUtils.deleteDecryptedFolder();
+        if(!IS_DECRYPTION_RUNNING){
+            FileUtils.deleteDecryptedFolder();
+        }
         stopSelf();
     }
 }

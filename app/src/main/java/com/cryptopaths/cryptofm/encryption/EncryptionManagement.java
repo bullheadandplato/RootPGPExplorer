@@ -216,11 +216,12 @@ public class EncryptionManagement implements EncryptionOperation {
         int numRead;
         while ((numRead = inStr.read(bs, 0, bs.length)) >= 0)
         {
+
+            total += numRead;
+            outStr.write(bs, 0, numRead);
             if((limit-total)<numRead){
                 return;
             }
-            total += numRead;
-            outStr.write(bs, 0, numRead);
         }
     }
 
