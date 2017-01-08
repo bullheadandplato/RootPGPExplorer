@@ -1,5 +1,7 @@
 package com.cryptopaths.cryptofm.encryption;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.InputStream;
 
@@ -10,13 +12,14 @@ import java.io.InputStream;
  */
 
 public class EncryptionWrapper {
-    private static final int TWO_MB=1048576;
+    private static final int TWO_MB=2097152;
     public static void encryptFile(File inputFile,
                                    File outputFile,
                                    File keyFile,
                                    Boolean integrityCheck)
             throws Exception{
         //check file size
+        Log.d("wrapper", "encryptFile: size/length is: "+inputFile.length());
         if(inputFile.length()>TWO_MB){
             EncryptionManagement enc=new EncryptionManagement();
             enc.encryptFile(outputFile,inputFile,keyFile,integrityCheck);
@@ -32,6 +35,7 @@ public class EncryptionWrapper {
                                    InputStream secKeyFile,
                                    char[] pass
     )throws Exception{
+        Log.d("wrapper", "decryptFile: size/length is: "+inputFile.length());
         if(inputFile.length()>TWO_MB){
             EncryptionManagement dec=new EncryptionManagement();
             dec.decryptFile(inputFile,outputFile,pubKey,secKeyFile,pass);

@@ -1,6 +1,6 @@
 package com.cryptopaths.cryptofm.encryption;
 
-import org.spongycastle.bcpg.CompressionAlgorithmTags;
+import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.openpgp.PGPCompressedData;
 import org.spongycastle.openpgp.PGPEncryptedData;
 import org.spongycastle.openpgp.PGPEncryptedDataGenerator;
@@ -14,9 +14,9 @@ import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
 import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
 import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
-import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 import org.spongycastle.util.io.Streams;
 
@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.util.Iterator;
 
 /**
@@ -36,14 +37,18 @@ import java.util.Iterator;
  */
 
 public class EncryptionSmallFileProcessor implements EncryptionOperation{
+    static {
+        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+    }
     @Override
     public void encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {
         try
         {
-            byte[] bytes = MyPGPUtil.compressFile(inputFile.getAbsolutePath(), CompressionAlgorithmTags.ZIP);
+            byte[] bytes = MyPGPUtil.compressFile(inputFile.getAbsolutePath(),PGPCompressedData.ZIP);
             OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
+            Security.addProvider(new BouncyCastleProvider());
             PGPEncryptedDataGenerator encGen = new PGPEncryptedDataGenerator(
-                    new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setWithIntegrityPacket(integrityCheck).setSecureRandom(new SecureRandom()).setProvider("BC"));
+                    new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setWithIntegrityPacket(integrityCheck).setSecureRandom(new SecureRandom()));
             PGPPublicKey key= MyPGPUtil.readPublicKey(new FileInputStream(keyFile));
             encGen.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(key).setProvider("BC"));
 
@@ -110,7 +115,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
                 throw new IllegalArgumentException("secret key for message not found.");
             }
 
-            InputStream         clear = pbe.getDataStream(new JcePublicKeyDataDecryptorFactoryBuilder().setProvider("BC").build(sKey));
+            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
 
             JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
 

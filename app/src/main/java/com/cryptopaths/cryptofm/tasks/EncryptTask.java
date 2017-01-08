@@ -64,7 +64,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             publishProgress(f.getName(),""+
                     ((FileUtils.getReadableSize((f.length())))));
 
-            EncryptionWrapper.encryptFile(out,f,pubKeyFile,true);
+            EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
 
         }
 
