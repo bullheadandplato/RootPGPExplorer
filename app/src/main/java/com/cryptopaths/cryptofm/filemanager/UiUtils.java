@@ -39,9 +39,7 @@ public class UiUtils {
             actionMode.finish();
         }
         String path=FileFillerWrapper.getCurrentPath();
-       // mFilesData.remove(path);
         FileFillerWrapper.fillData(path,context);
-        //mFilesData.put(path,temp);
         adapter.notifyDataSetChanged();
 
     }

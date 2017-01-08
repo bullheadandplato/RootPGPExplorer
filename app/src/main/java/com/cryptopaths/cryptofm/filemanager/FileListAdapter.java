@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
 
     private Context             mContext;
-   // private FileFillerWrapper   mFile;
     private Drawable            mSelectedFileIcon;
     private Drawable            mFileIcon;
     private Drawable            mFolderIcon;
@@ -147,18 +146,10 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .show();
                         }else{
                             String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
-                            //check if folder already visited
-                           // if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
-                          //      mFile = FileBrowserActivity.mFilesData.get(folderPath);
-                          //      FileUtils.CURRENT_PATH=folderPath;
-                          //      notifyDataSetChanged();
-                          //  }else{
-                                //first visit folder
-                                FileFillerWrapper.fillData(folderPath,mContext);
-                               // FileBrowserActivity.mFilesData.put(folderPath,mFile);
-                                notifyDataSetChanged();
+                            FileFillerWrapper.fillData(folderPath,mContext);
+                            // FileBrowserActivity.mFilesData.put(folderPath,mFile);
+                            notifyDataSetChanged();
 
-                           // }
                         }
                     }
                 });

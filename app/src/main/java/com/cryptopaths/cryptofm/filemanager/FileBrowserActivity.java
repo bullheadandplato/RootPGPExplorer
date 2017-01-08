@@ -35,11 +35,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String 			mCurrentPath;
 	private String 			mRootPath;
     private FileListAdapter mmFileListAdapter;
-    private boolean         isChildChanged;
 	private String			mDbPassword;
 	private String 			mUsername;
 	private String          mKeyPass = null;
-    //public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
     private static final String TAG = "FileBrowser";
 
     @Override
@@ -72,15 +70,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	private void changeDirectory() {
 		Log.d("files","current path: "+mCurrentPath);
         FileFillerWrapper.fillData(mCurrentPath,this);
-        /*if(isChildChanged){
-            UiUtils.reloadData(
-                    this,
-                    mmFileListAdapter
-            );
-            isChildChanged = false;
-        }else{*/
-            mmFileListAdapter.notifyDataSetChanged();
-      //  }
+		mmFileListAdapter.notifyDataSetChanged();
+
 	}
 
 	@Override
@@ -255,7 +246,6 @@ public class FileBrowserActivity extends AppCompatActivity
 								mmFileListAdapter,
                                 mmFileListAdapter.getmSelectedFilePaths());
 						task.execute();
-                        isChildChanged = true;
 
 					}
 				});
@@ -299,7 +289,6 @@ public class FileBrowserActivity extends AppCompatActivity
 								FileBrowserActivity.this,
 								mmFileListAdapter
 						);
-                        isChildChanged = true;
 					}
 				}
 			}
