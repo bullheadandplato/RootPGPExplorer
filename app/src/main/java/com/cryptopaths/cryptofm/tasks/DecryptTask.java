@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
-import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
+import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
@@ -30,7 +30,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private FileListAdapter mAdapter;
     private ProgressDialog mProgressDialog;
     private Context mContext;
-    private EncryptionManagement encryptionManagement;
     private InputStream mSecKey;
     private String mDbPassword;
     private String mUsername;
@@ -51,7 +50,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mDbPassword            = DbPass;
         this.mSecKey                = getSecretKey();
         this.mProgressDialog        = new ProgressDialog(mContext);
-        this.encryptionManagement   = new EncryptionManagement();
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
 
 
@@ -64,7 +62,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mUsername              = mUsername;
         this.mSecKey                =  getSecretKey();
         this.mProgressDialog        = new ProgressDialog(mContext);
-        this.encryptionManagement   = new EncryptionManagement();
     }
     @Override
     protected String doInBackground(Void... voids) {
@@ -90,7 +87,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
                 //out.createNewFile();
                 mSecKey=getSecretKey();
-                encryptionManagement.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
+                EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
             }
 
         }catch (Exception ex){
@@ -117,7 +114,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             publishProgress(f.getName(), "" +
                     ((FileUtils.getReadableSize((f.length())))));
 
-            encryptionManagement.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
+            EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
         }
 
     }
