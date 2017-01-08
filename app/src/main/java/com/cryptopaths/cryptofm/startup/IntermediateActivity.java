@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
+import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -95,7 +96,7 @@ public class IntermediateActivity extends AppCompatActivity {
                         //1024 for bytes to KiB and 1024 for KiB to MiB
                         publishProgress(inputFile.getName(),""+
                                 ((round((inputFile.length()/1024f)/1024f,2))));
-                        mEncryptionManagement.encryptFile(outputFile,inputFile,mPubKeyFile);
+                        EncryptionWrapper.encryptFile(outputFile,inputFile,mPubKeyFile,true);
 
                     }catch (Exception e){
                         e.printStackTrace();
