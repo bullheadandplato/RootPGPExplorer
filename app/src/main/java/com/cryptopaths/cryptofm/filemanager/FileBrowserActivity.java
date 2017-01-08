@@ -68,6 +68,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	}
 
 	private void changeDirectory() {
+		changeTitle(mCurrentPath);
 		Log.d("files","current path: "+mCurrentPath);
         FileFillerWrapper.fillData(mCurrentPath,this);
 		mmFileListAdapter.notifyDataSetChanged();
@@ -77,7 +78,6 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public void onBackPressed() {
 		mCurrentPath = FileUtils.CURRENT_PATH;
-
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
 		}else{
@@ -174,6 +174,15 @@ public class FileBrowserActivity extends AppCompatActivity
 				actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
 			}
 		}
+	}
+
+	@Override
+	public void changeTitle(String path) {
+		if(path.length()>25){
+			path=path.substring(0,path.lastIndexOf('/'));
+			path=path.substring(0,9)+"..."+path.substring(path.lastIndexOf('/'));
+		}
+		getSupportActionBar().setTitle(path);
 	}
 	/**
 	 * end of action mode section

@@ -147,8 +147,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         }else{
                             String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
                             FileFillerWrapper.fillData(folderPath,mContext);
-                            // FileBrowserActivity.mFilesData.put(folderPath,mFile);
                             notifyDataSetChanged();
+                            clickCallBack.changeTitle(folderPath);
 
                         }
                     }
@@ -210,6 +210,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         void onLongClick();
         void incrementSelectionCount();
         void decrementSelectionCount();
+        void changeTitle(String path);
     }
 
     void setmSelectionMode(Boolean value){
