@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.cryptopaths.cryptofm.R;
 
-import static com.cryptopaths.cryptofm.filemanager.FileBrowserActivity.mFilesData;
+//import static com.cryptopaths.cryptofm.filemanager.FileBrowserActivity.mFilesData;
 
 /**
  * Created by home on 12/29/16.
@@ -38,11 +38,10 @@ public class UiUtils {
         if(actionMode!=null){
             actionMode.finish();
         }
-        String path=adapter.getmFile().getCurrentPath();
-        mFilesData.remove(path);
-        FileFillerWrapper temp=new FileFillerWrapper(path,context);
-        mFilesData.put(path,temp);
-        adapter.setmFile(temp);
+        String path=FileFillerWrapper.getCurrentPath();
+       // mFilesData.remove(path);
+        FileFillerWrapper.fillData(path,context);
+        //mFilesData.put(path,temp);
         adapter.notifyDataSetChanged();
 
     }

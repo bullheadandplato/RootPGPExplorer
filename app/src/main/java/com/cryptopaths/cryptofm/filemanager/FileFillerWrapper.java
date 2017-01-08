@@ -13,35 +13,37 @@ import java.util.List;
  * fill the map of files against path
  */
 
-public class FileFillerWrapper {
-    private List<DataModelFiles> allFiles   = new ArrayList<>();
-    private int totalFilesCount             = 0;
+public  class FileFillerWrapper {
+    private static List<DataModelFiles> allFiles   = new ArrayList<>();
+    private static int totalFilesCount             = 0;
 
-    private String currentPath;
+    private static String currentPath;
 
-    public FileFillerWrapper(String currentPath, Context context) {
-        this.currentPath = currentPath;
+
+    static void fillData(String current, Context context){
+        currentPath=current;
         //be sure to change the path in File utilities
         FileUtils.CURRENT_PATH = currentPath;
         //for each file in current path fill data
         File file              = new File(currentPath);
         totalFilesCount=file.list().length;
         if(file.list().length>0){
+            allFiles.clear();
             for (File f:
-                 file.listFiles()) {
+                    file.listFiles()) {
                 allFiles.add(new DataModelFiles(f.getName(),context));
             }
         }
     }
-    public DataModelFiles getFileAtPosition(int position){
+    public static DataModelFiles getFileAtPosition(int position){
         return allFiles.get(position);
     }
 
-    public int getTotalFilesCount() {
+    public static int getTotalFilesCount() {
         return totalFilesCount;
     }
 
-    public String getCurrentPath() {
+    public static String getCurrentPath() {
         return currentPath;
     }
 }

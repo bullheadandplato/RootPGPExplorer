@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
 
     private Context             mContext;
-    private FileFillerWrapper   mFile;
+   // private FileFillerWrapper   mFile;
     private Drawable            mSelectedFileIcon;
     private Drawable            mFileIcon;
     private Drawable            mFolderIcon;
@@ -47,9 +47,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     }
 
-    public void setmFile(FileFillerWrapper mFile) {
-        this.mFile = mFile;
-    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,7 +64,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(mFile.getTotalFilesCount()<1){
+        if(FileFillerWrapper.getTotalFilesCount()<1){
             return NO_FILES_VIEW;
         }else{
             return NORMAL_VIEW;
@@ -75,11 +73,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(mFile.getTotalFilesCount()<1){
+        if(FileFillerWrapper.getTotalFilesCount()<1){
             ImageView view=holder.noFilesLayout;
             view.setImageDrawable(mContext.getDrawable(R.drawable.nofiles_image));
         }else {
-            mDataModel=mFile.getFileAtPosition(position);
+            mDataModel=FileFillerWrapper.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
@@ -102,16 +100,16 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(mFile.getTotalFilesCount()<1){
+        if(FileFillerWrapper.getTotalFilesCount()<1){
             return 1;
         }
-        return mFile.getTotalFilesCount();
+        return FileFillerWrapper.getTotalFilesCount();
     }
     private LongClickCallBack clickCallBack;
 
     void selectAllFiles() {
-        for (int i = 0; i < mFile.getTotalFilesCount(); i++) {
-            mDataModel = mFile.getFileAtPosition(i);
+        for (int i = 0; i < FileFillerWrapper.getTotalFilesCount(); i++) {
+            mDataModel = FileFillerWrapper.getFileAtPosition(i);
             selectFile(i);
         }
         notifyDataSetChanged();
@@ -131,7 +129,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mFile.getTotalFilesCount()<1){
+                        if(FileFillerWrapper.getTotalFilesCount()<1){
                             return;
                         }
                         if(mSelectionMode){
@@ -148,19 +146,19 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     Toast.LENGTH_SHORT)
                                     .show();
                         }else{
-                            String folderPath = mFile.getCurrentPath()+filename+"/";
+                            String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
                             //check if folder already visited
-                            if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
-                                mFile = FileBrowserActivity.mFilesData.get(folderPath);
-                                FileUtils.CURRENT_PATH=folderPath;
-                                notifyDataSetChanged();
-                            }else{
+                           // if(FileBrowserActivity.mFilesData.containsKey(folderPath)){
+                          //      mFile = FileBrowserActivity.mFilesData.get(folderPath);
+                          //      FileUtils.CURRENT_PATH=folderPath;
+                          //      notifyDataSetChanged();
+                          //  }else{
                                 //first visit folder
-                                mFile = new FileFillerWrapper(folderPath,mContext);
-                                FileBrowserActivity.mFilesData.put(folderPath,mFile);
+                                FileFillerWrapper.fillData(folderPath,mContext);
+                               // FileBrowserActivity.mFilesData.put(folderPath,mFile);
                                 notifyDataSetChanged();
 
-                            }
+                           // }
                         }
                     }
                 });
@@ -168,7 +166,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if(mFile.getTotalFilesCount()<1){
+                    if(FileFillerWrapper.getTotalFilesCount()<1){
                         return false;
                     }
                     clickCallBack.onLongClick();
@@ -190,7 +188,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
 
     private void selectionOperation(int position){
-        mDataModel  = mFile.getFileAtPosition(position);
+        mDataModel  = FileFillerWrapper.getFileAtPosition(position);
 
         if(mDataModel.getSelected()){
             mDataModel.setSelected(false);
@@ -227,7 +225,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         //first check if there are select files
         if(mSelectedPosition.size()>0) {
             for (Integer pos : mSelectedPosition) {
-                mDataModel =  mFile.getFileAtPosition(pos);
+                mDataModel =  FileFillerWrapper.getFileAtPosition(pos);
                 mDataModel.setSelected(false);
             }
             mSelectedPosition.clear();
@@ -239,7 +237,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     void resetFileIcons(){
         for (Integer pos:
              mSelectedPosition) {
-            mDataModel = mFile.getFileAtPosition(pos);
+            mDataModel = FileFillerWrapper.getFileAtPosition(pos);
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(mFileIcon);
             }else{
@@ -252,8 +250,5 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     ArrayList<String> getmSelectedFilePaths() {
         return mSelectedFilePaths;
-    }
-    public FileFillerWrapper getmFile(){
-        return this.mFile;
     }
 }

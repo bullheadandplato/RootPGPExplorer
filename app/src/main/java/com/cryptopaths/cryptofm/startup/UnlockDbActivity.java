@@ -14,7 +14,6 @@ import android.widget.EditText;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
-import com.cryptopaths.cryptofm.filemanager.FileFillerWrapper;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -62,7 +61,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
             if(handler.checkPass(pass)){
                 //load data to fill file listview
-                FileBrowserActivity.mFilesData.put(path+"/",new FileFillerWrapper(path+"/",UnlockDbActivity.this));
+                //FileBrowserActivity.mFilesData.put(path+"/",new FileFillerWrapper(path+"/",UnlockDbActivity.this));
                 return true;
             }else{
                 return false;

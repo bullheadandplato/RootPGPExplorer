@@ -28,8 +28,6 @@ import com.cryptopaths.cryptofm.tasks.RenameTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
-import java.util.HashMap;
-
 
 public class FileBrowserActivity extends AppCompatActivity
 		implements ActionMode.Callback,FileListAdapter.LongClickCallBack {
@@ -41,7 +39,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String			mDbPassword;
 	private String 			mUsername;
 	private String          mKeyPass = null;
-    public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
+    //public static HashMap<String,FileFillerWrapper> mFilesData	= new HashMap<>();
     private static final String TAG = "FileBrowser";
 
     @Override
@@ -52,13 +50,13 @@ public class FileBrowserActivity extends AppCompatActivity
 
         mDbPassword 	           = getIntent().getExtras().getString("dbpass");
 		mUsername		           = getIntent().getExtras().getString("username","default");
-		mCurrentPath 	           = Environment.getExternalStorageDirectory().getPath();
+		mCurrentPath 	           = Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           = mCurrentPath+"/";
         RecyclerView mFileListView = (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter = new FileListAdapter(this);
 
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
-		mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath+"/"));
+		FileFillerWrapper.fillData(mCurrentPath,this);
 
 		mFileListView.setAdapter(mmFileListAdapter);
 
@@ -73,16 +71,16 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	private void changeDirectory() {
 		Log.d("files","current path: "+mCurrentPath);
-        mmFileListAdapter.setmFile(mFilesData.get(mCurrentPath));
-        if(isChildChanged){
+        FileFillerWrapper.fillData(mCurrentPath,this);
+        /*if(isChildChanged){
             UiUtils.reloadData(
                     this,
                     mmFileListAdapter
             );
             isChildChanged = false;
-        }else{
+        }else{*/
             mmFileListAdapter.notifyDataSetChanged();
-        }
+      //  }
 	}
 
 	@Override
