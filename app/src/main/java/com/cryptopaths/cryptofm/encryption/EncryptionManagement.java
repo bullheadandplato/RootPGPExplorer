@@ -60,13 +60,22 @@ public class EncryptionManagement implements EncryptionOperation {
     }
 
     @Override
-    public  void encryptFile(File outputFile, File inputFile,File pubKeyFile) throws Exception {
+    public  void encryptFile(File outputFile, File inputFile,
+                             File pubKeyFile,Boolean integrityCheck
+    ) throws Exception {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
         String fileName=inputFile.getPath();
         PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
-        PGPEncryptedDataGenerator   cPk = new PGPEncryptedDataGenerator(new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setSecureRandom(new SecureRandom()));
+        PGPEncryptedDataGenerator   cPk =
+                new PGPEncryptedDataGenerator(
+                        new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).
+                                setWithIntegrityPacket(integrityCheck).
+                                setSecureRandom(
+                                        new SecureRandom()
+                                )
+                );
 
         cPk.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(encKey));
 
