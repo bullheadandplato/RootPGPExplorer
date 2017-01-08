@@ -8,7 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cryptopaths.cryptofm.encryption.EncryptionManagement;
+import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -26,7 +26,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private FileListAdapter         mAdapter;
     private ProgressDialog          mProgressDialog;
     private Context                 mContext;
-    private EncryptionManagement    encryptionManagement;
     private File                    pubKeyFile;
 
     private static final String TAG = "encrypt";
@@ -36,7 +35,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         this.mContext               = context;
         this.mFilePaths             = filePaths;
         this.mProgressDialog        = new ProgressDialog(mContext);
-        this.encryptionManagement   = new EncryptionManagement();
         this.pubKeyFile             = new File(mContext.getFilesDir(),"pub.asc");
     }
 
@@ -66,7 +64,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             publishProgress(f.getName(),""+
                     ((FileUtils.getReadableSize((f.length())))));
 
-            encryptionManagement.encryptFile(out,f,pubKeyFile);
+            EncryptionWrapper.encryptFile(out,f,pubKeyFile,true);
 
         }
 
