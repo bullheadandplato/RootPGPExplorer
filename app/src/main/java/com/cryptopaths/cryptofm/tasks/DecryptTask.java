@@ -1,12 +1,15 @@
 package com.cryptopaths.cryptofm.tasks;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 public class DecryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<String> mFilePaths;
     private FileListAdapter mAdapter;
-    private ProgressDialog mProgressDialog;
+    private Dialog mProgressDialog;
     private Context mContext;
     private InputStream mSecKey;
     private String mDbPassword;
@@ -37,6 +40,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private File mPubKey;
     private char[] mKeyPass;
     private String rootPath;
+    private TextView mProgressTextView;
     private static final String TAG="decrypt";
 
     public DecryptTask(Context context,FileListAdapter adapter,
@@ -49,7 +53,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mKeyPass               = keypass.toCharArray();
         this.mDbPassword            = DbPass;
         this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new ProgressDialog(mContext);
+        this.mProgressDialog        = new Dialog(mContext);
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
 
 
@@ -142,10 +146,17 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     }
 
     @Override
+    protected void onProgressUpdate(String... values) {
+        mProgressTextView.setText(values[0]);
+    }
+
+    @Override
     protected void onPreExecute() {
         mProgressDialog.setTitle("Decrypting data");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setContentView(R.layout.task_progress_layout);
+        ((TextView)mProgressDialog.findViewById(R.id.progress_dialog_title)).setText("Decrypting");
         mProgressDialog.show();
+        mProgressTextView=((TextView) mProgressDialog.findViewById(R.id.filename_progress_textview));
+
     }
 }
