@@ -3,6 +3,7 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -40,6 +41,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String			mDbPassword;
 	private String 			mUsername;
 	private String          mKeyPass = null;
+	private DecryptTask		mDecryptTask;
+	private EncryptTask		mEncryptTask;
     private static final String TAG = "FileBrowser";
 
     @Override
@@ -95,8 +98,14 @@ public class FileBrowserActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: destroying activity");
+		if(mDecryptTask!=null && mDecryptTask.getStatus()==AsyncTask.Status.RUNNING){
+			Log.d(TAG, "onDestroy: caceling the task");
+			mDecryptTask.cancel(true);
+		}
+		if(mEncryptTask!=null && mEncryptTask.getStatus()==AsyncTask.Status.RUNNING){
+			mEncryptTask.cancel(true);
+		}
         super.onDestroy();
-        FileUtils.deleteDecryptedFolder();
     }
 
     @Override
@@ -130,7 +139,8 @@ public class FileBrowserActivity extends AppCompatActivity
 			deleteFile();
 		}
         else if (item.getItemId()==R.id.encrypt_menu_item){
-            new EncryptTask(this,mmFileListAdapter, (ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone()).execute();
+            mEncryptTask=new EncryptTask(this,mmFileListAdapter, (ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone());
+			mEncryptTask.execute();
         }else if(item.getItemId()==R.id.decrypt_menu_item){
             decryptFile();
 		}else if(item.getItemId()==R.id.selectall_menu_item){
@@ -328,24 +338,27 @@ public class FileBrowserActivity extends AppCompatActivity
                         dialog.dismiss();
                     }
                     Log.d("decrypt", "onActionItemClicked: yes mke90y pass is null: "+mDbPassword);
-                    new DecryptTask(FileBrowserActivity.this,
+                    mDecryptTask=
+							new DecryptTask(FileBrowserActivity.this,
                             mmFileListAdapter,
 							(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone(),
                             mDbPassword,
                             mUsername,
-                            mKeyPass).
-                            execute();
+                            mKeyPass);
+					mDecryptTask.execute();
                 }
             });
         }else{
             Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
-            new DecryptTask(FileBrowserActivity.this,
+            mDecryptTask=
+					new DecryptTask(FileBrowserActivity.this,
                     mmFileListAdapter,
 					(ArrayList<String>) mmFileListAdapter.getmSelectedFilePaths().clone(),
                     mDbPassword,
                     mUsername,
-                    mKeyPass).
-                    execute();
+                    mKeyPass);
+			mDecryptTask.execute();
+
         }
     }
     public void resetmKeyPass(){

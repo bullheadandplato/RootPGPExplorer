@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.services.CleanupService;
 
 /**
  * Created by tripleheader on 1/8/17.
@@ -54,6 +55,8 @@ public class MyProgressDialog {
         mNotBuilder.setProgress(0,0,true);
         mNotBuilder.setOngoing(true);
         mNotificationManager.notify(1,mNotBuilder.build());
+        CleanupService.NOTIFICATION_BUILDER=mNotBuilder;
+        CleanupService.NOTIFICATION_MANAGER=mNotificationManager;
     }
 
     public void setmProgressTextViewText(String text) {

@@ -77,9 +77,13 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             rootPath=root.getPath();
             if(mFileName==null){
                 for (String s : mFilePaths) {
-                    Log.d(TAG, "doInBackground: +"+mFilePaths.size());
-                    File f =TasksFileUtils.getFile(s);
-                    decryptFile(f);
+                    if(!isCancelled()) {
+
+                        Log.d(TAG, "doInBackground: +" + mFilePaths.size());
+                        File f = TasksFileUtils.getFile(s);
+                        decryptFile(f);
+                    }
+
                 }
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
@@ -102,21 +106,24 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         return "decryption successful";
     }
     private void decryptFile(File f) throws Exception{
-        if(f.isDirectory()){
-            for (File tmp: f.listFiles()) {
-                decryptFile(tmp);
-            }
-        }else {
-            Log.d(TAG, "decryptFile: rootpath is : "+f.getPath());
-            File out = new File(rootPath,f.getName().substring(0,f.getName().lastIndexOf('.')));
-            if(out.exists()){
-                throw new Exception("file already decrypted");
-            }
+        Log.d(TAG, "decryptFile: task is running");
+        if(!isCancelled()) {
+            if (f.isDirectory()) {
+                for (File tmp : f.listFiles()) {
+                    decryptFile(tmp);
+                }
+            } else {
+                Log.d(TAG, "decryptFile: rootpath is : " + f.getPath());
+                File out = new File(rootPath, f.getName().substring(0, f.getName().lastIndexOf('.')));
+                if (out.exists()) {
+                    throw new Exception("file already decrypted");
+                }
 
-            publishProgress(f.getName(), "" +
-                    ((FileUtils.getReadableSize((f.length())))));
+                publishProgress(f.getName(), "" +
+                        ((FileUtils.getReadableSize((f.length())))));
 
-            EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
+                EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
+            }
         }
 
     }
@@ -152,5 +159,13 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPreExecute() {
         mProgressDialog.show();
+    }
+
+    @Override
+    protected void onCancelled() {
+        mProgressDialog.dismiss("Canceled");
+        CleanupService.IS_DECRYPTION_RUNNING=false;
+        super.onCancelled();
+
     }
 }

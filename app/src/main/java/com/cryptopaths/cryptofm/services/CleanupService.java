@@ -1,9 +1,11 @@
 package com.cryptopaths.cryptofm.services;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
@@ -14,6 +16,8 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class CleanupService  extends Service{
     public static Boolean IS_DECRYPTION_RUNNING=false;
+    public static NotificationCompat.Builder NOTIFICATION_BUILDER=null;
+    public static NotificationManager NOTIFICATION_MANAGER=null;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,6 +32,12 @@ public class CleanupService  extends Service{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
+        if(NOTIFICATION_BUILDER!=null){
+            NOTIFICATION_BUILDER.setContentText("Operation Canceled");
+            NOTIFICATION_BUILDER.setOngoing(false);
+            NOTIFICATION_BUILDER.setProgress(100,100,false);
+            NOTIFICATION_MANAGER.notify(1,NOTIFICATION_BUILDER.build());
+        }
         if(!IS_DECRYPTION_RUNNING){
             FileUtils.deleteDecryptedFolder();
         }
