@@ -15,7 +15,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
  */
 
 public class CleanupService  extends Service{
-    public static Boolean IS_DECRYPTION_RUNNING=false;
+    public static Boolean IS_TASK_RUNNING=false;
     public static NotificationCompat.Builder NOTIFICATION_BUILDER=null;
     public static NotificationManager NOTIFICATION_MANAGER=null;
     @Nullable
@@ -32,15 +32,13 @@ public class CleanupService  extends Service{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        if(NOTIFICATION_BUILDER!=null){
+        if(NOTIFICATION_BUILDER!=null && !IS_TASK_RUNNING){
             NOTIFICATION_BUILDER.setContentText("Operation Canceled");
             NOTIFICATION_BUILDER.setOngoing(false);
             NOTIFICATION_BUILDER.setProgress(100,100,false);
             NOTIFICATION_MANAGER.notify(1,NOTIFICATION_BUILDER.build());
         }
-        if(!IS_DECRYPTION_RUNNING){
-            FileUtils.deleteDecryptedFolder();
-        }
+        FileUtils.deleteDecryptedFolder();
         stopSelf();
     }
 }

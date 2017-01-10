@@ -74,6 +74,7 @@ public class MyProgressDialog {
             mNotBuilder.setOngoing(false);
             mNotBuilder.setProgress(100,100,false);
             mNotificationManager.notify(1,mNotBuilder.build());
+            this.mNotBuilder=null;
         }else{
             dialog.dismiss();
         }

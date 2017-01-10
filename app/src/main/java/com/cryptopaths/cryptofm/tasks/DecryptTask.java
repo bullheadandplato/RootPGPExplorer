@@ -65,8 +65,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     }
     @Override
     protected String doInBackground(Void... voids) {
-        //let the service know that decryption is running
-        CleanupService.IS_DECRYPTION_RUNNING=true;
+
         try{
             File root= new File(Environment.getExternalStorageDirectory(),"decrypted");
             if(!root.exists()){
@@ -142,7 +141,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         mProgressDialog.dismiss("Decryption completed");
-        CleanupService.IS_DECRYPTION_RUNNING=false;
         Toast.makeText(mContext,
                 s,
                 Toast.LENGTH_LONG)
@@ -164,7 +162,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onCancelled() {
         mProgressDialog.dismiss("Canceled");
-        CleanupService.IS_DECRYPTION_RUNNING=false;
         super.onCancelled();
 
     }
