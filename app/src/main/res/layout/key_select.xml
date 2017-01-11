@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <ImageView android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="122dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/logo_image"
+        android:tint="@color/colorAccent"
+        android:layout_above="@id/get_password_layout"
+        android:layout_weight="0.04" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Select Key"
+            android:ems="10"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="35dp"
+            android:id="@+id/editText2" />
+
+        <android.support.v7.widget.AppCompatButton
+
+            android:id="@+id/button_select_key"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@color/colorAccent"
+            android:text="Browse"
+            android:textSize="15dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:layout_toEndOf="@+id/editText2" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_unlock_db"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@color/colorAccent"
+            android:onClick="onUnlockButtonClick"
+            android:text="Let's Go"
+            android:textSize="20dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="63dp"
+            android:layout_below="@+id/button_select_key"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</LinearLayout>

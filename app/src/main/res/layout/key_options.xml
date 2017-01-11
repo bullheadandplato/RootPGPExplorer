@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ImageView android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="122dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/logo_image"
+        android:tint="@color/colorAccent"
+        android:layout_above="@id/get_password_layout"
+        android:layout_weight="0.04" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_generate_key"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/colorAccent"
+        android:text="Generate Key"
+        android:textSize="20dp"/>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_select_key"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/colorAccent"
+        android:text="Use existing Key"
+        android:textSize="20dp"/>
+</LinearLayout>
