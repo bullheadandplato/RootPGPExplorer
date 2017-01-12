@@ -1,11 +1,9 @@
 package com.cryptopaths.cryptofm.startup;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.startup.adapters.PagerAdapter;
@@ -25,14 +23,11 @@ public class PreStartActivity extends AppCompatActivity {
         viewpager.setAdapter(padapter);
     }
 
-    @ActionHandler(layoutResource = R.id.button)
-    Button button=(Button)findViewById(R.id.button);
+    @ActionHandler(layoutResource = R.id.pre_start_skip_button)
+    public void onSkipButtonClick(View v){
+        //start the intent for the password activity
+    }
 
-    button.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            // Perform action on click
-        }
-    });
 }
 
 
