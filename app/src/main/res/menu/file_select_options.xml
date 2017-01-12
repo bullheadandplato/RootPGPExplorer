@@ -23,10 +23,12 @@
         />
     <item app:showAsAction="ifRoom"
         android:title="Copy"
+        android:id="@+id/copy_menu_item"
         android:icon="@drawable/ic_copy"
         />
     <item app:showAsAction="ifRoom"
         android:title="Move"
+        android:id="@+id/move_menu_item"
         android:icon="@drawable/ic_cut_content"
         />
     <item
