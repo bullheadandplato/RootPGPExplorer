@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.startup;
+package com.cryptopaths.cryptofm.startup.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.cryptopaths.cryptofm.R;
  * Created by tripleheader on 11/28/16.
  */
 
-public class ThirdFragment extends Fragment {
+public class InitActivityThirdFragment extends Fragment {
     public interface FragmentCreated{
         public void onThirdFragmentCreated();
     }

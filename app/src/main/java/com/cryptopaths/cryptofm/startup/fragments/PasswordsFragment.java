@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.startup;
+package com.cryptopaths.cryptofm.startup.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,7 @@ import com.cryptopaths.cryptofm.R;
 
 /**
  * Created by tripleheader on 12/23/16.
+ * Shows when user choose different password to database
  */
 
 public class PasswordsFragment extends Fragment {

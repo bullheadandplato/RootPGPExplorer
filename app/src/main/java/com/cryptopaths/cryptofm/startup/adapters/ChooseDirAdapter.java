@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.startup;
+package com.cryptopaths.cryptofm.startup.adapters;
 
 import android.content.Context;
 import android.os.Environment;

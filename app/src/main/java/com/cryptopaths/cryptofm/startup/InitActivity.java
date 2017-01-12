@@ -20,6 +20,10 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
+import com.cryptopaths.cryptofm.startup.fragments.InitActivityFirstFragment;
+import com.cryptopaths.cryptofm.startup.fragments.InitActivitySecondFragment;
+import com.cryptopaths.cryptofm.startup.fragments.InitActivityThirdFragment;
+import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -40,7 +44,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , ThirdFragment.FragmentCreated{
+public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , InitActivityThirdFragment.FragmentCreated{
     private static final int RC_PERMISSION          = 101;
     private static final String TAG                 = "InitActivity";
     private static int FRAGMENT_ONE_NUMBER          = 0;
@@ -53,8 +57,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     private DatabaseHandler mDatabaseHandler;
-    private SecondFragment  mSecondFragment;
-    private FirstFragment   mFirstFragment;
+    private InitActivitySecondFragment mSecondFragment;
+    private InitActivityFirstFragment mFirstFragment;
     private String          mUserSecretDatabase;
     private String          mUserSecretKeyPassword;
     private String          mUserName;
@@ -202,18 +206,18 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Fragment fragment;
         switch (fragmentNumber){
             case 0:
-                mFirstFragment=new FirstFragment();
+                mFirstFragment=new InitActivityFirstFragment();
                 fragment=mFirstFragment;
                 isInFirstFragment=true;
                 break;
             case 1:
-                fragment=new SecondFragment();
+                fragment=new InitActivitySecondFragment();
                 isInFirstFragment=false;
                 // as I need it later
-                mSecondFragment= (SecondFragment) fragment;
+                mSecondFragment= (InitActivitySecondFragment) fragment;
                 break;
             case 2:
-                fragment=new ThirdFragment();
+                fragment=new InitActivityThirdFragment();
                 // in third fragment user cannot go back so empty the backstack.
                 //twice because only two fragments are there first, we are sure about this
                 isInThirdFragment=true;

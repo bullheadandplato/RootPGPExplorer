@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.startup;
+package com.cryptopaths.cryptofm.startup.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.startup.adapters.ChooseDirAdapter;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,8 @@ import java.util.ArrayList;
  *
  */
 
-public class SecondFragment extends Fragment {
-    private ChooseDirAdapter     mAdapter;
+public class InitActivitySecondFragment extends Fragment {
+    private ChooseDirAdapter mAdapter;
 
     private ArrayList<String>    allSelectedPositions  = new ArrayList<>();
 

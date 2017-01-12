@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.startup;
+package com.cryptopaths.cryptofm.startup.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import com.cryptopaths.cryptofm.R;
  * Created by tripleheader on 11/28/16.
  */
 
-public class FirstFragment extends Fragment {
+public class InitActivityFirstFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
