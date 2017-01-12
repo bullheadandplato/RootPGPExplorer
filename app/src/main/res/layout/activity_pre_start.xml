@@ -25,8 +25,7 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="44dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="onSkipClick (PreStartActivity)" />
+        android:layout_alignParentEnd="true" />
 <RadioGroup
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
