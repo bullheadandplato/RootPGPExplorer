@@ -13,8 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".startup.InitActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            >
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,20 +22,19 @@
         </activity>
         <activity
             android:name=".startup.IntermediateActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            />
-        <activity android:name=".startup.UnlockDbActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".startup.UnlockDbActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".filemanager.FileBrowserActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:clearTaskOnLaunch="true"/>
+            android:clearTaskOnLaunch="true"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <service
             android:name=".services.CleanupService"
-            android:stopWithTask="false"
-            />
+            android:stopWithTask="false" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -44,8 +42,18 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity
+            android:name=".startup.PreStartActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
