@@ -19,5 +19,7 @@ public class PreStartActivity extends AppCompatActivity {
         viewpager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter padapter = new PagerAdapter(getSupportFragmentManager());
         viewpager.setAdapter(padapter);
+
+
     }
 }
