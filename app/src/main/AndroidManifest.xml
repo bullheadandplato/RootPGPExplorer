@@ -47,8 +47,7 @@
 
         <activity
             android:name=".startup.PreStartActivity"
-            android:label="@string/title_activity_pre_start"
-            android:theme="@style/AppTheme.NoActionBar">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
