@@ -85,7 +85,7 @@ class ActionViewHandler implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         Log.d("action","destroying action mode");
-        selectCount = 0;
+        //selectCount = 0;
         mode  = null;
         SharedData.getInstance().getFileListAdapter().resetFileIcons();
         SharedData.getInstance().getFileListAdapter().setmSelectionMode(false);
