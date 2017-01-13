@@ -72,7 +72,7 @@ public class UnlockDbActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
             if(result){
                 Intent intent=new Intent(UnlockDbActivity.this,FileBrowserActivity.class);
                 intent.putExtra("dbpass",pass);
@@ -88,7 +88,6 @@ public class UnlockDbActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressDialog = new ProgressDialog(UnlockDbActivity.this);
-
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("please wait....");
             mProgressDialog.show();
