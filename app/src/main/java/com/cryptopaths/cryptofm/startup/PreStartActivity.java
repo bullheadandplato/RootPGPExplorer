@@ -41,6 +41,7 @@ public class PreStartActivity extends AppCompatActivity {
         Intent intent=new Intent(this,InitActivity.class);
         //start the activity but not let the user get back to this activity
         startActivityForResult(intent,1);
+        finish();
     }
 
     public void checkRadioButton(int num) {
