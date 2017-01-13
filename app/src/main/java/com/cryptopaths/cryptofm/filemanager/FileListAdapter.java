@@ -84,12 +84,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
-            TextView textView3=holder.mEncryptionStatusTextView;
+            ImageView image=holder.mEncryptionStatusImage;
             TextView textView4=holder.mNumberFilesTextView;
 
             textView1.setText(mDataModel.getFileName());
             textView2.setText(mDataModel.getFileSize());
-            textView3.setText(mDataModel.getFileEncryptionStatus());
+            image.setImageDrawable(mDataModel.getFileEncryptionStatus());
             textView4.setText(mDataModel.getFileExtension());
             imageView.setImageDrawable(mDataModel.getFileIcon());
         }
@@ -124,7 +124,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         TextView    mTextView;
         TextView    mNumberFilesTextView;
         TextView    mFolderSizeTextView;
-        TextView    mEncryptionStatusTextView;
+        ImageView    mEncryptionStatusImage;
         ViewHolder(View itemView){
                 super(itemView);
             clickCallBack = (LongClickCallBack)mContext;
@@ -171,7 +171,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             noFilesLayout               = (ImageView) itemView.findViewById(R.id.no_files_image);
             mNumberFilesTextView        = (TextView)itemView.findViewById(R.id.nofiles_textview);
             mFolderSizeTextView         = (TextView)itemView.findViewById(R.id.folder_size_textview);
-            mEncryptionStatusTextView   = (TextView)itemView.findViewById(R.id.encryption_status_textview);
+            mEncryptionStatusImage   = (ImageView) itemView.findViewById(R.id.encryption_status_image);
 
         }
 
