@@ -10,6 +10,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,17 @@ public class FileBrowserActivity extends AppCompatActivity
 		mFileListView.setAdapter(mmFileListAdapter);
 
 
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.appbar_menu,menu);
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return true;
 	}
 
 	@ActionHandler(layoutResource = R.id.floating_add)
