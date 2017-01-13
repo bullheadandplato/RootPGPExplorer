@@ -27,32 +27,11 @@
         android:onClick="onSkipButtonClick"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    android:layout_gravity="center_horizontal|bottom"
-    android:orientation="horizontal"
-    android:id="@+id/radiogroup">
+
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radioButton3"
-        android:layout_alignBaseline="@+id/radioButton5"
-        android:layout_alignBottom="@+id/radioButton5"
-        android:layout_centerHorizontal="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton4"
-        android:layout_alignBaseline="@+id/radioButton3"
-        android:layout_alignBottom="@+id/radioButton3"
-        android:layout_toStartOf="@+id/radioButton3" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
         android:layout_alignBaseline="@+id/radioButton4"
         android:layout_alignBottom="@+id/radioButton4"
         android:layout_toStartOf="@+id/radioButton4" />
@@ -60,9 +39,25 @@
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton5"
-        android:layout_alignTop="@+id/button"
-        android:layout_toEndOf="@+id/radioButton3" />
+        android:id="@+id/radioButton4"
+        android:layout_alignBaseline="@+id/pre_start_skip_button"
+        android:layout_alignBottom="@+id/pre_start_skip_button"
+        android:layout_toStartOf="@+id/radioButton" />
 
-</RadioGroup>
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton"
+        android:layout_alignBaseline="@+id/radioButton4"
+        android:layout_alignBottom="@+id/radioButton4"
+        android:layout_centerHorizontal="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton5"
+        android:layout_marginStart="25dp"
+        android:layout_alignBaseline="@+id/radioButton"
+        android:layout_alignBottom="@+id/radioButton"
+        android:layout_toEndOf="@+id/radioButton4" />
 </RelativeLayout>

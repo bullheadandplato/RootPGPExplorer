@@ -14,6 +14,7 @@ import com.cryptopaths.cryptofm.startup.fragments.ViewPagerFragmentTwo;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
+
     public PagerAdapter(FragmentManager fm) {
         super(fm);
         // TODO Auto-generated constructor stub
