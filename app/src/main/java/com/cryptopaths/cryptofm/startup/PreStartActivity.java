@@ -40,9 +40,22 @@ public class PreStartActivity extends AppCompatActivity {
         viewPager.setAdapter(pAdapter);
         pAdapter.setPreStartActivity(this);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                checkRadioButton(position);
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @ActionHandler(layoutResource = R.id.pre_start_skip_button)
@@ -56,16 +69,16 @@ public class PreStartActivity extends AppCompatActivity {
 
     public void checkRadioButton(int num) {
         switch (num) {
-            case 1:
+            case 0:
                 radioButton1.setChecked(true);
                 break;
-            case 2:
+            case 1:
                 radioButton2.setChecked(true);
                 break;
-            case 3:
+            case 2:
                 radioButton3.setChecked(true);
                 break;
-            case 4:
+            case 3:
                 radioButton4.setChecked(true);
                 ((Button)findViewById(R.id.pre_start_skip_button)).setText("Finish >");
                 break;

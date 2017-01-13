@@ -33,17 +33,13 @@ public class PagerAdapter extends FragmentPagerAdapter {
         // TODO Auto-generated method stub
         switch (arg0) {
             case 0:
-                mActivity.checkRadioButton(arg0);
                 return new ViewPagerFragmentOne();
             case 1:
-                mActivity.checkRadioButton(arg0);
                 return new ViewPagerFragmentTwo();
 
             case 2:
-                mActivity.checkRadioButton(arg0);
                 return new ViewPagerFragmentThree();
             case 3:
-                mActivity.checkRadioButton(arg0);
                 return new ViewPagerFragmentFour();
 
             default:
