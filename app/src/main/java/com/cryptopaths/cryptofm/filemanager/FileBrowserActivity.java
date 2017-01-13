@@ -53,6 +53,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 
+		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
 		boolean linearLayout           = preferences.getBoolean("key",false);
 		if(linearLayout){
@@ -62,6 +63,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
 		}
+
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
@@ -83,11 +85,13 @@ public class FileBrowserActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
+				item.setIcon(getDrawable(R.drawable.ic_grid_view));
 				if(mFileViewLinearLayoutManager==null){
 					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 				}
 				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 			}else{
+				item.setIcon(getDrawable(R.drawable.ic_items_view));
 				if(mFileViewGridLayoutManager==null){
 					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 				}
