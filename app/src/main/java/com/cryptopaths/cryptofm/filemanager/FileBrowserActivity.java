@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +45,8 @@ public class FileBrowserActivity extends AppCompatActivity
         RecyclerView mFileListView 	= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 
-		mFileListView.setLayoutManager(new LinearLayoutManager(this));
+		//mFileListView.setLayoutManager(new LinearLayoutManager(this));
+		mFileListView.setLayoutManager(new GridLayoutManager(this,2));
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
