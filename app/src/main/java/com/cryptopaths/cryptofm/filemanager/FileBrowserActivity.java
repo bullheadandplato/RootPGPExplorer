@@ -178,7 +178,7 @@ public class FileBrowserActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: destroying activity");
-		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler().getDecryptTask();
+		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
 		if(decryptTask!=null && decryptTask.getStatus()==AsyncTask.Status.RUNNING){
 			Log.d(TAG, "onDestroy: canceling the task");
 			decryptTask.cancel(true);
