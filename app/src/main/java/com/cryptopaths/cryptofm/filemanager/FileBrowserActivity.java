@@ -1,15 +1,20 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +35,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	private String 			mCurrentPath;
 	private String 			mRootPath;
     private FileListAdapter mmFileListAdapter;
+	private RecyclerView 	mFileListView;
+	private LinearLayoutManager	mFileViewLinearLayoutManager;
+	private GridLayoutManager	mFileViewGridLayoutManager;
     private static final String TAG = "FileBrowser";
 
     @Override
@@ -42,14 +50,56 @@ public class FileBrowserActivity extends AppCompatActivity
 		SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
-        RecyclerView mFileListView 	= (RecyclerView) findViewById(R.id.fileListView);
+		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 
-		mFileListView.setLayoutManager(new LinearLayoutManager(this));
+		//set layout manager for the recycler view according to user choice
+		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
+		boolean linearLayout           = preferences.getBoolean("key",false);
+		if(linearLayout){
+			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
+			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
+		}else{
+			mFileViewGridLayoutManager=new GridLayoutManager(this,2);
+			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
+		}
+
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
 
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.appbar_menu,menu);
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.items_view_menu_item){
+			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
+				item.setIcon(getDrawable(R.drawable.ic_grid_view));
+				if(mFileViewLinearLayoutManager==null){
+					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
+				}
+				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
+			}else{
+				item.setIcon(getDrawable(R.drawable.ic_items_view));
+				if(mFileViewGridLayoutManager==null){
+					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
+				}
+				mFileListView.setLayoutManager(mFileViewGridLayoutManager);
+			}
+			mFileListView.requestLayout();
+		}
+		return true;
 	}
 
 	@ActionHandler(layoutResource = R.id.floating_add)

@@ -9,7 +9,8 @@
             android:layout_height="wrap_content"
             android:divider="@color/colorAccent"
             android:dividerHeight="1px"
-            />
+            >
+            </android.support.v7.widget.RecyclerView>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"

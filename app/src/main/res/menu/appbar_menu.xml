@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="change view"
+        android:icon="@drawable/ic_items_view"
+        android:id="@+id/items_view_menu_item"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
+</menu>
