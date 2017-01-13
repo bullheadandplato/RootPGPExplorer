@@ -73,6 +73,7 @@ public class PreStartActivity extends AppCompatActivity {
                 radioButton1.setChecked(true);
                 break;
             case 1:
+
                 radioButton2.setChecked(true);
                 break;
             case 2:
