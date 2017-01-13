@@ -55,6 +55,7 @@ public class PreStartActivity extends AppCompatActivity {
         switch (num) {
             case 1:
                 radioButton1.setChecked(true);
+                break;
             case 2:
                 radioButton2.setChecked(true);
                 break;
