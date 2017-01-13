@@ -18,17 +18,27 @@ public class PreStartActivity extends AppCompatActivity {
 
 
 
-    ViewPager viewpager;
-    PagerAdapter padapter;
+    ViewPager viewPager;
+    PagerAdapter pAdapter;
+    RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_start);
-        viewpager = (ViewPager) findViewById(R.id.pager);
-        padapter = new PagerAdapter(getSupportFragmentManager());
-        viewpager.setAdapter(padapter);
 
-        padapter.setPreStartActivity(this);
+        //initialize UI elements
+        radioButton1 = (RadioButton) findViewById(R.id.radioButton1);
+        radioButton2 = (RadioButton) findViewById(R.id.radioButton2);
+        radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
+        radioButton4 = (RadioButton) findViewById(R.id.radioButton4);
+
+        //set ViewPager adapter
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        pAdapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pAdapter);
+        pAdapter.setPreStartActivity(this);
 
 
 
@@ -45,13 +55,6 @@ public class PreStartActivity extends AppCompatActivity {
     }
 
     public void checkRadioButton(int num) {
-        RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
-        radioButton1 = (RadioButton) findViewById(R.id.radioButton1);
-        radioButton2 = (RadioButton) findViewById(R.id.radioButton2);
-        radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
-        radioButton4 = (RadioButton) findViewById(R.id.radioButton4);
-        Button btn=(Button)findViewById(R.id.pre_start_skip_button);
-
         switch (num) {
             case 1:
                 radioButton1.setChecked(true);
@@ -64,7 +67,7 @@ public class PreStartActivity extends AppCompatActivity {
                 break;
             case 4:
                 radioButton4.setChecked(true);
-                btn.setText("Finish >");
+                ((Button)findViewById(R.id.pre_start_skip_button)).setText("Finish >");
                 break;
 
         }
