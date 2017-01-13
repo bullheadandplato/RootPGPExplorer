@@ -38,7 +38,8 @@ class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        TaskHandler mTaskHandler = SharedData.getInstance().getTaskHandler();
+
+        final TaskHandler mTaskHandler = SharedData.getInstance().getTaskHandler(mContext);
         UiUtils.actionMode=mode;
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
@@ -69,10 +70,12 @@ class ActionViewHandler implements ActionMode.Callback {
                         } else {
                             SharedData.KEY_PASSWORD = editText.getText().toString();
                             dialog.dismiss();
+                            mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD);
                         }
                     }
                 });
-                mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.USERNAME);
+            }else{
+                mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD);
             }
         }else if(item.getItemId()==R.id.selectall_menu_item){
             SharedData.getInstance().getFileListAdapter().selectAllFiles();
@@ -85,8 +88,8 @@ class ActionViewHandler implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         Log.d("action","destroying action mode");
-        //selectCount = 0;
-        mode  = null;
+        SharedData.SELECT_COUNT=0;
+        ((FileBrowserActivity)mContext).actionMode=null;
         SharedData.getInstance().getFileListAdapter().resetFileIcons();
         SharedData.getInstance().getFileListAdapter().setmSelectionMode(false);
     }

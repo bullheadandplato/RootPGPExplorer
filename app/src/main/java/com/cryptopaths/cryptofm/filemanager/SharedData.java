@@ -8,6 +8,7 @@ import android.content.Context;
 
 public class SharedData {
     public static Boolean IS_IN_COPY_MODE = false;
+    public static int SELECT_COUNT=0;
     public static String USERNAME;
     public static String DB_PASSWWORD;
     public static String KEY_PASSWORD;

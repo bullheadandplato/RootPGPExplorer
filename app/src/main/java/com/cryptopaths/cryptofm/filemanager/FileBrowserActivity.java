@@ -43,7 +43,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
         RecyclerView mFileListView 	= (RecyclerView) findViewById(R.id.fileListView);
-		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter();
+		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 
 		mFileListView.setLayoutManager(new LinearLayoutManager(this));
 		FileFillerWrapper.fillData(mCurrentPath,this);
@@ -148,7 +148,6 @@ public class FileBrowserActivity extends AppCompatActivity
 
 
 	ActionMode actionMode;
-	private int selectCount=0;
 	@Override
 	public void onLongClick() {
 		if(actionMode==null) {
@@ -157,8 +156,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	}
 	@Override
 	public void incrementSelectionCount(){
-		actionMode.setTitle(++selectCount);
-		if(selectCount>1){
+		actionMode.setTitle(++SharedData.SELECT_COUNT+"");
+		if(SharedData.SELECT_COUNT>1){
 			actionMode.getMenu().removeItem(R.id.rename_menu_item);
 		}
 	}
@@ -166,11 +165,11 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public void decrementSelectionCount() {
 		if(actionMode!=null){
-			actionMode.setTitle(--selectCount);
-			if(selectCount==0){
+			actionMode.setTitle(--SharedData.SELECT_COUNT+"");
+			if(SharedData.SELECT_COUNT==0){
 				actionMode.finish();
 			}
-			else if(selectCount<2){
+			else if(SharedData.SELECT_COUNT<2){
 				actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
 			}
 		}
