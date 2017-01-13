@@ -10,54 +10,55 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cryptopaths.cryptofm.startup.PreStartActivity">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:id="@+id/radio_buttons_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:id="@+id/radiogroup"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton1"
+                />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton2"
+                />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton3"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton4"
+                />
+        </RadioGroup>
+        <Button
+            android:text="skip >"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pre_start_skip_button"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="onSkipButtonClick"
+            android:layout_alignParentEnd="true"
+            />
+    </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
+        android:layout_above="@id/radio_buttons_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         />
 
-    <Button
-        android:text="skip >"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:id="@+id/pre_start_skip_button"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="44dp"
-        android:onClick="onSkipButtonClick"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton3"
-        android:layout_alignBaseline="@+id/radioButton4"
-        android:layout_alignBottom="@+id/radioButton4"
-        android:layout_toStartOf="@+id/radioButton4" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton4"
-        android:layout_alignBaseline="@+id/pre_start_skip_button"
-        android:layout_alignBottom="@+id/pre_start_skip_button"
-        android:layout_toStartOf="@+id/radioButton" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
-        android:layout_alignBaseline="@+id/radioButton4"
-        android:layout_alignBottom="@+id/radioButton4"
-        android:layout_centerHorizontal="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton5"
-        android:layout_marginStart="25dp"
-        android:layout_alignBaseline="@+id/radioButton"
-        android:layout_alignBottom="@+id/radioButton"
-        android:layout_toEndOf="@+id/radioButton4" />
 </RelativeLayout>
