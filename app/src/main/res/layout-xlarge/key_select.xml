@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +23,6 @@
             android:padding="10dp"
             android:id="@+id/selectKey_layout_one"
             android:layout_height="wrap_content">
-
             <EditText
                 android:layout_weight=".8"
                 android:layout_width="wrap_content"
@@ -88,12 +86,12 @@
             android:background="@color/colorAccent"
             android:onClick="onUnlockButtonClick"
             android:text="Let's Go"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:width="@android:dimen/dialog_min_width_major" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="97dp" />
 
 
     </RelativeLayout>
