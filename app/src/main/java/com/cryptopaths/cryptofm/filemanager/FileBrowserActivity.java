@@ -149,6 +149,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
 		View view= getLayoutInflater().inflate(R.layout.copy_file_dialog_layout,null);
 		layout.addView(view);
+
 	}
 
 	void changeDirectory(String path) {
@@ -157,6 +158,14 @@ public class FileBrowserActivity extends AppCompatActivity
         FileFillerWrapper.fillData(path,this);
 		mmFileListAdapter.notifyDataSetChanged();
 
+	}
+	@ActionHandler(layoutResource = R.id.cancel_copy_button)
+	public void onCancelButtonClicked(View v){
+		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0,0,0,0);
+		mFileListView.setLayoutParams(layoutParams);
+		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
+		layout.removeAllViews();
 	}
 	@Override
 	public void onBackPressed() {
