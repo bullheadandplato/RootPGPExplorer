@@ -171,21 +171,25 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	protected void onPause() {
 		Log.d(TAG, "onPause: pausing activity");
-		startService(new Intent(this,CleanupService.class));
 		super.onPause();
 	}
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy: destroying activity");
+		startService(new Intent(this,CleanupService.class));
+		Log.d(TAG, "onDestroy: destroying activity");
 		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
-		if(decryptTask!=null && decryptTask.getStatus()==AsyncTask.Status.RUNNING){
-			Log.d(TAG, "onDestroy: canceling the task");
-			decryptTask.cancel(true);
+		if(decryptTask!=null){
+			if(decryptTask.getStatus()==AsyncTask.Status.RUNNING){
+				Log.d(TAG, "onDestroy: canceling the task");
+				decryptTask.cancel(true);
+			}
 		}
-		EncryptTask encryptTask=SharedData.getInstance().getTaskHandler().getEncryptTask();
-		if(encryptTask!=null && encryptTask.getStatus()==AsyncTask.Status.RUNNING){
-			encryptTask.cancel(true);
+		EncryptTask encryptTask=SharedData.getInstance().getTaskHandler(this).getEncryptTask();
+		if(encryptTask!=null ){
+			if (encryptTask.getStatus()==AsyncTask.Status.RUNNING){
+				encryptTask.cancel(true);
+			}
 		}
         super.onDestroy();
     }
