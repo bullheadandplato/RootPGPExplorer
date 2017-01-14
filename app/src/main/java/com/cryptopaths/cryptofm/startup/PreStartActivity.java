@@ -39,6 +39,7 @@ public class PreStartActivity extends AppCompatActivity {
         pAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pAdapter);
         pAdapter.setPreStartActivity(this);
+        radioButton1.setChecked(true);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -73,6 +74,7 @@ public class PreStartActivity extends AppCompatActivity {
                 radioButton1.setChecked(true);
                 break;
             case 1:
+
                 radioButton2.setChecked(true);
                 break;
             case 2:
