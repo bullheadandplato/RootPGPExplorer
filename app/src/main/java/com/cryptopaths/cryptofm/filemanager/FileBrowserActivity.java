@@ -231,8 +231,12 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public void changeTitle(String path) {
-		path=path.substring(0,path.lastIndexOf('/'));
-		path=path.substring(path.lastIndexOf('/'));
+		if(path.equals(mRootPath)){
+			path="Home";
+		}else{
+			path=path.substring(0,path.lastIndexOf('/'));
+			path=path.substring(path.lastIndexOf('/')+1);
+		}
 		assert getSupportActionBar()!=null;
 		getSupportActionBar().setTitle(path);
 	}
