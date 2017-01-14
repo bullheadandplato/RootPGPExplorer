@@ -21,9 +21,10 @@ public class DataModelFiles {
 
     private Boolean     isSelected = false;
     private Boolean     isFile     = false;
-
+    private Context     mContext;
     public DataModelFiles(String filename, Context context) {
         this.fileName = filename;
+        this.mContext = context;
         if(FileUtils.isFile(filename)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
             this.fileExtensionOrItems=FileUtils.getExtension(filename);
@@ -44,8 +45,12 @@ public class DataModelFiles {
         return fileName;
     }
 
-    public String getFileEncryptionStatus() {
-        return fileEncryptionStatus;
+    public Drawable getFileEncryptionStatus() {
+        if(fileEncryptionStatus.equals("Encrypted")){
+            return mContext.getDrawable(R.drawable.ic_encrypt);
+        }else{
+            return mContext.getDrawable(R.drawable.ic_decrypt);
+        }
     }
 
     public String getFileExtension() {

@@ -72,6 +72,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
+        setResult(RESULT_OK);
 
         //first of all check shared preferences
         SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);

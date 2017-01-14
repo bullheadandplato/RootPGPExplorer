@@ -29,6 +29,14 @@
             android:textColor="@color/textColorTertiary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_encrypt"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/list_textview"
+            android:id="@+id/encryption_status_image" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -54,20 +62,7 @@
                 android:id="@+id/nofiles_textview"
                 android:textSize="10sp"
                 android:textColor="@color/textColorTertiary" />
-
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/encryption_status_textview"
-                android:layout_alignBaseline="@+id/folder_size_textview"
-                android:layout_alignBottom="@+id/folder_size_textview"
-                android:layout_alignParentEnd="true"
-                android:textSize="10sp"
-                android:textColor="@color/textColorTertiary" />
         </RelativeLayout>
-
-
 
     </RelativeLayout>
 </LinearLayout>
