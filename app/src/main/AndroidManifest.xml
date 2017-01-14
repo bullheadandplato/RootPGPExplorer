@@ -41,7 +41,7 @@
         </provider>
 
         <activity
-            android:name=".startup.PreStartActivity"
+            android:name=".startup.SplashScreen"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
