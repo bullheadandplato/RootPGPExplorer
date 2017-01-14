@@ -2,8 +2,12 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,9 +51,10 @@ class ActionViewHandler implements ActionMode.Callback {
         else if(item.getItemId()==R.id.delete_menu_item){
             mTaskHandler.deleteFile();
         }
-        else if (item.getItemId()==R.id.encrypt_menu_item){
+        else if(item.getItemId()==R.id.encrypt_menu_item){
             mTaskHandler.encryptTask();
-        }else if(item.getItemId()==R.id.decrypt_menu_item){
+        }
+        else if(item.getItemId()==R.id.decrypt_menu_item){
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
                 dialog.setContentView(R.layout.password_dialog_layout);
@@ -77,10 +82,13 @@ class ActionViewHandler implements ActionMode.Callback {
             }else{
                 mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD);
             }
-        }else if(item.getItemId()==R.id.selectall_menu_item){
+        }
+        else if(item.getItemId()==R.id.selectall_menu_item){
             SharedData.getInstance().getFileListAdapter().selectAllFiles();
-        }else if(item.getItemId()==R.id.move_menu_item){
-            mTaskHandler.moveFiles();
+        }
+        else if(item.getItemId()==R.id.move_menu_item){
+            Log.d("move", "onActionItemClicked: moving files");
+            ((FileBrowserActivity)mContext).showCopyDialog();
         }
         return true;
     }

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/file_coordinate_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/add_copy_file_dialog_layout"
+       >
+    </FrameLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fileListView"
             android:layout_width="match_parent"
@@ -10,7 +19,7 @@
             android:divider="@color/colorAccent"
             android:dividerHeight="1px"
             >
-            </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -19,12 +28,10 @@
             app:srcCompat="@android:drawable/ic_input_add"
             android:tint="#FFFFFF"
             android:onClick="onAddFloatingClicked"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
 
             />
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

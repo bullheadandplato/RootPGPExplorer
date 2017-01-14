@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
+import android.os.Environment;
 
 /**
  * Created by tripleheader on 1/13/17.
@@ -8,6 +9,8 @@ import android.content.Context;
 
 public class SharedData {
     public static Boolean IS_IN_COPY_MODE = false;
+    public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
+
     public static int SELECT_COUNT=0;
     public static String USERNAME;
     public static String DB_PASSWWORD;
@@ -50,8 +53,5 @@ public class SharedData {
         }
         return mTaskHandler;
     }
-    TaskHandler getTaskHandler(){
-        assert mTaskHandler!=null;
-        return mTaskHandler;
-    }
+
 }
