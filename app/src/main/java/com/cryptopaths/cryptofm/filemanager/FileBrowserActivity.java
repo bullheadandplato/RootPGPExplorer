@@ -71,6 +71,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
+		this.actionMode=null;
 
 	}
 
@@ -161,7 +162,12 @@ public class FileBrowserActivity extends AppCompatActivity
 	}
 	@ActionHandler(layoutResource = R.id.cancel_copy_button)
 	public void onCancelButtonClicked(View v){
-		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+		this.actionMode.finish();
+		CoordinatorLayout.LayoutParams layoutParams =
+				new CoordinatorLayout.LayoutParams(
+						CoordinatorLayout.LayoutParams.MATCH_PARENT,
+						CoordinatorLayout.LayoutParams.WRAP_CONTENT
+				);
 		layoutParams.setMargins(0,0,0,0);
 		mFileListView.setLayoutParams(layoutParams);
 		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
@@ -224,8 +230,13 @@ public class FileBrowserActivity extends AppCompatActivity
 	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
+		Log.d("action", "onLongClick: starting action mode but action mode is not null");
 		if(actionMode==null) {
+			Log.d("action", "onLongClick: starting action mode");
 			actionMode = startSupportActionMode(new ActionViewHandler(this));
+		}else if(mmFileListAdapter.getmSelectedFilePaths().size()<1){
+			actionMode=null;
+			onLongClick();
 		}
 	}
 	@Override

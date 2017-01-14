@@ -32,6 +32,7 @@ class ActionViewHandler implements ActionMode.Callback {
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.file_select_options,menu);
+        UiUtils.actionMode=mode;
         return true;
     }
 
@@ -44,7 +45,6 @@ class ActionViewHandler implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
         final TaskHandler mTaskHandler = SharedData.getInstance().getTaskHandler(mContext);
-        UiUtils.actionMode=mode;
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
         }
