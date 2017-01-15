@@ -4,11 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Fragment one"
+        android:text="ajshdhashdjkkdashashjasjdjashdkjsahdjksahdjkhaskdjhaskjhdjsahdjsahdkashdjkasjdhsajkdsajkhdjkashdjkashkjdaskjdhkjsahdjkashkdjaskjdhsajkhjaskhdasjhdsadghasdsahdasjhdasdhasdjasjdsjakhdkjsahdkjashdkjhasjkdhasjkhdjashdhasjkdashdkahsjkhasjhdasjkhdjkashdjkashdjkahjdahjksahdaskjksahkdjsakdhas"
         android:layout_width="wrap_content"
+        android:textColor="@color/cardview_dark_background"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="146dp"
+        android:id="@+id/textView"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="226dp"
-        android:id="@+id/textView" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
