@@ -22,7 +22,6 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
 import com.cryptopaths.cryptofm.startup.fragments.InitActivityFirstFragment;
-import com.cryptopaths.cryptofm.startup.fragments.InitActivitySecondFragment;
 import com.cryptopaths.cryptofm.startup.fragments.InitActivityThirdFragment;
 import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
@@ -38,7 +37,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.Security;
-import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -49,7 +47,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String TAG                 = "InitActivity";
     private static int FRAGMENT_ONE_NUMBER          = 0;
     private static int FRAGMENT_TWO_NUMBER          = 1;
-    private static int FRAGMENT_THREE_NUMBER        = 2;
     private static Boolean IS_DIFFERENT_PASSWORD    = false;
 
     static {
@@ -57,7 +54,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     private DatabaseHandler mDatabaseHandler;
-    private InitActivitySecondFragment mSecondFragment;
     private InitActivityFirstFragment mFirstFragment;
     private String          mUserSecretDatabase;
     private String          mUserSecretKeyPassword;
@@ -188,24 +184,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
 
     }
-    @ActionHandler(layoutResource = R.id.lets_go_button)
-    public void onLetsGoButtonClick(View v){
-        //get selected directories
-        assert mSecondFragment !=null;
-        ArrayList<String> tmp= mSecondFragment.getAllSelectedPositions();
-        if(tmp.size()>0){
-            //change fragment to third fragment
-            replaceFragment(FRAGMENT_THREE_NUMBER);
-            //set up progress bars
 
-        }else {
-            Toast.makeText(
-                    this,
-                    "Please choose one or more directories",
-                    Toast.LENGTH_LONG
-            ).show();
-        }
-    }
     Boolean isInThirdFragment = false;
     Boolean isInFirstFragment = false;
     private void replaceFragment(int fragmentNumber){
@@ -217,12 +196,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                 isInFirstFragment=true;
                 break;
             case 1:
-                fragment=new InitActivitySecondFragment();
-                isInFirstFragment=false;
-                // as I need it later
-                mSecondFragment= (InitActivitySecondFragment) fragment;
-                break;
-            case 2:
                 fragment=new InitActivityThirdFragment();
                 // in third fragment user cannot go back so empty the backstack.
                 //twice because only two fragments are there first, we are sure about this
@@ -273,9 +246,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     /*
     Permission area
      */
-    private void getPermissions() {
-        checkPermissions();
-    }
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (requestCode==RC_PERMISSION){
@@ -419,9 +389,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             //commit changes
             commitInitActivity();
             //start intermediateActivity
-            Intent intent = new Intent(InitActivity.this,IntermediateActivity.class);
+            Intent intent = new Intent(InitActivity.this,UnlockDbActivity.class);
             intent.putExtra("username",mUserName);
-            intent.putExtra("dirs",mSecondFragment.getAllSelectedPositions());
             startActivityForResult(intent,1);
             finish();
 

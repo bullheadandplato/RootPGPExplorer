@@ -16,9 +16,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
-            android:name=".startup.IntermediateActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".startup.UnlockDbActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
