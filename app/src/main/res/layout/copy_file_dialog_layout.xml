@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="50dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:onClick="onCancelButtonClicked"
+            android:alpha=".7"
+            android:id="@+id/cancel_copy_button"
+            android:textColor="@color/dialogButtonColor"
+            android:background="@android:color/transparent"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Move Here"
+            android:id="@+id/copy_move_button"
+            android:textColor="@color/dialogButtonColor"
+            android:background="@android:color/transparent"
+            android:textStyle="normal|bold" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -7,17 +7,21 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -32,10 +36,10 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 public class FileBrowserActivity extends AppCompatActivity
 		implements FileListAdapter.LongClickCallBack {
 
-	private String 			mCurrentPath;
-	private String 			mRootPath;
-    private FileListAdapter mmFileListAdapter;
-	private RecyclerView 	mFileListView;
+	private String 				mCurrentPath;
+	private String 				mRootPath;
+    private FileListAdapter 	mmFileListAdapter;
+	private RecyclerView 		mFileListView;
 	private LinearLayoutManager	mFileViewLinearLayoutManager;
 	private GridLayoutManager	mFileViewGridLayoutManager;
     private static final String TAG = "FileBrowser";
@@ -138,15 +142,31 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
-
-	private void changeDirectory() {
-		changeTitle(mCurrentPath);
-		Log.d("files","current path: "+mCurrentPath);
-        FileFillerWrapper.fillData(mCurrentPath,this);
-		mmFileListAdapter.notifyDataSetChanged();
+	void showCopyDialog(){
+		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0,getResources().getDimensionPixelSize(R.dimen.recycler_view_margin_top),0,0);
+		mFileListView.setLayoutParams(layoutParams);
+		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
+		View view= getLayoutInflater().inflate(R.layout.copy_file_dialog_layout,null);
+		layout.addView(view);
 
 	}
 
+	void changeDirectory(String path) {
+		changeTitle(path);
+		Log.d("files","current path: "+path);
+        FileFillerWrapper.fillData(path,this);
+		mmFileListAdapter.notifyDataSetChanged();
+
+	}
+	@ActionHandler(layoutResource = R.id.cancel_copy_button)
+	public void onCancelButtonClicked(View v){
+		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0,0,0,0);
+		mFileListView.setLayoutParams(layoutParams);
+		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
+		layout.removeAllViews();
+	}
 	@Override
 	public void onBackPressed() {
 		mCurrentPath = FileUtils.CURRENT_PATH;
@@ -157,7 +177,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			mCurrentPath		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
 			mCurrentPath 		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
 			FileUtils.CURRENT_PATH = mCurrentPath;
-			changeDirectory();
+			changeDirectory(mCurrentPath);
 
 		}
 	}
@@ -171,21 +191,25 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	protected void onPause() {
 		Log.d(TAG, "onPause: pausing activity");
-		startService(new Intent(this,CleanupService.class));
 		super.onPause();
 	}
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy: destroying activity");
-		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler().getDecryptTask();
-		if(decryptTask!=null && decryptTask.getStatus()==AsyncTask.Status.RUNNING){
-			Log.d(TAG, "onDestroy: canceling the task");
-			decryptTask.cancel(true);
+		startService(new Intent(this,CleanupService.class));
+		Log.d(TAG, "onDestroy: destroying activity");
+		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
+		if(decryptTask!=null){
+			if(decryptTask.getStatus()==AsyncTask.Status.RUNNING){
+				Log.d(TAG, "onDestroy: canceling the task");
+				decryptTask.cancel(true);
+			}
 		}
-		EncryptTask encryptTask=SharedData.getInstance().getTaskHandler().getEncryptTask();
-		if(encryptTask!=null && encryptTask.getStatus()==AsyncTask.Status.RUNNING){
-			encryptTask.cancel(true);
+		EncryptTask encryptTask=SharedData.getInstance().getTaskHandler(this).getEncryptTask();
+		if(encryptTask!=null ){
+			if (encryptTask.getStatus()==AsyncTask.Status.RUNNING){
+				encryptTask.cancel(true);
+			}
 		}
         super.onDestroy();
     }
@@ -227,8 +251,12 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public void changeTitle(String path) {
-		path=path.substring(0,path.lastIndexOf('/'));
-		path=path.substring(path.lastIndexOf('/'));
+		if(path.equals(mRootPath)){
+			path="Home";
+		}else{
+			path=path.substring(0,path.lastIndexOf('/'));
+			path=path.substring(path.lastIndexOf('/')+1);
+		}
 		assert getSupportActionBar()!=null;
 		getSupportActionBar().setTitle(path);
 	}
