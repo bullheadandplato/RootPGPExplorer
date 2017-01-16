@@ -1,85 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
-    <ImageView android:src="@drawable/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="108dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/logo_image"
-        android:tint="@color/colorAccent"
-        android:layout_above="@id/get_password_layout" />
-
+    >
     <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".startup.KeySelectActivity"
+        android:weightSum="1">
+        <ImageView android:src="@drawable/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:id="@+id/logo_image"
+            android:tint="@color/colorAccent"
+            />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="10dp"
-            android:id="@+id/selectKey_layout_one"
+            android:id="@+id/header_section_layout"
+            android:layout_below="@+id/logo_image"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_weight=".8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Select Public Key"
-                android:id="@+id/editText2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:padding="10dp"
+                android:id="@+id/selectKey_layout_one"
+                android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatButton
-                android:layout_weight=".2"
-                android:id="@+id/button_select_public_key"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@color/colorAccent"
-                android:text="Browse"
-                android:textSize="12sp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="14dp"
-                android:minWidth="50dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="10dp"
-            android:layout_below="@id/selectKey_layout_one"
-            android:layout_height="wrap_content">
-            <EditText
-                android:layout_weight=".8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Select Public Key"
-                android:id="@+id/editText3" />
-            <android.support.v7.widget.AppCompatButton
-                android:layout_weight=".2"
-                android:id="@+id/button_select_secret_key"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@color/colorAccent"
-                android:text="Browse"
-                android:textSize="12sp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="14dp"
-                android:minWidth="50dp" />
+                <EditText
+                    android:layout_weight=".8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Select Public Key"
+                    android:id="@+id/editText2" />
 
-        </LinearLayout>
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_weight=".2"
+                    android:id="@+id/button_select_public_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:background="@color/colorAccent"
+                    android:text="Browse"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="14dp"
+                    android:minWidth="50dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:padding="10dp"
+                android:layout_below="@id/selectKey_layout_one"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_weight=".8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Select Public Key"
+                    android:id="@+id/editText3" />
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_weight=".2"
+                    android:id="@+id/button_select_secret_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:background="@color/colorAccent"
+                    android:text="Browse"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="14dp"
+                    android:minWidth="50dp" />
 
+            </LinearLayout>
 
+        </RelativeLayout>
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/button_unlock_db"
-            android:layout_width="fill_parent"
+            android:id="@+id/button_letsgo_keys_select"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:background="@color/colorAccent"
@@ -89,13 +98,10 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:width="@android:dimen/dialog_min_width_major" />
+            android:layout_below="@id/header_section_layout"
+            android:layout_marginTop="30dp"
+            />
 
 
     </RelativeLayout>
-
-
-
-</LinearLayout>
+</ScrollView>
