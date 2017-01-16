@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,7 +41,6 @@ import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
@@ -66,10 +66,12 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private ProgressBar     mKeygenProgressBar;
     private Drawable        mProgressBarDefaultDrawable;
     private Drawable        mProgressBarAfterDrawable;
+    private static Boolean        mGettingPermission=true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: Creating activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         setResult(RESULT_OK);
@@ -159,12 +161,15 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                     if(!IS_DIFFERENT_PASSWORD){
                         mUserSecretDatabase=mUserSecretKeyPassword;
                     }
-                    if(checkPermissions()){
+                    Boolean permission=checkPermissions();
+                    if(permission){
                         //replace fragment to second fragment
+                        Log.d(TAG, "onNextButtonClick: aor mera b bnta hai");
                         replaceFragment(FRAGMENT_TWO_NUMBER);
                     } else{
                         // get read and write storage permission
-                        getPermissions();
+                        Log.d(TAG, "onNextButtonClick: mera execute hona bnta hai");
+                        //do nothing
                     }
 
                 }else{
@@ -226,11 +231,12 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             default:
                 return;
         }
-        getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
-                        R.anim.enter_from_left, R.anim.exit_to_right).
-                replace(R.id.fragment_frame_layout, fragment).
-                commit();
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
+                            R.anim.enter_from_left, R.anim.exit_to_right).
+                    replace(R.id.fragment_frame_layout, fragment).
+                    commit();
+            mGettingPermission=false;
 
     }
 
@@ -246,7 +252,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
 
         //execute
-       new DatabaseSetupTask().execute();
+        new DatabaseSetupTask().execute();
+
+
     }
     private void commitInitActivity() {
         //put in shared preferences
@@ -270,10 +278,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Log.d(TAG,"permissions granted");
         if (requestCode==RC_PERMISSION){
             //change fragment to second fragment
-            replaceFragment(FRAGMENT_TWO_NUMBER);
+         //  replaceFragment(FRAGMENT_TWO_NUMBER);
         }
     }
 
@@ -282,13 +289,14 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    @AfterPermissionGranted(RC_PERMISSION)
     private boolean checkPermissions(){
-        String[] perms  = {Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        Log.d("man", "checkPermissions: im called dsds");
+        String[] perms  = {Manifest.permission.READ_EXTERNAL_STORAGE
+                };
         if(EasyPermissions.hasPermissions(this,perms)){
                return true;
         }else{
+            mGettingPermission=false;
             EasyPermissions.requestPermissions(this,getString(R.string.permission_string),
                     RC_PERMISSION,perms);
         }
@@ -299,8 +307,15 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+        switch (requestCode){
+            case RC_PERMISSION:{
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Log.d(TAG,"permissions granted");
+                    //change fragment to second fragment
+                    mGettingPermission=true;
+                }
+            }
+        }
 
     }
 
@@ -311,7 +326,13 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume: Resuming activity");
         super.onResume();
+        if(mGettingPermission){
+            replaceFragment(FRAGMENT_TWO_NUMBER);
+
+        }
+
     }
 
     @Override

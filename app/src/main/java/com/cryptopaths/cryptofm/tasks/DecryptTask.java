@@ -11,7 +11,6 @@ import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
-import com.cryptopaths.cryptofm.services.CleanupService;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.BufferedInputStream;
@@ -128,7 +127,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     }
 
     private InputStream getSecretKey() {
-        DatabaseHandler handler=DatabaseHandler.getInstance(mDbPassword,mContext,true);
+        DatabaseHandler handler=new DatabaseHandler(mContext,"google",true);
         try {
             mSecKey= new BufferedInputStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
         } catch (Exception e) {

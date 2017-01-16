@@ -78,23 +78,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return status;
 
     }
-    public boolean insertPubKey(String email,String pubKeyText){
-        boolean status=false;
-        Log.d(TAG,"started inserting public key");
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(FeedReaderContract.PubRing.TB_COL1_EMAIL,email);
-        contentValues.put(FeedReaderContract.PubRing.TB_COL2_PUBKEY,pubKeyText);
-        try{
-            mDB.insert(FeedReaderContract.PubRing.TABLE_NAME,null,contentValues);
-            status=true;
-            Log.d(TAG,"public key successfully inserted");
-        }catch (Exception e){
-            status=false;
-            e.printStackTrace();
-            Log.d(TAG,"cannot insert public key");
-        }
-        return status;
-    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -133,12 +116,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
     }
 
-    public static DatabaseHandler getInstance(String pass,Context context,Boolean isCreated){
-        if(mDb==null){
-            Log.d("dec", "getInstance: "+pass);
-            mDb = new DatabaseHandler(context,pass,isCreated);
-        }
-        return mDb;
-    }
 
 }
