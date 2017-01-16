@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".startup.KeySelectActivity"
     android:weightSum="1">
 
     <ImageView android:src="@drawable/logo"
@@ -19,6 +22,7 @@
         android:padding="12dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@color/colorAccent"
+        android:onClick="chooseNextActivity"
         android:text="Generate Key"
         android:textSize="20dp"/>
     <android.support.v7.widget.AppCompatButton
@@ -27,6 +31,7 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        android:onClick="chooseNextActivity"
         android:background="@color/colorAccent"
         android:text="Use existing Key"
         android:textSize="20dp"/>

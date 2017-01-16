@@ -27,7 +27,7 @@ public class SplashScreen extends AppCompatActivity {
             startActivity(i);
 
         }else{
-            Intent i = new Intent(SplashScreen.this, InitActivity.class);
+            Intent i = new Intent(SplashScreen.this, KeySelectActivity.class);
             startActivity(i);
         }
         // close this activity
