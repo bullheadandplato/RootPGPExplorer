@@ -2,12 +2,8 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,14 +33,13 @@ class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
         final TaskHandler mTaskHandler = SharedData.getInstance().getTaskHandler(mContext);
-        UiUtils.actionMode=mode;
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
         }
@@ -97,7 +92,7 @@ class ActionViewHandler implements ActionMode.Callback {
     public void onDestroyActionMode(ActionMode mode) {
         Log.d("action","destroying action mode");
         SharedData.SELECT_COUNT=0;
-        ((FileBrowserActivity)mContext).actionMode=null;
+        SharedData.SELECTION_MODE=false;
         SharedData.getInstance().getFileListAdapter().resetFileIcons();
         SharedData.getInstance().getFileListAdapter().setmSelectionMode(false);
     }

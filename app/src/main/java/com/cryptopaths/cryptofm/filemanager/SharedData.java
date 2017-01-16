@@ -8,6 +8,7 @@ import android.os.Environment;
  */
 
 public class SharedData {
+    public static boolean SELECTION_MODE = false;
     public static Boolean IS_IN_COPY_MODE = false;
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
 

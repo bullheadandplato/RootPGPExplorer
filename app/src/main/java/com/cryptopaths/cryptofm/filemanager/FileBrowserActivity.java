@@ -222,9 +222,10 @@ public class FileBrowserActivity extends AppCompatActivity
 	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
-		if(actionMode==null) {
+		if(SharedData.SELECTION_MODE) {
 			actionMode = startSupportActionMode(new ActionViewHandler(this));
 		}
+		UiUtils.actionMode=actionMode;
 	}
 	@Override
 	public void incrementSelectionCount(){

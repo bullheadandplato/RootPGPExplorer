@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,10 +160,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                     if(FileFillerWrapper.getTotalFilesCount()<1){
                         return false;
                     }
-                    clickCallBack.onLongClick();
-                    mSelectionMode = true;
+                    else if(!SharedData.SELECTION_MODE) {
+                        Log.d(TAG, "onLongClick: action mode is not being displayed");
+                        SharedData.SELECTION_MODE = true;
+                        clickCallBack.onLongClick();
+                        mSelectionMode = true;
+                    }
                     selectionOperation(getAdapterPosition());
                     return true;
+
                 }
             });
 
@@ -171,7 +177,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             noFilesLayout               = (ImageView) itemView.findViewById(R.id.no_files_image);
             mNumberFilesTextView        = (TextView)itemView.findViewById(R.id.nofiles_textview);
             mFolderSizeTextView         = (TextView)itemView.findViewById(R.id.folder_size_textview);
-            mEncryptionStatusImage   = (ImageView) itemView.findViewById(R.id.encryption_status_image);
+            mEncryptionStatusImage      = (ImageView) itemView.findViewById(R.id.encryption_status_image);
 
         }
 
@@ -225,11 +231,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
     private void selectFile(int position){
         if(!mDataModel.getSelected()) {
-            clickCallBack.incrementSelectionCount();
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
+            clickCallBack.incrementSelectionCount();
+
         }
     }
 
