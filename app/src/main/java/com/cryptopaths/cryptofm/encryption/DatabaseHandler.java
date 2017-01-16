@@ -12,11 +12,11 @@ import java.io.File;
 
 /**
  * Created by osama on 10/12/16.
+ * database handle class
  */
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
-    private static DatabaseHandler mDb;
 
     private static final String TAG="database";
     private static final String DATABASE_NAME="pierce";
@@ -57,7 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public boolean insertSecKey(String email,byte[] secKeyText){
-        boolean status=false;
+        boolean status;
         //create content values to put in db
         //not verifying email address here
 
