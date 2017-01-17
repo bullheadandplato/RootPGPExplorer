@@ -18,31 +18,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp">
-        <TextView
-            android:text="TextView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:id="@+id/list_textview"
-            android:lines="1"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:textColor="@color/textColorTertiary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_encrypt"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/list_textview"
+            android:layout_alignParentStart="true"
             android:id="@+id/encryption_status_image" />
+        <TextView
+            android:text="TextView"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/encryption_status_image"
+            android:id="@+id/list_textview"
+            android:lines="1"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textColor="@color/textColorTertiary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_below="@id/list_textview"
             android:layout_marginTop="5dp"
-            android:layout_alignStart="@id/list_textview"
+            android:layout_alignStart="@id/encryption_status_image"
             android:layout_height="wrap_content">
 
             <TextView
@@ -51,12 +50,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/folder_size_textview"
                 android:textSize="10sp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/nofiles_textview"
-                android:layout_marginStart="12dp"
                 android:textColor="@color/textColorTertiary" />
 
             <TextView
                 android:text="TextView"
+                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nofiles_textview"

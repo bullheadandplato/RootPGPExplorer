@@ -13,6 +13,8 @@ import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -127,6 +129,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     }
 
     private InputStream getSecretKey() {
+        SQLiteDatabase.loadLibs(mContext);
         DatabaseHandler handler=new DatabaseHandler(mContext,"google",true);
         try {
             mSecKey= new BufferedInputStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
