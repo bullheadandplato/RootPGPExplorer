@@ -33,6 +33,7 @@ public  class FileFillerWrapper {
                     file.listFiles()) {
                 allFiles.add(new DataModelFiles(f.getName(),context));
             }
+            sortData();
         }
     }
     public static DataModelFiles getFileAtPosition(int position){
@@ -45,5 +46,16 @@ public  class FileFillerWrapper {
 
     public static String getCurrentPath() {
         return currentPath;
+    }
+    private static void sortData(){
+        DataModelFiles md;
+        int size=allFiles.size();
+        for (int i = 0; i < size ; i++) {
+            md=allFiles.get(i);
+            if(!md.getFile()){
+                allFiles.remove(md);
+                allFiles.add(0,md);
+            }
+        }
     }
 }
