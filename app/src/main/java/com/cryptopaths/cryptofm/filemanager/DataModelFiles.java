@@ -81,7 +81,4 @@ public class DataModelFiles {
     public Boolean getFile() {
         return isFile;
     }
-    public boolean isEncrypted(){
-        return this.isEncrypted;
-    }
 }
