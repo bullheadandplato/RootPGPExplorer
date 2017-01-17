@@ -1,7 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
@@ -15,8 +14,7 @@ import java.util.List;
  */
 
 public  class FileFillerWrapper {
-    private static List<DataModelFiles> allFilesDecrypted   = new ArrayList<>();
-    private static List<DataModelFiles> allFilesEncrypted   = new ArrayList<>();
+    private static List<DataModelFiles> allFiles   = new ArrayList<>();
     private static int totalFilesCount             = 0;
 
     private static String currentPath;
@@ -29,58 +27,35 @@ public  class FileFillerWrapper {
         //for each file in current path fill data
         File file              = new File(currentPath);
         totalFilesCount=file.list().length;
-        DataModelFiles dm;
         if(file.list().length>0){
-            allFilesDecrypted.clear();
-            allFilesEncrypted.clear();
+            allFiles.clear();
             for (File f:
                     file.listFiles()) {
-                dm=new DataModelFiles(f.getName(),context);
-                if(dm.isEncrypted()){
-                    allFilesEncrypted.add(dm);
-                }else{
-                    allFilesDecrypted.add(dm);
-                }
+                allFiles.add(new DataModelFiles(f.getName(),context));
             }
-            allFilesDecrypted=sortData(allFilesDecrypted);
-            allFilesEncrypted=sortData(allFilesEncrypted);
+            sortData();
         }
     }
-    public static DataModelFiles getEncryptedFileAtPosition(int position){
-        return allFilesEncrypted.get(position);
-    }
-    public static DataModelFiles getDecryptedFileAtPosition(int position){
-        Log.d("position", "getDecryptedFileAtPosition: returning file at: "+position);
-        return allFilesDecrypted.get(position);
+    public static DataModelFiles getFileAtPosition(int position){
+        return allFiles.get(position);
     }
 
     public static int getTotalFilesCount() {
         return totalFilesCount;
     }
-    public static int getDecryptedFileStartingPosition(){
-        return allFilesEncrypted.size();
-    }
-    public static DataModelFiles getFileAtPosition(int position){
-        if(position>allFilesEncrypted.size()){
-            return allFilesDecrypted.get(position-allFilesEncrypted.size()-1);
-        }else{
-            return allFilesEncrypted.get(position);
-        }
-    }
 
     public static String getCurrentPath() {
         return currentPath;
     }
-    private static List<DataModelFiles> sortData(List<DataModelFiles> list){
+    private static void sortData(){
         DataModelFiles md;
-        int size=list.size();
+        int size=allFiles.size();
         for (int i = 0; i < size ; i++) {
-            md=list.get(i);
+            md=allFiles.get(i);
             if(!md.getFile()){
-                list.remove(md);
-                list.add(0,md);
+                allFiles.remove(md);
+                allFiles.add(0,md);
             }
         }
-        return list;
     }
 }

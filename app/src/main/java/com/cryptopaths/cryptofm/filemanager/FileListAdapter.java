@@ -41,8 +41,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private  static final String    TAG                 = "filesList";
     private static final int        NO_FILES_VIEW       = 100;
     private static final int        NORMAL_VIEW         = 50;
-    private static final int        SECTION_HEADER      = 12;
-    private boolean          decryptedSectionStarted=false;
 
 
         public FileListAdapter(Context context){
@@ -59,10 +57,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==NO_FILES_VIEW){
             return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_files_layout,parent,false));
-        }else if(viewType==SECTION_HEADER){
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_section_header,parent,false));
-        }
-        else{
+        }else{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
@@ -75,12 +70,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     public int getItemViewType(int position) {
         if(FileFillerWrapper.getTotalFilesCount()<1){
             return NO_FILES_VIEW;
-        }else if(FileFillerWrapper.getDecryptedFileStartingPosition()==position){
-            Log.d("sections","One crazy approach");
-            decryptedSectionStarted=true;
-            return SECTION_HEADER;
-        }
-        else{
+        }else{
             return NORMAL_VIEW;
         }
     }
@@ -90,15 +80,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         if(FileFillerWrapper.getTotalFilesCount()<1){
             ImageView view=holder.noFilesLayout;
             view.setImageDrawable(mContext.getDrawable(R.drawable.nofiles_image));
-        }else if(position==FileFillerWrapper.getDecryptedFileStartingPosition()){
-            holder.mSectionHeader.setText("Not encrypted");
-        }
-        else {
-            if(decryptedSectionStarted){
-                mDataModel=FileFillerWrapper.getDecryptedFileAtPosition(position);
-            }else{
-                mDataModel=FileFillerWrapper.getEncryptedFileAtPosition(position);
-            }
+        }else {
+            mDataModel=FileFillerWrapper.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
@@ -143,7 +126,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         TextView    mNumberFilesTextView;
         TextView    mFolderSizeTextView;
         ImageView    mEncryptionStatusImage;
-        TextView    mSectionHeader;
         ViewHolder(View itemView){
                 super(itemView);
             clickCallBack = (LongClickCallBack)mContext;
@@ -196,7 +178,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             mNumberFilesTextView        = (TextView)itemView.findViewById(R.id.nofiles_textview);
             mFolderSizeTextView         = (TextView)itemView.findViewById(R.id.folder_size_textview);
             mEncryptionStatusImage      = (ImageView) itemView.findViewById(R.id.encryption_status_image);
-            mSectionHeader              = (TextView) itemView.findViewById(R.id.textView7);
 
         }
 

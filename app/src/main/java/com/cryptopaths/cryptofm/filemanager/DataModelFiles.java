@@ -14,7 +14,6 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class DataModelFiles {
     private String      fileName;
-    private String      fileEncryptionStatus;
     private String      fileExtensionOrItems;
     private String      fileSize;
     private Drawable    fileIcon;
