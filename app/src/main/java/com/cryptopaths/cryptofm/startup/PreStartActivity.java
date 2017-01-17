@@ -62,7 +62,7 @@ public class PreStartActivity extends AppCompatActivity {
     @ActionHandler(layoutResource = R.id.pre_start_skip_button)
     public void onSkipButtonClick(View v){
         //start the intent for the password activity
-        Intent intent=new Intent(this,KeySelectActivity.class);
+        Intent intent=new Intent(this,OptionActivity.class);
         //start the activity but not let the user get back to this activity
         startActivityForResult(intent,1);
         finish();
