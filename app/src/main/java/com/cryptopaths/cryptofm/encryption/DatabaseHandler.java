@@ -74,7 +74,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
             Log.d(TAG,"cannot insert secret key");
         }
-
+        mDB.close();
         return status;
 
     }
@@ -112,6 +112,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         query.close();
+        mDB.close();
         assert data!=null;
         return data;
     }

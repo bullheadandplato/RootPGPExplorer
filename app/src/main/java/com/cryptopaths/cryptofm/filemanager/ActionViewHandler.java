@@ -70,12 +70,22 @@ class ActionViewHandler implements ActionMode.Callback {
                         } else {
                             SharedData.KEY_PASSWORD = editText.getText().toString();
                             dialog.dismiss();
-                            mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD);
+                            mTaskHandler.decryptFile(
+                                    SharedData.USERNAME,
+                                    SharedData.KEY_PASSWORD,
+                                    SharedData.DB_PASSWWORD,
+                                    SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths()
+                                    );
                         }
                     }
                 });
             }else{
-                mTaskHandler.decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD);
+                mTaskHandler.decryptFile(
+                        SharedData.USERNAME,
+                        SharedData.KEY_PASSWORD,
+                        SharedData.DB_PASSWWORD,
+                        SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths()
+                );
             }
         }
         else if(item.getItemId()==R.id.selectall_menu_item){

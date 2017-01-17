@@ -98,12 +98,12 @@ class TaskHandler {
         dialog.show();
     }
 
-    public void decryptFile(final String username, final String keypass, final String dbpass) {
+    public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
         Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
         mDecryptTask=new DecryptTask(
                 mContext,
                 mAdapter,
-                (ArrayList<String>) mAdapter.getmSelectedFilePaths().clone(),
+                files,
                 dbpass,
                 username,
                 keypass
