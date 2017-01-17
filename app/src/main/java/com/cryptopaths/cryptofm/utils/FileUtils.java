@@ -36,19 +36,19 @@ public class FileUtils {
         }
         return size;
     }
-    public static String isEncryptedFolder(String filename){
+    public static boolean isEncryptedFolder(String filename){
         File dir = new File(CURRENT_PATH+filename);
         //if file is not a directory but just a file
         if(dir.isFile()){
             if(dir.getName().contains("pgp")){
-                return "Encrypted";
+                return true;
             }else{
-                return "Not encrypted";
+                return false;
             }
         }
         //if all the files in folder are encrypted than this variable will be zero
         if(dir.listFiles().length<1){
-            return "Cannot see";
+            return false;
         }
         int temp=dir.listFiles().length;
         for (File f:
@@ -60,17 +60,17 @@ public class FileUtils {
             }
         }
         if(temp==0){
-            return "Encrypted";
+            return true;
         }else{
-            return "Not Encrypted";
+            return false;
         }
     }
 
-    public static String isEncryptedFile(String filename){
+    public static boolean isEncryptedFile(String filename){
         if(filename.contains(".pgp")){
-            return "Encrypted";
+            return true;
         }else{
-            return "Not encrypted";
+            return false;
         }
     }
 

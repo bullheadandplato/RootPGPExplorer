@@ -19,8 +19,9 @@ public class DataModelFiles {
     private String      fileSize;
     private Drawable    fileIcon;
 
-    private Boolean     isSelected = false;
-    private Boolean     isFile     = false;
+    private Boolean     isSelected   = false;
+    private Boolean     isFile       = false;
+    private boolean     isEncrypted  = false;
     private Context     mContext;
     public DataModelFiles(String filename, Context context) {
         this.fileName = filename;
@@ -30,13 +31,13 @@ public class DataModelFiles {
             this.fileExtensionOrItems=FileUtils.getExtension(filename);
             long size=FileUtils.getFileSize(filename);
             this.fileSize=FileUtils.getReadableSize(size);
-            this.fileEncryptionStatus=FileUtils.isEncryptedFile(filename);
+            this.isEncrypted=FileUtils.isEncryptedFile(filename);
             this.isFile=true;
         }else{
             this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+" items";
-            this.fileEncryptionStatus=FileUtils.isEncryptedFolder(filename);
+            this.isEncrypted=FileUtils.isEncryptedFolder(filename);
             this.fileSize=FileUtils.getLastModifiedDate(filename);
         }
     }
@@ -46,7 +47,7 @@ public class DataModelFiles {
     }
 
     public Drawable getFileEncryptionStatus() {
-        if(fileEncryptionStatus.equals("Encrypted")){
+        if(isEncrypted){
             return mContext.getDrawable(R.drawable.ic_encrypt);
         }else{
             return mContext.getDrawable(R.drawable.ic_decrypt);
@@ -80,5 +81,8 @@ public class DataModelFiles {
 
     public Boolean getFile() {
         return isFile;
+    }
+    public boolean isEncrypted(){
+        return this.isEncrypted;
     }
 }

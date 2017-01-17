@@ -8,5 +8,5 @@
     <color name="colorAccent">#4caf50</color>
     <color name="textColorTertiary">#616161</color>
     <color name="folderColor"> #616161</color>
-    <color name="dialogButtonColor">#2196F3</color>
+    <color name="dialogButtonColor">#2196f3</color>
 </resources>
