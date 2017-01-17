@@ -110,11 +110,11 @@ class TaskHandler {
         );
         mDecryptTask.execute();
     }
-    public EncryptTask encryptTask(){
+    public EncryptTask encryptTask(ArrayList<String> files){
         mEncryptTask=new EncryptTask(
                 mContext,
                 mAdapter,
-                (ArrayList<String>) mAdapter.getmSelectedFilePaths().clone()
+                files
         );
         mEncryptTask.execute();
         return mEncryptTask;

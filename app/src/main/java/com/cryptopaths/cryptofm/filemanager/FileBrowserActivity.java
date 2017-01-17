@@ -13,6 +13,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,6 +69,9 @@ public class FileBrowserActivity extends AppCompatActivity
 //hello change
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
+
+		ItemTouchHelper helper=new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+		helper.attachToRecyclerView(mFileListView);
 
 
 	}
@@ -267,6 +271,8 @@ public class FileBrowserActivity extends AppCompatActivity
     /**
 	 * end of task executing section
 	 */
+
+
 
 
 

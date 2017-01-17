@@ -47,7 +47,7 @@ class ActionViewHandler implements ActionMode.Callback {
             mTaskHandler.deleteFile();
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
-            mTaskHandler.encryptTask();
+            mTaskHandler.encryptTask(SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths());
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
             if(SharedData.KEY_PASSWORD==null) {
