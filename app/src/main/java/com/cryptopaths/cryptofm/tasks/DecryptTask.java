@@ -142,7 +142,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 Log.d(TAG, "decryptFile: rootpath is : " + f.getPath());
                 File out = new File(rootPath, f.getName().substring(0, f.getName().lastIndexOf('.')));
                 if (out.exists()) {
-                    throw new Exception("file already decrypted");
+                    out.delete();
                 }
 
                 publishProgress(f.getName(), "" +

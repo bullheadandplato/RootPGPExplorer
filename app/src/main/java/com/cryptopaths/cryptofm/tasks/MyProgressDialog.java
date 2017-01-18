@@ -25,7 +25,8 @@ public class MyProgressDialog {
     private Boolean                     isInNotificationMode;
     private NotificationManager         mNotificationManager;
     private NotificationCompat.Builder  mNotBuilder;
-
+    private static int                  NOTIFICATION_NUMBER=0;
+    private int                         thisNotificationNumber=0;
 
     MyProgressDialog(Context context,String title){
         dialog=new Dialog(context);
@@ -47,6 +48,7 @@ public class MyProgressDialog {
     }
 
     private void buildNotification() {
+        thisNotificationNumber=NOTIFICATION_NUMBER++;
         isInNotificationMode=true;
         mNotificationManager=(NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotBuilder=new NotificationCompat.Builder(mContext);
@@ -56,7 +58,7 @@ public class MyProgressDialog {
         Log.d("notification","yoo nigga showing notification");
         mNotBuilder.setProgress(0,0,true);
         mNotBuilder.setOngoing(true);
-        mNotificationManager.notify(1,mNotBuilder.build());
+        mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
         CleanupService.NOTIFICATION_BUILDER=mNotBuilder;
         CleanupService.NOTIFICATION_MANAGER=mNotificationManager;
     }
@@ -65,7 +67,7 @@ public class MyProgressDialog {
         mCurrentFilename=text;
         if(isInNotificationMode){
              mNotBuilder.setContentText(text);
-            mNotificationManager.notify(1,mNotBuilder.build());
+            mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
         }else{
             this.mProgressTextView.setText(text);
         }
@@ -75,7 +77,7 @@ public class MyProgressDialog {
             mNotBuilder.setContentText(text);
             mNotBuilder.setOngoing(false);
             mNotBuilder.setProgress(100,100,false);
-            mNotificationManager.notify(1,mNotBuilder.build());
+            mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
             this.mNotBuilder=null;
         }else{
             dialog.dismiss();

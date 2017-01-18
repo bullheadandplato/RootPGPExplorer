@@ -3,11 +3,12 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
@@ -82,7 +83,7 @@ class TaskHandler {
                                 mContext,
                                 mAdapter,
                                 (ArrayList<String>) mAdapter.getmSelectedFilePaths().clone());
-                        task.execute();
+                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                     }
                 });
@@ -99,7 +100,6 @@ class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
-        Log.d("decrypt", "onActionItemClicked: no mkxsdcfvgbyhnjmey pass is not null");
         mDecryptTask=new DecryptTask(
                 mContext,
                 mAdapter,
@@ -108,7 +108,15 @@ class TaskHandler {
                 username,
                 keypass
         );
-        mDecryptTask.execute();
+        try{
+            mDecryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }catch (IllegalStateException ex){
+            Toast.makeText(
+                    mContext,
+                    "Already decrypting files",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
     public EncryptTask encryptTask(ArrayList<String> files){
         mEncryptTask=new EncryptTask(
@@ -116,7 +124,7 @@ class TaskHandler {
                 mAdapter,
                 files
         );
-        mEncryptTask.execute();
+        mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         return mEncryptTask;
     }
 
