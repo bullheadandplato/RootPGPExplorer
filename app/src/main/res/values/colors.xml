@@ -9,4 +9,7 @@
     <color name="textColorTertiary">#616161</color>
     <color name="folderColor"> #616161</color>
     <color name="dialogButtonColor">#2196f3</color>
+
+    <color name="pagercolor1">#37474F</color>
+    <color name="pagercolor2">#d32f2f</color>
 </resources>

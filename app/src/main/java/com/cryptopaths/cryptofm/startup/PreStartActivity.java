@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.startup.adapters.PagerAdapter;
@@ -21,6 +22,7 @@ public class PreStartActivity extends AppCompatActivity {
     ViewPager viewPager;
     PagerAdapter pAdapter;
     RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
+    RelativeLayout prestartlayout;
 
 
     @Override
@@ -33,6 +35,7 @@ public class PreStartActivity extends AppCompatActivity {
         radioButton2 = (RadioButton) findViewById(R.id.radioButton2);
         radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
         radioButton4 = (RadioButton) findViewById(R.id.radioButton4);
+        prestartlayout=(RelativeLayout)findViewById(R.id.pre_start);
 
         //set ViewPager adapter
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -40,6 +43,7 @@ public class PreStartActivity extends AppCompatActivity {
         viewPager.setAdapter(pAdapter);
         pAdapter.setPreStartActivity(this);
         radioButton1.setChecked(true);
+        prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor1));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -72,10 +76,12 @@ public class PreStartActivity extends AppCompatActivity {
         switch (num) {
             case 0:
                 radioButton1.setChecked(true);
+                prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor1));
                 break;
             case 1:
 
                 radioButton2.setChecked(true);
+                prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor2));
                 break;
             case 2:
                 radioButton3.setChecked(true);
