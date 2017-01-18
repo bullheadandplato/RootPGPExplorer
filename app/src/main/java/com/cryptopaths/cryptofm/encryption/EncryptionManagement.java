@@ -142,7 +142,7 @@ public class EncryptionManagement implements EncryptionOperation {
             if (sKey == null)
             {
                 Log.d("decrypt", "decryptFile: no key found");
-                throw new IllegalArgumentException("secret key for message not found.");
+                throw new IllegalArgumentException("password is wrong.");
             }
 
             InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
@@ -159,18 +159,12 @@ public class EncryptionManagement implements EncryptionOperation {
             if (message instanceof PGPLiteralData)
             {
                 PGPLiteralData ld = (PGPLiteralData)message;
-
-
                 InputStream unc = ld.getInputStream();
                 Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-
-                //Streams.pipeAllLimited(unc, limit,fOut);
-                //while ()
                 try {
                     pipeAll(unc,fOut,limit);
                 } catch (Exception e) {
-                    Log.d("Google","nicely fucked");
                     e.printStackTrace();
                 }
 

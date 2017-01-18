@@ -18,6 +18,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -61,7 +62,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mFileName              = f;
         this.mDbPassword            = DbPass;
         this.mUsername              = mUsername;
-        this.mSecKey                =  getSecretKey();
+        this.mSecKey                = getSecretKey();
         this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting");
     }
     @Override
@@ -76,9 +77,10 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }
             rootPath=root.getPath();
             if(mFileName==null){
+                //refactor list to hold only encrypted files
+                mFilePaths=getOnlyEncryptedFiles(mFilePaths);
                 for (String s : mFilePaths) {
                     if(!isCancelled()) {
-
                         Log.d(TAG, "doInBackground: +" + mFilePaths.size());
                         File f = TasksFileUtils.getFile(s);
                         decryptFile(f);
@@ -91,7 +93,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 if(out.exists()){
                     throw new Exception("file already decrypted");
                 }
-                //out.createNewFile();
                 mSecKey=getSecretKey();
                 EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
             }
@@ -105,6 +106,31 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
         return "decryption successful";
     }
+    ArrayList<String> tmp=new ArrayList<>();
+    private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
+        int size=mFilePaths.size();
+        for (int i = 0; i < size; i++) {
+            Log.d("enclist", "getOnlyEncryptedFiles: file path is: "+mFilePaths.get(i));
+            File f=TasksFileUtils.getFile(mFilePaths.get(i));
+            if(f.isDirectory()){
+                File[] fs=f.listFiles();
+                ArrayList<String> tmp1=new ArrayList<>();
+                for (File fin:
+                    fs ) {
+                    tmp1.add(fin.getAbsolutePath());
+                }
+                getOnlyEncryptedFiles(tmp1);
+            }
+                if(FileUtils.isEncryptedFile(mFilePaths.get(i))){
+                tmp.add(mFilePaths.get(i));
+            }
+        }
+        if(tmp.size()<1){
+            throw new IllegalArgumentException("No encrypted files found");
+        }
+        return tmp;
+    }
+
     private void decryptFile(File f) throws Exception{
         Log.d(TAG, "decryptFile: task is running");
         if(!isCancelled()) {
