@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -225,12 +225,19 @@ public class FileBrowserActivity extends AppCompatActivity
 
     }
 
+	@Override
+	protected void onStart() {
+		Log.d(TAG,"Starting activity");
+		actionMode=null;
+		SharedData.SELECTION_MODE=true;
+		super.onStart();
+	}
 
 	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
-		if(SharedData.SELECTION_MODE) {
-			actionMode = startSupportActionMode(new ActionViewHandler(this));
+		if(!SharedData.SELECTION_MODE) {
+			actionMode = startActionMode(new ActionViewHandler(this));
 		}
 		UiUtils.actionMode=actionMode;
 	}

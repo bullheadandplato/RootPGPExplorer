@@ -160,9 +160,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                     if(FileFillerWrapper.getTotalFilesCount()<1){
                         return false;
                     }
-                    else if(!SharedData.SELECTION_MODE) {
+                    else if(SharedData.SELECTION_MODE) {
                         Log.d(TAG, "onLongClick: action mode is not being displayed");
-                        SharedData.SELECTION_MODE = true;
+                        SharedData.SELECTION_MODE = false;
                         clickCallBack.onLongClick();
                         mSelectionMode = true;
                     }

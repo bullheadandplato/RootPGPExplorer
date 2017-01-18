@@ -2,7 +2,7 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.view.View;
 import android.widget.Button;
 

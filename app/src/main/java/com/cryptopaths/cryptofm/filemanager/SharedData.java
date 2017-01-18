@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 
 public class SharedData {
-    public static boolean SELECTION_MODE = false;
+    public static boolean SELECTION_MODE = true;
     public static Boolean IS_IN_COPY_MODE = false;
     public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";

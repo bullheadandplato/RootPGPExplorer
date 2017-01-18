@@ -2,7 +2,7 @@ package com.cryptopaths.cryptofm.filemanager;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +26,7 @@ class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        Log.d("actionMode", "onCreateActionMode: created action mode");
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.file_select_options,menu);
         return true;
@@ -33,7 +34,7 @@ class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return true;
+        return false;
     }
 
     @Override
@@ -103,7 +104,7 @@ class ActionViewHandler implements ActionMode.Callback {
     public void onDestroyActionMode(ActionMode mode) {
         Log.d("action","destroying action mode");
         SharedData.SELECT_COUNT=0;
-        SharedData.SELECTION_MODE=false;
+        SharedData.SELECTION_MODE=true;
         SharedData.getInstance().getFileListAdapter().resetFileIcons();
         SharedData.getInstance().getFileListAdapter().setmSelectionMode(false);
     }
