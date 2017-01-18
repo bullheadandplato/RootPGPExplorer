@@ -23,10 +23,10 @@ import java.util.ArrayList;
  * swipe action handler
  */
 
-public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
+class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
     private Paint p;
     private Context mContext;
-    public RecyclerViewSwipeHandler(Context context){
+    RecyclerViewSwipeHandler(Context context){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         p=new Paint();
         this.mContext=context;
@@ -62,18 +62,27 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                     public void onClick(View view) {
                         if (editText.getText().length() < 1) {
                             editText.setError("please give me your encryption password");
-                            return;
                         } else {
                             SharedData.KEY_PASSWORD = editText.getText().toString();
                             dialog.dismiss();
-                            ArrayList<String> innerTmp=new ArrayList<String>();
+                            ArrayList<String> innerTmp=new ArrayList<>();
                             innerTmp.add(filePath);
-                            SharedData.getInstance().getTaskHandler(mContext).decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD,innerTmp);
+                            SharedData.getInstance().getTaskHandler(mContext).decryptFile(
+                                    SharedData.USERNAME,
+                                    SharedData.KEY_PASSWORD,
+                                    SharedData.DB_PASSWWORD,
+                                    innerTmp
+                            );
                         }
                     }
                 });
             }else{
-                SharedData.getInstance().getTaskHandler(mContext).decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD,tmp);
+                SharedData.getInstance().getTaskHandler(mContext).decryptFile(
+                        SharedData.USERNAME,
+                        SharedData.KEY_PASSWORD,
+                        SharedData.DB_PASSWWORD,
+                        tmp
+                );
             }
             UiUtils.reloadData(
                     mContext,
