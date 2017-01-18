@@ -3,12 +3,14 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.services.CleanupService;
 
 /**
@@ -28,7 +30,7 @@ public class MyProgressDialog {
     private static int                  NOTIFICATION_NUMBER=0;
     private int                         thisNotificationNumber=0;
 
-    MyProgressDialog(Context context,String title){
+    MyProgressDialog(Context context, String title, final AsyncTask task){
         dialog=new Dialog(context);
         Log.d("dialog", "MyProgressDialog: not cancelable");
         dialog.setCanceledOnTouchOutside(false);
@@ -43,6 +45,14 @@ public class MyProgressDialog {
             public void onClick(View view) {
                 dialog.dismiss();
                 buildNotification();
+            }
+        });
+        dialog.findViewById(R.id.cancel_background_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("cancel","Canceling the task");
+                SharedData.IS_TASK_CANCELED=true;
+                task.cancel(true);
             }
         });
     }

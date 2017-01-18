@@ -100,6 +100,23 @@ class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
+        ArrayList<String> tmp=new ArrayList<>();
+        int size=files.size();
+        for (int i = 0; i < size; i++) {
+            if(!SharedData.checkIfInRunningTask(files.get(i))){
+                tmp.add(files.get(i));
+            }
+        }
+        if(tmp.size()<1){
+            Toast.makeText(
+                    mContext,
+                    "Another operation is already running on files, please wait",
+                    Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
+        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
+
         mDecryptTask=new DecryptTask(
                 mContext,
                 mAdapter,
@@ -118,14 +135,29 @@ class TaskHandler {
             ).show();
         }
     }
-    public EncryptTask encryptTask(ArrayList<String> files){
+    public void encryptTask(ArrayList<String> files){
+        ArrayList<String> tmp=new ArrayList<>();
+        int size=files.size();
+        for (int i = 0; i < size; i++) {
+            if(!SharedData.checkIfInRunningTask(files.get(i))){
+                tmp.add(files.get(i));
+            }
+        }
+        if(tmp.size()<1){
+            Toast.makeText(
+                    mContext,
+                    "Another operation is already running on files, please wait",
+                    Toast.LENGTH_LONG
+            ).show();
+            return ;
+        }
+        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
         mEncryptTask=new EncryptTask(
                 mContext,
                 mAdapter,
                 files
         );
         mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        return mEncryptTask;
     }
 
     public DecryptTask getDecryptTask() {

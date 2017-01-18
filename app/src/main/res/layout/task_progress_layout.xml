@@ -29,6 +29,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:id="@+id/cancel_background_button"
+            android:text="Cancel"
+            android:textColor="@color/dialogButtonColor"
+            android:textAppearance="@android:style/TextAppearance.Material.Button"
+            style="@android:style/Widget.Material.Light.Button" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:id="@+id/runin_background_button"

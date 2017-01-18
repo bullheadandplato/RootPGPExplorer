@@ -10,6 +10,7 @@ import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
@@ -51,7 +52,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mKeyPass               = keypass.toCharArray();
         this.mDbPassword            = DbPass;
         this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting");
+        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting",this);
         this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
 
 
@@ -63,7 +64,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mDbPassword            = DbPass;
         this.mUsername              = mUsername;
         this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting");
+        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting",this);
     }
     @Override
     protected String doInBackground(Void... voids) {
@@ -169,6 +170,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         mProgressDialog.dismiss("Decryption completed");
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         Toast.makeText(mContext,
                 s,
                 Toast.LENGTH_LONG)
@@ -189,6 +191,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onCancelled() {
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         mProgressDialog.dismiss("Canceled");
         super.onCancelled();
 

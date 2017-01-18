@@ -1,6 +1,9 @@
 package com.cryptopaths.cryptofm.encryption;
 
+import android.accounts.OperationCanceledException;
 import android.util.Log;
+
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.openpgp.PGPCompressedData;
@@ -27,10 +30,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Iterator;
@@ -100,8 +101,7 @@ public class EncryptionManagement implements EncryptionOperation {
             String      defaultFileName,
             long limit
             )
-            throws IOException, NoSuchProviderException
-    {
+            throws Exception {
         Log.d("decrypt","yoo nigga decrypting");
         in = PGPUtil.getDecoderStream(in);
 
@@ -162,11 +162,8 @@ public class EncryptionManagement implements EncryptionOperation {
                 InputStream unc = ld.getInputStream();
                 Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-                try {
-                    pipeAll(unc,fOut,limit);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                pipeAll(unc,fOut,limit);
+
 
                 fOut.close();
             }
@@ -208,9 +205,11 @@ public class EncryptionManagement implements EncryptionOperation {
         long total = 0;
         byte[] bs = new byte[4096];
         int numRead;
-        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0)
+        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0 )
         {
-
+            if(SharedData.IS_TASK_CANCELED){
+                throw new OperationCanceledException("operation canceled");
+            }
             total += numRead;
             outStr.write(bs, 0, numRead);
             if((limit-total)<numRead){

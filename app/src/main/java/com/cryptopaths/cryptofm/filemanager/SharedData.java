@@ -3,6 +3,8 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.content.Context;
 import android.os.Environment;
 
+import java.util.ArrayList;
+
 /**
  * Created by tripleheader on 1/13/17.
  */
@@ -10,7 +12,9 @@ import android.os.Environment;
 public class SharedData {
     public static boolean SELECTION_MODE = false;
     public static Boolean IS_IN_COPY_MODE = false;
+    public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
+    public static boolean   IS_TASK_CANCELED=false;
 
     public static int SELECT_COUNT=0;
     public static String USERNAME;
@@ -53,6 +57,20 @@ public class SharedData {
             mTaskHandler=new TaskHandler(context);
         }
         return mTaskHandler;
+    }
+
+    /**
+     *
+     * @param path to check if any operation is going on it
+     * @return true if no operation is going on else false
+     */
+    public static boolean checkIfInRunningTask(String path){
+        for (String p: CURRENT_RUNNING_OPERATIONS) {
+            if(path.contains(p) || p.contains(path)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

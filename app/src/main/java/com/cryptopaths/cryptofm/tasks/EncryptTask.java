@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
@@ -33,7 +34,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         this.mAdapter               = adapter;
         this.mContext               = context;
         this.mFilePaths             = filePaths;
-        this.mProgressDialog        = new MyProgressDialog(context,"Encrypting");
+        this.mProgressDialog        = new MyProgressDialog(context,"Encrypting",this);
         this.pubKeyFile             = new File(mContext.getFilesDir(),"pub.asc");
     }
 
@@ -41,8 +42,11 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     protected String doInBackground(Void... voids) {
         try {
             for (String path : mFilePaths) {
-                File f = TasksFileUtils.getFile(path);
-                encryptFile(f);
+                if(!isCancelled()){
+                    File f = TasksFileUtils.getFile(path);
+                    encryptFile(f);
+                }
+
             }
             return "successfully encrypted file(s)";
         } catch (Exception ex) {
@@ -51,21 +55,24 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         }
     }
     private void encryptFile(File f) throws Exception{
-        if(f.isDirectory()){
-            for (File tmp: f.listFiles()) {
-                encryptFile(tmp);
-            }
-        }else {
-            File out = new File(f.getAbsolutePath()+".pgp");
-            if(out.createNewFile()){
-                Log.d(TAG, "encryptFile: created file to encrypt into");
-            }
-            publishProgress(f.getName(),""+
-                    ((FileUtils.getReadableSize((f.length())))));
+        if(!isCancelled()){
+            if(f.isDirectory()){
+                for (File tmp: f.listFiles()) {
+                    encryptFile(tmp);
+                }
+            }else {
+                File out = new File(f.getAbsolutePath()+".pgp");
+                if(out.createNewFile()){
+                    Log.d(TAG, "encryptFile: created file to encrypt into");
+                }
+                publishProgress(f.getName(),""+
+                        ((FileUtils.getReadableSize((f.length())))));
 
-            EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
+                EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
 
+            }
         }
+
 
     }
 
@@ -82,6 +89,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 s,
                 Toast.LENGTH_SHORT
         ).show();
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         deleteAlertDialog();
 
     }
@@ -111,5 +119,13 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPreExecute() {
         mProgressDialog.show();
+    }
+
+    @Override
+    protected void onCancelled() {
+        SharedData.IS_TASK_CANCELED=true;
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+        Log.d("cancel","yes task is canceled");
+        super.onCancelled();
     }
 }
