@@ -215,6 +215,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         mDataModel  = FileFillerWrapper.getFileAtPosition(position);
 
         if(mDataModel.getSelected()){
+            Log.d(TAG, "selectionOperation: fixing a bug in files selection");
+            mSelectedFilePaths.remove(mDataModel.getFilePath());
             mDataModel.setSelected(false);
             clickCallBack.decrementSelectionCount();
             if(mDataModel.getFile()){
@@ -236,7 +238,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
             clickCallBack.incrementSelectionCount();
-
         }
     }
 
