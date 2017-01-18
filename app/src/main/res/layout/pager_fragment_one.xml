@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#37474F">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_view_pager_image1"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp" />
 
     <TextView
-        android:text="ajshdhashdjkkdashashjasjdjashdkjsahdjksahdjkhaskdjhaskjhdjsahdjsahdkashdjkasjdhsajkdsajkhdjkashdjkashkjdaskjdhkjsahdjkashkdjaskjdhsajkhjaskhdasjhdsadghasdsahdasjhdasdhasdjasjdsjakhdkjsahdkjashdkjhasjkdhasjkhdjashdhasjkdashdkahsjkhasjhdasjkhdjkashdjkashdjkahjdahjksahdaskjksahkdjsakdhas"
+        android:text="Crypto File Manager helps to safely encrypt \n your all internal and external storage data \n and secure your data"
         android:layout_width="wrap_content"
-        android:textColor="@color/cardview_dark_background"
-        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="146dp"
+        android:textColor="#FAFAFA"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:id="@+id/textView8"
+        android:layout_alignTop="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Welcome to Crypto File Manager"
+        android:layout_width="wrap_content"
+        android:textColor="#FAFAFA"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="47dp"
+        android:gravity="center"
+        android:layout_below="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 </RelativeLayout>
