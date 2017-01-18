@@ -90,15 +90,15 @@ public class PreStartActivity extends AppCompatActivity {
                 break;
             case 2:
                 radioButton3.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
                 break;
             case 3:
                 radioButton4.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
                 ((Button)findViewById(R.id.pre_start_skip_button)).setText("Finish >");
                 break;
 
