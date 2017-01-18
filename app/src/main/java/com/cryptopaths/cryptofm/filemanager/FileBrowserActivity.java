@@ -41,6 +41,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private RecyclerView 		mFileListView;
 	private LinearLayoutManager	mFileViewLinearLayoutManager;
 	private GridLayoutManager	mFileViewGridLayoutManager;
+	private ItemTouchHelper		mHelper;
     private static final String TAG = "FileBrowser";
 
     @Override
@@ -55,6 +56,8 @@ public class FileBrowserActivity extends AppCompatActivity
 		mRootPath	 	           	= mCurrentPath;
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
+		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+
 
 		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
@@ -69,9 +72,6 @@ public class FileBrowserActivity extends AppCompatActivity
 //hello change
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
-
-		ItemTouchHelper helper=new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
-		helper.attachToRecyclerView(mFileListView);
 
 
 	}
@@ -95,13 +95,16 @@ public class FileBrowserActivity extends AppCompatActivity
 				if(mFileViewLinearLayoutManager==null){
 					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 				}
+				mHelper.attachToRecyclerView(mFileListView);
 				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 			}else{
 				item.setIcon(getDrawable(R.drawable.ic_items_view));
 				if(mFileViewGridLayoutManager==null){
 					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 				}
+				mHelper.attachToRecyclerView(null);
 				mFileListView.setLayoutManager(mFileViewGridLayoutManager);
+
 			}
 			mFileListView.requestLayout();
 		}

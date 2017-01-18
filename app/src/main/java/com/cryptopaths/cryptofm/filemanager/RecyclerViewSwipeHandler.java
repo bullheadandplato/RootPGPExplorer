@@ -38,6 +38,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
         final String filePath= FileUtils.CURRENT_PATH+((FileListAdapter.ViewHolder)viewHolder).mTextView.getText();
         ArrayList<String> tmp=new ArrayList<>();
         tmp.add(filePath);
@@ -46,6 +47,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
         }else{
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
+                dialog.setCancelable(false);
                 dialog.setContentView(R.layout.password_dialog_layout);
                 dialog.show();
                 dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,10 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
             }else{
                 SharedData.getInstance().getTaskHandler(mContext).decryptFile(SharedData.USERNAME, SharedData.KEY_PASSWORD, SharedData.DB_PASSWWORD,tmp);
             }
+            UiUtils.reloadData(
+                    mContext,
+                    SharedData.getInstance().getFileListAdapter(mContext)
+            );
 
         }
     }

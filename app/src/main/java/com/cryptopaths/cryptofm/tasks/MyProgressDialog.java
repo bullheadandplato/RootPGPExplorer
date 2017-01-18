@@ -29,6 +29,8 @@ public class MyProgressDialog {
 
     MyProgressDialog(Context context,String title){
         dialog=new Dialog(context);
+        Log.d("dialog", "MyProgressDialog: not cancelable");
+        dialog.setCanceledOnTouchOutside(false);
         this.mContext=context;
         this.mContentTitle=title;
         this.isInNotificationMode=false;

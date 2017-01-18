@@ -52,6 +52,7 @@ class ActionViewHandler implements ActionMode.Callback {
         else if(item.getItemId()==R.id.decrypt_menu_item){
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
+                dialog.setCancelable(false);
                 dialog.setContentView(R.layout.password_dialog_layout);
                 dialog.show();
                 dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
