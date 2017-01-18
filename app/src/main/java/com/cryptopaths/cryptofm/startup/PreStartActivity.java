@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm.startup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -77,17 +78,27 @@ public class PreStartActivity extends AppCompatActivity {
             case 0:
                 radioButton1.setChecked(true);
                 prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor1));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
                 break;
             case 1:
 
                 radioButton2.setChecked(true);
-                prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor2));
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
                 break;
             case 2:
                 radioButton3.setChecked(true);
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
                 break;
             case 3:
                 radioButton4.setChecked(true);
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
                 ((Button)findViewById(R.id.pre_start_skip_button)).setText("Finish >");
                 break;
 

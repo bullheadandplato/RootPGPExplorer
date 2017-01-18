@@ -5,11 +5,10 @@
         android:drawable="@color/colorAccent"/>
 
     <item>
-        <scale
-            android:scaleGravity="center"
-            android:scaleHeight="30%"
-            android:scaleWidth="30%"
-            android:drawable="@drawable/logo"/>
+        <bitmap
+            android:src="@mipmap/iconfinal"
+            android:gravity="center"
+            />
     </item>
 
 </layer-list>
