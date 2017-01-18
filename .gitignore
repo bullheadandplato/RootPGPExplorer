@@ -13,3 +13,4 @@ app/libs/
 gradle/wrapper/gradle-wrapper.jar
 gradlew
 gradlew.bat
+/app/src/main/java/com/cryptopaths/cryptolib/
