@@ -41,6 +41,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private char[] mKeyPass;
     private String rootPath;
     private static final String TAG="decrypt";
+    private ArrayList<File> mCreatedFiles=new ArrayList<>();
 
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
@@ -148,7 +149,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
                 publishProgress(f.getName(), "" +
                         ((FileUtils.getReadableSize((f.length())))));
-
+                mCreatedFiles.add(out);
                 EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
             }
         }
@@ -192,6 +193,19 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onCancelled() {
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+        UiUtils.reloadData(
+                mContext,
+                mAdapter
+        );
+        for (File f:
+                mCreatedFiles) {
+            f.delete();
+        }
+        Toast.makeText(
+                mContext,
+                "Encryption canceled",
+                Toast.LENGTH_SHORT
+        ).show();
         mProgressDialog.dismiss("Canceled");
         super.onCancelled();
 

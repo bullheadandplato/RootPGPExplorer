@@ -100,6 +100,7 @@ class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
+        SharedData.IS_TASK_CANCELED=false;
         ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
         for (int i = 0; i < size; i++) {
@@ -136,6 +137,7 @@ class TaskHandler {
         }
     }
     public void encryptTask(ArrayList<String> files){
+        SharedData.IS_TASK_CANCELED=false;
         ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
         for (int i = 0; i < size; i++) {
