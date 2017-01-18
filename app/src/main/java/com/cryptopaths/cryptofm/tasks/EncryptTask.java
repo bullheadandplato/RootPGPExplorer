@@ -29,6 +29,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private Context                 mContext;
     private File                    pubKeyFile;
     private ArrayList<File>         mCreatedFiles=new ArrayList<>();
+    private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
 
     private static final String TAG = "encrypt";
 
@@ -61,6 +62,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             if(f.isDirectory()){
                 for (File tmp: f.listFiles()) {
                     encryptFile(tmp);
+                    mFilePaths.remove(f.getAbsolutePath());
                 }
             }else {
                 File out = new File(f.getAbsolutePath()+".pgp");
@@ -70,6 +72,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 publishProgress(f.getName(),""+
                         ((FileUtils.getReadableSize((f.length())))));
                 mCreatedFiles.add(out);
+                mUnencryptedFiles.add(f.getAbsolutePath());
                 EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
 
             }
@@ -103,7 +106,8 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                new DeleteTask(mContext,mAdapter,mFilePaths).execute();
+
+                new DeleteTask(mContext,mAdapter,mUnencryptedFiles).execute();
             }
         });
         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
