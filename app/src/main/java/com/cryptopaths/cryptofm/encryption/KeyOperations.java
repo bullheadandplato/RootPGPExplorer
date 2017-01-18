@@ -1,8 +1,8 @@
 package com.cryptopaths.cryptofm.encryption;
 
-import org.spongycastle.openpgp.PGPKeyRingGenerator;
-import org.spongycastle.openpgp.PGPPublicKey;
-import org.spongycastle.openpgp.PGPSecretKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPKeyRingGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKey;
 
 import java.io.File;
 import java.io.InputStream;

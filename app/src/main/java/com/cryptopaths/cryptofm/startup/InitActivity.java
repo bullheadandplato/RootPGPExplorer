@@ -25,13 +25,12 @@ import com.cryptopaths.cryptofm.startup.fragments.InitActivityFirstFragment;
 import com.cryptopaths.cryptofm.startup.fragments.InitActivityThirdFragment;
 import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
+import com.cryptopaths.cryptolib.org.spongycastle.bcpg.ArmoredOutputStream;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPKeyRingGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyRing;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRing;
 
 import net.sqlcipher.database.SQLiteDatabase;
-
-import org.spongycastle.bcpg.ArmoredOutputStream;
-import org.spongycastle.openpgp.PGPKeyRingGenerator;
-import org.spongycastle.openpgp.PGPPublicKeyRing;
-import org.spongycastle.openpgp.PGPSecretKeyRing;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,7 +49,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private static Boolean IS_DIFFERENT_PASSWORD    = false;
 
     static {
-        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+        Security.insertProviderAt(new com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
 
     private DatabaseHandler mDatabaseHandler;

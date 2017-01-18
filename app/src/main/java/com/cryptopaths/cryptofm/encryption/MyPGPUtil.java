@@ -5,19 +5,19 @@ package com.cryptopaths.cryptofm.encryption;
  * pgp utilities
  */
 
-import org.spongycastle.openpgp.PGPCompressedDataGenerator;
-import org.spongycastle.openpgp.PGPException;
-import org.spongycastle.openpgp.PGPLiteralData;
-import org.spongycastle.openpgp.PGPPrivateKey;
-import org.spongycastle.openpgp.PGPPublicKey;
-import org.spongycastle.openpgp.PGPPublicKeyRing;
-import org.spongycastle.openpgp.PGPPublicKeyRingCollection;
-import org.spongycastle.openpgp.PGPSecretKey;
-import org.spongycastle.openpgp.PGPSecretKeyRing;
-import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import org.spongycastle.openpgp.PGPUtil;
-import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
-import org.spongycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedDataGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPLiteralData;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPrivateKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyRing;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyRingCollection;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRing;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRingCollection;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPUtil;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

@@ -4,26 +4,25 @@ import android.accounts.OperationCanceledException;
 import android.util.Log;
 
 import com.cryptopaths.cryptofm.filemanager.SharedData;
-
-import org.spongycastle.jce.provider.BouncyCastleProvider;
-import org.spongycastle.openpgp.PGPCompressedData;
-import org.spongycastle.openpgp.PGPCompressedDataGenerator;
-import org.spongycastle.openpgp.PGPEncryptedData;
-import org.spongycastle.openpgp.PGPEncryptedDataGenerator;
-import org.spongycastle.openpgp.PGPEncryptedDataList;
-import org.spongycastle.openpgp.PGPException;
-import org.spongycastle.openpgp.PGPLiteralData;
-import org.spongycastle.openpgp.PGPOnePassSignatureList;
-import org.spongycastle.openpgp.PGPPrivateKey;
-import org.spongycastle.openpgp.PGPPublicKey;
-import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
-import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import org.spongycastle.openpgp.PGPUtil;
-import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
-import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
-import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
-import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
-import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedData;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedDataGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedData;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedDataGenerator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedDataList;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPLiteralData;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPOnePassSignatureList;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPrivateKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRingCollection;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPUtil;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
+import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -35,7 +34,6 @@ import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Iterator;
-
 /**
  * Created by osama on 10/13/16.
  * the encryption related operations
@@ -43,7 +41,7 @@ import java.util.Iterator;
 
 public class EncryptionManagement implements EncryptionOperation {
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        Security.addProvider(new com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider());
     }
     private KeyManagement keyManagement;
     public EncryptionManagement(){
@@ -68,7 +66,7 @@ public class EncryptionManagement implements EncryptionOperation {
         PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
-        PGPEncryptedDataGenerator   cPk =
+        PGPEncryptedDataGenerator cPk =
                 new PGPEncryptedDataGenerator(
                         new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).
                                 setWithIntegrityPacket(integrityCheck).
@@ -81,7 +79,7 @@ public class EncryptionManagement implements EncryptionOperation {
 
         OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
 
-        PGPCompressedDataGenerator  comData = new PGPCompressedDataGenerator(
+        PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
                 PGPCompressedData.ZIP);
 
         PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, new File(fileName), new byte[1 << 16]);
@@ -107,8 +105,8 @@ public class EncryptionManagement implements EncryptionOperation {
 
         try
         {
-            JcaPGPObjectFactory        pgpF = new JcaPGPObjectFactory(in);
-            PGPEncryptedDataList    enc;
+            JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
+            PGPEncryptedDataList enc;
 
             Object                  o = pgpF.nextObject();
             //
@@ -127,9 +125,9 @@ public class EncryptionManagement implements EncryptionOperation {
             // find the secret key
             //
             Iterator                    it = enc.getEncryptedDataObjects();
-            PGPPrivateKey               sKey = null;
-            PGPPublicKeyEncryptedData   pbe = null;
-            PGPSecretKeyRingCollection  pgpSec = new PGPSecretKeyRingCollection(
+            PGPPrivateKey sKey = null;
+            PGPPublicKeyEncryptedData pbe = null;
+            PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
                     PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
 
             while (sKey == null && it.hasNext())
