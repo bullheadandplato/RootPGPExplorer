@@ -84,12 +84,11 @@ class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                         tmp
                 );
             }
-            UiUtils.reloadData(
-                    mContext,
-                    SharedData.getInstance().getFileListAdapter(mContext)
-            );
-
         }
+        UiUtils.reloadData(
+                mContext,
+                SharedData.getInstance().getFileListAdapter(mContext)
+        );
     }
 
     @Override

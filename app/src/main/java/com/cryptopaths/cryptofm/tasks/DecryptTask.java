@@ -156,7 +156,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     private InputStream getSecretKey() {
         SQLiteDatabase.loadLibs(mContext);
-        DatabaseHandler handler=new DatabaseHandler(mContext,"google",true);
+        DatabaseHandler handler=new DatabaseHandler(mContext,mDbPassword,true);
         try {
             mSecKey= new BufferedInputStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
         } catch (Exception e) {
