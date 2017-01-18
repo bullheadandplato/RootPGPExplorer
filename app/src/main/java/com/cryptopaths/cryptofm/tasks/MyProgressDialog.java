@@ -53,6 +53,8 @@ public class MyProgressDialog {
                 Log.d("cancel","Canceling the task");
                 SharedData.IS_TASK_CANCELED=true;
                 task.cancel(true);
+                dialog.dismiss();
+
             }
         });
     }
