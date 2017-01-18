@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".startup.KeySelectActivity"
     android:weightSum="1">
 
@@ -12,27 +13,31 @@
         android:layout_height="122dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/logo_image"
-        android:tint="@color/colorAccent"
+        android:tint="@android:color/white"
         android:layout_above="@id/get_password_layout"
         android:layout_weight="0.04" />
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_generate_key"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:background="@drawable/shadow_rect"
         android:onClick="chooseNextActivity"
         android:text="Generate Key"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        />
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_select_key"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:onClick="chooseNextActivity"
-        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:elevation="2dp"
+        android:background="@drawable/shadow_rect"
         android:text="Use existing Key"
         android:textSize="20dp"/>
 </LinearLayout>

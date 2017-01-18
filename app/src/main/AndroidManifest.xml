@@ -43,7 +43,9 @@
         </intent-filter>
         </activity>
         <activity
-            android:name=".startup.OptionActivity">
+            android:name=".startup.OptionActivity"
+            android:theme="@style/PreActivityThemeFragmentOne"
+            >
         </activity>
 
         <activity

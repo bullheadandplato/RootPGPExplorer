@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm.startup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -14,6 +15,8 @@ public class OptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_options);
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
     }
     @ActionHandler(layoutResource = R.id.button_generate_key)
     public void chooseNextActivity(View view){
