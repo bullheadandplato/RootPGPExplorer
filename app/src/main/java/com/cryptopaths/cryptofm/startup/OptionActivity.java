@@ -15,8 +15,6 @@ public class OptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_options);
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
     }
     @ActionHandler(layoutResource = R.id.button_generate_key)
     public void chooseNextActivity(View view){
