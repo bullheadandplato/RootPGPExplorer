@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -39,7 +40,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
     private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
     private  static final String    TAG                 = "filesList";
-    private static final int        NO_FILES_VIEW       = 100;
     private static final int        NORMAL_VIEW         = 50;
 
 
@@ -55,32 +55,20 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==NO_FILES_VIEW){
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_files_layout,parent,false));
-        }else{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
             return new ViewHolder(view);
-        }
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(FileFillerWrapper.getTotalFilesCount()<1){
-            return NO_FILES_VIEW;
-        }else{
             return NORMAL_VIEW;
-        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(FileFillerWrapper.getTotalFilesCount()<1){
-            ImageView view=holder.noFilesLayout;
-            view.setImageDrawable(mContext.getDrawable(R.drawable.nofiles_image));
-        }else {
             mDataModel=FileFillerWrapper.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
@@ -93,7 +81,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             image.setImageDrawable(mDataModel.getFileEncryptionStatus());
             textView4.setText(mDataModel.getFileExtension());
             imageView.setImageDrawable(mDataModel.getFileIcon());
-        }
 
     }
 
@@ -104,9 +91,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(FileFillerWrapper.getTotalFilesCount()<1){
-            return 1;
-        }
         return FileFillerWrapper.getTotalFilesCount();
     }
     private LongClickCallBack clickCallBack;
@@ -146,9 +130,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             openFile(filename);
                         }else{
                             String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
+                            clickCallBack.changeTitle(folderPath);
                             FileFillerWrapper.fillData(folderPath,mContext);
                             notifyDataSetChanged();
-                            clickCallBack.changeTitle(folderPath);
+                            if(FileFillerWrapper.getTotalFilesCount()<1){
+                                ((FileBrowserActivity)mContext).showNoFilesFragment();
+                            }
 
                         }
                     }
@@ -207,7 +194,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)),mimeType);
         }
         intent.setAction(Intent.ACTION_VIEW);
-        Intent x=Intent.createChooser(intent,"choose an application to open with:");
+        Intent x=Intent.createChooser(intent,"Open with: ");
         mContext.startActivity(x);
     }
 

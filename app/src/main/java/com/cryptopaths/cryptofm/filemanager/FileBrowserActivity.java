@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
@@ -43,6 +45,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private GridLayoutManager	mFileViewGridLayoutManager;
 	private ItemTouchHelper		mHelper;
     private static final String TAG = "FileBrowser";
+	private NoFilesFragment		mNoFilesFragment;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+		mNoFilesFragment			= new NoFilesFragment();
 
 
 		//set layout manager for the recycler view according to user choice
@@ -72,6 +76,9 @@ public class FileBrowserActivity extends AppCompatActivity
 //hello change
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
+
+		startService(new Intent(this,CleanupService.class));
+
 
 
 	}
@@ -114,6 +121,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
         UiUtils.actionMode = this.actionMode;
+		if(emptyFiles) {
+			removeNoFilesFragment();
+		}
 		final Dialog dialog = UiUtils.createDialog(
 				this,
 				"Create Folder",
@@ -159,8 +169,14 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	void changeDirectory(String path) {
 		changeTitle(path);
-		Log.d("files","current path: "+path);
-        FileFillerWrapper.fillData(path,this);
+		Log.d("filesc","current path: "+path);
+		FileFillerWrapper.fillData(path,this);
+		if(FileFillerWrapper.getTotalFilesCount()<1){
+			showNoFilesFragment();
+			return;
+		}else if(emptyFiles){
+			removeNoFilesFragment();
+		}
 		mmFileListAdapter.notifyDataSetChanged();
 
 	}
@@ -174,6 +190,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	}
 	@Override
 	public void onBackPressed() {
+		if(emptyFiles){
+			removeNoFilesFragment();
+		}
 		mCurrentPath = FileUtils.CURRENT_PATH;
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
@@ -199,9 +218,9 @@ public class FileBrowserActivity extends AppCompatActivity
 		super.onPause();
 	}
 
-    @Override
+
+	@Override
     protected void onDestroy() {
-		startService(new Intent(this,CleanupService.class));
 		Log.d(TAG, "onDestroy: destroying activity");
 		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
 		if(decryptTask!=null){
@@ -278,7 +297,20 @@ public class FileBrowserActivity extends AppCompatActivity
     public void resetmKeyPass(){
         SharedData.KEY_PASSWORD=null;
     }
-    /**
+
+	boolean emptyFiles;
+	public void showNoFilesFragment() {
+		Log.d(TAG, "showNoFilesFragment: Adding no files layput");
+		emptyFiles=true;
+		getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame,mNoFilesFragment).commitAllowingStateLoss();
+	}
+	private void removeNoFilesFragment(){
+		Log.d(TAG, "removeNoFilesFragment: removing no files layout");
+		emptyFiles=false;
+		getSupportFragmentManager().beginTransaction().remove(mNoFilesFragment).commitAllowingStateLoss();
+	}
+
+	/**
 	 * end of task executing section
 	 */
 
