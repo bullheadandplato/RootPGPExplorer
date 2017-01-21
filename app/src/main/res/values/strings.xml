@@ -10,4 +10,6 @@
     <string name="seleck_key_message">Select public key</string>
     <string name="select_secret_key">Select secret key</string>
     <string name="filename_text">Filename: null</string>
+    <string name="title_activity_filemanafer_tabs">FilemanaferTabs</string>
+    <string name="title_activity_filemanager_tabs">FilemanagerTabs</string>
 </resources>
