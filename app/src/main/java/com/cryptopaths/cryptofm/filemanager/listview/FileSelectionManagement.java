@@ -11,7 +11,6 @@ import android.webkit.MimeTypeMap;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
-import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -166,17 +165,21 @@ public class FileSelectionManagement {
         mContext.startActivity(x);
     }
 
-    void openFolder(String filename) {
+    void openFolder(String filename,int position) {
         if(SharedData.STARTED_IN_SELECTION_MODE) {
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
+        }
+        if(SharedData.SELECTION_MODE){
+            selectionOperation(position);
+            return;
         }
         String folderPath = FileFillerWrapper.getCurrentPath() + filename + "/";
         clickCallBack.changeTitle(folderPath);
         FileFillerWrapper.fillData(folderPath, mContext);
         mFileListAdapter.notifyDataSetChanged();
         if (FileFillerWrapper.getTotalFilesCount() < 1) {
-            ((FileBrowserActivity) mContext).showNoFilesFragment();
+            clickCallBack.showNoFilesFragment();
         }
     }
     void startSelectionMode(){

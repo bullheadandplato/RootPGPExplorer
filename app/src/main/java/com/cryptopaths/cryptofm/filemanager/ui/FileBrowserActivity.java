@@ -336,7 +336,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mNoFilesFragment=new NoFilesFragment();
 		getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame,mNoFilesFragment).commit();
 	}
-	private void removeNoFilesFragment(){
+	public void removeNoFilesFragment(){
 		Log.d(TAG, "removeNoFilesFragment: removing no files layout");
 		emptyFiles=false;
 		getSupportFragmentManager().beginTransaction().remove(mNoFilesFragment).commit();

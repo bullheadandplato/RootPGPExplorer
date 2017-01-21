@@ -22,6 +22,9 @@ public class TabsFragmentOne extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: view only created once");
+        if(mCallbacks==null){
+            Log.d(TAG, "onCreateView: yes saved instance is not null");
+        }
         return inflater.inflate(R.layout.tabs_fragment_one,container,false);
     }
 
@@ -38,5 +41,17 @@ public class TabsFragmentOne extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mCallbacks=(FragmentCallbacks)getActivity();
         mCallbacks.init();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("saving","google");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        mCallbacks.finishActionMode();
+        super.onPause();
     }
 }

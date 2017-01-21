@@ -45,9 +45,9 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                         return;
                     }
-                    mFileSelectionManagement.openFile(filename);
+                        mFileSelectionManagement.openFile(filename);
                 }else{
-                        mFileSelectionManagement.openFolder(filename);
+                        mFileSelectionManagement.openFolder(filename,getAdapterPosition());
                     }
 
             }

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,6 +92,19 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         mRecyclerView.setAdapter(mFileAdapter);
 
     }
+
+    @Override
+    public void finishActionMode() {
+        Log.d("osama", "finishActionMode: Finishing action mode");
+        if(this.actionMode!=null){
+            Log.d("osama", "finishActionMode: Cannot finish activity");
+            this.actionMode.finish();
+            this.actionMode=null;
+        }else {
+            SharedData.SELECTION_MODE=false;
+        }
+    }
+
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -111,9 +125,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     ActionMode actionMode;
     @Override
     public void onLongClick() {
-        if(SharedData.SELECTION_MODE) {
-            actionMode = startActionMode(new ActionViewHandler(this));
-        }
+        actionMode = startActionMode(new ActionViewHandler(this));
         UiUtils.actionMode=actionMode;
     }
     @Override
@@ -147,5 +159,15 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         assert getSupportActionBar()!=null;
         getSupportActionBar().setTitle(path);
+    }
+
+    @Override
+    public void showNoFilesFragment() {
+
+    }
+
+    @Override
+    public void removeNoFilesFragment() {
+
     }
 }

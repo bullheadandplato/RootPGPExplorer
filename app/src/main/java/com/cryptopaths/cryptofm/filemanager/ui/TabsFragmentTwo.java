@@ -15,7 +15,7 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class TabsFragmentTwo extends Fragment {
-    private static final String TAG=TabsFragmentOne.class.getName();
+    private static final String TAG=TabsFragmentTwo.class.getName();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
