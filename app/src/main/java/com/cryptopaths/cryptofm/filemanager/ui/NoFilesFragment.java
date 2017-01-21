@@ -21,5 +21,9 @@ public class NoFilesFragment extends Fragment {
         return inflater.inflate(R.layout.no_files_layout,container,false);
     }
 
-   
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+    }
 }

@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
@@ -26,6 +29,7 @@ import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private FileListAdapter         mFileAdapter;
@@ -35,7 +39,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private ItemTouchHelper         mHelper;
     private FileSelectionManagement mManager;
     private String                  mCurrentPath;
-
+    private boolean                 isEmptyFolder=false;
+    private NoFilesFragment         mNoFilesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,37 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         FileFillerWrapper.fillData(mCurrentPath,this);
         mRecyclerView.setAdapter(mFileAdapter);
 
+    }
+    void changeDirectory(String path) {
+        changeTitle(path);
+        Log.d("filesc","current path: "+path);
+        FileFillerWrapper.fillData(path,this);
+        if(FileFillerWrapper.getTotalFilesCount()<1){
+            showNoFilesFragment();
+            return;
+        }else if(isEmptyFolder){
+            removeNoFilesFragment();
+        }
+        mFileAdapter.notifyDataSetChanged();
+
+    }
+    @Override
+    public void onBackPressed() {
+        if(isEmptyFolder){
+            removeNoFilesFragment();
+        }
+        mCurrentPath = FileUtils.CURRENT_PATH;
+        if(mCurrentPath.equals(SharedData.FILES_ROOT_DIRECTORY)){
+            SharedData.ALREADY_INSTANTIATED=false;
+            super.onBackPressed();
+        }else{
+            //modify the mCurrentPath
+            mCurrentPath		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
+            mCurrentPath 		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
+            FileUtils.CURRENT_PATH = mCurrentPath;
+            changeDirectory(mCurrentPath);
+
+        }
     }
 
     @Override
@@ -163,11 +199,17 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void showNoFilesFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,new NoFilesFragment()).commit();
+        Log.d("google", "showNoFilesFragment: no files show");
+        isEmptyFolder=true;
+        FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
+        View view= getLayoutInflater().inflate(R.layout.no_files_layout,null);
+        layout.addView(view);
     }
 
     @Override
     public void removeNoFilesFragment() {
-
+        isEmptyFolder=false;
+        FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
+        layout.removeAllViews();
     }
 }

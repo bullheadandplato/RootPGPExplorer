@@ -5,6 +5,7 @@ import android.os.Environment;
 
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
+import com.cryptopaths.cryptofm.filemanager.ui.NoFilesFragment;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class SharedData {
     public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
     public static boolean   IS_TASK_CANCELED=false;
+    public static boolean ALREADY_INSTANTIATED=false;
 
     public static int SELECT_COUNT=0;
     public static String USERNAME;
@@ -84,5 +86,13 @@ public class SharedData {
             mFileSelectionManagement=new FileSelectionManagement(context);
         }
         return mFileSelectionManagement;
+    }
+    private NoFilesFragment mNoFilesFragment;
+
+    public NoFilesFragment getmNoFilesFragment() {
+        if(mNoFilesFragment==null){
+            mNoFilesFragment=new NoFilesFragment();
+        }
+        return mNoFilesFragment;
     }
 }
