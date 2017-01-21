@@ -272,14 +272,13 @@ public class FileBrowserActivity extends AppCompatActivity
 	protected void onStart() {
 		Log.d(TAG,"Starting activity");
 		actionMode=null;
-		SharedData.SELECTION_MODE=true;
 		super.onStart();
 	}
 
 	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
-		if(!SharedData.SELECTION_MODE) {
+		if(SharedData.SELECTION_MODE) {
 			actionMode = startActionMode(new ActionViewHandler(this));
 		}
 		UiUtils.actionMode=actionMode;

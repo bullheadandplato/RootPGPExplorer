@@ -10,8 +10,7 @@ import java.util.ArrayList;
  */
 
 public class SharedData {
-    public static  boolean NO_FILES_VIEW = true;
-    public static boolean SELECTION_MODE = true;
+    public static boolean SELECTION_MODE = false;
     public static boolean STARTED_IN_SELECTION_MODE=false;
     public static Boolean IS_IN_COPY_MODE = false;
     public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();

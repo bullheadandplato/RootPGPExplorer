@@ -57,7 +57,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 if(SharedData.STARTED_IN_SELECTION_MODE){
                     mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                 }
-                else if(SharedData.SELECTION_MODE) {
+                else if(!SharedData.SELECTION_MODE) {
                     Log.d(TAG, "onLongClick: action mode is not being displayed");
                     mFileSelectionManagement.startSelectionMode();
                 }

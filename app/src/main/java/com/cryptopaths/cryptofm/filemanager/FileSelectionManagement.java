@@ -182,7 +182,7 @@ public class FileSelectionManagement {
         }
     }
     void startSelectionMode(){
-        SharedData.SELECTION_MODE = false;
+        SharedData.SELECTION_MODE = true;
         clickCallBack.onLongClick();
         mSelectionMode = true;
     }
