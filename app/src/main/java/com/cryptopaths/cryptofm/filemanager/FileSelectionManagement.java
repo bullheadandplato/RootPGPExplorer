@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * opening the files etc
  */
 
-public class FileSelectionManagement {
+class FileSelectionManagement {
     private DataModelFiles      mDataModel;
     private FileListAdapter     mFileListAdapter;
     private Context             mContext;
@@ -34,7 +34,6 @@ public class FileSelectionManagement {
 
     private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
     private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
-    private boolean mSelectionMode;
 
     FileSelectionManagement(Context context){
         this.mContext     = context;
@@ -96,8 +95,17 @@ public class FileSelectionManagement {
                 mDataModel.setFileIcon(mFolderIcon);
             }
         }else{
-            mSelectedFilePaths.clear();
-            mSelectedPosition.clear();
+            //remove the previous selected file
+           if(mSelectedPosition.size()>0) {
+               mDataModel=FileFillerWrapper.getFileAtPosition(mSelectedPosition.get(0));
+               mDataModel.setSelected(false);
+               mDataModel.setFileIcon(mFileIcon);
+               mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
+
+               mSelectedPosition.clear();
+               mSelectedFilePaths.clear();
+           }
+            mDataModel=FileFillerWrapper.getFileAtPosition(position);
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
@@ -109,7 +117,6 @@ public class FileSelectionManagement {
 
     void setmSelectionMode(Boolean value){
         if(value){
-            this.mSelectionMode=true;
             return;
         }
         //first check if there are select files
@@ -121,7 +128,6 @@ public class FileSelectionManagement {
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
         }
-        this.mSelectionMode=value;
     }
 
     void resetFileIcons(){
@@ -184,6 +190,5 @@ public class FileSelectionManagement {
     void startSelectionMode(){
         SharedData.SELECTION_MODE = true;
         clickCallBack.onLongClick();
-        mSelectionMode = true;
     }
 }
