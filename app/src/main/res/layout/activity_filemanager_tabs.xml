@@ -17,6 +17,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:tint="#FFF"
         app:srcCompat="@android:drawable/ic_input_add" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_files_frame_fragment"
+        >
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -163,7 +163,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void showNoFilesFragment() {
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,new NoFilesFragment()).commit();
     }
 
     @Override
