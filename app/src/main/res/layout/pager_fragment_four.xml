@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_view_pager_image4"
         android:id="@+id/imageView4"
+        android:layout_marginBottom="14dp"
         android:layout_alignBottom="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp" />
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginStart="27dp" />
 </RelativeLayout>
