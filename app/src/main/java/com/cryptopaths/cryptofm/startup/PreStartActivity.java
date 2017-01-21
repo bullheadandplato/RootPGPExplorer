@@ -1,12 +1,15 @@
 package com.cryptopaths.cryptofm.startup;
 
+/**
+ * Created by Shadow on 1/12/2017.
+ */
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
@@ -20,7 +23,7 @@ public class PreStartActivity extends AppCompatActivity {
 
 
 
-    ViewPager viewPager;
+    ViewPager   viewPager;
     PagerAdapter pAdapter;
     RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     RelativeLayout prestartlayout;
