@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
+import android.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +35,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 
 
 public class FileBrowserActivity extends AppCompatActivity
-		implements FileListAdapter.LongClickCallBack {
+		implements AdapterCallbacks {
 
 	private String 				mCurrentPath;
 	private String 				mRootPath;
@@ -43,26 +45,40 @@ public class FileBrowserActivity extends AppCompatActivity
 	private GridLayoutManager	mFileViewGridLayoutManager;
 	private ItemTouchHelper		mHelper;
     private static final String TAG = "FileBrowser";
+	private NoFilesFragment		mNoFilesFragment;
+	private boolean				mStartedInSelectionMode=false;
+	private FileSelectionManagement mFileSelectionManagement;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
-		setResult(RESULT_OK);
 
-        SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
-		SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+		mNoFilesFragment			= new NoFilesFragment();
+		mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
+
+		//check if started in selection mode
+		if(getIntent().getExtras().getBoolean("select",false)){
+			SharedData.STARTED_IN_SELECTION_MODE=true;
+			mStartedInSelectionMode=true;
+			assert getSupportActionBar()!=null;
+			getSupportActionBar().setTitle("Select Key files");
+		}else{
+			setResult(RESULT_OK);
+			SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
+			SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
+		}
 
 
 		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
 		boolean linearLayout           = preferences.getBoolean("key",false);
-		if(linearLayout){
+		if(linearLayout || mStartedInSelectionMode){
 			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 		}else{
@@ -73,11 +89,18 @@ public class FileBrowserActivity extends AppCompatActivity
 		FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
+		startService(new Intent(this,CleanupService.class));
+
+
 
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		if(mStartedInSelectionMode){
+			getMenuInflater().inflate(R.menu.selection_mode_menu,menu);
+			return true;
+		}
 		getMenuInflater().inflate(R.menu.appbar_menu,menu);
 		return true;
 	}
@@ -89,6 +112,14 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if(mStartedInSelectionMode){
+			if(item.getItemId()==R.id.check_menu_item){
+				Intent intent=new Intent();
+				intent.putExtra("filename",mFileSelectionManagement.getmSelectedFilePaths().get(0));
+				setResult(RESULT_OK,intent);
+				finish();
+			}
+		}
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
 				item.setIcon(getDrawable(R.drawable.ic_grid_view));
@@ -114,6 +145,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
         UiUtils.actionMode = this.actionMode;
+		if(emptyFiles) {
+			removeNoFilesFragment();
+		}
 		final Dialog dialog = UiUtils.createDialog(
 				this,
 				"Create Folder",
@@ -159,8 +193,14 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	void changeDirectory(String path) {
 		changeTitle(path);
-		Log.d("files","current path: "+path);
-        FileFillerWrapper.fillData(path,this);
+		Log.d("filesc","current path: "+path);
+		FileFillerWrapper.fillData(path,this);
+		if(FileFillerWrapper.getTotalFilesCount()<1){
+			showNoFilesFragment();
+			return;
+		}else if(emptyFiles){
+			removeNoFilesFragment();
+		}
 		mmFileListAdapter.notifyDataSetChanged();
 
 	}
@@ -174,6 +214,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	}
 	@Override
 	public void onBackPressed() {
+		if(emptyFiles){
+			removeNoFilesFragment();
+		}
 		mCurrentPath = FileUtils.CURRENT_PATH;
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
@@ -199,9 +242,9 @@ public class FileBrowserActivity extends AppCompatActivity
 		super.onPause();
 	}
 
-    @Override
+
+	@Override
     protected void onDestroy() {
-		startService(new Intent(this,CleanupService.class));
 		Log.d(TAG, "onDestroy: destroying activity");
 		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
 		if(decryptTask!=null){
@@ -225,12 +268,18 @@ public class FileBrowserActivity extends AppCompatActivity
 
     }
 
+	@Override
+	protected void onStart() {
+		Log.d(TAG,"Starting activity");
+		actionMode=null;
+		super.onStart();
+	}
 
 	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
 		if(SharedData.SELECTION_MODE) {
-			actionMode = startSupportActionMode(new ActionViewHandler(this));
+			actionMode = startActionMode(new ActionViewHandler(this));
 		}
 		UiUtils.actionMode=actionMode;
 	}
@@ -271,12 +320,22 @@ public class FileBrowserActivity extends AppCompatActivity
     public void resetmKeyPass(){
         SharedData.KEY_PASSWORD=null;
     }
-    /**
+
+	boolean emptyFiles;
+	public void showNoFilesFragment() {
+		Log.d(TAG, "showNoFilesFragment: Adding no files layput");
+		emptyFiles=true;
+		mNoFilesFragment=new NoFilesFragment();
+		getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame,mNoFilesFragment).commit();
+	}
+	private void removeNoFilesFragment(){
+		Log.d(TAG, "removeNoFilesFragment: removing no files layout");
+		emptyFiles=false;
+		getSupportFragmentManager().beginTransaction().remove(mNoFilesFragment).commit();
+	}
+
+	/**
 	 * end of task executing section
 	 */
-
-
-
-
 
 }

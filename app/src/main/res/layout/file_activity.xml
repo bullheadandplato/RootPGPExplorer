@@ -33,5 +33,12 @@
             android:layout_marginEnd="@dimen/activity_vertical_margin"
 
             />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_files_frame"
+        >
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

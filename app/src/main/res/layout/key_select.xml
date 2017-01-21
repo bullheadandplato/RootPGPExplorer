@@ -1,97 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/colorAccent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".startup.KeySelectActivity"
         android:weightSum="1">
-        <ImageView android:src="@drawable/logo"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:id="@+id/logo_image"
-            android:tint="@color/colorAccent"
-            />
-
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/logo"
+            android:tint="#FFF"
+            android:id="@+id/imageIcon"
+            android:layout_height="100dp" />
         <RelativeLayout
+            android:layout_below="@id/imageIcon"
             android:layout_width="match_parent"
             android:id="@+id/header_section_layout"
-            android:layout_below="@+id/logo_image"
             android:layout_height="wrap_content">
-
-            <LinearLayout
+            
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="5dp"
                 android:id="@+id/selectKey_layout_one"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:layout_weight=".8"
+                app:cardBackgroundColor="@color/colorAccent"
+                >
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:text="Select Public Key"
-                    android:id="@+id/editText2" />
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/foo"
+                        android:padding="10dp"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatButton
-                    android:layout_weight=".2"
-                    android:id="@+id/button_select_public_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="@color/colorAccent"
-                    android:text="Browse"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginEnd="14dp"
-                    android:minWidth="50dp" />
-            </LinearLayout>
-            <LinearLayout
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seleck_key_message"
+                            android:id="@+id/pub_key_edit_text"
+                            android:textColor="#FFF"
+                            android:layout_weight=".95"
+                            android:layout_gravity="center_vertical"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/button_select_public_key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_rect"
+                            android:text="Browse"
+                            android:textColor="#FFF"
+                            android:onClick="onBrowseButtonClick"
+                            android:textSize="12sp"
+                            android:layout_gravity="center_vertical"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/foo"
+                        android:textColor="#FFF"
+                        android:padding="10dp"
+                        android:text="@string/filename_text"
+                        />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/selectKey_layout_one"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_weight=".8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:text="Select Public Key"
-                    android:id="@+id/editText3" />
-                <android.support.v7.widget.AppCompatButton
-                    android:layout_weight=".2"
-                    android:id="@+id/button_select_secret_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="@color/colorAccent"
-                    android:text="Browse"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginEnd="14dp"
-                    android:minWidth="50dp" />
 
-            </LinearLayout>
+                app:cardBackgroundColor="@color/colorAccent"
+                >
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:id="@+id/foo2"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_secret_key"
+                            android:id="@+id/sec_key_edit_text"
+                            android:textColor="#FFF"
+                            android:layout_weight=".95"
+                            android:layout_gravity="center_vertical"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/button_select_secret_key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shadow_rect"
+                            android:text="Browse"
+                            android:textColor="#FFF"
+                            android:onClick="onBrowseButtonClick"
+                            android:textSize="12sp"
+                            android:layout_gravity="center_vertical"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/foo2"
+                        android:textColor="#FFF"
+                        android:padding="10dp"
+                        android:text="@string/filename_text"
+                        />
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
         </RelativeLayout>
+        
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/button_letsgo_keys_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/shadow_rect"
             android:onClick="onUnlockButtonClick"
             android:text="Let's Go"
             android:textSize="18sp"

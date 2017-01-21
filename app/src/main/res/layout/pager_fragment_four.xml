@@ -5,12 +5,15 @@
     android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
+
     <TextView
         android:text="Cryptopaths"
         android:layout_width="wrap_content"
         android:textColor="#FAFAFA"
         android:textStyle="bold"
         android:gravity="center"
+        android:elevation="2dp"
+        android:translationZ="8dp"
         android:textSize="25dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -32,6 +35,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="10dp"
         app:srcCompat="@drawable/ic_view_pager_image4"
         android:id="@+id/imageView4"
         android:layout_marginBottom="14dp"
