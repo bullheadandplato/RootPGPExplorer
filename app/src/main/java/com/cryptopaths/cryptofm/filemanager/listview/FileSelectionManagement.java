@@ -37,7 +37,7 @@ public class FileSelectionManagement {
     private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
     private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
 
-    FileSelectionManagement(Context context){
+    public FileSelectionManagement(Context context){
         this.mContext     = context;
         mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
         mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);

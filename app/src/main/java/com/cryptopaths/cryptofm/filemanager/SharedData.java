@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Created by tripleheader on 1/13/17.
+ * holds shared variables
  */
 
 public class SharedData {
