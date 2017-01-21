@@ -3,6 +3,9 @@ package com.cryptopaths.cryptofm.filemanager;
 import android.content.Context;
 import android.os.Environment;
 
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
+
 import java.util.ArrayList;
 
 /**
@@ -23,7 +26,7 @@ public class SharedData {
     public static String KEY_PASSWORD;
 
     private static SharedData   mSharedData;
-    private FileListAdapter     mFileListAdapter;
+    private FileListAdapter mFileListAdapter;
     private TaskHandler         mTaskHandler;
     private FileSelectionManagement mFileSelectionManagement;
     /**
@@ -54,7 +57,7 @@ public class SharedData {
         return mFileListAdapter;
     }
 
-    TaskHandler getTaskHandler(Context context){
+    public TaskHandler getTaskHandler(Context context){
         if(mTaskHandler==null){
             mTaskHandler=new TaskHandler(context);
         }

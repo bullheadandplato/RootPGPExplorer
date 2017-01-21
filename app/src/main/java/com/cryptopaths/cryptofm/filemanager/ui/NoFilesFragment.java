@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +10,16 @@ import android.view.ViewGroup;
 import com.cryptopaths.cryptofm.R;
 
 /**
- * Created by Shadow on 1/21/2017.
+ * Created by tripleheader on 1/20/17.
+ * Fragment to show that there are no files
  */
 
-public class Tabs_Fragment_Two extends Fragment {
-
+public class NoFilesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tabs_fragment_two,container,false);
+        return inflater.inflate(R.layout.no_files_layout,container,false);
     }
+
+   
 }

@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -20,9 +22,9 @@ import java.util.ArrayList;
  * opening the files etc
  */
 
-class FileSelectionManagement {
-    private DataModelFiles      mDataModel;
-    private FileListAdapter     mFileListAdapter;
+public class FileSelectionManagement {
+    private DataModelFiles mDataModel;
+    private FileListAdapter mFileListAdapter;
     private Context             mContext;
     private Drawable            mSelectedFileIcon;
     private Drawable            mFileIcon;
@@ -42,7 +44,7 @@ class FileSelectionManagement {
         mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
         clickCallBack = (AdapterCallbacks)mContext;
 
-        mFileListAdapter=SharedData.getInstance().getFileListAdapter(mContext);
+        mFileListAdapter= SharedData.getInstance().getFileListAdapter(mContext);
     }
 
     void selectAllFiles() {
@@ -130,7 +132,7 @@ class FileSelectionManagement {
         }
     }
 
-    ArrayList<String> getmSelectedFilePaths() {
+    public ArrayList<String> getmSelectedFilePaths() {
         return mSelectedFilePaths;
     }
 

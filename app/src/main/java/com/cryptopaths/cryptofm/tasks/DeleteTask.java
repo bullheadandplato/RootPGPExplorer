@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 
 import java.io.File;

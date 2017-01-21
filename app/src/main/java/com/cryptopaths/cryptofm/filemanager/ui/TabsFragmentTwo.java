@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +13,11 @@ import com.cryptopaths.cryptofm.R;
  * Created by Shadow on 1/21/2017.
  */
 
-public class Tabs_Fragment_One extends Fragment {
+public class TabsFragmentTwo extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tabs_fragment_one,container,false);
+        return inflater.inflate(R.layout.tabs_fragment_two,container,false);
     }
 }

@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 
 public class FilemanagerTabs extends AppCompatActivity {
 

@@ -1,7 +1,8 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.content.Context;
 
+import com.cryptopaths.cryptofm.filemanager.listview.DataModelFiles;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public  class FileFillerWrapper {
     private static String currentPath;
 
 
-    static void fillData(String current, Context context){
+    public static void fillData(String current, Context context){
         currentPath=current;
         //be sure to change the path in File utilities
         FileUtils.CURRENT_PATH = currentPath;

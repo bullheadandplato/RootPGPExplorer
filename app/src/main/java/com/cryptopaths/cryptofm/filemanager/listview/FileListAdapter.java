@@ -1,25 +1,14 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.utils.FileUtils;
-
-import java.io.File;
-import java.util.ArrayList;
 
 
 /**
@@ -57,7 +46,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-             DataModelFiles mDataModel=FileFillerWrapper.getFileAtPosition(position);
+             DataModelFiles mDataModel= FileFillerWrapper.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;

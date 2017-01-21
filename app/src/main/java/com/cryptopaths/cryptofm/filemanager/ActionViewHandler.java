@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 
 
 /**
@@ -18,9 +19,9 @@ import com.cryptopaths.cryptofm.R;
  * Action mode callbacks
  */
 
-class ActionViewHandler implements ActionMode.Callback {
+public class ActionViewHandler implements ActionMode.Callback {
     private Context mContext;
-    ActionViewHandler(Context context){
+    public ActionViewHandler(Context context){
         this.mContext=context;
     }
 

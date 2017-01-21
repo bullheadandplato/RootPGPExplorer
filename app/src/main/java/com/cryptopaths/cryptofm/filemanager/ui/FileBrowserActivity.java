@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +24,14 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
+import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
+import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
+import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.services.CleanupService;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
@@ -39,13 +45,13 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	private String 				mCurrentPath;
 	private String 				mRootPath;
-    private FileListAdapter 	mmFileListAdapter;
+    private FileListAdapter mmFileListAdapter;
 	private RecyclerView 		mFileListView;
 	private LinearLayoutManager	mFileViewLinearLayoutManager;
 	private GridLayoutManager	mFileViewGridLayoutManager;
 	private ItemTouchHelper		mHelper;
     private static final String TAG = "FileBrowser";
-	private NoFilesFragment		mNoFilesFragment;
+	private NoFilesFragment mNoFilesFragment;
 	private boolean				mStartedInSelectionMode=false;
 	private FileSelectionManagement mFileSelectionManagement;
 
@@ -183,7 +189,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
-	void showCopyDialog(){
+	public void showCopyDialog(){
 		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(0,getResources().getDimensionPixelSize(R.dimen.recycler_view_margin_top),0,0);
 		mFileListView.setLayoutParams(layoutParams);

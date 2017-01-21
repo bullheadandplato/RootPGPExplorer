@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentOne;
+import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentTwo;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
@@ -21,10 +24,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                Tabs_Fragment_One tab1 = new Tabs_Fragment_One();
+                TabsFragmentOne tab1 = new TabsFragmentOne();
                 return tab1;
             case 1:
-                Tabs_Fragment_Two tab2 = new Tabs_Fragment_Two();
+                TabsFragmentTwo tab2 = new TabsFragmentTwo();
                 return tab2;
             default:
                 return null;

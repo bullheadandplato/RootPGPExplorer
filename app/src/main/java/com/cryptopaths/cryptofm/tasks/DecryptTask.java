@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
-import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;

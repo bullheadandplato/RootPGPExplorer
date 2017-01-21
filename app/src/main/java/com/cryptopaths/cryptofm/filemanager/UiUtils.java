@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 
-//import static com.cryptopaths.cryptofm.filemanager.FileBrowserActivity.mFilesData;
+//import static com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity.mFilesData;
 
 /**
  * Created by home on 12/29/16.
@@ -17,8 +19,9 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class UiUtils {
-    static ActionMode actionMode;
-    static Dialog createDialog(Context context, String title, String buttonTitle){
+    public static ActionMode actionMode;
+
+    public static Dialog createDialog(Context context, String title, String buttonTitle){
         final Dialog dialog=new Dialog(context);
         dialog.setTitle(title);
         dialog.setContentView(R.layout.create_file_dialog);
@@ -38,7 +41,7 @@ public class UiUtils {
         if(actionMode!=null){
             actionMode.finish();
         }
-        String path=FileFillerWrapper.getCurrentPath();
+        String path= FileFillerWrapper.getCurrentPath();
         FileFillerWrapper.fillData(path,context);
         adapter.notifyDataSetChanged();
 

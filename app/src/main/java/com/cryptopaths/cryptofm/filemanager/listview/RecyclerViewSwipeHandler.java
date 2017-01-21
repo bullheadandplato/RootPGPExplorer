@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.UiUtils;
+import com.cryptopaths.cryptofm.filemanager.listview.ViewHolder;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -23,10 +26,10 @@ import java.util.ArrayList;
  * swipe action handler
  */
 
-class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
+public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
     private Paint p;
     private Context mContext;
-    RecyclerViewSwipeHandler(Context context){
+    public RecyclerViewSwipeHandler(Context context){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         p=new Paint();
         this.mContext=context;

@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;

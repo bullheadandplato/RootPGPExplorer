@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 /**
@@ -27,7 +28,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
     ViewHolder(View itemView, Context c){
         super(itemView);
-        mFileSelectionManagement=SharedData.getInstance().getmFileSelectionManagement(c);
+        mFileSelectionManagement= SharedData.getInstance().getmFileSelectionManagement(c);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

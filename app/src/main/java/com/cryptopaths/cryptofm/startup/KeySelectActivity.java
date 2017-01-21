@@ -7,12 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import java.util.List;

@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
  * task executor
  */
 
-class TaskHandler {
+public class TaskHandler {
     private EncryptTask     mEncryptTask;
     private DecryptTask     mDecryptTask;
     private FileListAdapter mAdapter;
