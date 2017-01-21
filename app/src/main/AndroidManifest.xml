@@ -29,7 +29,7 @@
 
         <!-- Pre start activity -->
         <activity
-            android:name=".startup.PreStartActivity"
+            android:name=".filemanager.ui.FilemanagerTabs"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/TabsTheme">
             <intent-filter>

@@ -47,7 +47,7 @@ public class FileSelectionManagement {
         mFileListAdapter= SharedData.getInstance().getFileListAdapter(mContext);
     }
 
-    void selectAllFiles() {
+    public void selectAllFiles() {
         for (int i = 0; i < FileFillerWrapper.getTotalFilesCount(); i++) {
             mDataModel = FileFillerWrapper.getFileAtPosition(i);
             selectFile(i);
@@ -103,7 +103,7 @@ public class FileSelectionManagement {
     }
 
 
-    void setmSelectionMode(Boolean value){
+    public void setmSelectionMode(Boolean value){
         if(value){
             return;
         }
@@ -118,7 +118,7 @@ public class FileSelectionManagement {
         }
     }
 
-    void resetFileIcons(){
+    public void resetFileIcons(){
         for (Integer pos:
                 mSelectedPosition) {
             mDataModel = FileFillerWrapper.getFileAtPosition(pos);

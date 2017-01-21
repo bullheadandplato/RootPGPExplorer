@@ -13,6 +13,8 @@ import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentTwo;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+    private String tabTitles[] = new String[] { "Home", "Sdcard" };
+
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -32,6 +34,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabTitles[position];
     }
 
     @Override
