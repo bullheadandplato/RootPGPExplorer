@@ -152,7 +152,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
-        UiUtils.actionMode = this.actionMode;
+       // UiUtils.actionMode = this.actionMode;
 		if(emptyFiles) {
 			removeNoFilesFragment();
 		}
@@ -287,9 +287,9 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public void onLongClick() {
 		if(SharedData.SELECTION_MODE) {
-			actionMode = startActionMode(new ActionViewHandler(this));
+			//actionMode = startActionMode(new ActionViewHandler(this));
 		}
-		UiUtils.actionMode=actionMode;
+		//UiUtils.actionMode=actionMode;
 	}
 	@Override
 	public void incrementSelectionCount(){

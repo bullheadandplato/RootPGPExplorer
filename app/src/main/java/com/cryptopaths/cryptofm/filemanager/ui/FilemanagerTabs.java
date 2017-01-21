@@ -10,13 +10,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
 import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
@@ -31,6 +34,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private ItemTouchHelper         mHelper;
     private FileSelectionManagement mManager;
     private String                  mCurrentPath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +93,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     }
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+       Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Yoo");
-        setSupportActionBar(toolbar);
+       setSupportActionBar(toolbar);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
@@ -104,23 +108,44 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
      * adapter callbacks section starting
      */
 
+    ActionMode actionMode;
     @Override
     public void onLongClick() {
-
+        if(SharedData.SELECTION_MODE) {
+            actionMode = startActionMode(new ActionViewHandler(this));
+        }
+        UiUtils.actionMode=actionMode;
     }
-
     @Override
-    public void incrementSelectionCount() {
-
+    public void incrementSelectionCount(){
+        actionMode.setTitle(++SharedData.SELECT_COUNT+"");
+        if(SharedData.SELECT_COUNT>1){
+            actionMode.getMenu().removeItem(R.id.rename_menu_item);
+        }
     }
 
     @Override
     public void decrementSelectionCount() {
-
+        if(actionMode!=null){
+            actionMode.setTitle(--SharedData.SELECT_COUNT+"");
+            if(SharedData.SELECT_COUNT==0){
+                actionMode.finish();
+            }
+            else if(SharedData.SELECT_COUNT<2){
+                actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
+            }
+        }
     }
 
     @Override
     public void changeTitle(String path) {
-
+        if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
+            path="Home";
+        }else{
+            path=path.substring(0,path.lastIndexOf('/'));
+            path=path.substring(path.lastIndexOf('/')+1);
+        }
+        assert getSupportActionBar()!=null;
+        getSupportActionBar().setTitle(path);
     }
 }
