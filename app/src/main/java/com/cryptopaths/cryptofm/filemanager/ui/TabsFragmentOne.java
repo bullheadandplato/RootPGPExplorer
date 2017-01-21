@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 
 /**
  * Created by Shadow on 1/21/2017.
@@ -16,6 +17,7 @@ import com.cryptopaths.cryptofm.R;
 
 public class TabsFragmentOne extends Fragment {
     private static final String TAG=TabsFragmentOne.class.getName();
+    private FragmentCallbacks mCallbacks;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,4 +25,18 @@ public class TabsFragmentOne extends Fragment {
         return inflater.inflate(R.layout.tabs_fragment_one,container,false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated: view created");
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: fragment activity created");
+        super.onActivityCreated(savedInstanceState);
+        mCallbacks=(FragmentCallbacks)getActivity();
+        mCallbacks.init();
+    }
 }

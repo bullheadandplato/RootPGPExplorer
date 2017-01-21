@@ -1,23 +1,93 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
+import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
+import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
 
-public class FilemanagerTabs extends AppCompatActivity {
+public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
+    private FileListAdapter         mFileAdapter;
+    private RecyclerView            mRecyclerView;
+    private LinearLayoutManager     mLinearLayoutManager;
+    private GridLayoutManager       mGridLayoutManager;
+    private ItemTouchHelper         mHelper;
+    private FileSelectionManagement mManager;
+    private String                  mCurrentPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
 
+        setToolbar();
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.items_view_menu_item){
+            if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
+                item.setIcon(getDrawable(R.drawable.ic_grid_view));
+                if(mLinearLayoutManager==null){
+                    mLinearLayoutManager=new LinearLayoutManager(this);
+                }
+                mHelper.attachToRecyclerView(mRecyclerView);
+                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            }else{
+                item.setIcon(getDrawable(R.drawable.ic_items_view));
+                if(mGridLayoutManager==null){
+                    mGridLayoutManager=new GridLayoutManager(this,2);
+                }
+                mHelper.attachToRecyclerView(null);
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+            }
+            mRecyclerView.requestLayout();
+        }
+        return true;
+    }
+
+    public void init(){
+        mRecyclerView=(RecyclerView)findViewById(R.id.fragment_recycler_view);
+        mLinearLayoutManager=new LinearLayoutManager(this);
+        mGridLayoutManager=new GridLayoutManager(this,2);
+        mFileAdapter= SharedData.getInstance().getFileListAdapter(this);
+        mManager=SharedData.getInstance().getmFileSelectionManagement(this);
+        mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
+        mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        FileFillerWrapper.fillData(mCurrentPath,this);
+        mRecyclerView.setAdapter(mFileAdapter);
+
+    }
+    private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Yoo");
@@ -30,19 +100,27 @@ public class FilemanagerTabs extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    /**
+     * adapter callbacks section starting
+     */
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onLongClick() {
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    public void incrementSelectionCount() {
 
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void decrementSelectionCount() {
+
+    }
+
+    @Override
+    public void changeTitle(String path) {
+
     }
 }
