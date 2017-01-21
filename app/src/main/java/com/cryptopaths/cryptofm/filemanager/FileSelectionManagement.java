@@ -83,35 +83,8 @@ class FileSelectionManagement {
             clickCallBack.incrementSelectionCount();
         }
     }
-    void selectFileInSelectionMode(int position){
-        mDataModel=FileFillerWrapper.getFileAtPosition(position);
-        if(mDataModel.getSelected()){
-            mSelectedFilePaths.remove(mDataModel.getFilePath());
-            mDataModel.setSelected(false);
-            clickCallBack.decrementSelectionCount();
-            if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
-            }else{
-                mDataModel.setFileIcon(mFolderIcon);
-            }
-        }else{
-            //remove the previous selected file
-           if(mSelectedPosition.size()>0) {
-               mDataModel=FileFillerWrapper.getFileAtPosition(mSelectedPosition.get(0));
-               mDataModel.setSelected(false);
-               mDataModel.setFileIcon(mFileIcon);
-               mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
-
-               mSelectedPosition.clear();
-               mSelectedFilePaths.clear();
-           }
-            mDataModel=FileFillerWrapper.getFileAtPosition(position);
-            mSelectedPosition.add(position);
-            mSelectedFilePaths.add(mDataModel.getFilePath());
-            mDataModel.setFileIcon(mSelectedFileIcon);
-            mDataModel.setSelected(true);
-        }
-        mFileListAdapter.notifyItemChanged(position);
+    void selectFileInSelectionMode(String filename){
+        clickCallBack.setResult(filename);
     }
 
 

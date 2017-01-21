@@ -10,4 +10,5 @@ public interface AdapterCallbacks {
     void incrementSelectionCount();
     void decrementSelectionCount();
     void changeTitle(String path);
+    void setResult(String filename);
 }

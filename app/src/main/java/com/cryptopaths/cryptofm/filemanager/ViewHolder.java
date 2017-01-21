@@ -40,7 +40,8 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 String filename     = textView.getText().toString();
                 if(FileUtils.isFile(filename)){
                     if(SharedData.STARTED_IN_SELECTION_MODE){
-                        mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
+                        Log.d(TAG, "onClick: yes nigga im started in selection mode");
+                        mFileSelectionManagement.selectFileInSelectionMode(FileUtils.CURRENT_PATH+filename);
                         return;
                     }
                     mFileSelectionManagement.openFile(filename);
@@ -55,7 +56,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
             @Override
             public boolean onLongClick(View view) {
                 if(SharedData.STARTED_IN_SELECTION_MODE){
-                    mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
+                    return false;
                 }
                 else if(!SharedData.SELECTION_MODE) {
                     Log.d(TAG, "onLongClick: action mode is not being displayed");

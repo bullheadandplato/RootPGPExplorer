@@ -48,7 +48,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/seleck_key_message"
-                            android:id="@+id/pub_key_edit_text"
                             android:textColor="#FFF"
                             android:layout_weight=".95"
                             android:layout_gravity="center_vertical"
@@ -71,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/foo"
                         android:textColor="#FFF"
+                        android:id="@+id/pub_key_edit_text"
                         android:padding="10dp"
                         android:text="@string/filename_text"
                         />
@@ -102,7 +102,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/select_secret_key"
-                            android:id="@+id/sec_key_edit_text"
                             android:textColor="#FFF"
                             android:layout_weight=".95"
                             android:layout_gravity="center_vertical"
@@ -126,6 +125,8 @@
                         android:layout_below="@id/foo2"
                         android:textColor="#FFF"
                         android:padding="10dp"
+                        android:id="@+id/sec_key_edit_text"
+
                         android:text="@string/filename_text"
                         />
                 </RelativeLayout>
