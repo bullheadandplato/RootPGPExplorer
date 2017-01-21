@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
@@ -20,15 +21,15 @@ import com.cryptopaths.cryptofm.utils.ActionHandler;
 public class KeySelectActivity extends AppCompatActivity{
     private static final int GET_PUBLIC_KEY_CODE=10;
     private static final int GET_SECRET_KEY_CODE=20;
-    private EditText mPubKeyEditText;
-    private EditText mSecKeyEditText;
+    private TextView mPubKeyEditText;
+    private TextView mSecKeyEditText;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_select);
 
-        mSecKeyEditText=(EditText)findViewById(R.id.sec_key_edit_text);
-        mPubKeyEditText=(EditText)findViewById(R.id.pub_key_edit_text);
+        mSecKeyEditText=(TextView) findViewById(R.id.sec_key_edit_text);
+        mPubKeyEditText=(TextView) findViewById(R.id.pub_key_edit_text);
     }
     @ActionHandler(layoutResource = R.id.button_letsgo_keys_select)
     public void onUnlockButtonClick(View view) {
