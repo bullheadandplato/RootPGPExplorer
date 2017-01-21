@@ -83,8 +83,21 @@ class FileSelectionManagement {
             clickCallBack.incrementSelectionCount();
         }
     }
-    void selectFileInSelectionMode(String filename){
-        clickCallBack.setResult(filename);
+    void selectFileInSelectionMode(int position){
+        if(mSelectedPosition.size()>0){
+            mDataModel=FileFillerWrapper.getFileAtPosition(mSelectedPosition.get(0));
+            mDataModel.setSelected(false);
+            mDataModel.setFileIcon(mFileIcon);
+            mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
+            mSelectedPosition.clear();
+            mSelectedFilePaths.clear();
+        }
+            mDataModel=FileFillerWrapper.getFileAtPosition(position);
+            mSelectedPosition.add(position);
+            mSelectedFilePaths.add(mDataModel.getFilePath());
+            mDataModel.setFileIcon(mSelectedFileIcon);
+            mDataModel.setSelected(true);
+        mFileListAdapter.notifyItemChanged(position);
     }
 
 
@@ -152,6 +165,10 @@ class FileSelectionManagement {
     }
 
     void openFolder(String filename) {
+        if(SharedData.STARTED_IN_SELECTION_MODE) {
+            mSelectedPosition.clear();
+            mSelectedFilePaths.clear();
+        }
         String folderPath = FileFillerWrapper.getCurrentPath() + filename + "/";
         clickCallBack.changeTitle(folderPath);
         FileFillerWrapper.fillData(folderPath, mContext);

@@ -59,10 +59,10 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult: Got the result");
-        String filename=data.getExtras().getString("filename");
         if(resultCode!=RESULT_OK){
             return;
         }
+        String filename=data.getExtras().getString("filename");
         switch (requestCode){
 
             case GET_PUBLIC_KEY_CODE:{
@@ -112,7 +112,6 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
     }
     private void startFileBrowsing(int requestCode){
         Intent intent=new Intent(this, FileBrowserActivity.class);
-        intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("select",true);
         startActivityForResult(intent,requestCode);
     }

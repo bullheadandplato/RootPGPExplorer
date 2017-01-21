@@ -68,6 +68,8 @@ public class FileBrowserActivity extends AppCompatActivity
 			mStartedInSelectionMode=true;
 			assert getSupportActionBar()!=null;
 			getSupportActionBar().setTitle("Select Key files");
+			//hide the floating button
+			findViewById(R.id.floating_add).setVisibility(View.GONE);
 		}else{
 			setResult(RESULT_OK);
 			SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
@@ -98,7 +100,8 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if(mStartedInSelectionMode){
-			return false;
+			getMenuInflater().inflate(R.menu.selection_mode_menu,menu);
+			return true;
 		}
 		getMenuInflater().inflate(R.menu.appbar_menu,menu);
 		return true;
@@ -111,7 +114,14 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		if(mStartedInSelectionMode){
+			if(item.getItemId()==R.id.check_menu_item){
+				Intent intent=new Intent();
+				intent.putExtra("filename",mFileSelectionManagement.getmSelectedFilePaths().get(0));
+				setResult(RESULT_OK,intent);
+				finish();
+			}
+		}
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
 				item.setIcon(getDrawable(R.drawable.ic_grid_view));
@@ -308,16 +318,8 @@ public class FileBrowserActivity extends AppCompatActivity
 		getSupportActionBar().setTitle(path);
 	}
 
-	@Override
-	public void setResult(String filename) {
-		Intent intent=new Intent();
-		intent.putExtra("filename",filename);
-		setResult(RESULT_OK,intent);
-		finish();
-	}
 
-
-	public void resetmKeyPass(){
+    public void resetmKeyPass(){
         SharedData.KEY_PASSWORD=null;
     }
 

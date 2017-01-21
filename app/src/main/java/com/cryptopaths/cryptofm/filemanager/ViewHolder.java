@@ -41,7 +41,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 if(FileUtils.isFile(filename)){
                     if(SharedData.STARTED_IN_SELECTION_MODE){
                         Log.d(TAG, "onClick: yes nigga im started in selection mode");
-                        mFileSelectionManagement.selectFileInSelectionMode(FileUtils.CURRENT_PATH+filename);
+                        mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                         return;
                     }
                     mFileSelectionManagement.openFile(filename);
