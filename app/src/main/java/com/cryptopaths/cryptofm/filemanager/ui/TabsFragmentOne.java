@@ -17,6 +17,7 @@ import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 
 public class TabsFragmentOne extends Fragment {
     private static final String TAG=TabsFragmentOne.class.getName();
+    private static boolean  ALREADY_CALLED=false;
     private FragmentCallbacks mCallbacks;
     @Nullable
     @Override
@@ -40,7 +41,10 @@ public class TabsFragmentOne extends Fragment {
         Log.d(TAG, "onActivityCreated: fragment activity created");
         super.onActivityCreated(savedInstanceState);
         mCallbacks=(FragmentCallbacks)getActivity();
-        mCallbacks.init();
+        if(!ALREADY_CALLED){
+            mCallbacks.init();
+            ALREADY_CALLED=true;
+        }
     }
 
     @Override
