@@ -35,7 +35,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 
 
 public class FileBrowserActivity extends AppCompatActivity
-		implements FileListAdapter.LongClickCallBack {
+		implements AdapterCallbacks {
 
 	private String 				mCurrentPath;
 	private String 				mRootPath;
@@ -46,27 +46,39 @@ public class FileBrowserActivity extends AppCompatActivity
 	private ItemTouchHelper		mHelper;
     private static final String TAG = "FileBrowser";
 	private NoFilesFragment		mNoFilesFragment;
+	private boolean				mStartedInSelectionMode=false;
+	private FileSelectionManagement mFileSelectionManagement;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
-		setResult(RESULT_OK);
 
-        SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
-		SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
 		mNoFilesFragment			= new NoFilesFragment();
+		mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
+
+		//check if started in selection mode
+		if(getIntent().getExtras().getBoolean("select",false)){
+			SharedData.STARTED_IN_SELECTION_MODE=true;
+			mStartedInSelectionMode=true;
+			assert getSupportActionBar()!=null;
+			getSupportActionBar().setTitle("Select Key files");
+		}else{
+			setResult(RESULT_OK);
+			SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
+			SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
+		}
 
 
 		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
 		boolean linearLayout           = preferences.getBoolean("key",false);
-		if(linearLayout){
+		if(linearLayout || mStartedInSelectionMode){
 			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 		}else{
@@ -85,6 +97,10 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		if(mStartedInSelectionMode){
+			getMenuInflater().inflate(R.menu.selection_mode_menu,menu);
+			return true;
+		}
 		getMenuInflater().inflate(R.menu.appbar_menu,menu);
 		return true;
 	}
@@ -96,6 +112,14 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if(mStartedInSelectionMode){
+			if(item.getItemId()==R.id.check_menu_item){
+				Intent intent=new Intent();
+				intent.putExtra("filename",mFileSelectionManagement.getmSelectedFilePaths().get(0));
+				setResult(RESULT_OK,intent);
+				finish();
+			}
+		}
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
 				item.setIcon(getDrawable(R.drawable.ic_grid_view));

@@ -39,7 +39,7 @@ class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
-        final String filePath= FileUtils.CURRENT_PATH+((FileListAdapter.ViewHolder)viewHolder).mTextView.getText();
+        final String filePath= FileUtils.CURRENT_PATH+((ViewHolder)viewHolder).mTextView.getText();
         ArrayList<String> tmp=new ArrayList<>();
         tmp.add(filePath);
         if(direction==ItemTouchHelper.RIGHT){

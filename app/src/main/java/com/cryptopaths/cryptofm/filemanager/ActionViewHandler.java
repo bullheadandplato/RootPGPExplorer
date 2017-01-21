@@ -48,7 +48,7 @@ class ActionViewHandler implements ActionMode.Callback {
             mTaskHandler.deleteFile();
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
-            mTaskHandler.encryptTask(SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths());
+            mTaskHandler.encryptTask(SharedData.getInstance().getmFileSelectionManagement(mContext).getmSelectedFilePaths());
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
             if(SharedData.KEY_PASSWORD==null) {
@@ -76,7 +76,7 @@ class ActionViewHandler implements ActionMode.Callback {
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWWORD,
-                                    SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths()
+                                    SharedData.getInstance().getmFileSelectionManagement(mContext).getmSelectedFilePaths()
                                     );
                         }
                     }
@@ -86,12 +86,12 @@ class ActionViewHandler implements ActionMode.Callback {
                         SharedData.USERNAME,
                         SharedData.KEY_PASSWORD,
                         SharedData.DB_PASSWWORD,
-                        SharedData.getInstance().getFileListAdapter(mContext).getmSelectedFilePaths()
+                        SharedData.getInstance().getmFileSelectionManagement(mContext).getmSelectedFilePaths()
                 );
             }
         }
         else if(item.getItemId()==R.id.selectall_menu_item){
-            SharedData.getInstance().getFileListAdapter().selectAllFiles();
+            SharedData.getInstance().getmFileSelectionManagement(mContext).selectAllFiles();
         }
         else if(item.getItemId()==R.id.move_menu_item){
             Log.d("move", "onActionItemClicked: moving files");
@@ -105,8 +105,8 @@ class ActionViewHandler implements ActionMode.Callback {
         Log.d("action","destroying action mode");
         SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=true;
-        SharedData.getInstance().getFileListAdapter().resetFileIcons();
-        SharedData.getInstance().getFileListAdapter().setmSelectionMode(false);
+        SharedData.getInstance().getmFileSelectionManagement(mContext).resetFileIcons();
+        SharedData.getInstance().getmFileSelectionManagement(mContext).setmSelectionMode(false);
     }
 
     /**

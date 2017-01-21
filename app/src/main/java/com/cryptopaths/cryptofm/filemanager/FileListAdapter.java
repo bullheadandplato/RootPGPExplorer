@@ -28,27 +28,15 @@ import java.util.ArrayList;
  *
  */
 
-public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
+public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
-    private Context             mContext;
-    private Drawable            mSelectedFileIcon;
-    private Drawable            mFileIcon;
-    private Drawable            mFolderIcon;
-    private DataModelFiles      mDataModel;
 
-    private Boolean                 mSelectionMode      = false;
-    private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
-    private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
     private  static final String    TAG                 = "filesList";
     private static final int        NORMAL_VIEW         = 50;
+    private Context mContext;
 
-
-        public FileListAdapter(Context context){
-            this.mContext     = context;
-            mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
-            mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
-            mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
-
+    public FileListAdapter(Context context){
+            this.mContext=context;
     }
 
 
@@ -58,7 +46,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
-            return new ViewHolder(view);
+            return new ViewHolder(view,mContext);
 
     }
 
@@ -69,7 +57,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-            mDataModel=FileFillerWrapper.getFileAtPosition(position);
+             DataModelFiles mDataModel=FileFillerWrapper.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
@@ -85,7 +73,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     }
 
     @Override
-        public long getItemId(int i) {
+    public long getItemId(int i) {
         return 0;
     }
 
@@ -93,176 +81,5 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
     public int getItemCount() {
         return FileFillerWrapper.getTotalFilesCount();
     }
-    private LongClickCallBack clickCallBack;
 
-    void selectAllFiles() {
-        for (int i = 0; i < FileFillerWrapper.getTotalFilesCount(); i++) {
-            mDataModel = FileFillerWrapper.getFileAtPosition(i);
-            selectFile(i);
-        }
-        notifyDataSetChanged();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView   mImageView;
-        ImageView   noFilesLayout;
-        TextView    mTextView;
-        TextView    mNumberFilesTextView;
-        TextView    mFolderSizeTextView;
-        ImageView    mEncryptionStatusImage;
-        ViewHolder(View itemView){
-                super(itemView);
-            clickCallBack = (LongClickCallBack)mContext;
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(FileFillerWrapper.getTotalFilesCount()<1){
-                            return;
-                        }
-                        if(mSelectionMode){
-                            selectionOperation(getAdapterPosition());
-                            return;
-                        }
-                        TextView textView   = (TextView)view.findViewById(R.id.list_textview);
-                        String filename     = textView.getText().toString();
-                        if(FileUtils.isFile(filename)){
-                            openFile(filename);
-                        }else{
-                            String folderPath = FileFillerWrapper.getCurrentPath()+filename+"/";
-                            clickCallBack.changeTitle(folderPath);
-                            FileFillerWrapper.fillData(folderPath,mContext);
-                            notifyDataSetChanged();
-                            if(FileFillerWrapper.getTotalFilesCount()<1){
-                                ((FileBrowserActivity)mContext).showNoFilesFragment();
-                            }
-
-                        }
-                    }
-                });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if(FileFillerWrapper.getTotalFilesCount()<1){
-                        return false;
-                    }
-                    else if(SharedData.SELECTION_MODE) {
-                        Log.d(TAG, "onLongClick: action mode is not being displayed");
-                        SharedData.SELECTION_MODE = false;
-                        clickCallBack.onLongClick();
-                        mSelectionMode = true;
-                    }
-                    selectionOperation(getAdapterPosition());
-                    return true;
-
-                }
-            });
-
-            mTextView                   = (TextView)itemView.findViewById(R.id.list_textview);
-            mImageView                  = (ImageView)itemView.findViewById(R.id.list_imageview);
-            noFilesLayout               = (ImageView) itemView.findViewById(R.id.no_files_image);
-            mNumberFilesTextView        = (TextView)itemView.findViewById(R.id.nofiles_textview);
-            mFolderSizeTextView         = (TextView)itemView.findViewById(R.id.folder_size_textview);
-            mEncryptionStatusImage      = (ImageView) itemView.findViewById(R.id.encryption_status_image);
-
-        }
-
-    }
-    private void openFile(String filename){
-        if(FileUtils.getExtension(filename).equals("pgp")){
-            //TODO, gonna do my assignment for now
-        }
-        //open file
-        String mimeType=
-                MimeTypeMap.getSingleton().
-                        getMimeTypeFromExtension(
-                                FileUtils.getExtension(filename
-                                )
-                        );
-
-        Intent intent=new Intent();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri uri = FileProvider.getUriForFile(
-                    mContext,
-                    mContext.getApplicationContext().getPackageName()+".provider",
-                    FileUtils.getFile(filename)
-            );
-            intent.setDataAndType(uri,mimeType);
-        }else {
-            intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)),mimeType);
-        }
-        intent.setAction(Intent.ACTION_VIEW);
-        Intent x=Intent.createChooser(intent,"Open with: ");
-        mContext.startActivity(x);
-    }
-
-    private void selectionOperation(int position){
-        mDataModel  = FileFillerWrapper.getFileAtPosition(position);
-
-        if(mDataModel.getSelected()){
-            Log.d(TAG, "selectionOperation: fixing a bug in files selection");
-            mSelectedFilePaths.remove(mDataModel.getFilePath());
-            mDataModel.setSelected(false);
-            clickCallBack.decrementSelectionCount();
-            if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
-            }else{
-                mDataModel.setFileIcon(mFolderIcon);
-            }
-        }else{
-            selectFile(position);
-        }
-
-        notifyItemChanged(position);
-
-    }
-    private void selectFile(int position){
-        if(!mDataModel.getSelected()) {
-            mSelectedPosition.add(position);
-            mSelectedFilePaths.add(mDataModel.getFilePath());
-            mDataModel.setFileIcon(mSelectedFileIcon);
-            mDataModel.setSelected(true);
-            clickCallBack.incrementSelectionCount();
-        }
-    }
-
-    interface LongClickCallBack{
-        void onLongClick();
-        void incrementSelectionCount();
-        void decrementSelectionCount();
-        void changeTitle(String path);
-    }
-
-    void setmSelectionMode(Boolean value){
-        //first check if there are select files
-        if(mSelectedPosition.size()>0) {
-            for (Integer pos : mSelectedPosition) {
-                mDataModel =  FileFillerWrapper.getFileAtPosition(pos);
-                mDataModel.setSelected(false);
-            }
-            mSelectedPosition.clear();
-            mSelectedFilePaths.clear();
-        }
-        this.mSelectionMode=value;
-    }
-
-    void resetFileIcons(){
-        for (Integer pos:
-             mSelectedPosition) {
-            mDataModel = FileFillerWrapper.getFileAtPosition(pos);
-            if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
-            }else{
-                mDataModel.setFileIcon(mFolderIcon);
-            }
-            notifyItemChanged(pos);
-
-        }
-    }
-
-    ArrayList<String> getmSelectedFilePaths() {
-        return mSelectedFilePaths;
-    }
 }

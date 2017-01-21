@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:text="Select Public Key"
-                    android:id="@+id/editText2" />
+                    android:id="@+id/pub_key_edit_text" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:layout_weight=".2"
@@ -49,6 +49,7 @@
                     android:padding="12dp"
                     android:background="@color/colorAccent"
                     android:text="Browse"
+                    android:onClick="onBrowseButtonClick"
                     android:textSize="12sp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -67,8 +68,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:text="Select Public Key"
-                    android:id="@+id/editText3" />
+                    android:text="Select Secret Key"
+                    android:id="@+id/sec_key_edit_text" />
                 <android.support.v7.widget.AppCompatButton
                     android:layout_weight=".2"
                     android:id="@+id/button_select_secret_key"
@@ -77,6 +78,7 @@
                     android:padding="12dp"
                     android:background="@color/colorAccent"
                     android:text="Browse"
+                    android:onClick="onBrowseButtonClick"
                     android:textSize="12sp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"

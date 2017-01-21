@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class SharedData {
     public static  boolean NO_FILES_VIEW = true;
     public static boolean SELECTION_MODE = true;
+    public static boolean STARTED_IN_SELECTION_MODE=false;
     public static Boolean IS_IN_COPY_MODE = false;
     public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
@@ -25,6 +26,7 @@ public class SharedData {
     private static SharedData   mSharedData;
     private FileListAdapter     mFileListAdapter;
     private TaskHandler         mTaskHandler;
+    private FileSelectionManagement mFileSelectionManagement;
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method
@@ -74,4 +76,10 @@ public class SharedData {
         return false;
     }
 
+    public FileSelectionManagement getmFileSelectionManagement(Context context) {
+        if(mFileSelectionManagement==null){
+            mFileSelectionManagement=new FileSelectionManagement(context);
+        }
+        return mFileSelectionManagement;
+    }
 }

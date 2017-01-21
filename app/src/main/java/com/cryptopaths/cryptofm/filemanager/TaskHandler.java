@@ -28,10 +28,12 @@ class TaskHandler {
     private DecryptTask     mDecryptTask;
     private FileListAdapter mAdapter;
     private Context         mContext;
+    private FileSelectionManagement mFileSelectionManagement;
 
     TaskHandler(Context context){
         this.mContext=context;
         mAdapter=SharedData.getInstance().getFileListAdapter();
+        mFileSelectionManagement=SharedData.getInstance().getmFileSelectionManagement(context);
     }
 
     public void renameFile(){
@@ -43,7 +45,7 @@ class TaskHandler {
 
         final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
         Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
-        String currentFileName		  = SharedData.getInstance().getFileListAdapter().getmSelectedFilePaths().get(0);
+        String currentFileName		  = mFileSelectionManagement.getmSelectedFilePaths().get(0);
 
         currentFileName = currentFileName.substring(
                 currentFileName.lastIndexOf('/')+1,
@@ -61,7 +63,7 @@ class TaskHandler {
                     new RenameTask(
                             mContext,
                             mAdapter,
-                            mAdapter.getmSelectedFilePaths().get(0),
+                            mFileSelectionManagement.getmSelectedFilePaths().get(0),
                             folderName
                     ).execute();
                     dialog.dismiss();
@@ -82,7 +84,7 @@ class TaskHandler {
                         DeleteTask task=new DeleteTask(
                                 mContext,
                                 mAdapter,
-                                (ArrayList<String>) mAdapter.getmSelectedFilePaths().clone());
+                                (ArrayList<String>) mFileSelectionManagement.getmSelectedFilePaths().clone());
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                     }
