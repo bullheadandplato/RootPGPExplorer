@@ -119,7 +119,6 @@ public class FileBrowserActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mStartedInSelectionMode){
 			if(item.getItemId()==R.id.check_menu_item){
-				Intent intent=new Intent();
 				if(mFileSelectionManagement.getmSelectedFilePaths().size()<1){
 					Toast.makeText(
 							this,
@@ -128,6 +127,7 @@ public class FileBrowserActivity extends AppCompatActivity
 					).show();
 					return true;
 				}
+				Intent intent=new Intent();
 				intent.putExtra("filename",mFileSelectionManagement.getmSelectedFilePaths().get(0));
 				setResult(RESULT_OK,intent);
 				finish();
