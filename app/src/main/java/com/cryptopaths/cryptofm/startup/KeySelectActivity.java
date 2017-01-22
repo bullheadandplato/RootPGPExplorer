@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
@@ -57,6 +58,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        SharedData.STARTED_IN_SELECTION_MODE=false;
         Log.d(TAG, "onActivityResult: Got the result");
         if(resultCode!=RESULT_OK){
             return;

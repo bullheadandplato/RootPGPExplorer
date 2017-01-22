@@ -38,6 +38,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
+        SharedData.STARTED_IN_SELECTION_MODE=false;
 
         //see the external dirs
        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);

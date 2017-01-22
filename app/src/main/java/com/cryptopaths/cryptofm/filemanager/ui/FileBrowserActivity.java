@@ -194,15 +194,6 @@ public class FileBrowserActivity extends AppCompatActivity
 			}
 		});
 	}
-	public void showCopyDialog(){
-		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(0,getResources().getDimensionPixelSize(R.dimen.recycler_view_margin_top),0,0);
-		mFileListView.setLayoutParams(layoutParams);
-		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
-		View view= getLayoutInflater().inflate(R.layout.copy_file_dialog_layout,null);
-		layout.addView(view);
-
-	}
 
 	void changeDirectory(String path) {
 		changeTitle(path);
@@ -217,14 +208,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mmFileListAdapter.notifyDataSetChanged();
 
 	}
-	@ActionHandler(layoutResource = R.id.cancel_copy_button)
-	public void onCancelButtonClicked(View v){
-		CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT,CoordinatorLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(0,0,0,0);
-		mFileListView.setLayoutParams(layoutParams);
-		FrameLayout layout=(FrameLayout)findViewById(R.id.add_copy_file_dialog_layout);
-		layout.removeAllViews();
-	}
+
 	@Override
 	public void onBackPressed() {
 		if(emptyFiles){
@@ -315,11 +299,6 @@ public class FileBrowserActivity extends AppCompatActivity
 		assert getSupportActionBar()!=null;
 		getSupportActionBar().setTitle(path);
 	}
-
-
-    public void resetmKeyPass(){
-        SharedData.KEY_PASSWORD=null;
-    }
 
 	boolean emptyFiles;
 	public void showNoFilesFragment() {
