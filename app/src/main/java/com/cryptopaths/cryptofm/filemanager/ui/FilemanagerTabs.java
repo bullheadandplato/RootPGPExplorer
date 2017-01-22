@@ -30,7 +30,6 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
-    private PagerAdapter            mPagerAdapter;
     private static final String TAG=FilemanagerTabs.class.getName();
     private int                     mTotalStorages;
     private String[]                mStorageTitles;
@@ -100,14 +99,21 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
         Log.d(TAG, "onCreateOptionsMenu: menu created");
         return true;
     }
 
+    private boolean notAlreadyInflated=true;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.d(TAG, "onPrepareOptionsMenu: preparing menu");
+        if(SharedData.IS_IN_COPY_MODE && notAlreadyInflated){
+            getMenuInflater().inflate(R.menu.copy_menu,menu);
+            notAlreadyInflated=false;
+            return true;
+        }
         MenuItem item=menu.getItem(0);
         if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
             item.setIcon(getDrawable(R.drawable.ic_grid_view));
@@ -186,7 +192,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
        setSupportActionBar(toolbar);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new PagerAdapter
+        PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorages);
         mPagerAdapter.setTitles(mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
@@ -298,5 +304,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         mCurrentFragment.setmIsEmptyFolder(false);
         FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
         layout.removeAllViews();
+    }
+
+    public void showCopyDialog() {
+        actionMode.finish();
+        invalidateOptionsMenu();
+        openOptionsMenu();
     }
 }

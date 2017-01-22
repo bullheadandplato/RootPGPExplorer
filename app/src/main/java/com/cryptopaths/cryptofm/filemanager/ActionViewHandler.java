@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.ui.FilemanagerTabs;
 
 
 /**
@@ -101,7 +102,8 @@ public class ActionViewHandler implements ActionMode.Callback {
         }
         else if(item.getItemId()==R.id.move_menu_item){
             Log.d("move", "onActionItemClicked: moving files");
-            ((FileBrowserActivity)mContext).showCopyDialog();
+            SharedData.IS_IN_COPY_MODE=true;
+            ((FilemanagerTabs)mContext).showCopyDialog();
         }
         return true;
     }
