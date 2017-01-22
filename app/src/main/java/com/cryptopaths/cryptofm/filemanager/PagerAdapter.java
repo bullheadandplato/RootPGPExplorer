@@ -23,7 +23,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        tabsFragment[position] =TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY,position);
+        tabsFragment[position] =TabsFragmentOne.newInstance(tabTitles[position],position);
         return tabsFragment[position];
     }
 
@@ -38,6 +38,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     }
     public TabsFragmentOne getCurrentFragment(int position){
         return tabsFragment[position];
+    }
+
+    public void setTitles(String[] mStorageTitles) {
+        tabTitles=mStorageTitles;
     }
 }
 

@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.ExternalStorageHandler;
 import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
@@ -31,13 +32,21 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private TabsFragmentOne         mCurrentFragment;
     private PagerAdapter            mPagerAdapter;
     private static final String TAG=FilemanagerTabs.class.getName();
+    private int                     mTotalStorages;
+    private String[]                mStorageTitles;
     private TabsFragmentOne[] mFragmentOnes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
 
+        //see the external dirs
+       mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
+        mTotalStorages=mStorageTitles.length;
+        Log.d(TAG, "onCreate: total storages are: " +mTotalStorages);
+
         setToolbar();
+
 
 
     }
@@ -172,10 +181,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new PagerAdapter
-                (getSupportFragmentManager(), 2);
+                (getSupportFragmentManager(), mTotalStorages);
+        mPagerAdapter.setTitles(mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        mFragmentOnes=new TabsFragmentOne[2];
+        mFragmentOnes=new TabsFragmentOne[mTotalStorages];
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
