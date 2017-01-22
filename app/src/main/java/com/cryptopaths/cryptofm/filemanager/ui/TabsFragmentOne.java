@@ -107,6 +107,7 @@ public class TabsFragmentOne extends Fragment {
         Log.d(TAG, "onCreate: creating new instance");
         super.onCreate(savedInstanceState);
         mPath= getArguments().getString(KEY);
+        mCurrentPath=mPath;
         mFragmentPosition=getArguments().getInt("pos");
         if(SharedData.ALREADY_INSTANTIATED){
             Log.d(TAG, "onCreate: already created");
@@ -134,7 +135,6 @@ public class TabsFragmentOne extends Fragment {
         mTaskHandler=new TaskHandler(mContext,mFileAdapter,mManager);
         mActionViewHandler=new ActionViewHandler(mContext,mManager,mTaskHandler);
 
-        mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
         mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext,mTaskHandler,mFileAdapter));
 
         boolean whichLayout=getActivity().getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);

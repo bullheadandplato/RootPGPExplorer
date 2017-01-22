@@ -29,7 +29,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitles[position];
+        return "Storage "+position;
     }
 
     @Override

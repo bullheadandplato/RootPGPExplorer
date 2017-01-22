@@ -54,8 +54,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     public void onAddFloatingClicked(View v){
         UiUtils.actionMode = this.actionMode;
         if(mCurrentFragment==null){
-            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+            Log.d(TAG, "onAddFloatingClicked: fragment is null ");
+            mCurrentFragment=mFragmentOnes[0];
         }
+        FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
+        Log.d(TAG, "onAddFloatingClicked: current path is: "+FileUtils.CURRENT_PATH);
         if(isEmptyFolder) {
             removeNoFilesFragment();
         }
@@ -78,7 +81,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                     if(!FileUtils.createFolder(folderName)){
                         Toast.makeText(
                                 FilemanagerTabs.this,
-                                "Folder name already exist",
+                                "Cannot create folder make sure current path is writable",
                                 Toast.LENGTH_SHORT
                         ).show();
                     }else{
@@ -169,6 +172,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     public void setCurrentFragment(TabsFragmentOne m, int position) {
         Log.d(TAG, "setCurrentFragment: Setting fragments at position: "+position);
         mFragmentOnes[position]=m;
+        Log.d(TAG, "setCurrentFragment: fragment at position: "+position+"has path: "+m.getmCurrentPath());
+        mFragmentOnes[position].setmCurrentPath(mStorageTitles[position]);
 
     }
 
