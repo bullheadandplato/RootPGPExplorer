@@ -1,6 +1,8 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -130,7 +133,13 @@ public class TabsFragmentOne extends Fragment {
         mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
         mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext,mTaskHandler,mFileAdapter));
 
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        boolean whichLayout=getActivity().getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
+        if(whichLayout){
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            mHelper.attachToRecyclerView(mRecyclerView);
+        }else{
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+        }
         mFileFiller.fillData(mPath,mContext);
         mRecyclerView.setAdapter(mFileAdapter);
 
@@ -152,5 +161,41 @@ public class TabsFragmentOne extends Fragment {
 
     public ActionViewHandler getmActionViewHandler() {
         return mActionViewHandler;
+    }
+
+    public void toggleLayout(MenuItem item) {
+        Log.d(TAG, "toggleLayout: Changing layout");
+        if(item.getItemId()==R.id.items_view_menu_item){
+            if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
+                item.setIcon(mContext.getDrawable(R.drawable.ic_grid_view));
+                if(mLinearLayoutManager==null){
+                    mLinearLayoutManager=new LinearLayoutManager(mContext);
+                }
+                mHelper.attachToRecyclerView(mRecyclerView);
+                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+                new SharedPreferencesTask().execute(true);
+            }else{
+                item.setIcon(mContext.getDrawable(R.drawable.ic_items_view));
+                if(mGridLayoutManager==null){
+                    mGridLayoutManager=new GridLayoutManager(mContext,2);
+                }
+                mHelper.attachToRecyclerView(null);
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+                new SharedPreferencesTask().execute(false);
+            }
+            mRecyclerView.requestLayout();
+        }
+    }
+    class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Boolean... booleen) {
+            SharedPreferences prefs=getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=prefs.edit();
+            editor.putBoolean("layout",booleen[0]);
+            editor.apply();
+            editor.commit();
+            return null;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -39,18 +40,26 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        Log.d(TAG, "onCreateOptionsMenu: menu created");
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "onPrepareOptionsMenu: preparing menu");
+        MenuItem item=menu.getItem(0);
+        if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
+            item.setIcon(getDrawable(R.drawable.ic_grid_view));
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.items_view_menu_item){
-
-            }else{
-
-
-            }
-
+        if(mCurrentFragment==null){
+            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+        }
+        mCurrentFragment.toggleLayout(item);
         return true;
     }
 
@@ -72,6 +81,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             path 		   = path.substring(0,path.lastIndexOf('/')+1);
             FileUtils.CURRENT_PATH = path;
             Log.d(TAG, "onBackPressed: Changing directory");
+            changeTitle(path);
             mCurrentFragment.changeDirectory(path);
         }
 
@@ -122,6 +132,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 if(actionMode!=null){
                     actionMode.finish();
                     actionMode=null;
+                }
+                if((mCurrentFragment==null)){
+                    mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
                 }
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
