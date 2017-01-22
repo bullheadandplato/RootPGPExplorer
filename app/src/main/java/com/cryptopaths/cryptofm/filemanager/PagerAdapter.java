@@ -13,16 +13,18 @@ import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentOne;
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     private String tabTitles[] = new String[] { "Home", "Sdcard" };
-
+    private TabsFragmentOne[] tabsFragment;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        tabsFragment=new TabsFragmentOne[mNumOfTabs];
     }
 
     @Override
     public Fragment getItem(int position) {
-        return TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY);
+        tabsFragment[position] =TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY);
+        return tabsFragment[position];
     }
 
     @Override
@@ -33,6 +35,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return mNumOfTabs;
+    }
+    public TabsFragmentOne getCurrentFragment(int position){
+        return tabsFragment[position];
     }
 }
 

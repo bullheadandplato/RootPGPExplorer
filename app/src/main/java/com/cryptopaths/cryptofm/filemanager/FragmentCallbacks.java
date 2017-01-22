@@ -8,4 +8,5 @@ package com.cryptopaths.cryptofm.filemanager;
 public interface FragmentCallbacks {
     void init();
     void finishActionMode();
+    void tellNoFiles();
 }

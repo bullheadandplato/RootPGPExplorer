@@ -30,9 +30,6 @@ public class SharedData {
     public static String KEY_PASSWORD;
 
     private static SharedData   mSharedData;
-    private FileListAdapter mFileListAdapter;
-    private TaskHandler         mTaskHandler;
-    private FileSelectionManagement mFileSelectionManagement;
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method
@@ -66,19 +63,7 @@ public class SharedData {
     }
 
     
-    private NoFilesFragment mNoFilesFragment;
 
-    public NoFilesFragment getmNoFilesFragment() {
-        if(mNoFilesFragment==null){
-            mNoFilesFragment=new NoFilesFragment();
-        }
-        return mNoFilesFragment;
-    }
-    private TabsFragmentOne mCurrentFragement;
-    public TabsFragmentOne getCurrentFragment(){
-        return mCurrentFragement;
-    }
-    public void setcurrentFragment(TabsFragmentOne fragmentOne){
-        this.mCurrentFragement=fragmentOne;
-    }
+
+
 }

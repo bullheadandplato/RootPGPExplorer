@@ -13,16 +13,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
 import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private boolean                 isEmptyFolder=false;
-
+    private TabsFragmentOne         mCurrentFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,17 +52,21 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         return true;
     }
 
-
-    void changeDirectory(String path) {
-        changeTitle(path);
-        Log.d("filesc","current path: "+path);
-
-    }
     @Override
     public void onBackPressed() {
         if(isEmptyFolder) {
             removeNoFilesFragment();
         }
+        String path=mCurrentFragment.getmCurrentPath();
+        if(mCurrentFragment.getmCurrentPath().equals(SharedData.FILES_ROOT_DIRECTORY)){
+            super.onBackPressed();
+        }else{
+            path		   = path.substring(0,path.lastIndexOf('/'));
+            path 		   = path.substring(0,path.lastIndexOf('/')+1);
+            FileUtils.CURRENT_PATH = path;
+            mCurrentFragment.changeDirectory(path);
+        }
+
     }
 
     @Override
@@ -82,6 +86,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
     }
 
+    @Override
+    public void tellNoFiles() {
+        showNoFilesFragment();
+    }
+
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -93,7 +102,22 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 (getSupportFragmentManager(), 2);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabChangedListener());
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mCurrentFragment=adapter.getCurrentFragment(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     /**
