@@ -26,9 +26,11 @@ import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
 
 /**
  * Created by Shadow on 1/21/2017.
+ *
  */
 
 public class TabsFragmentOne extends Fragment {
+
     private static final String TAG=TabsFragmentOne.class.getName();
     private static final String KEY="path";
     private FileListAdapter         mFileAdapter;
@@ -109,21 +111,10 @@ public class TabsFragmentOne extends Fragment {
         return mHelper;
     }
 
-    public FileListAdapter getmFileAdapter() {
-        return mFileAdapter;
-    }
-
-    public FileSelectionManagement getmManager() {
-        return mManager;
-    }
-
     public String getmCurrentPath() {
         return mCurrentPath;
     }
 
-    public FileFillerWrapper getmFileFiller() {
-        return mFileFiller;
-    }
 
     public void init(){
         mLinearLayoutManager=new LinearLayoutManager(mContext);
@@ -154,5 +145,7 @@ public class TabsFragmentOne extends Fragment {
             mFileAdapter.notifyDataSetChanged();
         }
 
-
+    public ActionViewHandler getmActionViewHandler() {
+        return mActionViewHandler;
+    }
 }

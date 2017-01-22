@@ -23,6 +23,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
+    private PagerAdapter            mPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,10 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void onBackPressed() {
+        //if user has not switched the page
+        if(mCurrentFragment==null){
+            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+        }
         if(isEmptyFolder) {
             removeNoFilesFragment();
         }
@@ -98,10 +103,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
        setSupportActionBar(toolbar);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
+        mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), 2);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -110,7 +116,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             @Override
             public void onPageSelected(int position) {
-                mCurrentFragment=adapter.getCurrentFragment(position);
+                mCurrentFragment=mPagerAdapter.getCurrentFragment(position);
+                if(actionMode!=null){
+                    actionMode.finish();
+                    actionMode=null;
+                }
             }
 
             @Override
@@ -127,7 +137,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     ActionMode actionMode;
     @Override
     public void onLongClick() {
-        //actionMode = startActionMode(new ActionViewHandler(this));
+        //if user has not switched the page
+        if(mCurrentFragment==null){
+            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+        }
+        actionMode = startActionMode(mCurrentFragment.getmActionViewHandler());
         UiUtils.actionMode=actionMode;
     }
     @Override
