@@ -120,6 +120,14 @@ public class FileBrowserActivity extends AppCompatActivity
 		if(mStartedInSelectionMode){
 			if(item.getItemId()==R.id.check_menu_item){
 				Intent intent=new Intent();
+				if(mFileSelectionManagement.getmSelectedFilePaths().size()<1){
+					Toast.makeText(
+							this,
+							"Please choose your key file",
+							Toast.LENGTH_LONG
+					).show();
+					return true;
+				}
 				intent.putExtra("filename",mFileSelectionManagement.getmSelectedFilePaths().get(0));
 				setResult(RESULT_OK,intent);
 				finish();
