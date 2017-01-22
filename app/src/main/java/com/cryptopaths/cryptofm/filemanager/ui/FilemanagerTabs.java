@@ -83,30 +83,10 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         return true;
     }
 
-    public void init(){
-        mRecyclerView=(RecyclerView)findViewById(R.id.fragment_recycler_view);
-        mLinearLayoutManager=new LinearLayoutManager(this);
-        mGridLayoutManager=new GridLayoutManager(this,2);
-        mFileAdapter= SharedData.getInstance().getFileListAdapter(this);
-        mManager=SharedData.getInstance().getmFileSelectionManagement(this);
-        mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
-        mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
 
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        FileFillerWrapper.fillData(mCurrentPath,this);
-        mRecyclerView.setAdapter(mFileAdapter);
-
-    }
     void changeDirectory(String path) {
         changeTitle(path);
         Log.d("filesc","current path: "+path);
-        FileFillerWrapper.fillData(path,this);
-        if(FileFillerWrapper.getTotalFilesCount()<1){
-            showNoFilesFragment();
-            return;
-        }else if(isEmptyFolder){
-            removeNoFilesFragment();
-        }
         mFileAdapter.notifyDataSetChanged();
 
     }
@@ -127,6 +107,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             changeDirectory(mCurrentPath);
 
         }
+    }
+
+    @Override
+    public void init() {
+
     }
 
     @Override

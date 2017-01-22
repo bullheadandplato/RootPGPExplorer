@@ -37,6 +37,7 @@ public class TabsFragmentOne extends Fragment {
     private FileSelectionManagement mManager;
     private String                  mCurrentPath;
     private Context                 mContext;
+    private FileFillerWrapper       mFileFiller;
 
     private String mPath;
     private FragmentCallbacks mCallbacks;
@@ -102,20 +103,22 @@ public class TabsFragmentOne extends Fragment {
     public void init(){
         mLinearLayoutManager=new LinearLayoutManager(mContext);
         mGridLayoutManager=new GridLayoutManager(mContext,2);
-        mFileAdapter= SharedData.getInstance().getFileListAdapter(mContext);
+        mFileFiller=new FileFillerWrapper();
+        mFileAdapter= new FileListAdapter(mContext);
+        mFileAdapter.setmFileFiller(mFileFiller);
         mManager=SharedData.getInstance().getmFileSelectionManagement(mContext);
         mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
         mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext));
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        FileFillerWrapper.fillData(mPath,mContext);
+        mFileFiller.fillData(mPath,mContext);
         mRecyclerView.setAdapter(mFileAdapter);
 
     }
     void changeDirectory(String path) {
         Log.d("filesc", "current path: " + path);
-        FileFillerWrapper.fillData(path, mContext);
-        if (FileFillerWrapper.getTotalFilesCount() < 1) {
+        mFileFiller.fillData(path, mContext);
+        if (mFileFiller.getTotalFilesCount() < 1) {
             // showNoFilesFragment();
             return;
             //}else if(isEmptyFolder){

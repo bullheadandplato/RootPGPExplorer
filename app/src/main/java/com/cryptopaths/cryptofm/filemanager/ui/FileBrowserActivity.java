@@ -24,7 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
@@ -94,7 +93,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
 		}
 //hello change
-		FileFillerWrapper.fillData(mCurrentPath,this);
+		//FileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
 		startService(new Intent(this,CleanupService.class));
@@ -202,13 +201,13 @@ public class FileBrowserActivity extends AppCompatActivity
 	void changeDirectory(String path) {
 		changeTitle(path);
 		Log.d("filesc","current path: "+path);
-		FileFillerWrapper.fillData(path,this);
-		if(FileFillerWrapper.getTotalFilesCount()<1){
-			showNoFilesFragment();
-			return;
-		}else if(emptyFiles){
-			removeNoFilesFragment();
-		}
+		//FileFillerWrapper.fillData(path,this);
+		//if(FileFillerWrapper.getTotalFilesCount()<1){
+		//	showNoFilesFragment();
+		//	return;
+		//}else if(emptyFiles){
+		//	removeNoFilesFragment();
+		//}
 		mmFileListAdapter.notifyDataSetChanged();
 
 	}

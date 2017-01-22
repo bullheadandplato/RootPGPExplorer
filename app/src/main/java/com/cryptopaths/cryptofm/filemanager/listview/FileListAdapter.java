@@ -23,7 +23,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private  static final String    TAG                 = "filesList";
     private static final int        NORMAL_VIEW         = 50;
     private Context mContext;
-
+    private FileFillerWrapper mFileFiller;
     public FileListAdapter(Context context){
             this.mContext=context;
     }
@@ -39,6 +39,10 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     }
 
+    public void setmFileFiller(FileFillerWrapper mFileFiller) {
+        this.mFileFiller = mFileFiller;
+    }
+
     @Override
     public int getItemViewType(int position) {
             return NORMAL_VIEW;
@@ -46,7 +50,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-             DataModelFiles mDataModel= FileFillerWrapper.getFileAtPosition(position);
+             DataModelFiles mDataModel= mFileFiller.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
@@ -68,7 +72,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return FileFillerWrapper.getTotalFilesCount();
+        return mFileFiller.getTotalFilesCount();
     }
 
 }

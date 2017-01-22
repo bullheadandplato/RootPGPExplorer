@@ -35,6 +35,7 @@ public class FileSelectionManagement {
 
     private ArrayList<Integer>      mSelectedPosition   = new ArrayList<>();
     private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
+    private FileFillerWrapper       mFileFiller;
 
     public FileSelectionManagement(Context context){
         this.mContext     = context;
@@ -47,8 +48,8 @@ public class FileSelectionManagement {
     }
 
     public void selectAllFiles() {
-        for (int i = 0; i < FileFillerWrapper.getTotalFilesCount(); i++) {
-            mDataModel = FileFillerWrapper.getFileAtPosition(i);
+        for (int i = 0; i < mFileFiller.getTotalFilesCount(); i++) {
+            mDataModel = mFileFiller.getFileAtPosition(i);
             selectFile(i);
         }
         mFileListAdapter.notifyDataSetChanged();
@@ -56,7 +57,7 @@ public class FileSelectionManagement {
 
 
     void selectionOperation(int position){
-        mDataModel  = FileFillerWrapper.getFileAtPosition(position);
+        mDataModel  = mFileFiller.getFileAtPosition(position);
 
         if(mDataModel.getSelected()){
             Log.d(TAG, "selectionOperation: fixing a bug in files selection");
@@ -86,14 +87,14 @@ public class FileSelectionManagement {
     }
     void selectFileInSelectionMode(int position){
         if(mSelectedPosition.size()>0){
-            mDataModel=FileFillerWrapper.getFileAtPosition(mSelectedPosition.get(0));
+            mDataModel=mFileFiller.getFileAtPosition(mSelectedPosition.get(0));
             mDataModel.setSelected(false);
             mDataModel.setFileIcon(mFileIcon);
             mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
         }
-            mDataModel=FileFillerWrapper.getFileAtPosition(position);
+            mDataModel=mFileFiller.getFileAtPosition(position);
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
@@ -109,7 +110,7 @@ public class FileSelectionManagement {
         //first check if there are select files
         if(mSelectedPosition.size()>0) {
             for (Integer pos : mSelectedPosition) {
-                mDataModel =  FileFillerWrapper.getFileAtPosition(pos);
+                mDataModel =  mFileFiller.getFileAtPosition(pos);
                 mDataModel.setSelected(false);
             }
             mSelectedPosition.clear();
@@ -120,7 +121,7 @@ public class FileSelectionManagement {
     public void resetFileIcons(){
         for (Integer pos:
                 mSelectedPosition) {
-            mDataModel = FileFillerWrapper.getFileAtPosition(pos);
+            mDataModel = mFileFiller.getFileAtPosition(pos);
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(mFileIcon);
             }else{
@@ -174,11 +175,11 @@ public class FileSelectionManagement {
             selectionOperation(position);
             return;
         }
-        String folderPath = FileFillerWrapper.getCurrentPath() + filename + "/";
+        String folderPath = mFileFiller.getCurrentPath() + filename + "/";
         clickCallBack.changeTitle(folderPath);
-        FileFillerWrapper.fillData(folderPath, mContext);
+        mFileFiller.fillData(folderPath, mContext);
         mFileListAdapter.notifyDataSetChanged();
-        if (FileFillerWrapper.getTotalFilesCount() < 1) {
+        if (mFileFiller.getTotalFilesCount() < 1) {
             clickCallBack.showNoFilesFragment();
         }
     }
