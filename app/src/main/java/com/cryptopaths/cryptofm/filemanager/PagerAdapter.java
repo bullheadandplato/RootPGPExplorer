@@ -23,7 +23,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        tabsFragment[position] =TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY);
+        tabsFragment[position] =TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY,position);
         return tabsFragment[position];
     }
 

@@ -47,7 +47,7 @@ public class TabsFragmentOne extends Fragment {
     private FileFillerWrapper       mFileFiller;
     private TaskHandler             mTaskHandler;
     private ActionViewHandler       mActionViewHandler;
-
+    private int                     mFragmentPosition;
     private String mPath;
     private FragmentCallbacks mCallbacks;
     @Nullable
@@ -76,6 +76,7 @@ public class TabsFragmentOne extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mCallbacks=(FragmentCallbacks)getActivity();
         mContext=getActivity();
+        mCallbacks.setCurrentFragment(this,mFragmentPosition);
         init();
     }
 
@@ -90,9 +91,10 @@ public class TabsFragmentOne extends Fragment {
         mCallbacks.finishActionMode();
         super.onPause();
     }
-    public static TabsFragmentOne newInstance(String path){
+    public static TabsFragmentOne newInstance(String path,int position){
         Bundle bundle=new Bundle();
         bundle.putString(KEY,path);
+        bundle.putInt("pos",position);
         TabsFragmentOne tabsFragmentOne=new TabsFragmentOne();
         tabsFragmentOne.setArguments(bundle);
         return tabsFragmentOne;
@@ -104,6 +106,7 @@ public class TabsFragmentOne extends Fragment {
         Log.d(TAG, "onCreate: creating new instance");
         super.onCreate(savedInstanceState);
         mPath= getArguments().getString(KEY);
+        mFragmentPosition=getArguments().getInt("pos");
         if(SharedData.ALREADY_INSTANTIATED){
             Log.d(TAG, "onCreate: already created");
             init();

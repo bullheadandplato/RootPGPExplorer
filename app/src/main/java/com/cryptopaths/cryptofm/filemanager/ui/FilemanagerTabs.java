@@ -31,6 +31,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private TabsFragmentOne         mCurrentFragment;
     private PagerAdapter            mPagerAdapter;
     private static final String TAG=FilemanagerTabs.class.getName();
+    private TabsFragmentOne[] mFragmentOnes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +104,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //change the current path in fragment
         if(mCurrentFragment==null){
-            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+            mCurrentFragment=mFragmentOnes[0];
         }
         mCurrentFragment.toggleLayout(item);
         return true;
@@ -112,9 +114,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void onBackPressed() {
-        //if user has not switched the page
+        //change the current path in fragment
         if(mCurrentFragment==null){
-            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+            mCurrentFragment=mFragmentOnes[0];
         }
         if(isEmptyFolder) {
             removeNoFilesFragment();
@@ -154,6 +156,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         showNoFilesFragment();
     }
 
+    @Override
+    public void setCurrentFragment(TabsFragmentOne m, int position) {
+        Log.d(TAG, "setCurrentFragment: Setting fragments at position: "+position);
+        mFragmentOnes[position]=m;
+
+    }
+
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -166,7 +175,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 (getSupportFragmentManager(), 2);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+        mFragmentOnes=new TabsFragmentOne[2];
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -175,15 +184,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             @Override
             public void onPageSelected(int position) {
-                mCurrentFragment=mPagerAdapter.getCurrentFragment(position);
+                mCurrentFragment=mFragmentOnes[position];
                 if(actionMode!=null){
                     actionMode.finish();
                     actionMode=null;
                 }
                 if((mCurrentFragment==null)){
-                    mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
-                }if(mCurrentFragment==null){
-                    mCurrentFragment=mPagerAdapter.getCurrentFragment(1);
+                  return;
                 }
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
@@ -203,9 +210,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     ActionMode actionMode;
     @Override
     public void onLongClick() {
-        //if user has not switched the page
+        //change the current path in fragment
         if(mCurrentFragment==null){
-            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+            mCurrentFragment=mFragmentOnes[0];
         }
         actionMode = startActionMode(mCurrentFragment.getmActionViewHandler());
         UiUtils.actionMode=actionMode;
@@ -236,7 +243,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         String tmp=path;
         //change the current path in fragment
         if(mCurrentFragment==null){
-            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+            mCurrentFragment=mFragmentOnes[0];
         }
         mCurrentFragment.setmCurrentPath(path);
 
