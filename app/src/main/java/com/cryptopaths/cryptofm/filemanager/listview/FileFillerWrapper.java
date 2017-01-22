@@ -15,13 +15,13 @@ import java.util.List;
  */
 
 public  class FileFillerWrapper {
-    private static List<DataModelFiles> allFiles   = new ArrayList<>();
-    private static int totalFilesCount             = 0;
+    private  List<DataModelFiles> allFiles   = new ArrayList<>();
+    private  int totalFilesCount             = 0;
 
-    private static String currentPath;
+    private  String currentPath;
 
 
-    public static void fillData(String current, Context context){
+    public  void fillData(String current, Context context){
         currentPath=current;
         //be sure to change the path in File utilities
         FileUtils.CURRENT_PATH = currentPath;
@@ -37,18 +37,18 @@ public  class FileFillerWrapper {
             sortData();
         }
     }
-    public static DataModelFiles getFileAtPosition(int position){
+    public  DataModelFiles getFileAtPosition(int position){
         return allFiles.get(position);
     }
 
-    public static int getTotalFilesCount() {
+    public  int getTotalFilesCount() {
         return totalFilesCount;
     }
 
-    public static String getCurrentPath() {
+    public  String getCurrentPath() {
         return currentPath;
     }
-    private static void sortData(){
+    private void sortData(){
         DataModelFiles md;
         int size=allFiles.size();
         for (int i = 0; i < size ; i++) {

@@ -112,5 +112,19 @@ public class TabsFragmentOne extends Fragment {
         mRecyclerView.setAdapter(mFileAdapter);
 
     }
+    void changeDirectory(String path) {
+        Log.d("filesc", "current path: " + path);
+        FileFillerWrapper.fillData(path, mContext);
+        if (FileFillerWrapper.getTotalFilesCount() < 1) {
+            // showNoFilesFragment();
+            return;
+            //}else if(isEmptyFolder){
+            //    removeNoFilesFragment();
+            // }
+            // mFileAdapter.notifyDataSetChanged();
+//
+        }
+    }
+
 
 }
