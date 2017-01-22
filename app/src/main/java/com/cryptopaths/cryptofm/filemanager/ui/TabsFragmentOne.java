@@ -48,6 +48,7 @@ public class TabsFragmentOne extends Fragment {
     private TaskHandler             mTaskHandler;
     private ActionViewHandler       mActionViewHandler;
     private int                     mFragmentPosition;
+    private boolean                 mIsEmptyFolder=false;
     private String mPath;
     private FragmentCallbacks mCallbacks;
     @Nullable
@@ -153,6 +154,7 @@ public class TabsFragmentOne extends Fragment {
         mFileFiller.fillData(path, mContext);
         if (mFileFiller.getTotalFilesCount() < 1) {
             mCallbacks.tellNoFiles();
+            this.mIsEmptyFolder=true;
             return;
         }
             mFileAdapter.notifyDataSetChanged();
@@ -192,6 +194,14 @@ public class TabsFragmentOne extends Fragment {
 
     public FileListAdapter getmFileAdapter() {
         return mFileAdapter;
+    }
+
+    public boolean ismIsEmptyFolder() {
+        return mIsEmptyFolder;
+    }
+
+    public void setmIsEmptyFolder(boolean mIsEmptyFolder) {
+        this.mIsEmptyFolder = mIsEmptyFolder;
     }
 
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{

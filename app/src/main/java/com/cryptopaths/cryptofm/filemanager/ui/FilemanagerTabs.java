@@ -192,6 +192,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 if((mCurrentFragment==null)){
                   return;
                 }
+                if(mCurrentFragment.ismIsEmptyFolder()){
+                    showNoFilesFragment();
+
+                }else{
+                    removeNoFilesFragment();
+                }
+
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
             }
@@ -266,11 +273,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
         View view= getLayoutInflater().inflate(R.layout.no_files_layout,null);
         layout.addView(view);
+        mCurrentFragment.setmIsEmptyFolder(true);
     }
 
     @Override
     public void removeNoFilesFragment() {
         isEmptyFolder=false;
+        mCurrentFragment.setmIsEmptyFolder(false);
         FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
         layout.removeAllViews();
     }
