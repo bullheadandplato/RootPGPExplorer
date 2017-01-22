@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,7 +12,10 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
@@ -19,6 +23,7 @@ import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
+import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
@@ -34,6 +39,48 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         setToolbar();
 
 
+    }
+    @ActionHandler(layoutResource = R.id.fab_add_folder)
+    public void onAddFloatingClicked(View v){
+        UiUtils.actionMode = this.actionMode;
+        if(mCurrentFragment==null){
+            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+        }
+        if(isEmptyFolder) {
+            removeNoFilesFragment();
+        }
+        final Dialog dialog = UiUtils.createDialog(
+                this,
+                "Create Folder",
+                "create"
+        );
+
+        final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
+        Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
+
+        okayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String folderName=folderEditText.getText().toString();
+                if(folderName.length()<1){
+                    folderEditText.setError("Give me the folder name");
+                }else{
+                    if(!FileUtils.createFolder(folderName)){
+                        Toast.makeText(
+                                FilemanagerTabs.this,
+                                "Folder name already exist",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }else{
+                        dialog.dismiss();
+                        UiUtils.reloadData(
+                                FilemanagerTabs.this,
+                                mCurrentFragment.getmFileAdapter()
+                        );
+                    }
+                }
+            }
+        });
     }
 
 
@@ -135,6 +182,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 }
                 if((mCurrentFragment==null)){
                     mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+                }if(mCurrentFragment==null){
+                    mCurrentFragment=mPagerAdapter.getCurrentFragment(1);
                 }
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());

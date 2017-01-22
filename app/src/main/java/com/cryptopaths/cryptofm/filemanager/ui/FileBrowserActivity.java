@@ -25,15 +25,11 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
-import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
-import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.services.CleanupService;
-import com.cryptopaths.cryptofm.tasks.DecryptTask;
-import com.cryptopaths.cryptofm.tasks.EncryptTask;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 

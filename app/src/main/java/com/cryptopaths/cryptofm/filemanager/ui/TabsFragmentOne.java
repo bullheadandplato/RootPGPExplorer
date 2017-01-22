@@ -186,6 +186,11 @@ public class TabsFragmentOne extends Fragment {
             mRecyclerView.requestLayout();
         }
     }
+
+    public FileListAdapter getmFileAdapter() {
+        return mFileAdapter;
+    }
+
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
 
         @Override

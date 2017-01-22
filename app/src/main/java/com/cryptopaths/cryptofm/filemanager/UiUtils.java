@@ -24,6 +24,7 @@ public class UiUtils {
     public static Dialog createDialog(Context context, String title, String buttonTitle){
         final Dialog dialog=new Dialog(context);
         dialog.setTitle(title);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.create_file_dialog);
         dialog.show();
         ((Button) dialog.findViewById(R.id.create_file_button)).setText(buttonTitle);
