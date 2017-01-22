@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.tasks;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -101,7 +102,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
         }catch (Exception ex){
             //let the activity know that password is incorrect and don't save it
-            ((FileBrowserActivity)mContext).resetmKeyPass();
+            SharedData.KEY_PASSWORD=null;
             ex.printStackTrace();
             return ex.getMessage();
         }

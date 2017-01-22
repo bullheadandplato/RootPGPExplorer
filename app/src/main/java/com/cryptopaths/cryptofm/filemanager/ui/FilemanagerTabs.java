@@ -44,7 +44,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
         mTotalStorages=mStorageTitles.length;
         Log.d(TAG, "onCreate: total storages are: " +mTotalStorages);
-
+        SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
+        SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
         setToolbar();
 
 

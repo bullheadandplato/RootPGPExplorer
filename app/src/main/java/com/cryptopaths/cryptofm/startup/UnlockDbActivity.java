@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.ui.FilemanagerTabs;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -57,15 +58,8 @@ public class UnlockDbActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... voids) {
             pass        = voids[0];
-            String path = Environment.getExternalStorageDirectory().getPath();
             DatabaseHandler handler=new DatabaseHandler(UnlockDbActivity.this);
-            if(handler.checkPass(pass)){
-                //load data to fill file listview
-                //FileBrowserActivity.mFilesData.put(path+"/",new FileFillerWrapper(path+"/",UnlockDbActivity.this));
-                return true;
-            }else{
-                return false;
-            }
+            return handler.checkPass(pass);
 
         }
 
@@ -74,7 +68,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             super.onPostExecute(result);
             mProgressDialog.dismiss();
             if(result){
-                Intent intent=new Intent(UnlockDbActivity.this,FileBrowserActivity.class);
+                Intent intent=new Intent(UnlockDbActivity.this,FilemanagerTabs.class);
                 intent.putExtra("dbpass",pass);
                 intent.putExtra("username",getIntent().getExtras().getString("username"));
                 startActivityForResult(intent,1);
