@@ -152,6 +152,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 (getSupportFragmentManager(), 2);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabChangedListener());
     }
 
     /**
