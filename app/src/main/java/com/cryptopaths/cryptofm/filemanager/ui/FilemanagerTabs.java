@@ -103,7 +103,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     ActionMode actionMode;
     @Override
     public void onLongClick() {
-        actionMode = startActionMode(new ActionViewHandler(this));
+        //actionMode = startActionMode(new ActionViewHandler(this));
         UiUtils.actionMode=actionMode;
     }
     @Override

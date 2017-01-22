@@ -51,13 +51,6 @@ public class SharedData {
     }
 
 
-    public TaskHandler getTaskHandler(Context context){
-        if(mTaskHandler==null){
-            mTaskHandler=new TaskHandler(context);
-        }
-        return mTaskHandler;
-    }
-
     /**
      *
      * @param path to check if any operation is going on it

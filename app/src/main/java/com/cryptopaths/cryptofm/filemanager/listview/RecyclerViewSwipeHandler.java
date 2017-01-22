@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.TaskHandler;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.filemanager.listview.ViewHolder;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -29,10 +30,14 @@ import java.util.ArrayList;
 public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
     private Paint p;
     private Context mContext;
-    public RecyclerViewSwipeHandler(Context context){
+    private TaskHandler mTaskHandler;
+    private FileListAdapter mAdapter;
+    public RecyclerViewSwipeHandler(Context context, TaskHandler taskHandler, FileListAdapter adapter){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         p=new Paint();
         this.mContext=context;
+        this.mTaskHandler=taskHandler;
+        this.mAdapter=adapter;
     }
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -46,7 +51,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
         ArrayList<String> tmp=new ArrayList<>();
         tmp.add(filePath);
         if(direction==ItemTouchHelper.RIGHT){
-            SharedData.getInstance().getTaskHandler(mContext).encryptTask((tmp));
+            mTaskHandler.encryptTask((tmp));
         }else{
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
@@ -70,7 +75,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                             dialog.dismiss();
                             ArrayList<String> innerTmp=new ArrayList<>();
                             innerTmp.add(filePath);
-                            SharedData.getInstance().getTaskHandler(mContext).decryptFile(
+                            mTaskHandler.decryptFile(
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWWORD,
@@ -80,7 +85,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                     }
                 });
             }else{
-                SharedData.getInstance().getTaskHandler(mContext).decryptFile(
+                mTaskHandler.decryptFile(
                         SharedData.USERNAME,
                         SharedData.KEY_PASSWORD,
                         SharedData.DB_PASSWWORD,
@@ -90,7 +95,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
         }
         UiUtils.reloadData(
                 mContext,
-                SharedData.getInstance().getFileListAdapter(mContext)
+                mAdapter
         );
     }
 

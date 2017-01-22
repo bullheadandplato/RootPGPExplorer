@@ -22,9 +22,12 @@ import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 
 public class ActionViewHandler implements ActionMode.Callback {
     private Context mContext;
-
-    public ActionViewHandler(Context context){
+    private FileSelectionManagement mManager;
+    private TaskHandler mTaskHandler;
+    public ActionViewHandler(Context context,FileSelectionManagement m,TaskHandler taskHandler){
         this.mContext=context;
+        this.mManager=m;
+        this.mTaskHandler=taskHandler;
     }
 
     @Override
@@ -42,9 +45,8 @@ public class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final FileSelectionManagement manager=SharedData.getInstance().getCurrentFragment().getmManager();
 
-        final TaskHandler mTaskHandler = SharedData.getInstance().getTaskHandler(mContext);
+
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
         }
@@ -52,7 +54,7 @@ public class ActionViewHandler implements ActionMode.Callback {
             mTaskHandler.deleteFile();
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
-            mTaskHandler.encryptTask(manager.getmSelectedFilePaths());
+            mTaskHandler.encryptTask(mManager.getmSelectedFilePaths());
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
             if(SharedData.KEY_PASSWORD==null) {
@@ -80,7 +82,7 @@ public class ActionViewHandler implements ActionMode.Callback {
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWWORD,
-                                    manager.getmSelectedFilePaths()
+                                    mManager.getmSelectedFilePaths()
                                     );
                         }
                     }
@@ -90,12 +92,12 @@ public class ActionViewHandler implements ActionMode.Callback {
                         SharedData.USERNAME,
                         SharedData.KEY_PASSWORD,
                         SharedData.DB_PASSWWORD,
-                        manager.getmSelectedFilePaths()
+                        mManager.getmSelectedFilePaths()
                 );
             }
         }
         else if(item.getItemId()==R.id.selectall_menu_item){
-            manager.selectAllFiles();
+            mManager.selectAllFiles();
         }
         else if(item.getItemId()==R.id.move_menu_item){
             Log.d("move", "onActionItemClicked: moving files");
@@ -106,12 +108,11 @@ public class ActionViewHandler implements ActionMode.Callback {
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        final FileSelectionManagement manager=SharedData.getInstance().getCurrentFragment().getmManager();
         Log.d("action","destroying action mode");
         SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=false;
-        manager.resetFileIcons();
-        manager.setmSelectionMode(false);
+        mManager.resetFileIcons();
+        mManager.setmSelectionMode(false);
     }
 
     /**

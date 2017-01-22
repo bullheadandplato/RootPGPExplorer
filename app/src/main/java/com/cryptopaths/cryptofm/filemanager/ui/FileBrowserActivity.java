@@ -62,8 +62,8 @@ public class FileBrowserActivity extends AppCompatActivity
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
-		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
-		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+		//mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
+		//mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
 		mNoFilesFragment			= new NoFilesFragment();
 		//mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
 
@@ -252,20 +252,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
     protected void onDestroy() {
-		Log.d(TAG, "onDestroy: destroying activity");
-		DecryptTask decryptTask=SharedData.getInstance().getTaskHandler(this).getDecryptTask();
-		if(decryptTask!=null){
-			if(decryptTask.getStatus()==AsyncTask.Status.RUNNING){
-				Log.d(TAG, "onDestroy: canceling the task");
-				decryptTask.cancel(true);
-			}
-		}
-		EncryptTask encryptTask=SharedData.getInstance().getTaskHandler(this).getEncryptTask();
-		if(encryptTask!=null ){
-			if (encryptTask.getStatus()==AsyncTask.Status.RUNNING){
-				encryptTask.cancel(true);
-			}
-		}
+
         super.onDestroy();
     }
 

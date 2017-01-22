@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
 import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.TaskHandler;
@@ -40,6 +41,7 @@ public class TabsFragmentOne extends Fragment {
     private Context                 mContext;
     private FileFillerWrapper       mFileFiller;
     private TaskHandler             mTaskHandler;
+    private ActionViewHandler       mActionViewHandler;
 
     private String mPath;
     private FragmentCallbacks mCallbacks;
@@ -132,9 +134,10 @@ public class TabsFragmentOne extends Fragment {
         mFileAdapter.setmFileFiller(mFileFiller);
         mManager=mFileAdapter.getmManager();
         mTaskHandler=new TaskHandler(mContext,mFileAdapter,mManager);
+        mActionViewHandler=new ActionViewHandler(mContext,mManager,mTaskHandler);
 
         mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
-        mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext));
+        mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext,mTaskHandler,mFileAdapter));
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mFileFiller.fillData(mPath,mContext);
