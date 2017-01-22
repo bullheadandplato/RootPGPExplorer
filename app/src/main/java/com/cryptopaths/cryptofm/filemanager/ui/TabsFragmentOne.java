@@ -136,6 +136,7 @@ public class TabsFragmentOne extends Fragment {
 
     }
     void changeDirectory(String path) {
+        this.mCurrentPath=path;
         Log.d("filesc", "current path: " + path);
         mFileFiller.fillData(path, mContext);
         if (mFileFiller.getTotalFilesCount() < 1) {
@@ -144,6 +145,10 @@ public class TabsFragmentOne extends Fragment {
         }
             mFileAdapter.notifyDataSetChanged();
         }
+
+    public void setmCurrentPath(String mCurrentPath) {
+        this.mCurrentPath = mCurrentPath;
+    }
 
     public ActionViewHandler getmActionViewHandler() {
         return mActionViewHandler;

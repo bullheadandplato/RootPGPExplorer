@@ -24,6 +24,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
     private PagerAdapter            mPagerAdapter;
+    private static final String TAG=FilemanagerTabs.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +64,14 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             removeNoFilesFragment();
         }
         String path=mCurrentFragment.getmCurrentPath();
+        Log.d(TAG, "onBackPressed: Current path is: "+path);
         if(mCurrentFragment.getmCurrentPath().equals(SharedData.FILES_ROOT_DIRECTORY)){
             super.onBackPressed();
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));
             path 		   = path.substring(0,path.lastIndexOf('/')+1);
             FileUtils.CURRENT_PATH = path;
+            Log.d(TAG, "onBackPressed: Changing directory");
             mCurrentFragment.changeDirectory(path);
         }
 
@@ -81,9 +84,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void finishActionMode() {
-        Log.d("osama", "finishActionMode: Finishing action mode");
         if(this.actionMode!=null){
-            Log.d("osama", "finishActionMode: Cannot finish activity");
             this.actionMode.finish();
             this.actionMode=null;
         }else {
@@ -121,6 +122,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                     actionMode.finish();
                     actionMode=null;
                 }
+                FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
             }
 
             @Override
@@ -167,6 +169,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void changeTitle(String path) {
+        //change the current path in fragment
+        if(mCurrentFragment==null){
+            mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
+        }
+        mCurrentFragment.setmCurrentPath(path);
+
+
         if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
             path="Home";
         }else{
