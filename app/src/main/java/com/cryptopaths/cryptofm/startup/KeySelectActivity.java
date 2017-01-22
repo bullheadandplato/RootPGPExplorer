@@ -99,7 +99,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
     }
     private boolean checkPermissions() {
         Log.d("man", "checkPermissions: im called dsds");
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
         if (EasyPermissions.hasPermissions(this, perms)) {
             return true;
