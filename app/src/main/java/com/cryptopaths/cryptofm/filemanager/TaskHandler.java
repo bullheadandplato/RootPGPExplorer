@@ -31,11 +31,10 @@ public class TaskHandler {
     private FileListAdapter mAdapter;
     private Context         mContext;
     private FileSelectionManagement mFileSelectionManagement;
-
-    TaskHandler(Context context){
+    public TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
         this.mContext=context;
-        mAdapter=SharedData.getInstance().getFileListAdapter();
-        mFileSelectionManagement=SharedData.getInstance().getCurrentFragment().getmManager();
+        mAdapter=adapter;
+        mFileSelectionManagement=m;
     }
 
     public void renameFile(){

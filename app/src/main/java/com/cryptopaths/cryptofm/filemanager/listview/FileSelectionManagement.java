@@ -37,13 +37,14 @@ public class FileSelectionManagement {
     private ArrayList<String>       mSelectedFilePaths  = new ArrayList<>();
     private FileFillerWrapper       mFileFiller;
 
-    public FileSelectionManagement(Context context, FileFillerWrapper fileFillerWrapper){
+    public FileSelectionManagement(Context context, FileListAdapter adapter){
         this.mContext     = context;
         mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
         mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
         mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
         clickCallBack = (AdapterCallbacks)mContext;
-        mFileFiller=fileFillerWrapper;
+        mFileListAdapter=adapter;
+        mFileFiller=adapter.getmFileFiller();
 
     }
 

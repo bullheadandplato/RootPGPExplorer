@@ -25,9 +25,10 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private Context mContext;
     private FileFillerWrapper mFileFiller;
     private FileSelectionManagement mManager;
-    public FileListAdapter(Context context,FileSelectionManagement m){
-        this.mManager=m;
+
+    public FileListAdapter(Context context){
             this.mContext=context;
+
     }
 
 
@@ -43,6 +44,11 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     public void setmFileFiller(FileFillerWrapper mFileFiller) {
         this.mFileFiller = mFileFiller;
+        mManager=new FileSelectionManagement(mContext,this);
+    }
+
+    public FileSelectionManagement getmManager() {
+        return mManager;
     }
 
     public FileFillerWrapper getmFileFiller() {
