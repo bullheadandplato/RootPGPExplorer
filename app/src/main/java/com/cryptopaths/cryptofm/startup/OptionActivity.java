@@ -22,11 +22,9 @@ public class OptionActivity extends AppCompatActivity {
             //start the init activity
             Intent intent=new Intent(this,InitActivity.class);
             startActivityForResult(intent,1);
-            finish();
         }else{
             Intent intent=new Intent(this,KeySelectActivity.class);
             startActivityForResult(intent,1);
-            finish();
         }
     }
 }

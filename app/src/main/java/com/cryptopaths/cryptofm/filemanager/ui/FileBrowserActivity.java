@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
+import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
@@ -49,6 +50,7 @@ public class FileBrowserActivity extends AppCompatActivity
 	private NoFilesFragment mNoFilesFragment;
 	private boolean				mStartedInSelectionMode=false;
 	private FileSelectionManagement mFileSelectionManagement;
+	private FileFillerWrapper mFileFillerWrapper;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,11 @@ public class FileBrowserActivity extends AppCompatActivity
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
 		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
-		//mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
-		//mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
+		mmFileListAdapter 			= new FileListAdapter(this);
 		mNoFilesFragment			= new NoFilesFragment();
-		//mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
+		mFileFillerWrapper			= new FileFillerWrapper();
+		mmFileListAdapter.setmFileFiller(mFileFillerWrapper);
+		mFileSelectionManagement	= mmFileListAdapter.getmManager();
 
 		//check if started in selection mode
 		if(getIntent().getExtras().getBoolean("select",false)){
@@ -89,7 +92,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
 		}
 //hello change
-		//FileFillerWrapper.fillData(mCurrentPath,this);
+		mFileFillerWrapper.fillData(mCurrentPath,this);
 		mFileListView.setAdapter(mmFileListAdapter);
 
 		startService(new Intent(this,CleanupService.class));
@@ -147,7 +150,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
-       // UiUtils.actionMode = this.actionMode;
+       UiUtils.actionMode = this.actionMode;
 		if(emptyFiles) {
 			removeNoFilesFragment();
 		}
@@ -197,13 +200,13 @@ public class FileBrowserActivity extends AppCompatActivity
 	void changeDirectory(String path) {
 		changeTitle(path);
 		Log.d("filesc","current path: "+path);
-		//FileFillerWrapper.fillData(path,this);
-		//if(FileFillerWrapper.getTotalFilesCount()<1){
-		//	showNoFilesFragment();
-		//	return;
-		//}else if(emptyFiles){
-		//	removeNoFilesFragment();
-		//}
+		mFileFillerWrapper.fillData(path,this);
+		if(mFileFillerWrapper.getTotalFilesCount()<1){
+			showNoFilesFragment();
+			return;
+		}else if(emptyFiles){
+			removeNoFilesFragment();
+		}
 		mmFileListAdapter.notifyDataSetChanged();
 
 	}
