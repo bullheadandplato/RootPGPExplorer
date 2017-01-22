@@ -65,7 +65,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		mmFileListAdapter 			= SharedData.getInstance().getFileListAdapter(this);
 		mHelper						= new ItemTouchHelper(new RecyclerViewSwipeHandler(this));
 		mNoFilesFragment			= new NoFilesFragment();
-		mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
+		//mFileSelectionManagement	= SharedData.getInstance().getmFileSelectionManagement(this);
 
 		//check if started in selection mode
 		if(getIntent().getExtras().getBoolean("select",false)){

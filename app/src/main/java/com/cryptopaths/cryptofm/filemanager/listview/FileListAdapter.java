@@ -24,7 +24,9 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private static final int        NORMAL_VIEW         = 50;
     private Context mContext;
     private FileFillerWrapper mFileFiller;
-    public FileListAdapter(Context context){
+    private FileSelectionManagement mManager;
+    public FileListAdapter(Context context,FileSelectionManagement m){
+        this.mManager=m;
             this.mContext=context;
     }
 
@@ -35,12 +37,16 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
-            return new ViewHolder(view,mContext);
+            return new ViewHolder(view,mContext,mManager);
 
     }
 
     public void setmFileFiller(FileFillerWrapper mFileFiller) {
         this.mFileFiller = mFileFiller;
+    }
+
+    public FileFillerWrapper getmFileFiller() {
+        return mFileFiller;
     }
 
     @Override

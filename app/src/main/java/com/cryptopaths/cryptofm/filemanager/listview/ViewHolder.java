@@ -26,9 +26,9 @@ class ViewHolder extends RecyclerView.ViewHolder{
     ImageView        mEncryptionStatusImage;
 
 
-    ViewHolder(View itemView, Context c){
+    ViewHolder(View itemView, Context c,FileSelectionManagement m){
         super(itemView);
-        mFileSelectionManagement= SharedData.getInstance().getmFileSelectionManagement(c);
+        mFileSelectionManagement= m;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

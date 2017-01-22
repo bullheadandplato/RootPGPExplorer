@@ -35,7 +35,7 @@ public class TaskHandler {
     TaskHandler(Context context){
         this.mContext=context;
         mAdapter=SharedData.getInstance().getFileListAdapter();
-        mFileSelectionManagement=SharedData.getInstance().getmFileSelectionManagement(context);
+        mFileSelectionManagement=SharedData.getInstance().getCurrentFragment().getmManager();
     }
 
     public void renameFile(){

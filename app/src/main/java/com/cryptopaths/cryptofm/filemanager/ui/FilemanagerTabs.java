@@ -1,21 +1,15 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.cryptopaths.cryptofm.R;
@@ -25,22 +19,9 @@ import com.cryptopaths.cryptofm.filemanager.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.SharedData;
 import com.cryptopaths.cryptofm.filemanager.UiUtils;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
-import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
-import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
-import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
-import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
-import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
-    private FileListAdapter         mFileAdapter;
-    private RecyclerView            mRecyclerView;
-    private LinearLayoutManager     mLinearLayoutManager;
-    private GridLayoutManager       mGridLayoutManager;
-    private ItemTouchHelper         mHelper;
-    private FileSelectionManagement mManager;
-    private String                  mCurrentPath;
     private boolean                 isEmptyFolder=false;
-    private NoFilesFragment         mNoFilesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,24 +43,12 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.items_view_menu_item){
-            if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
-                item.setIcon(getDrawable(R.drawable.ic_grid_view));
-                if(mLinearLayoutManager==null){
-                    mLinearLayoutManager=new LinearLayoutManager(this);
-                }
-                mHelper.attachToRecyclerView(mRecyclerView);
-                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
             }else{
-                item.setIcon(getDrawable(R.drawable.ic_items_view));
-                if(mGridLayoutManager==null){
-                    mGridLayoutManager=new GridLayoutManager(this,2);
-                }
-                mHelper.attachToRecyclerView(null);
-                mRecyclerView.setLayoutManager(mGridLayoutManager);
+
 
             }
-            mRecyclerView.requestLayout();
-        }
+
         return true;
     }
 
@@ -87,25 +56,12 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     void changeDirectory(String path) {
         changeTitle(path);
         Log.d("filesc","current path: "+path);
-        mFileAdapter.notifyDataSetChanged();
 
     }
     @Override
     public void onBackPressed() {
-        if(isEmptyFolder){
+        if(isEmptyFolder) {
             removeNoFilesFragment();
-        }
-        mCurrentPath = FileUtils.CURRENT_PATH;
-        if(mCurrentPath.equals(SharedData.FILES_ROOT_DIRECTORY)){
-            SharedData.ALREADY_INSTANTIATED=false;
-            super.onBackPressed();
-        }else{
-            //modify the mCurrentPath
-            mCurrentPath		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
-            mCurrentPath 		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
-            FileUtils.CURRENT_PATH = mCurrentPath;
-            changeDirectory(mCurrentPath);
-
         }
     }
 

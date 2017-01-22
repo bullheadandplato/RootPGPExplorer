@@ -6,6 +6,7 @@ import android.os.Environment;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.ui.NoFilesFragment;
+import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentOne;
 
 import java.util.ArrayList;
 
@@ -49,16 +50,6 @@ public class SharedData {
         return mSharedData;
     }
 
-    public FileListAdapter getFileListAdapter(Context context){
-        if(mFileListAdapter==null){
-            mFileListAdapter=new FileListAdapter(context);
-        }
-        return mFileListAdapter;
-    }
-    FileListAdapter getFileListAdapter(){
-        assert mFileListAdapter!=null;
-        return mFileListAdapter;
-    }
 
     public TaskHandler getTaskHandler(Context context){
         if(mTaskHandler==null){
@@ -81,12 +72,7 @@ public class SharedData {
         return false;
     }
 
-    public FileSelectionManagement getmFileSelectionManagement(Context context) {
-        if(mFileSelectionManagement==null){
-            mFileSelectionManagement=new FileSelectionManagement(context);
-        }
-        return mFileSelectionManagement;
-    }
+    
     private NoFilesFragment mNoFilesFragment;
 
     public NoFilesFragment getmNoFilesFragment() {
@@ -94,5 +80,12 @@ public class SharedData {
             mNoFilesFragment=new NoFilesFragment();
         }
         return mNoFilesFragment;
+    }
+    private TabsFragmentOne mCurrentFragement;
+    public TabsFragmentOne getCurrentFragment(){
+        return mCurrentFragement;
+    }
+    public void setcurrentFragment(TabsFragmentOne fragmentOne){
+        this.mCurrentFragement=fragmentOne;
     }
 }

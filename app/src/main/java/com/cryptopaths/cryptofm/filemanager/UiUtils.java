@@ -41,8 +41,8 @@ public class UiUtils {
         if(actionMode!=null){
             actionMode.finish();
         }
-        String path= FileFillerWrapper.getCurrentPath();
-        FileFillerWrapper.fillData(path,context);
+        String path= adapter.getmFileFiller().getCurrentPath();
+        adapter.getmFileFiller().fillData(path,context);
         adapter.notifyDataSetChanged();
 
     }

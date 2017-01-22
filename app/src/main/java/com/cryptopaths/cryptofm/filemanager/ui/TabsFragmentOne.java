@@ -100,13 +100,36 @@ public class TabsFragmentOne extends Fragment {
             init();
         }
     }
+
+    public ItemTouchHelper getmHelper() {
+        return mHelper;
+    }
+
+    public FileListAdapter getmFileAdapter() {
+        return mFileAdapter;
+    }
+
+    public FileSelectionManagement getmManager() {
+        return mManager;
+    }
+
+    public String getmCurrentPath() {
+        return mCurrentPath;
+    }
+
+    public FileFillerWrapper getmFileFiller() {
+        return mFileFiller;
+    }
+
     public void init(){
         mLinearLayoutManager=new LinearLayoutManager(mContext);
         mGridLayoutManager=new GridLayoutManager(mContext,2);
-        mFileFiller=new FileFillerWrapper();
-        mFileAdapter= new FileListAdapter(mContext);
+
+        mFileFiller=new FileFillerWrapper();;
+        mManager=new FileSelectionManagement(mContext,mFileFiller);
+        mFileAdapter= new FileListAdapter(mContext,mManager);
         mFileAdapter.setmFileFiller(mFileFiller);
-        mManager=SharedData.getInstance().getmFileSelectionManagement(mContext);
+
         mCurrentPath= Environment.getExternalStorageDirectory().getPath()+"/";
         mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext));
 
