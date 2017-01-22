@@ -100,7 +100,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Yoo");
+        toolbar.setTitle("Home");
+        toolbar.setSubtitle("/storage/emulated/0");
        setSupportActionBar(toolbar);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -123,6 +124,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                     actionMode=null;
                 }
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
+                changeTitle(mCurrentFragment.getmCurrentPath());
             }
 
             @Override
@@ -169,6 +171,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public void changeTitle(String path) {
+        String tmp=path;
         //change the current path in fragment
         if(mCurrentFragment==null){
             mCurrentFragment=mPagerAdapter.getCurrentFragment(0);
@@ -184,6 +187,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         assert getSupportActionBar()!=null;
         getSupportActionBar().setTitle(path);
+        getSupportActionBar().setSubtitle(tmp);
     }
 
     @Override
