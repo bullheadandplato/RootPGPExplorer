@@ -16,6 +16,7 @@ import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
+import com.cryptopaths.cryptofm.tasks.MoveTask;
 import com.cryptopaths.cryptofm.tasks.RenameTask;
 
 import java.util.ArrayList;
@@ -173,8 +174,7 @@ public class TaskHandler {
         return mEncryptTask;
     }
 
-    public void moveFiles(){
-
-
+    public void moveFiles(ArrayList<String> files,String dest){
+        new MoveTask(mContext,files,dest).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }
