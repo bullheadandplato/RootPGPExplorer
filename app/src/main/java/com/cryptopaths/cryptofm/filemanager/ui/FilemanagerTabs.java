@@ -100,7 +100,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        if(SharedData.IS_IN_COPY_MODE && notAlreadyInflated){
+            getMenuInflater().inflate(R.menu.copy_menu,menu);
+            notAlreadyInflated=false;
+            return true;
+        }
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
         Log.d(TAG, "onCreateOptionsMenu: menu created");
         return true;
@@ -110,10 +114,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.d(TAG, "onPrepareOptionsMenu: preparing menu");
-        if(SharedData.IS_IN_COPY_MODE && notAlreadyInflated){
-            getMenuInflater().inflate(R.menu.copy_menu,menu);
-            notAlreadyInflated=false;
-            return true;
+        if(SharedData.IS_IN_COPY_MODE){
+            return super.onPrepareOptionsMenu(menu);
         }
         MenuItem item=menu.getItem(0);
         if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
