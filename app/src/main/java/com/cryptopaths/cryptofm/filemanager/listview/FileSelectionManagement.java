@@ -139,6 +139,9 @@ public class FileSelectionManagement {
 
 
     void openFile(String filename){
+        if(SharedData.IS_IN_COPY_MODE){
+            return;
+        }
         if(FileUtils.getExtension(filename).equals("pgp")){
             //TODO, gonna do my assignment for now
         }

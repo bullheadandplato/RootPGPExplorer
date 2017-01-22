@@ -100,9 +100,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(SharedData.IS_IN_COPY_MODE && notAlreadyInflated){
+        if(SharedData.IS_IN_COPY_MODE ){
             getMenuInflater().inflate(R.menu.copy_menu,menu);
-            notAlreadyInflated=false;
             return true;
         }
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
@@ -110,7 +109,6 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         return true;
     }
 
-    private boolean notAlreadyInflated=true;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.d(TAG, "onPrepareOptionsMenu: preparing menu");
@@ -129,6 +127,20 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         //change the current path in fragment
         if(mCurrentFragment==null){
             mCurrentFragment=mFragmentOnes[0];
+        }
+        if(SharedData.IS_IN_COPY_MODE){
+            if(item.getItemId()==R.id.cancel_menu_item){
+                SharedData.IS_IN_COPY_MODE=false;
+                invalidateOptionsMenu();
+                openOptionsMenu();
+            }else if(item.getItemId()==R.id.paste_here_menu_item){
+                SharedData.IS_IN_COPY_MODE=false;
+                invalidateOptionsMenu();
+                openOptionsMenu();
+                mCurrentFragment.executeCopyTask();
+
+            }
+            return true;
         }
         mCurrentFragment.toggleLayout(item);
         return true;
@@ -313,5 +325,12 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         actionMode.finish();
         invalidateOptionsMenu();
         openOptionsMenu();
+        //change directory to root path of current fragment
+        if(mCurrentFragment==null){
+            mCurrentFragment=mFragmentOnes[0];
+        }
+        changeTitle(mCurrentFragment.getRootPath());
+        mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath());
+
     }
 }

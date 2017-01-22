@@ -204,6 +204,10 @@ public class TabsFragmentOne extends Fragment {
         this.mIsEmptyFolder = mIsEmptyFolder;
     }
 
+    public void executeCopyTask() {
+        //TODO
+    }
+
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
 
         @Override
@@ -215,5 +219,8 @@ public class TabsFragmentOne extends Fragment {
             editor.commit();
             return null;
         }
+    }
+    public String getRootPath(){
+        return mPath;
     }
 }

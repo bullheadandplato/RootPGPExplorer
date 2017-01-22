@@ -6,8 +6,8 @@
         android:title="Cancel"
         app:showAsAction="ifRoom"/>
     <item
-    android:id="@+id/copy_here"
-    android:title="Copy Here"
+    android:id="@+id/paste_here_menu_item"
+    android:title="Paste here"
     app:showAsAction="ifRoom"/>
 
 </menu>

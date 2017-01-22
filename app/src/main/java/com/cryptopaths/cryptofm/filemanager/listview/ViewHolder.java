@@ -59,11 +59,13 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 if(SharedData.STARTED_IN_SELECTION_MODE){
                     return false;
                 }
-                else if(!SharedData.SELECTION_MODE) {
+                else if(!SharedData.SELECTION_MODE && !SharedData.IS_IN_COPY_MODE) {
                     Log.d(TAG, "onLongClick: action mode is not being displayed");
                     mFileSelectionManagement.startSelectionMode();
                 }
-                mFileSelectionManagement.selectionOperation(getAdapterPosition());
+                if(!SharedData.IS_IN_COPY_MODE){
+                    mFileSelectionManagement.selectionOperation(getAdapterPosition());
+                }
                 return true;
 
             }
