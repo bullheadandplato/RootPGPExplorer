@@ -14,6 +14,8 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.ui.FilemanagerTabs;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by tripleheader on 1/13/17.
@@ -102,9 +104,16 @@ public class ActionViewHandler implements ActionMode.Callback {
         else if(item.getItemId()==R.id.move_menu_item){
             Log.d("move", "onActionItemClicked: moving files");
             SharedData.IS_IN_COPY_MODE=true;
+            SharedData.IS_COPYING_NOT_MOVING=false;
             //set the files to be move or copied
-            mTaskHandler.setmSelectedFiles(mManager.getmSelectedFilePaths());
+            mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
             ((FilemanagerTabs)mContext).showCopyDialog();
+        }else if(item.getItemId()==R.id.copy_menu_item){
+            SharedData.IS_IN_COPY_MODE=true;
+            SharedData.IS_COPYING_NOT_MOVING=true;
+            mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
+            ((FilemanagerTabs)mContext).showCopyDialog();
+
         }
         return true;
     }

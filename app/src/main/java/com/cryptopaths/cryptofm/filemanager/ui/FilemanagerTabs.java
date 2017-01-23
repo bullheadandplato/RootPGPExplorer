@@ -137,6 +137,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 SharedData.IS_IN_COPY_MODE=false;
                 invalidateOptionsMenu();
                 openOptionsMenu();
+                removeNoFilesFragment();
                 mCurrentFragment.executeCopyTask();
 
             }

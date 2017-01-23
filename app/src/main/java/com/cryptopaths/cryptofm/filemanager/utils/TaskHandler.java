@@ -176,13 +176,13 @@ public class TaskHandler {
         return mEncryptTask;
     }
 
-    public void moveFiles(String dest){
+    public void moveFiles(String dest,FileListAdapter m){
         //make sure files have been placed
         assert mSelectedFiles!=null;
         if(mSelectedFiles.size()<1){
             Log.d("MoveTask", "moveFiles: files are not added");
         }
-        new MoveTask(mContext,mSelectedFiles,dest).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new MoveTask(mContext,mSelectedFiles,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {

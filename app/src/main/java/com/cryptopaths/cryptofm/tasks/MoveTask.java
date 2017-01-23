@@ -7,6 +7,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,17 +33,22 @@ public class MoveTask extends AsyncTask<String,String,String> {
     private ArrayList<String>   mFiles;
     private String              mDestinationFolder;
     private boolean             isNextFile=true;
+    private String             originalDestination;
+    private FileListAdapter     mAdapter;
 
-    public MoveTask(Context context,ArrayList<String> files,String destination){
+    public MoveTask(Context context,ArrayList<String> files,String destination,FileListAdapter mAdapter){
         this.mContext           = context;
         mProgressDialog         = new MyProgressDialog(mContext,"Copying",this);
         this.mFiles             = files;
         this.mDestinationFolder = destination;
+        this.originalDestination=destination;
+        this.mAdapter=mAdapter;
     }
     @Override
     protected String doInBackground(String... strings) {
         for (String source : mFiles) {
             try{
+                mDestinationFolder=originalDestination;
                 move(TasksFileUtils.getFile(source));
             }catch (Exception ex){
                 ex.printStackTrace();
@@ -51,6 +60,13 @@ public class MoveTask extends AsyncTask<String,String,String> {
     }
     private void move(File f) throws Exception{
         if(f.isDirectory()){
+            //create folder in the destination
+            mDestinationFolder=mDestinationFolder+f.getName();
+            File tmp=new File(mDestinationFolder);
+            if(!tmp.exists()){
+                tmp.mkdir();
+
+            }
             Log.d(TAG, "move: File is a directory");
             for (File file:
                 f.listFiles() ) {
@@ -60,7 +76,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
             Log.d(TAG, "move: Moving file: "+f.getName());
             Log.d(TAG, "move: Destination folder is: "+mDestinationFolder);
             isNextFile=true;
-            publishProgress(f.getName());
+            mProgressDialog.setMessage(f.getName());
             mProgressDialog.setProgress(0);
             String destinationPath = mDestinationFolder+f.getName();
             File destinationFile   = TasksFileUtils.getFile(destinationPath);
@@ -74,23 +90,20 @@ public class MoveTask extends AsyncTask<String,String,String> {
             while ((start = in.read(data)) > 0){
                 out.write(data, 0, start);
                 readData+=start;
-                publishProgress(""+totalFileLength/readData);
+                mProgressDialog.setProgress((int)(readData/totalFileLength)*100);
             }
-            //delete the input file
             in.close();
             out.close();
-            if(!f.delete()){
-                throw new IOException("cannot move files");
-            }
-        }
-    }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
-        if(isNextFile){
-            mProgressDialog.setMessage("Moving: "+values);
-        }else{
-            mProgressDialog.setProgress(Integer.valueOf(values[0]));
+        }
+
+        //delete the input file
+        //if copying then don't
+        if(SharedData.IS_COPYING_NOT_MOVING){
+           return;
+        }
+        if(!f.delete()){
+            throw new IOException("cannot move files");
         }
     }
 
@@ -103,6 +116,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 s,
                 Toast.LENGTH_SHORT
         ).show();
+        UiUtils.reloadData(mContext,mAdapter);
 
     }
 

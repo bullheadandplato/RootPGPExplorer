@@ -204,7 +204,7 @@ public class TabsFragmentOne extends Fragment {
     }
 
     public void executeCopyTask() {
-        mTaskHandler.moveFiles(mCurrentPath);
+        mTaskHandler.moveFiles(mCurrentPath,mFileAdapter);
     }
 
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{

@@ -17,6 +17,7 @@ public class SharedData {
     public static final String    FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
     public static boolean   IS_TASK_CANCELED=false;
     public static boolean ALREADY_INSTANTIATED=false;
+    public static boolean IS_COPYING_NOT_MOVING=false;
 
     public static int SELECT_COUNT=0;
     public static String USERNAME;
