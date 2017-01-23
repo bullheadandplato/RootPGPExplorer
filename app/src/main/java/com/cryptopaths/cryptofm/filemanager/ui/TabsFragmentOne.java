@@ -27,6 +27,8 @@ import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
 
+import java.util.ArrayList;
+
 /**
  * Created by Shadow on 1/21/2017.
  *
@@ -205,7 +207,7 @@ public class TabsFragmentOne extends Fragment {
     }
 
     public void executeCopyTask() {
-        //TODO
+        mTaskHandler.moveFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone(),mCurrentPath);
     }
 
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
