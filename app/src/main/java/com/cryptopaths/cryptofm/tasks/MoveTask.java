@@ -46,8 +46,26 @@ public class MoveTask extends AsyncTask<String,String,String> {
     }
     @Override
     protected String doInBackground(String... strings) {
+        String sourcePath=null;
+      if(mDestinationFolder.contains(mFiles.get(0))){
+            sourcePath=null;
+            //check if user pasting in the folder it has selected to copy or more haha
+            for (String s:
+                 mFiles) {
+                if(mDestinationFolder.equals(s+"/")){
+                    sourcePath=s;
+                    break;
+                }
+            }
+        }
+        //remove the destination folder from selected list if its there
+        if(sourcePath!=null){
+            mFiles.remove(sourcePath);
+        }
         for (String source : mFiles) {
             try{
+                //check if destination folder is same as source
+
                 mDestinationFolder=originalDestination;
                 move(TasksFileUtils.getFile(source));
             }catch (Exception ex){
@@ -61,7 +79,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
     private void move(File f) throws Exception{
         if(f.isDirectory()){
             //create folder in the destination
-            mDestinationFolder=mDestinationFolder+f.getName();
+            mDestinationFolder=mDestinationFolder+f.getName()+"/";
             File tmp=new File(mDestinationFolder);
             if(!tmp.exists()){
                 tmp.mkdir();
@@ -76,8 +94,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
             Log.d(TAG, "move: Moving file: "+f.getName());
             Log.d(TAG, "move: Destination folder is: "+mDestinationFolder);
             isNextFile=true;
-            mProgressDialog.setMessage(f.getName());
-            mProgressDialog.setProgress(0);
+            publishProgress(f.getName());
+            publishProgress(""+0);
             String destinationPath = mDestinationFolder+f.getName();
             File destinationFile   = TasksFileUtils.getFile(destinationPath);
             InputStream in         = new BufferedInputStream(new FileInputStream(f));
@@ -90,7 +108,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
             while ((start = in.read(data)) > 0){
                 out.write(data, 0, start);
                 readData+=start;
-                mProgressDialog.setProgress((int)(readData/totalFileLength)*100);
+                publishProgress(""+(int)(readData/totalFileLength)*100);
             }
             in.close();
             out.close();
@@ -104,6 +122,16 @@ public class MoveTask extends AsyncTask<String,String,String> {
         }
         if(!f.delete()){
             throw new IOException("cannot move files");
+        }
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        try{
+            int progress=Integer.valueOf(values[0]);
+            mProgressDialog.setProgress(progress);
+        }catch (NumberFormatException e){
+            mProgressDialog.setMessage(values[0]);
         }
     }
 
