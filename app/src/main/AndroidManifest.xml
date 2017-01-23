@@ -30,7 +30,7 @@
 
         <!-- Pre start activity -->
         <activity
-            android:name=".filemanager.FilemanagerTabs"
+            android:name=".startup.PreStartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PreActivityThemeFragmentOne">
             <intent-filter>
