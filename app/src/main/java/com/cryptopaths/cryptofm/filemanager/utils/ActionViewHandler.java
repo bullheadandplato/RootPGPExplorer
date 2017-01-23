@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
-import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.ui.FilemanagerTabs;
 
 
@@ -103,6 +102,8 @@ public class ActionViewHandler implements ActionMode.Callback {
         else if(item.getItemId()==R.id.move_menu_item){
             Log.d("move", "onActionItemClicked: moving files");
             SharedData.IS_IN_COPY_MODE=true;
+            //set the files to be move or copied
+            mTaskHandler.setmSelectedFiles(mManager.getmSelectedFilePaths());
             ((FilemanagerTabs)mContext).showCopyDialog();
         }
         return true;

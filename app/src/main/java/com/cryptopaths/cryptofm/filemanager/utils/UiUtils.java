@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -1,12 +1,6 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.utils;
 
-import android.content.Context;
 import android.os.Environment;
-
-import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
-import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
-import com.cryptopaths.cryptofm.filemanager.ui.NoFilesFragment;
-import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentOne;
 
 import java.util.ArrayList;
 

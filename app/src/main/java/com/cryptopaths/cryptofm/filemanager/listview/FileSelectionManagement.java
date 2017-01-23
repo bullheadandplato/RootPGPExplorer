@@ -10,7 +10,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;

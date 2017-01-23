@@ -1,10 +1,11 @@
-package com.cryptopaths.cryptofm.filemanager;
+package com.cryptopaths.cryptofm.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class TaskHandler {
     private FileListAdapter mAdapter;
     private Context         mContext;
     private FileSelectionManagement mFileSelectionManagement;
+    private ArrayList<String> mSelectedFiles;
     public TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
         this.mContext=context;
         mAdapter=adapter;
@@ -174,7 +176,16 @@ public class TaskHandler {
         return mEncryptTask;
     }
 
-    public void moveFiles(ArrayList<String> files,String dest){
-        new MoveTask(mContext,files,dest).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    public void moveFiles(String dest){
+        //make sure files have been placed
+        assert mSelectedFiles!=null;
+        if(mSelectedFiles.size()<1){
+            Log.d("MoveTask", "moveFiles: files are not added");
+        }
+        new MoveTask(mContext,mSelectedFiles,dest).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
+        this.mSelectedFiles = mSelectedFiles;
     }
 }

@@ -14,10 +14,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
-import com.cryptopaths.cryptofm.filemanager.TaskHandler;
-import com.cryptopaths.cryptofm.filemanager.UiUtils;
-import com.cryptopaths.cryptofm.filemanager.listview.ViewHolder;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.TaskHandler;
+import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package com.cryptopaths.cryptofm.encryption;
 import android.accounts.OperationCanceledException;
 import android.util.Log;
 
-import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider;
 import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedData;
 import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedDataGenerator;

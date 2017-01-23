@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,16 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.ActionViewHandler;
-import com.cryptopaths.cryptofm.filemanager.FragmentCallbacks;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
-import com.cryptopaths.cryptofm.filemanager.TaskHandler;
+import com.cryptopaths.cryptofm.filemanager.utils.ActionViewHandler;
+import com.cryptopaths.cryptofm.filemanager.utils.FragmentCallbacks;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.TaskHandler;
 import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.cryptopaths.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
-
-import java.util.ArrayList;
 
 /**
  * Created by Shadow on 1/21/2017.
@@ -207,7 +204,7 @@ public class TabsFragmentOne extends Fragment {
     }
 
     public void executeCopyTask() {
-        mTaskHandler.moveFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone(),mCurrentPath);
+        mTaskHandler.moveFiles(mCurrentPath);
     }
 
     class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
