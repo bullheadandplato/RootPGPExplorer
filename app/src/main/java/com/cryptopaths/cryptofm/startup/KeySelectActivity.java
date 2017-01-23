@@ -61,11 +61,18 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
     }
     @ActionHandler(layoutResource = R.id.button_letsgo_keys_select)
     public void onImportKeys(View view) {
+        String errorMessageLength       = "password length should be greater than 3";
+        String errorMessageMatch        = "password does not match";
+        EditText keyPasswordEditText    = (EditText)findViewById(R.id.user_secret_key_pass_edit);
+        if(!isValidPassword(keyPasswordEditText.getText())){
+            keyPasswordEditText.setError(errorMessageLength);
+            return;
+        }
             if(IS_DIFFERENT_PASSWORD){
                 EditText passwordEdit2          = (EditText)findViewById(R.id.password_databse);
                 EditText confirmPasswordEdit2   = (EditText)findViewById(R.id.password_confirm_database);
-                String errorMessageLength       = "password length should be greater than 3";
-                String errorMessageMatch        = "password does not match";
+
+
                 CharSequence password2 = passwordEdit2.getText();
                 //check if password is valid
                 if(isValidPassword(password2)){
@@ -80,7 +87,10 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                     ((EditText)( findViewById(R.id.password_databse))).setError(errorMessageLength);
                     return;
                 }
+            }else{
+                mDbPass=keyPasswordEditText.getText().toString();
             }
+        new KeysSetupTask().execute();
 
     }
     public void onBrowseButtonClick(View view){
@@ -196,6 +206,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                 if(key.getUserIDs().hasNext()){
                     uid=(String) key.getUserIDs().next();
                 }
+                Log.d(TAG, "doInBackground: key successfully imported used id isL "+uid);
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 db.insertSecKey(uid,test);
