@@ -8,10 +8,9 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
-import com.cryptopaths.cryptofm.filemanager.FileBrowserActivity;
-import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
-import com.cryptopaths.cryptofm.filemanager.UiUtils;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -101,7 +100,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
         }catch (Exception ex){
             //let the activity know that password is incorrect and don't save it
-            ((FileBrowserActivity)mContext).resetmKeyPass();
+            SharedData.KEY_PASSWORD=null;
             ex.printStackTrace();
             return ex.getMessage();
         }

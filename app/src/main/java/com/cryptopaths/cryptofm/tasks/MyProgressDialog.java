@@ -7,10 +7,11 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cryptopaths.cryptofm.R;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.services.CleanupService;
 
 /**
@@ -29,6 +30,7 @@ public class MyProgressDialog {
     private NotificationCompat.Builder  mNotBuilder;
     private static int                  NOTIFICATION_NUMBER=0;
     private int                         thisNotificationNumber=0;
+    private ProgressBar                 mProgressBar;
 
     MyProgressDialog(Context context, String title, final AsyncTask task){
         dialog=new Dialog(context);
@@ -40,6 +42,7 @@ public class MyProgressDialog {
         dialog.setContentView(R.layout.task_progress_layout);
         ((TextView)dialog.findViewById(R.id.progress_dialog_title)).setText(title);
         mProgressTextView=((TextView)dialog.findViewById(R.id.filename_progress_textview));
+        mProgressBar= (ProgressBar) dialog.findViewById(R.id.dialog_progressbar);
         dialog.findViewById(R.id.runin_background_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,5 +100,17 @@ public class MyProgressDialog {
     }
     void show(){
         dialog.show();
+    }
+
+    public void setProgress(Integer integer) {
+        mProgressBar.setProgress(integer);
+    }
+
+    public void setMessage(String s) {
+        this.mProgressTextView.setText(s);
+    }
+
+    public void setIndeterminate(boolean b) {
+        this.mProgressBar.setIndeterminate(b);
     }
 }

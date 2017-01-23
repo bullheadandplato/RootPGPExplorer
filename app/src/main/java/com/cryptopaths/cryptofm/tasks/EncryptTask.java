@@ -3,15 +3,14 @@ package com.cryptopaths.cryptofm.tasks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
-import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
-import com.cryptopaths.cryptofm.filemanager.SharedData;
-import com.cryptopaths.cryptofm.filemanager.UiUtils;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;

@@ -5,7 +5,7 @@
     android:id="@+id/content_filemanager_tabs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cryptopaths.cryptofm.filemanager.FilemanagerTabs">
+    tools:context="com.cryptopaths.cryptofm.filemanager.ui.FilemanagerTabs">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,18 +15,22 @@
         android:background="?attr/colorPrimary"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/TabsTheme"
-        app:popupTheme="@style/TabsTheme"/>
+        android:theme="@style/ToolBarStyle"
+        app:popupTheme="@style/ToolBarStyle"
+       />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        app:tabTextColor="#FFFF"
+        app:tabSelectedTextColor="@color/pagercolor3"
+        app:tabGravity="fill"
         android:background="?attr/colorPrimary"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/TabsTheme"/>
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

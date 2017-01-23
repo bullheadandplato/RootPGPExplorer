@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
+        android:id="@+id/dialog_progressbar"
         style="@android:style/Widget.Material.ProgressBar.Horizontal"
         />
     <RelativeLayout
