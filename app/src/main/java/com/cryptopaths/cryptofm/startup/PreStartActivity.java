@@ -40,6 +40,7 @@ public class PreStartActivity extends AppCompatActivity {
         radioButton3 = (RadioButton) findViewById(R.id.radioButton3);
         radioButton4 = (RadioButton) findViewById(R.id.radioButton4);
         prestartlayout=(RelativeLayout)findViewById(R.id.pre_start);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
 
         //set ViewPager adapter
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -80,7 +81,7 @@ public class PreStartActivity extends AppCompatActivity {
         switch (num) {
             case 0:
                 radioButton1.setChecked(true);
-                prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor1));
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor1));
                 getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
                 getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
                 break;

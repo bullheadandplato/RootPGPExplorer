@@ -1,7 +1,9 @@
 package com.cryptopaths.cryptofm.startup;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,7 +58,6 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
         setContentView(R.layout.key_select);
 
         mSecKeyEditText=(TextView) findViewById(R.id.sec_key_edit_text);
-        mPubKeyEditText=(TextView) findViewById(R.id.pub_key_edit_text);
         checkPermissions();
     }
     @ActionHandler(layoutResource = R.id.button_letsgo_keys_select)
@@ -95,9 +96,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
     }
     public void onBrowseButtonClick(View view){
         if(checkPermissions()){
-            if(view.getId()==R.id.button_select_public_key){
-                startFileBrowsing(GET_PUBLIC_KEY_CODE);
-            }else if(view.getId()==R.id.button_select_secret_key){
+           if(view.getId()==R.id.button_select_secret_key){
                 startFileBrowsing(GET_SECRET_KEY_CODE);
             }
         }
@@ -121,14 +120,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                 break;
             }
         }
-        //check if user choose the same file twice
-        if(mSecKeyEditText.getText().equals(mPubKeyEditText.getText())){
-            Toast.makeText(
-                    this,
-                    "Secret key and the public key file cannot be the same",
-                    Toast.LENGTH_SHORT
-            ).show();
-        }
+
     }
 
     @Override
@@ -182,6 +174,7 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
         }
     }
     class KeysSetupTask extends AsyncTask<Void,String,Boolean>{
+        String uid="test";
 
         @Override
         protected Boolean doInBackground(Void... voids) {
@@ -202,7 +195,6 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                 ArmoredOutputStream secOut          = new ArmoredOutputStream(outputStream);
                 key.encode(secOut);
                 secOut.close();
-                String uid="test";
                 if(key.getUserIDs().hasNext()){
                     uid=(String) key.getUserIDs().next();
                 }
@@ -210,6 +202,13 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 db.insertSecKey(uid,test);
+                //save shared preferences
+                SharedPreferences prefs=getSharedPreferences("done", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=prefs.edit();
+                editor.putString("username",uid);
+                editor.putBoolean("done",true);
+                editor.apply();
+                editor.commit();
                 return true;
 
             } catch (PGPException e) {
@@ -218,6 +217,19 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+
+                //start the unlock db activity
+                Intent intent=new Intent(KeySelectActivity.this,UnlockDbActivity.class);
+                intent.putExtra("username",uid);
+                startActivityForResult(intent,0);
+                finish();
             }
         }
     }

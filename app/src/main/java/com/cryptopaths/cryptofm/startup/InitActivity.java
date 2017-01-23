@@ -230,9 +230,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     }
     private void commitInitActivity() {
         //put in shared preferences
-        SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences preferences=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
-        editor.putBoolean("key",true);
+        editor.putBoolean("done",true);
         editor.putString("username",mUserName);
         editor.apply();
         editor.commit();

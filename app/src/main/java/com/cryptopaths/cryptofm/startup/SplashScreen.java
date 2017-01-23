@@ -16,6 +16,17 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
+        if(prefs.getBoolean("done",false)){
+            Intent intent = new Intent(this,UnlockDbActivity.class);
+            intent.putExtra("username",prefs.getString("username","test"));
+            //clear the stack
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent,1);
+            finish();
+            return;
+        }
+
         SharedPreferences preferences=getPreferences(Context.MODE_PRIVATE);
         boolean isFirstRun=preferences.getBoolean("run",true);
         if(isFirstRun){
