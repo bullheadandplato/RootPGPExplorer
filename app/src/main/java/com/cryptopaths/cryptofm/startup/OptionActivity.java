@@ -21,10 +21,10 @@ public class OptionActivity extends AppCompatActivity {
         if(view.getId()==R.id.button_generate_key){
             //start the init activity
             Intent intent=new Intent(this,InitActivity.class);
-            startActivityForResult(intent,1);
+            startActivity(intent);
         }else{
             Intent intent=new Intent(this,KeySelectActivity.class);
-            startActivityForResult(intent,1);
+            startActivity(intent);
         }
     }
 }

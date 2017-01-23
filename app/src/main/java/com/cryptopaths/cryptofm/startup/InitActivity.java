@@ -69,22 +69,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Log.d(TAG, "onCreate: Creating activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-        setResult(RESULT_OK);
-
-        //first of all check shared preferences
-        SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
-        boolean isNotFirstRun           = preferences.getBoolean("key",false);
-        String username                 = preferences.getString("username","default");
-        if(isNotFirstRun){
-            //change activity to unlock db activity
-            Intent intent = new Intent(this,UnlockDbActivity.class);
-            intent.putExtra("username",username);
-            //clear the stack
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivityForResult(intent,1);
-            finish();
-
-        }
 
         //add first fragment
         replaceFragment(FRAGMENT_ONE_NUMBER);
@@ -390,6 +374,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
             //start intermediateActivity
             Intent intent = new Intent(InitActivity.this,UnlockDbActivity.class);
             intent.putExtra("username",mUserName);
+            //this flag will remove all the previous activities from backstack
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivityForResult(intent,1);
             finish();
 

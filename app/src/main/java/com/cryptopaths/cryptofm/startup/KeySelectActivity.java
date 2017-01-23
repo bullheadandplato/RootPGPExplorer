@@ -230,6 +230,12 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
                 intent.putExtra("username",uid);
                 startActivityForResult(intent,0);
                 finish();
+            }else{
+                Toast.makeText(
+                        KeySelectActivity.this,
+                        "Cannot read secret key, make sure you have choose the right file",
+                        Toast.LENGTH_LONG
+                ).show();
             }
         }
     }
