@@ -83,7 +83,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
             File tmp=new File(mDestinationFolder);
             if(!tmp.exists()){
                 tmp.mkdir();
-
+            }else{
+                return;
             }
             Log.d(TAG, "move: File is a directory");
             for (File file:
@@ -96,8 +97,11 @@ public class MoveTask extends AsyncTask<String,String,String> {
             isNextFile=true;
             publishProgress(f.getName());
             publishProgress(""+0);
-            String destinationPath = mDestinationFolder+f.getName();
-            File destinationFile   = TasksFileUtils.getFile(destinationPath);
+            //check if file already exits
+            File destinationFile   =new File(mDestinationFolder+f.getName());
+            if(destinationFile.exists()){
+                return;
+            }
             InputStream in         = new BufferedInputStream(new FileInputStream(f));
             OutputStream out       = new BufferedOutputStream(new FileOutputStream(destinationFile));
             byte[] data            = new byte[2048];
