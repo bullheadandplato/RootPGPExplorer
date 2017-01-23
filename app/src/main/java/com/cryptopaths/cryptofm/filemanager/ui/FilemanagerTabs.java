@@ -1,10 +1,16 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,6 +40,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private int                     mTotalStorages;
     private String[]                mStorageTitles;
     private TabsFragmentOne[] mFragmentOnes;
+    private static final int GET_PERMISSION_CODE=432;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -246,6 +253,54 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             }
         });
+        if(mTotalStorages>0 && getContentResolver().getPersistedUriPermissions().size()<1){
+            getExternalStoragePermissions();
+        }
+
+    }
+    private void getExternalStoragePermissions(){
+        Log.d(TAG, "getExternalStoragePermissions: Getting permissions");
+        //inform user what to do
+        final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                startActivityForResult(intent,GET_PERMISSION_CODE);
+            }
+        });
+        dialog.setMessage("Looks like you have external sdcard. " +
+                "Please choose it in next screen to enable read and write on it. " +
+                "Otherwise I will not be able to use it");
+        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mStorageTitles[0]=mStorageTitles[1];
+                Toast.makeText(FilemanagerTabs.this,
+                        "I wont be able to perform any operation on external sdcard",
+                        Toast.LENGTH_LONG
+                ).show();
+
+            }
+        });
+        dialog.setTitle("Need permission");
+        dialog.show();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==RESULT_OK){
+            if(requestCode==GET_PERMISSION_CODE){
+                Uri treeUri = data.getData();
+                Log.d(TAG, "onActivityResult: tree uri is: "+treeUri);
+                DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+                // Check for the freshest data.
+                getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            }
+        }
     }
 
     /**
