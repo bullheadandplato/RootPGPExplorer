@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.security.NoSuchProviderException;
 import java.util.Iterator;
 
-class MyPGPUtil
+public class MyPGPUtil
 {
     static byte[] compressFile(String fileName, int algorithm) throws IOException
     {
@@ -64,7 +64,7 @@ class MyPGPUtil
         return pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
     }
 
-    static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException
+    public static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException
     {
         InputStream keyIn = new BufferedInputStream(new FileInputStream(fileName));
         PGPPublicKey pubKey = readPublicKey(keyIn);
@@ -111,7 +111,7 @@ class MyPGPUtil
         throw new IllegalArgumentException("Can't find encryption key in key ring.");
     }
 
-    static PGPSecretKey readSecretKey(String fileName) throws IOException, PGPException
+    public static PGPSecretKey readSecretKey(String fileName) throws IOException, PGPException
     {
         InputStream keyIn = new BufferedInputStream(new FileInputStream(fileName));
         PGPSecretKey secKey = readSecretKey(keyIn);
