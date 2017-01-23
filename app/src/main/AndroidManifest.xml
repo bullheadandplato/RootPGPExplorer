@@ -44,7 +44,14 @@
             android:theme="@style/PreActivityThemeFragmentTwo">
             </activity>
         <activity android:name=".startup.OptionActivity" />
-        <activity android:name=".startup.KeySelectActivity" />
+
+        <!--Key select activity  have different theme-->
+        <activity
+            android:name=".startup.KeySelectActivity"
+            android:theme="@style/KeySelectStyle"
+            >
+        </activity>
+
         <!-- End of activities -->
         <service
             android:name=".services.CleanupService"

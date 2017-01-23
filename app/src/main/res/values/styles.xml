@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorTertiary">@color/dividerColor</item>
+
+
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -53,6 +55,18 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
+
+    </style>
+
+    <!--key select activity theme different due to edit text-->
+    <style name="KeySelectStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    <item name="android:textColorTertiary">@color/dividerColor</item>
+        <item name="colorControlActivated">#FFF</item>
 
     </style>
 </resources>

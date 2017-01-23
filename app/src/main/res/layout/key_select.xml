@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".startup.KeySelectActivity"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:weightSum="1">
         <ImageView
             android:layout_width="wrap_content"
@@ -134,6 +136,24 @@
 
             </android.support.v7.widget.CardView>
         </RelativeLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_secret_password_layout"
+            android:layout_below="@id/header_section_layout"
+            app:passwordToggleEnabled="true"
+            android:textColorHint="#FFF"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_secret_key_pass_edit"
+                android:hint="@string/key_password"
+                android:textColorHint="#FFF"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
         
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/button_letsgo_keys_select"
@@ -143,12 +163,14 @@
             android:background="@drawable/shadow_rect"
             android:onClick="onUnlockButtonClick"
             android:text="Let's Go"
+            android:textColor="#FFF"
             android:textSize="18sp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/header_section_layout"
-            android:layout_marginTop="30dp"
+            android:layout_below="@id/get_secret_password_layout"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
             />
 
 

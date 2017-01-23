@@ -12,4 +12,5 @@
     <string name="filename_text">Filename: null</string>
     <string name="title_activity_filemanafer_tabs">FilemanaferTabs</string>
     <string name="title_activity_filemanager_tabs">FilemanagerTabs</string>
+    <string name="key_password">Key Password</string>
 </resources>
