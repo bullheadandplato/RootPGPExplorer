@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.filemanager.listview;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cryptopaths.cryptofm.filemanager.listview.DataModelFiles;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 
 public  class FileFillerWrapper {
+    private static final String TAG = "FileFillerWrapper";
     private  List<DataModelFiles> allFiles   = new ArrayList<>();
     private  int totalFilesCount             = 0;
 
@@ -27,15 +29,23 @@ public  class FileFillerWrapper {
         FileUtils.CURRENT_PATH = currentPath;
         //for each file in current path fill data
         File file              = new File(currentPath);
-        totalFilesCount=file.list().length;
-        if(file.list().length>0){
-            allFiles.clear();
-            for (File f:
-                    file.listFiles()) {
-                allFiles.add(new DataModelFiles(f.getName(),context));
+        if(FileUtils.checkReadStatus("")){
+            Log.d(TAG, "fillData: Cannot read files");
+            totalFilesCount=0;
+            if(file.list().length>0){
+                allFiles.clear();
+                for (File f:
+                        file.listFiles()) {
+                    //only add file which I can read
+                    if(FileUtils.checkReadStatus(f.getName())){
+                        allFiles.add(new DataModelFiles(f.getName(),context));
+                        totalFilesCount++;
+                    }
+                }
+                sortData();
             }
-            sortData();
         }
+
     }
     public  DataModelFiles getFileAtPosition(int position){
         return allFiles.get(position);

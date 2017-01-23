@@ -76,7 +76,13 @@ public class FileUtils {
 
     public static int getNumberOfFiles(String  foldername){
         Log.d(TAG, "getNumberOfFiles: "+CURRENT_PATH+foldername);
-        return new File(CURRENT_PATH+foldername).list().length;
+        File file=new File(CURRENT_PATH+foldername);
+        if(file.canRead()){
+            return file.listFiles().length;
+        }else{
+            return 0;
+        }
+
     }
 
     public static String getExtension(String fileName){
@@ -166,5 +172,8 @@ public class FileUtils {
     }
     public static File getFile(String filename){
         return new File(CURRENT_PATH+filename);
+    }
+    public static boolean checkReadStatus(String filename){
+        return new File(FileUtils.CURRENT_PATH+filename).canRead();
     }
 }

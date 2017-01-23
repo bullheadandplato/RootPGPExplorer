@@ -69,7 +69,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Log.d(TAG, "onCreate: Creating activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-
+        SQLiteDatabase.loadLibs(this);
         //add first fragment
         replaceFragment(FRAGMENT_ONE_NUMBER);
 
@@ -384,7 +384,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
-            SQLiteDatabase.loadLibs(InitActivity.this);
             mDatabaseHandler = new DatabaseHandler(
                     InitActivity.this,
                     mUserSecretDatabase,

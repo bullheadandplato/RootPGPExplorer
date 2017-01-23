@@ -17,7 +17,6 @@ import java.io.File;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
-
     private static final String TAG="database";
     private static final String DATABASE_NAME="pierce";
     private static final int DATABASE_VERSION=1;
@@ -25,9 +24,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public DatabaseHandler(Context context,String pass,Boolean isCreated){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
+        Log.d(TAG, "DatabaseHandler: this is somewhat messed up ");
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
+
         if(!isCreated){
+            databaseFile.mkdirs();
+            databaseFile.delete();
             Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
