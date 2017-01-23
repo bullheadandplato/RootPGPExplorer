@@ -179,7 +179,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:background="@drawable/shadow_rect"
-            android:onClick="onUnlockButtonClick"
+            android:onClick="onImportKeys"
             android:text="Let's Go"
             android:textColor="#FFF"
             android:textSize="18sp"

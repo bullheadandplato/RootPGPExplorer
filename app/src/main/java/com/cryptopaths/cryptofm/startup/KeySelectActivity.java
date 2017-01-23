@@ -46,7 +46,8 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
         checkPermissions();
     }
     @ActionHandler(layoutResource = R.id.button_letsgo_keys_select)
-    public void onUnlockButtonClick(View view) {
+    public void onImportKeys(View view) {
+
 
     }
     public void onBrowseButtonClick(View view){
