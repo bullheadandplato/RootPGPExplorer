@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
+import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 
 import java.util.List;
@@ -32,6 +34,8 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
 
     private TextView mPubKeyEditText;
     private TextView mSecKeyEditText;
+    private boolean IS_DIFFERENT_PASSWORD=false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,4 +121,23 @@ public class KeySelectActivity extends AppCompatActivity implements EasyPermissi
         startActivityForResult(intent,requestCode);
     }
 
+    @ActionHandler(layoutResource = R.id.checkBox)
+    public void showDatabasePasswordFragment(View view) {
+        CheckBox b=(CheckBox)view;
+        if(b.isChecked()){
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.password2_layout_select_activity,new PasswordsFragment())
+                    .commit();
+            IS_DIFFERENT_PASSWORD=true;
+        }else{
+            getSupportFragmentManager().
+                    beginTransaction().
+                    remove(
+                            getSupportFragmentManager().
+                                    findFragmentById(R.id.password2_layout_select_activity)
+                    ).commit();
+            IS_DIFFERENT_PASSWORD=false;
+        }
+    }
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
+    tools:context=".startup.KeySelectActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
@@ -154,7 +155,24 @@
                 android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
-        
+
+        <CheckBox
+            android:text="Use different password for database"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:layout_margin="10dp"
+            android:layout_below="@id/get_secret_password_layout"
+            android:onClick="showDatabasePasswordFragment"
+            android:id="@+id/checkBox" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password2_layout_select_activity"
+            android:layout_below="@id/checkBox"
+            android:layout_margin="10dp"
+            />
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/button_letsgo_keys_select"
             android:layout_width="match_parent"
@@ -168,7 +186,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/get_secret_password_layout"
+            android:layout_below="@id/password2_layout_select_activity"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             />
