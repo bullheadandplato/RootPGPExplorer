@@ -114,18 +114,8 @@ public class FileUtils {
         return result;
     }
 
-    public static Boolean isFile(String filename){
-        return new File(CURRENT_PATH+filename).isFile();
-    }
-    /**
-     * Round to certain number of decimals
-     *
-     * @param d
-     * @param decimalPlace the numbers of decimals
-     * @return
-     */
-    private static float round(float d, int decimalPlace) {
-        return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
+    public static Boolean isFile(String filename) {
+        return new File(CURRENT_PATH + filename).isFile();
     }
 
     public static String getReadableSize(long size) {
