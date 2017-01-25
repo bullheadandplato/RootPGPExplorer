@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.utils.MimeType;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 /**
@@ -22,13 +23,18 @@ public class DataModelFiles {
     private Boolean     isFile       = false;
     private boolean     isEncrypted  = false;
     private Context     mContext;
+    private static MimeType mIconManager;
     public DataModelFiles(String filename, Context context) {
+        if(mIconManager==null){
+            mIconManager=new MimeType();
+        }
         this.fileName = filename;
         this.mContext = context;
         //check if i can read file
         if(FileUtils.isFile(filename)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
             this.fileExtensionOrItems=FileUtils.getExtension(filename);
+            this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
             long size=FileUtils.getFileSize(filename);
             this.fileSize=FileUtils.getReadableSize(size);
             this.isEncrypted=FileUtils.isEncryptedFile(filename);
@@ -41,6 +47,7 @@ public class DataModelFiles {
             this.fileSize=FileUtils.getLastModifiedDate(filename);
         }
     }
+
 
     public String getFileName() {
         return fileName;

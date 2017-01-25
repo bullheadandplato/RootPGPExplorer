@@ -11,28 +11,37 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class IconManager {
-    public static Drawable PHOTO_ICON;
-    public static Drawable CHECK_CIRCLE_ICON;
-    public static Drawable COPY_ICON;
-    public static Drawable CUT_CONTENT_ICON;
-    public static Drawable DECRYPT_ICON;
-    public static Drawable DELETE_ICON;
-    public static Drawable ENCRYPT_ICON;
-    public static Drawable FOLDER_WHITE_ICON;
-    public static Drawable GRID_VIEW_ICON;
-    public static Drawable INSERT_DRIVE_FILE_WHITE_ICON;
-    public static Drawable ITEMS_VIEW_ICON;
-    public static Drawable NEXT_PAGE_ICON;
-    public static Drawable SELECT_ALL_ICON;
-    public static Drawable VIEW_PAGER_ICON_ONE;
-    public static Drawable VIEW_PAGER_ICON_TWO;
-    public static Drawable VIEW_PAGER_ICON_THREE;
-    public static Drawable VIEW_PAGER_ICON_FOUR;
-    public static Drawable VISIBILITY_BLACK_ICON;
-    public static Drawable VISIBILITY_OFF_BLACK_ICON;
-    public static Drawable WATCH_LATER_ICON;
-    public static Drawable LOGO_ICON;
-    public static Drawable NO_FILE_ICON;
+    public  Drawable PHOTO_ICON;
+    public  Drawable CHECK_CIRCLE_ICON;
+    public  Drawable COPY_ICON;
+    public  Drawable CUT_CONTENT_ICON;
+    public  Drawable DECRYPT_ICON;
+    public  Drawable DELETE_ICON;
+    public  Drawable ENCRYPT_ICON;
+    public  Drawable FOLDER_WHITE_ICON;
+    public  Drawable GRID_VIEW_ICON;
+    public  Drawable INSERT_DRIVE_FILE_WHITE_ICON;
+    public  Drawable ITEMS_VIEW_ICON;
+    public  Drawable NEXT_PAGE_ICON;
+    public  Drawable SELECT_ALL_ICON;
+    public  Drawable VIEW_PAGER_ICON_ONE;
+    public  Drawable VIEW_PAGER_ICON_TWO;
+    public  Drawable VIEW_PAGER_ICON_THREE;
+    public  Drawable VIEW_PAGER_ICON_FOUR;
+    public  Drawable VISIBILITY_BLACK_ICON;
+    public  Drawable VISIBILITY_OFF_BLACK_ICON;
+    public  Drawable WATCH_LATER_ICON;
+    public  Drawable LOGO_ICON;
+    public  Drawable NO_FILE_ICON;
+    public  Drawable ARCHIVE_ZIP;
+    public  Drawable TORRENT_ICON;
+    public  Drawable AUDIO_ICON;
+    public  Drawable IMAGE_ICON;
+    public  Drawable TEXT_ICON;
+    public  Drawable SCRIPT_ICON;
+    public  Drawable VIDEO_ICON;
+    public  Drawable BLANK_ICON;
+
     public IconManager(Context context){
         //get the references to all the icons here
         PHOTO_ICON=context.getDrawable(R.drawable.ic_photo);
@@ -57,6 +66,13 @@ public class IconManager {
         WATCH_LATER_ICON=context.getDrawable(R.drawable.ic_watch_later_black_24dp);
         LOGO_ICON=context.getDrawable(R.drawable.logo);
         NO_FILE_ICON=context.getDrawable(R.drawable.nofiles_image);
-
+        ARCHIVE_ZIP=context.getDrawable(R.drawable.ic_application_archive_zip);
+        TORRENT_ICON=context.getDrawable(R.drawable.ic_application_torrent);
+        AUDIO_ICON=context.getDrawable(R.drawable.ic_application_audio);
+        IMAGE_ICON=context.getDrawable(R.drawable.ic_application_images);
+        TEXT_ICON=context.getDrawable(R.drawable.ic_application_text);
+        SCRIPT_ICON=context.getDrawable(R.drawable.ic_application_script_blank);
+        VIDEO_ICON=context.getDrawable(R.drawable.ic_application_video);
+        BLANK_ICON=context.getDrawable(R.drawable.ic_application_blank);
     }
 }
