@@ -5,6 +5,8 @@ import android.support.v4.provider.DocumentFile;
 
 import com.cryptopaths.cryptofm.CryptoFM;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by tripleheader on 1/25/17.
  * For the new type introduced by Google
@@ -29,7 +31,13 @@ public class FileDocumentUtils implements FileOperations{
 
     @Override
     public String getReadableSize(String filename) {
-                
+        long size=DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).length();
+        if(size <= 0) return "0B";
+        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
+        int digitGroups      = (int) (Math.log10(size)/Math.log10(1024));
+
+        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
+                + " " + units[digitGroups];
     }
 
     @Override
@@ -49,7 +57,8 @@ public class FileDocumentUtils implements FileOperations{
 
     @Override
     public String getLastModifiedData(String filename) {
-        return null;
+        String date = ""+DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).lastModified();
+        return date;
     }
 
     @Override
