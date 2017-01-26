@@ -26,7 +26,7 @@ public class DataModelFiles {
     private static MimeType mIconManager;
     public DataModelFiles(String filename, Context context) {
         if(mIconManager==null){
-            mIconManager=new MimeType();
+            mIconManager=new MimeType(context);
         }
         this.fileName = filename;
         this.mContext = context;

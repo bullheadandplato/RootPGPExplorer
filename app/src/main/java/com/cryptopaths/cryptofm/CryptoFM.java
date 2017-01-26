@@ -14,6 +14,7 @@ public class CryptoFM extends Application {
 
     public CryptoFM() {
         instance = this;
+
     }
 
     public static Context getContext() {
