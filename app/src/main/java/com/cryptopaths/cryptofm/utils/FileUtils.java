@@ -19,6 +19,7 @@ public class FileUtils {
     private static final String TAG     = "files";
     public static  String CURRENT_PATH  = " ";
 
+
     public static long getFileSize(String filename){
         return new File(CURRENT_PATH+filename).length();
     }
