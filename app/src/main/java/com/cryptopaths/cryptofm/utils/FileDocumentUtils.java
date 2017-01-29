@@ -1,6 +1,7 @@
 package com.cryptopaths.cryptofm.utils;
 
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.support.v4.provider.DocumentFile;
 
 import com.cryptopaths.cryptofm.CryptoFM;
@@ -12,15 +13,18 @@ import java.text.DecimalFormat;
  * For the new type introduced by Google
  */
 
-public class FileDocumentUtils implements FileOperations{
+public class FileDocumentUtils {
 
-    @Override
-    public long getFileSize(String filename) {
+    FileDocumentUtils() {
+
+    }
+
+    public static long getFileSize(String filename) {
         return DocumentFile.fromSingleUri(CryptoFM.getContext(), Uri.parse(filename)).length();
     }
 
-    @Override
-    public String getFileExtension(String filename) {
+
+    public static String getFileExtension(String filename) {
         String tmp= DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).getType();
         if(tmp.indexOf('/')>0){
             //this means file contains right mime type
@@ -29,8 +33,7 @@ public class FileDocumentUtils implements FileOperations{
         return tmp;
     }
 
-    @Override
-    public String getReadableSize(String filename) {
+    public static String getReadableSize(String filename) {
         long size=DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).length();
         if(size <= 0) return "0B";
         final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
@@ -40,44 +43,35 @@ public class FileDocumentUtils implements FileOperations{
                 + " " + units[digitGroups];
     }
 
-    @Override
-    public boolean isEncryptedFile(String filename) {
+    public static boolean isEncryptedFile(String filename) {
         return false;
     }
 
-    @Override
-    public int getNumberofFiles(String filename) {
+    public static int getNumberofFiles(String filename) {
         return 0;
     }
 
-    @Override
-    public boolean isFile(String filename) {
+    public static boolean isFile(String filename) {
         return false;
     }
 
-    @Override
-    public String getLastModifiedData(String filename) {
-        String date = ""+DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).lastModified();
-        return date;
+    public static String getLastModifiedData(String filename) {
+        return ""+DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).lastModified();
     }
 
-    @Override
-    public boolean createFolder(String foldername) {
+    public static boolean createFolder(String foldername) {
         return false;
     }
 
-    @Override
-    public void deleteDecryptedFolder() {
+    public static void deleteDecryptedFolder() {
 
     }
 
-    @Override
-    public boolean getFile(String filename) {
+    public static boolean getFile(String filename) {
         return false;
     }
 
-    @Override
-    public boolean checkReadStatus(String filename) {
+    public static boolean checkReadStatus(String filename) {
         return false;
     }
 }

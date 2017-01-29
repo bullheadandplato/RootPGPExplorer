@@ -156,6 +156,7 @@ public class FileSelectionManagement {
         Intent intent=new Intent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             Uri uri = FileProvider.getUriForFile(
                     mContext,
                     mContext.getApplicationContext().getPackageName()+".provider",
