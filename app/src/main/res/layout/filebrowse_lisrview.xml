@@ -10,7 +10,6 @@
     <ImageView
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/list_imageview"
-        android:tint="@color/folderColor"
         android:layout_width="48dp"
         android:layout_height="60dp" />
 
