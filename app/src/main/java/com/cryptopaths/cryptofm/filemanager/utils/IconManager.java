@@ -42,6 +42,7 @@ public class IconManager {
     public  Drawable SCRIPT_ICON;
     public  Drawable VIDEO_ICON;
     public  Drawable BLANK_ICON;
+    public Drawable PDF;
 
     public IconManager(Context context){
         //get the references to all the icons here
@@ -50,8 +51,7 @@ public class IconManager {
         CUT_CONTENT_ICON=context.getDrawable(R.drawable.ic_cut_content);
         DECRYPT_ICON=context.getDrawable(R.drawable.ic_decrypt);
         DELETE_ICON=context.getDrawable(R.drawable.ic_delete);
-        ENCRYPT_ICON=context.getDrawable(R.drawable.ic_encrypt);
-        FOLDER_WHITE_ICON=context.getDrawable(R.drawable.ic_folder_white_48dp);
+        ENCRYPT_ICON=context.getDrawable(R.drawable.ic_encrypted);
         GRID_VIEW_ICON=context.getDrawable(R.drawable.ic_grid_view);
         INSERT_DRIVE_FILE_WHITE_ICON=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
         ITEMS_VIEW_ICON=context.getDrawable(R.drawable.ic_items_view);
@@ -73,6 +73,7 @@ public class IconManager {
         TEXT_ICON=context.getDrawable(R.drawable.ic_application_text);
         SCRIPT_ICON=context.getDrawable(R.drawable.ic_application_script_blank);
         VIDEO_ICON=context.getDrawable(R.drawable.ic_application_video);
+        PDF=context.getDrawable(R.drawable.ic_application_pdf);
         BLANK_ICON=context.getDrawable(R.drawable.ic_application_blank);
     }
 }

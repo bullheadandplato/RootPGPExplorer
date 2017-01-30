@@ -116,6 +116,9 @@ public class FileUtils {
     }
 
     public static Boolean isFile(String filename) {
+        if(filename.contains("content://")){
+            return FileDocumentUtils.isFile(filename);
+        }
         return new File(CURRENT_PATH + filename).isFile();
     }
 
@@ -128,15 +131,20 @@ public class FileUtils {
                 + " " + units[digitGroups];
     }
     public static String getLastModifiedDate(String filename){
+        if(filename.contains("content://")){
+            return FileDocumentUtils.getLastModifiedData(filename);
+        }
         String date = new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
         Log.d(TAG, "getLastModifiedDate: date is: "+date);
         return date;
-
 
     }
 
 
     public static Boolean createFolder(String folderName) {
+        if(folderName.contains("content://")){
+            return FileDocumentUtils.createFolder(folderName);
+        }
         File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
             return false;
@@ -150,6 +158,7 @@ public class FileUtils {
     }
 
     public static void deleteDecryptedFolder() {
+
         File f=new File(Environment.getExternalStorageDirectory().getPath(),"decrypted");
         if(f.exists()){
             for (File child:
@@ -162,6 +171,7 @@ public class FileUtils {
         }
     }
     public static File getFile(String filename){
+        
         return new File(CURRENT_PATH+filename);
     }
     public static boolean checkReadStatus(String filename){

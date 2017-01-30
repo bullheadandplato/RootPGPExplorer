@@ -11,15 +11,15 @@ import android.content.Context;
 public class CryptoFM extends Application {
 
     private static CryptoFM instance;
-    public static CryptoFM get() { return instance; }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    private CryptoFM() {
         instance = this;
     }
 
     public static Context getContext() {
+        if(instance==null){
+            instance=new  CryptoFM();
+        }
         return instance;
     }
 }

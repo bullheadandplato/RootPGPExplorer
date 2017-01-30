@@ -52,6 +52,7 @@ public class MimeType {
         }
        else if (
                 fileExtensionOrItems.equalsIgnoreCase("jpeg") ||
+                         fileExtensionOrItems.equalsIgnoreCase("jpg") ||
                         fileExtensionOrItems.equalsIgnoreCase("gif") ||
                         fileExtensionOrItems.equalsIgnoreCase("png") ||
                         fileExtensionOrItems.equalsIgnoreCase("bmp") ||
@@ -85,6 +86,10 @@ public class MimeType {
         }
         else if (fileExtensionOrItems.equalsIgnoreCase("torrent")) {
             return mIcons.TORRENT_ICON;
+        }else if(fileExtensionOrItems.equalsIgnoreCase("pgp")){
+            return mIcons.ENCRYPT_ICON;
+        }else if(fileExtensionOrItems.equalsIgnoreCase("pdf")){
+            return mIcons.PDF;
         }
         else {
             return mIcons.BLANK_ICON;

@@ -252,7 +252,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             }
         });
-        if(mTotalStorages>0 && getContentResolver().getPersistedUriPermissions().size()<1){
+        if(mTotalStorages>1 && getContentResolver().getPersistedUriPermissions().size()<1){
             getExternalStoragePermissions();
         }
 

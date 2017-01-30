@@ -10,6 +10,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.utils.MimeType;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
@@ -40,8 +41,7 @@ public class FileSelectionManagement {
     public FileSelectionManagement(Context context, FileListAdapter adapter){
         this.mContext     = context;
         mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
-        mFileIcon         = mContext.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
-        mFolderIcon       = mContext.getDrawable(R.drawable.ic_folder_white_48dp);
+        mFolderIcon       = mContext.getDrawable(R.drawable.ic_default_folder);
         clickCallBack = (AdapterCallbacks)mContext;
         mFileListAdapter=adapter;
         mFileFiller=adapter.getmFileFiller();
@@ -124,7 +124,7 @@ public class FileSelectionManagement {
                 mSelectedPosition) {
             mDataModel = mFileFiller.getFileAtPosition(pos);
             if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
+                mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
@@ -156,6 +156,7 @@ public class FileSelectionManagement {
         Intent intent=new Intent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             Uri uri = FileProvider.getUriForFile(
                     mContext,
                     mContext.getApplicationContext().getPackageName()+".provider",
