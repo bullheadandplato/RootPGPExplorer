@@ -10,8 +10,6 @@ import android.graphics.drawable.Drawable;
 
 public class MimeType {
 
-    public static final String ZIP = "zip";
-    public static final String MP3 = "mp3";
     private static IconManager mIcons;
 
     public MimeType(Context context) {
@@ -28,7 +26,7 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("mkv") ||
                         fileExtensionOrItems.equalsIgnoreCase("3gp") ||
                         fileExtensionOrItems.equalsIgnoreCase("webm")) {
-            return mIcons.VIDEO_ICON;
+            return IconManager.PHOTO_ICON;
         }
        else if (
                 fileExtensionOrItems.equalsIgnoreCase("mp3") ||

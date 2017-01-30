@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="Key Password"
+                    android:hint="App Password"
                     />
             </android.support.design.widget.TextInputLayout>
 
@@ -61,24 +61,9 @@
                     />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-        <CheckBox
-            android:text="Use different password for database"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/passwords_layout"
-            android:onClick="showSecondPasswordCheckBox"
-            android:id="@+id/checkBox" />
 
-        <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:id="@+id/password2_layout"
-            android:layout_below="@id/checkBox"
-            >
-
-    </FrameLayout>
         <android.support.v7.widget.AppCompatButton
-            android:layout_below="@id/password2_layout"
+            android:layout_below="@id/passwords_layout"
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

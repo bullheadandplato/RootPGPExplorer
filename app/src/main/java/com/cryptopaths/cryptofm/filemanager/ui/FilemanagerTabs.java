@@ -1,7 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager.ui;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,12 +23,12 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.ExternalStorageHandler;
 import com.cryptopaths.cryptofm.filemanager.utils.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
-import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
