@@ -40,7 +40,7 @@ public class DataModelFiles {
             this.isEncrypted=FileUtils.isEncryptedFile(filename);
             this.isFile=true;
         }else{
-            this.fileIcon=context.getDrawable(R.drawable.ic_folder_white_48dp);
+            this.fileIcon=context.getDrawable(R.drawable.ic_default_folder);
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+" items";
             this.isEncrypted=FileUtils.isEncryptedFolder(filename);
