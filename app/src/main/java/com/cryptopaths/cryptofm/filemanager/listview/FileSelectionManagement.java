@@ -27,7 +27,6 @@ public class FileSelectionManagement {
     private FileListAdapter mFileListAdapter;
     private Context             mContext;
     private Drawable            mSelectedFileIcon;
-    private Drawable            mFileIcon;
     private Drawable            mFolderIcon;
     private AdapterCallbacks clickCallBack;
 
@@ -66,7 +65,7 @@ public class FileSelectionManagement {
             mDataModel.setSelected(false);
             clickCallBack.decrementSelectionCount();
             if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
+                mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
@@ -90,7 +89,7 @@ public class FileSelectionManagement {
         if(mSelectedPosition.size()>0){
             mDataModel=mFileFiller.getFileAtPosition(mSelectedPosition.get(0));
             mDataModel.setSelected(false);
-            mDataModel.setFileIcon(mFileIcon);
+            mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
