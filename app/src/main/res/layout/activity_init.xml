@@ -8,14 +8,6 @@
     tools:context="com.cryptopaths.cryptofm.startup.InitActivity">
 
 
-    <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/logo_image"
-    android:id="@+id/fragment_frame_layout"
-    >
-
-</FrameLayout>
 
     <ImageView android:src="@drawable/logofinal"
         android:layout_width="wrap_content"
@@ -27,5 +19,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/logo_image"
+    android:id="@+id/fragment_frame_layout"
+    >
+
+</FrameLayout>
 
 </RelativeLayout>

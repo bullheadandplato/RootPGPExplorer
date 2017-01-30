@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.filemanager.listview;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -7,11 +8,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.utils.MimeType;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -27,7 +31,6 @@ public class FileSelectionManagement {
     private FileListAdapter mFileListAdapter;
     private Context             mContext;
     private Drawable            mSelectedFileIcon;
-    private Drawable            mFileIcon;
     private Drawable            mFolderIcon;
     private AdapterCallbacks clickCallBack;
 
@@ -66,7 +69,7 @@ public class FileSelectionManagement {
             mDataModel.setSelected(false);
             clickCallBack.decrementSelectionCount();
             if(mDataModel.getFile()){
-                mDataModel.setFileIcon(mFileIcon);
+                mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
@@ -90,7 +93,7 @@ public class FileSelectionManagement {
         if(mSelectedPosition.size()>0){
             mDataModel=mFileFiller.getFileAtPosition(mSelectedPosition.get(0));
             mDataModel.setSelected(false);
-            mDataModel.setFileIcon(mFileIcon);
+            mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             mFileListAdapter.notifyItemChanged(mSelectedPosition.get(0));
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
@@ -138,37 +141,80 @@ public class FileSelectionManagement {
     }
 
 
-    void openFile(String filename){
-        if(SharedData.IS_IN_COPY_MODE){
+    void openFile(final String filename) {
+        if (SharedData.IS_IN_COPY_MODE) {
             return;
         }
-        if(FileUtils.getExtension(filename).equals("pgp")){
-            //TODO, gonna do my assignment for now
-        }
-        //open file
-        String mimeType=
-                MimeTypeMap.getSingleton().
-                        getMimeTypeFromExtension(
-                                FileUtils.getExtension(filename
-                                )
-                        );
+        if (FileUtils.getExtension(filename).equals("pgp")) {
+            Log.d(TAG, "openFile: File name is: "+filename);
+            if (SharedData.KEY_PASSWORD == null) {
+                final Dialog dialog = new Dialog(mContext);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.password_dialog_layout);
+                dialog.show();
+                dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
+                dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (editText.getText().length() < 1) {
+                            editText.setError("please give me your encryption password");
+                            return;
+                        } else {
+                            SharedData.KEY_PASSWORD = editText.getText().toString();
+                            dialog.dismiss();
+                            new DecryptTask(
+                                    mContext,
+                                    mFileListAdapter,
+                                    SharedData.DB_PASSWWORD,
+                                    SharedData.USERNAME,
+                                    FileUtils.CURRENT_PATH+filename,
+                                    SharedData.KEY_PASSWORD).execute();
+                        }
 
-        Intent intent=new Intent();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    }
+                });
+            } else {
+                new DecryptTask(
+                        mContext,
+                        mFileListAdapter,
+                        SharedData.DB_PASSWWORD,
+                        SharedData.USERNAME,
+                        FileUtils.CURRENT_PATH+filename,
+                        SharedData.KEY_PASSWORD).execute();
+            }
 
-            Uri uri = FileProvider.getUriForFile(
-                    mContext,
-                    mContext.getApplicationContext().getPackageName()+".provider",
-                    FileUtils.getFile(filename)
-            );
-            intent.setDataAndType(uri,mimeType);
-        }else {
-            intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)),mimeType);
+        } else {
+            //open file
+            String mimeType =
+                    MimeTypeMap.getSingleton().
+                            getMimeTypeFromExtension(
+                                    FileUtils.getExtension(filename
+                                    )
+                            );
+
+            Intent intent = new Intent();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                Uri uri = FileProvider.getUriForFile(
+                        mContext,
+                        mContext.getApplicationContext().getPackageName() + ".provider",
+                        FileUtils.getFile(filename)
+                );
+                intent.setDataAndType(uri, mimeType);
+            } else {
+                intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
+            }
+            intent.setAction(Intent.ACTION_VIEW);
+            Intent x = Intent.createChooser(intent, "Open with: ");
+            mContext.startActivity(x);
         }
-        intent.setAction(Intent.ACTION_VIEW);
-        Intent x=Intent.createChooser(intent,"Open with: ");
-        mContext.startActivity(x);
     }
 
     void openFolder(String filename,int position) {

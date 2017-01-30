@@ -12,7 +12,7 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class IconManager {
-    public static final Drawable PHOTO_ICON= CryptoFM.getContext().getDrawable(R.drawable.ic_application_blank);
+    public static  Drawable PHOTO_ICON;
     public  Drawable CHECK_CIRCLE_ICON;
     public  Drawable COPY_ICON;
     public  Drawable CUT_CONTENT_ICON;

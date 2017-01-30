@@ -43,6 +43,7 @@ public class MyProgressDialog {
         ((TextView)dialog.findViewById(R.id.progress_dialog_title)).setText(title);
         mProgressTextView=((TextView)dialog.findViewById(R.id.filename_progress_textview));
         mProgressBar= (ProgressBar) dialog.findViewById(R.id.dialog_progressbar);
+        mProgressBar.setMax(100);
         dialog.findViewById(R.id.runin_background_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -29,7 +29,7 @@ public class DataModelFiles {
             mIconManager=new MimeType(context);
         }
         this.fileName = filename;
-
+        this.mContext=context;
         //check if i can read file
         if(FileUtils.isFile(filename)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);

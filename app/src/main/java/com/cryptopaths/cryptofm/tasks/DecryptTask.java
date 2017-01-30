@@ -1,9 +1,15 @@
 package com.cryptopaths.cryptofm.tasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
@@ -41,7 +47,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private String rootPath;
     private static final String TAG="decrypt";
     private ArrayList<File> mCreatedFiles=new ArrayList<>();
-
+    private boolean singleFileMode=false;
+    private ProgressDialog singleModeDialog;
+    private String destFilename;
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
                        String DbPass,String mUsername,String keypass){
@@ -57,19 +65,23 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
 
     }
-    private DecryptTask(Context context, FileListAdapter adapter,String DbPass,String mUsername,String f){
+    public DecryptTask(Context context, FileListAdapter adapter,String DbPass,String mUsername,String filename,String keypass){
         this.mContext               = context;
         this.mAdapter               = adapter;
-        this.mFileName              = f;
+        this.mFileName              = filename;
         this.mDbPassword            = DbPass;
+        this.mKeyPass               = keypass.toCharArray();
         this.mUsername              = mUsername;
         this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting",this);
+        this.singleModeDialog       = new ProgressDialog(mContext);
+        this.singleFileMode         = true;
+
     }
     @Override
     protected String doInBackground(Void... voids) {
 
         try{
+
             File root= new File(Environment.getExternalStorageDirectory(),"decrypted");
             if(!root.exists()){
                 if(!root.mkdir()){
@@ -91,6 +103,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
                 File out= new File(root.getPath()+in.getName().substring(0,in.getName().lastIndexOf('.')));
+                destFilename=out.getAbsolutePath();
                 if(out.exists()){
                     throw new Exception("file already decrypted");
                 }
@@ -141,7 +154,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             } else {
                 Log.d(TAG, "decryptFile: rootpath is : " + f.getPath());
-                File out = new File(rootPath, f.getName().substring(0, f.getName().lastIndexOf('.')));
+                File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
                 if (out.exists()) {
                     out.delete();
                 }
@@ -169,23 +182,74 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        mProgressDialog.dismiss("Decryption completed");
+       if(singleFileMode){
+           singleModeDialog.dismiss();
+           Log.d(TAG, "onPostExecute: destination filename is: "+destFilename);
+           //open file
+        String mimeType=
+                MimeTypeMap.getSingleton().
+                        getMimeTypeFromExtension(
+                                FileUtils.getExtension(destFilename
+                                )
+                        );
+
+        Intent intent=new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Uri uri = null;
+            try {
+                uri = FileProvider.getUriForFile(
+                        mContext,
+                        mContext.getApplicationContext().getPackageName()+".provider",
+                        TasksFileUtils.getFile(destFilename)
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            intent.setDataAndType(uri,mimeType);
+        }else {
+            try {
+                intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)),mimeType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        intent.setAction(Intent.ACTION_VIEW);
+        Intent x= Intent.createChooser(intent,"Open with: ");
+        mContext.startActivity(x);
+
+       }else{
+           mProgressDialog.dismiss("Decryption completed");
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         Toast.makeText(mContext,
                 s,
                 Toast.LENGTH_LONG)
                 .show();
         UiUtils.reloadData(mContext,mAdapter);
+       }
+
 
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
+        if(singleFileMode){
+            return;
+        }
         mProgressDialog.setmProgressTextViewText(values[0]);
     }
 
     @Override
     protected void onPreExecute() {
+        if(singleFileMode){
+            singleModeDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            singleModeDialog.setTitle("Decrypting file");
+            singleModeDialog.setMessage("Please wait while I finish decrypting file");
+            singleModeDialog.setIndeterminate(true);
+            singleModeDialog.show();
+            return;
+        }
         mProgressDialog.show();
     }
 

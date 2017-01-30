@@ -26,7 +26,7 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("mkv") ||
                         fileExtensionOrItems.equalsIgnoreCase("3gp") ||
                         fileExtensionOrItems.equalsIgnoreCase("webm")) {
-            return IconManager.PHOTO_ICON;
+            return mIcons.VIDEO_ICON;
         }
        else if (
                         fileExtensionOrItems.equalsIgnoreCase("mp3") ||

@@ -51,7 +51,8 @@
             />
     </LinearLayout>
 
-    <ImageView android:src="@drawable/logo"
+    <ImageView android:src="@drawable/logofinal"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
