@@ -32,8 +32,8 @@ public class MyPGPUtil
 {
     static byte[] compressFile(String fileName, int algorithm) throws IOException
     {
-        ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-        PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(algorithm);
+        ByteArrayOutputStream bOut          = new ByteArrayOutputStream();
+        PGPCompressedDataGenerator comData  = new PGPCompressedDataGenerator(algorithm);
         PGPUtil.writeFileToLiteralData(comData.open(bOut), PGPLiteralData.BINARY,
                 new File(fileName));
         comData.close();
@@ -66,7 +66,7 @@ public class MyPGPUtil
 
     public static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException
     {
-        InputStream keyIn = new BufferedInputStream(new FileInputStream(fileName));
+        InputStream keyIn   = new BufferedInputStream(new FileInputStream(fileName));
         PGPPublicKey pubKey = readPublicKey(keyIn);
         keyIn.close();
         return pubKey;
@@ -113,7 +113,7 @@ public class MyPGPUtil
 
     public static PGPSecretKey readSecretKey(String fileName) throws IOException, PGPException
     {
-        InputStream keyIn = new BufferedInputStream(new FileInputStream(fileName));
+        InputStream keyIn   = new BufferedInputStream(new FileInputStream(fileName));
         PGPSecretKey secKey = readSecretKey(keyIn);
         keyIn.close();
         return secKey;
