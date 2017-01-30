@@ -19,7 +19,6 @@ public class IconManager {
     public  Drawable DECRYPT_ICON;
     public  Drawable DELETE_ICON;
     public  Drawable ENCRYPT_ICON;
-    public  Drawable FOLDER_WHITE_ICON;
     public  Drawable GRID_VIEW_ICON;
     public  Drawable INSERT_DRIVE_FILE_WHITE_ICON;
     public  Drawable ITEMS_VIEW_ICON;
