@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.ExternalStorageHandler;
@@ -46,7 +45,6 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
-        new CryptoFM();
 
         //see the external dirs
        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
