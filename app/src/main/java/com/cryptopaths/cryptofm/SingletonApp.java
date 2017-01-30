@@ -20,6 +20,6 @@ public class SingletonApp {
 
     private SingletonApp(){
         // here you can directly access the Application context calling
-        CryptoFM.get();
+
     }
 }

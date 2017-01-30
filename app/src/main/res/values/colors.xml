@@ -13,4 +13,5 @@
     <color name="pagercolor1">#37474F</color>
     <color name="pagercolor2">#FF5252</color>
     <color name="pagercolor3">#2196f3</color>
+    <color name="white">#FFF</color>
 </resources>
