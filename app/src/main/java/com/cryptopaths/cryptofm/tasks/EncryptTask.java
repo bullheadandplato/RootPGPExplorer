@@ -33,11 +33,11 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private static final String TAG = "encrypt";
 
     public EncryptTask(Context context,FileListAdapter adapter,ArrayList<String> filePaths){
-        this.mAdapter               = adapter;
-        this.mContext               = context;
-        this.mFilePaths             = filePaths;
-        this.mProgressDialog        = new MyProgressDialog(context,"Encrypting",this);
-        this.pubKeyFile             = new File(mContext.getFilesDir(),"pub.asc");
+        this.mAdapter           = adapter;
+        this.mContext           = context;
+        this.mFilePaths         = filePaths;
+        this.mProgressDialog    = new MyProgressDialog(context,"Encrypting",this);
+        this.pubKeyFile         = new File(mContext.getFilesDir(),"pub.asc");
     }
 
     @Override

@@ -18,9 +18,9 @@ import java.util.regex.Pattern;
  */
 
 public class ExternalStorageHandler {
-    private static final String TAG=ExternalStorageHandler.class.getName();
-    private static final Pattern DIR_SEPORATOR = Pattern.compile("/");
-    private static int  TOTAL_STORAGES=0;
+    private static final String     TAG             =ExternalStorageHandler.class.getName();
+    private static final Pattern    DIR_SEPORATOR   = Pattern.compile("/");
+    private static int  TOTAL_STORAGES              =0;
     /**
      * Returns all available SD-Cards in the system (include emulated)
      * <p/>
@@ -32,13 +32,13 @@ public class ExternalStorageHandler {
      */
     public static String[] getStorageDirectories(Context context) {
         // Final set of paths
-        final Set<String> rv = new HashSet<>();
+        final Set<String> rv                    = new HashSet<>();
         // Primary physical SD-CARD (not emulated)
-        final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
+        final String rawExternalStorage         = System.getenv("EXTERNAL_STORAGE");
         // All Secondary SD-CARDs (all exclude primary) separated by ":"
-        final String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
+        final String rawSecondaryStoragesStr    = System.getenv("SECONDARY_STORAGE");
         // Primary emulated SD-CARD
-        final String rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET");
+        final String rawEmulatedStorageTarget   = System.getenv("EMULATED_STORAGE_TARGET");
         if (TextUtils.isEmpty(rawEmulatedStorageTarget)) {
             //fix of empty raw emulated storage on marshmallow
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -27,9 +27,9 @@ import java.util.ArrayList;
  */
 
 public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
-    private Paint p;
-    private Context mContext;
-    private TaskHandler mTaskHandler;
+    private Paint           p;
+    private Context         mContext;
+    private TaskHandler     mTaskHandler;
     private FileListAdapter mAdapter;
     public RecyclerViewSwipeHandler(Context context, TaskHandler taskHandler, FileListAdapter adapter){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
@@ -105,14 +105,14 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
             RecyclerView.ViewHolder viewHolder,
             float dX,
             float dY,
-            int actionState,
+            int   actionState,
             boolean isCurrentlyActive) {
         Bitmap icon;
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
 
             View itemView = viewHolder.itemView;
-            float height = (float) itemView.getBottom() - (float) itemView.getTop();
-            float width = height / 3;
+            float height  = (float) itemView.getBottom() - (float) itemView.getTop();
+            float width   = height / 3;
 
             if(dX > 0){
                 p.setColor(Color.parseColor("#388E3C"));

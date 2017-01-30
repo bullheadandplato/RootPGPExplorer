@@ -64,10 +64,10 @@ public class MyProgressDialog {
     }
 
     private void buildNotification() {
-        thisNotificationNumber=NOTIFICATION_NUMBER++;
-        isInNotificationMode=true;
-        mNotificationManager=(NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotBuilder=new NotificationCompat.Builder(mContext);
+        thisNotificationNumber  =NOTIFICATION_NUMBER++;
+        isInNotificationMode    =true;
+        mNotificationManager    =(NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotBuilder             =new NotificationCompat.Builder(mContext);
         mNotBuilder.setContentTitle(mContentTitle);
         mNotBuilder.setContentText(mCurrentFilename);
         mNotBuilder.setSmallIcon(R.drawable.logo);

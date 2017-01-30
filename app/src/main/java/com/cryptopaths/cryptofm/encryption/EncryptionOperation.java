@@ -8,6 +8,6 @@ import java.io.InputStream;
  */
 
 public interface EncryptionOperation {
-    public void encryptFile(File inputFile,File outputFile, File keyFile,Boolean integrityCheck)throws Exception ;
+    public  void encryptFile(File inputFile,File outputFile, File keyFile,Boolean integrityCheck)throws Exception ;
     public  void decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass)throws Exception;
 }

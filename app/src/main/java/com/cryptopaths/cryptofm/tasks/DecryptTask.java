@@ -34,47 +34,47 @@ import java.util.ArrayList;
  */
 
 public class DecryptTask extends AsyncTask<Void,String,String> {
-    private ArrayList<String> mFilePaths;
-    private FileListAdapter mAdapter;
-    private MyProgressDialog mProgressDialog;
-    private Context mContext;
-    private InputStream mSecKey;
-    private String mDbPassword;
-    private String mUsername;
-    private String mFileName=null;
-    private File mPubKey;
-    private char[] mKeyPass;
-    private String rootPath;
+    private ArrayList<String>   mFilePaths;
+    private FileListAdapter     mAdapter;
+    private MyProgressDialog    mProgressDialog;
+    private Context             mContext;
+    private InputStream         mSecKey;
+    private String              mDbPassword;
+    private String              mUsername;
+    private String              mFileName=null;
+    private File                mPubKey;
+    private char[]              mKeyPass;
+    private String              rootPath;
     private static final String TAG="decrypt";
-    private ArrayList<File> mCreatedFiles=new ArrayList<>();
-    private boolean singleFileMode=false;
-    private ProgressDialog singleModeDialog;
-    private String destFilename;
+    private ArrayList<File>     mCreatedFiles=new ArrayList<>();
+    private boolean             singleFileMode=false;
+    private ProgressDialog      singleModeDialog;
+    private String              destFilename;
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
                        String DbPass,String mUsername,String keypass){
-        this.mContext               = context;
-        this.mAdapter               = adapter;
-        this.mFilePaths             = filePaths;
-        this.mUsername              = mUsername;
-        this.mKeyPass               = keypass.toCharArray();
-        this.mDbPassword            = DbPass;
-        this.mSecKey                = getSecretKey();
-        this.mProgressDialog        = new MyProgressDialog(mContext,"Decrypting",this);
-        this.mPubKey                = new File(mContext.getFilesDir(),"pub.asc");
+        this.mContext           = context;
+        this.mAdapter           = adapter;
+        this.mFilePaths         = filePaths;
+        this.mUsername          = mUsername;
+        this.mKeyPass           = keypass.toCharArray();
+        this.mDbPassword        = DbPass;
+        this.mSecKey            = getSecretKey();
+        this.mProgressDialog    = new MyProgressDialog(mContext,"Decrypting",this);
+        this.mPubKey            = new File(mContext.getFilesDir(),"pub.asc");
 
 
     }
     public DecryptTask(Context context, FileListAdapter adapter,String DbPass,String mUsername,String filename,String keypass){
-        this.mContext               = context;
-        this.mAdapter               = adapter;
-        this.mFileName              = filename;
-        this.mDbPassword            = DbPass;
-        this.mKeyPass               = keypass.toCharArray();
-        this.mUsername              = mUsername;
-        this.mSecKey                = getSecretKey();
-        this.singleModeDialog       = new ProgressDialog(mContext);
-        this.singleFileMode         = true;
+        this.mContext           = context;
+        this.mAdapter           = adapter;
+        this.mFileName          = filename;
+        this.mDbPassword        = DbPass;
+        this.mKeyPass           = keypass.toCharArray();
+        this.mUsername          = mUsername;
+        this.mSecKey            = getSecretKey();
+        this.singleModeDialog   = new ProgressDialog(mContext);
+        this.singleFileMode     = true;
 
     }
     @Override

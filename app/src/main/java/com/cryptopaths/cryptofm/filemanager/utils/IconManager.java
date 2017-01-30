@@ -3,7 +3,6 @@ package com.cryptopaths.cryptofm.filemanager.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.R;
 
 /**
@@ -12,9 +11,7 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class IconManager {
-    public static  Drawable PHOTO_ICON;
     public  Drawable CHECK_CIRCLE_ICON;
-    public  Drawable COPY_ICON;
     public  Drawable CUT_CONTENT_ICON;
     public  Drawable DECRYPT_ICON;
     public  Drawable DELETE_ICON;
@@ -36,7 +33,6 @@ public class IconManager {
 
     public IconManager(Context context){
         //get the references to all the icons here
-        COPY_ICON          =context.getDrawable(R.drawable.ic_copy);
         DELETE_ICON        =context.getDrawable(R.drawable.ic_delete);
         PDF                =context.getDrawable(R.drawable.ic_application_pdf);
         DECRYPT_ICON       =context.getDrawable(R.drawable.ic_decrypt);

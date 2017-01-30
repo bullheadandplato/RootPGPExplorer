@@ -97,7 +97,7 @@ public class EncryptionManagement implements EncryptionOperation {
             InputStream keyIn,
             char[]      passwd,
             String      defaultFileName,
-            long limit
+            long        limit
             )
             throws Exception {
         Log.d("decrypt","yoo nigga decrypting");
@@ -156,8 +156,8 @@ public class EncryptionManagement implements EncryptionOperation {
 
             if (message instanceof PGPLiteralData)
             {
-                PGPLiteralData ld = (PGPLiteralData)message;
-                InputStream unc = ld.getInputStream();
+                PGPLiteralData ld   = (PGPLiteralData)message;
+                InputStream unc     = ld.getInputStream();
                 Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
                 pipeAll(unc,fOut,limit);

@@ -34,8 +34,9 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     static {
         Security.insertProviderAt(new com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
-    private static final int RC_PERMISSION          = 101;
-    private static final String TAG                 = "InitActivity";
+    private static final String TAG          = "InitActivity";
+    private static final int RC_PERMISSION   = 101;
+
 
     private String  mUserSecretDatabase;
     private String  mUserName;
@@ -264,8 +265,8 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
         @Override
         protected void onPreExecute() {
-            permissionGranted=false;
-            dialog=new ProgressDialog(InitActivity.this);
+            permissionGranted   =false;
+            dialog              =new ProgressDialog(InitActivity.this);
             dialog.setIndeterminate(true);
             dialog.setMessage("Settings up application");
             dialog.setTitle("Application setup");

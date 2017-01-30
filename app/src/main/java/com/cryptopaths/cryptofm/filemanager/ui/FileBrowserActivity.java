@@ -36,20 +36,21 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 public class FileBrowserActivity extends AppCompatActivity
 		implements AdapterCallbacks {
 
-	private String 				mCurrentPath;
-	private String 				mRootPath;
-    private FileListAdapter mmFileListAdapter;
-	private RecyclerView 		mFileListView;
-	private LinearLayoutManager	mFileViewLinearLayoutManager;
-	private GridLayoutManager	mFileViewGridLayoutManager;
-	private ItemTouchHelper		mHelper;
-    private static final String TAG = "FileBrowser";
-	private NoFilesFragment mNoFilesFragment;
-	private boolean				mStartedInSelectionMode=false;
-	private FileSelectionManagement mFileSelectionManagement;
-	private FileFillerWrapper mFileFillerWrapper;
+	private String 						mCurrentPath;
+	private String 						mRootPath;
+    private FileListAdapter 			mmFileListAdapter;
+	private RecyclerView 				mFileListView;
+	private LinearLayoutManager			mFileViewLinearLayoutManager;
+	private GridLayoutManager			mFileViewGridLayoutManager;
+	private ItemTouchHelper				mHelper;
+    private static final String 		TAG = "FileBrowser";
+	private NoFilesFragment 			mNoFilesFragment;
+	private boolean						mStartedInSelectionMode=false;
+	private FileFillerWrapper 			mFileFillerWrapper;
+	private FileSelectionManagement 	mFileSelectionManagement;
 
-    @Override
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_activity);
@@ -80,7 +81,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
-		boolean linearLayout           = preferences.getBoolean("key",false);
+		boolean linearLayout           	= preferences.getBoolean("key",false);
 		if(linearLayout || mStartedInSelectionMode){
 			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);

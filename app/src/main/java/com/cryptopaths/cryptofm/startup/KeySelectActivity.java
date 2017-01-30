@@ -17,10 +17,9 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
-import com.cryptopaths.cryptofm.encryption.KeyManagement;
 import com.cryptopaths.cryptofm.encryption.MyPGPUtil;
-import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptolib.org.spongycastle.bcpg.ArmoredOutputStream;
@@ -42,15 +41,15 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 
 public class KeySelectActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
-    private static final int GET_PUBLIC_KEY_CODE=10;
-    private static final int GET_SECRET_KEY_CODE=20;
-    private static final String TAG             ="keySelectActivity";
-    private static final int RC_PERMISSION          = 101;
-    private String mSecretKeyFilename;
-    private TextView mPubKeyEditText;
-    private TextView mSecKeyEditText;
-    private boolean IS_DIFFERENT_PASSWORD=false;
-    private String mDbPass;
+    private static final int        GET_PUBLIC_KEY_CODE     =10;
+    private static final int        GET_SECRET_KEY_CODE     =20;
+    private static final String     TAG                     ="keySelectActivity";
+    private static final int        RC_PERMISSION           = 101;
+    private String                  mSecretKeyFilename;
+    private TextView                mPubKeyEditText;
+    private TextView                mSecKeyEditText;
+    private boolean                 IS_DIFFERENT_PASSWORD   =false;
+    private String                  mDbPass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
