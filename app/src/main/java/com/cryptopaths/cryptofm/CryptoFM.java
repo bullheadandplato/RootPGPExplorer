@@ -12,7 +12,7 @@ public class CryptoFM extends Application {
 
     private static CryptoFM instance;
 
-    private CryptoFM() {
+    public CryptoFM() {
         instance = this;
     }
 
