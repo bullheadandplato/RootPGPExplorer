@@ -3,6 +3,8 @@ package com.cryptopaths.cryptofm.filemanager.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.listview.FileSelectionManagement;
+import com.cryptopaths.cryptofm.startup.OptionActivity;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
 import com.cryptopaths.cryptofm.tasks.DeleteTask;
 import com.cryptopaths.cryptofm.tasks.EncryptTask;
@@ -106,6 +109,7 @@ public class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
+
         SharedData.IS_TASK_CANCELED=false;
         ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
@@ -143,6 +147,13 @@ public class TaskHandler {
         }
     }
     public void encryptTask(ArrayList<String> files){
+        //check if user hasn't generate keys
+
+        if(!SharedData.KEYS_GENERATED){
+            //generate keys first
+            generateKeys();
+            return;
+        }
         SharedData.IS_TASK_CANCELED=false;
         ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
@@ -166,6 +177,25 @@ public class TaskHandler {
                 files
         );
         mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void generateKeys() {
+        //show user of what Im going to do
+        final AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
+        dialog.setCancelable(false);
+        dialog.setTitle("Keys not generated");
+        dialog.setMessage("Looks like you haven't generated your keys. You need to generate keys now");
+        dialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                 //get the password
+                Intent intent = new Intent(mContext, OptionActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+        dialog.show();
+
+
     }
 
     public DecryptTask getDecryptTask() {

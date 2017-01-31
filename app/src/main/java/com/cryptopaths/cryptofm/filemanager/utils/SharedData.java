@@ -10,9 +10,10 @@ import java.util.ArrayList;
  */
 
 public class SharedData {
+    public static boolean           KEYS_GENERATED = false;
     public static boolean           SELECTION_MODE = false;
     public static boolean           STARTED_IN_SELECTION_MODE=false;
-    public static Boolean           IS_IN_COPY_MODE = false;
+    public static boolean           IS_IN_COPY_MODE = false;
     public static boolean           IS_TASK_CANCELED=false;
     public static boolean           ALREADY_INSTANTIATED=false;
     public static boolean           IS_COPYING_NOT_MOVING=false;

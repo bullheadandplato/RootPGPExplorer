@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,7 +48,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
-
+         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
         //see the external dirs
        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
         mTotalStorages=mStorageTitles.length;
