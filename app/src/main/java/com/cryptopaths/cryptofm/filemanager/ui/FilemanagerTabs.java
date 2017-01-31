@@ -33,13 +33,15 @@ import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
+    private int                     mTotalStorages;
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
-    private static final String TAG=FilemanagerTabs.class.getName();
-    private int                     mTotalStorages;
     private String[]                mStorageTitles;
-    private TabsFragmentOne[] mFragmentOnes;
-    private static final int GET_PERMISSION_CODE=432;
+    private TabsFragmentOne[]       mFragmentOnes;
+    private static final int        GET_PERMISSION_CODE=432;
+
+    private static final String TAG=FilemanagerTabs.class.getName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,7 +215,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         toolbar.setSubtitle("/storage/emulated/0");
        setSupportActionBar(toolbar);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorages);
         mPagerAdapter.setTitles(mStorageTitles);

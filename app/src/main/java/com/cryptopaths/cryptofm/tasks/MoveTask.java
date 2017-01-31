@@ -1,8 +1,6 @@
 package com.cryptopaths.cryptofm.tasks;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,19 +27,19 @@ import java.util.ArrayList;
 public class MoveTask extends AsyncTask<String,String,String> {
     private Context             mContext;
     private static final String TAG=MoveTask.class.getName();
-    private MyProgressDialog      mProgressDialog;
+    private MyProgressDialog    mProgressDialog;
     private ArrayList<String>   mFiles;
     private String              mDestinationFolder;
     private boolean             isNextFile=true;
-    private String             originalDestination;
+    private String              originalDestination;
     private FileListAdapter     mAdapter;
 
     public MoveTask(Context context,ArrayList<String> files,String destination,FileListAdapter mAdapter){
-        this.mContext           = context;
-        mProgressDialog         = new MyProgressDialog(mContext,"Copying",this);
-        this.mFiles             = files;
-        this.mDestinationFolder = destination;
-        this.originalDestination=destination;
+        this.mContext               = context;
+        mProgressDialog             = new MyProgressDialog(mContext,"Copying",this);
+        this.mFiles                 = files;
+        this.mDestinationFolder     = destination;
+        this.originalDestination    =destination;
         this.mAdapter=mAdapter;
     }
     @Override

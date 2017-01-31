@@ -13,8 +13,8 @@ import com.cryptopaths.cryptofm.filemanager.ui.TabsFragmentOne;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
-    private String tabTitles[] = new String[] { "Home", "Sdcard" };
-    private TabsFragmentOne[] tabsFragment;
+    private String              tabTitles[] = new String[] { "Home", "Sdcard" };
+    private TabsFragmentOne[]   tabsFragment;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);

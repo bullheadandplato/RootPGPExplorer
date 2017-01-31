@@ -17,9 +17,9 @@ import java.io.File;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
-    private static final String TAG="database";
-    private static final String DATABASE_NAME="pierce";
-    private static final int DATABASE_VERSION=1;
+    private static final String TAG             ="database";
+    private static final String DATABASE_NAME   ="pierce";
+    private static final int DATABASE_VERSION   =1;
     private SQLiteDatabase mDB;
     public DatabaseHandler(Context context,String pass,Boolean isCreated){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);

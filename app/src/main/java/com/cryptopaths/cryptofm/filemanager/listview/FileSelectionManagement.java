@@ -27,11 +27,11 @@ import java.util.ArrayList;
  */
 
 public class FileSelectionManagement {
-    private DataModelFiles mDataModel;
-    private FileListAdapter mFileListAdapter;
-    private Context             mContext;
-    private Drawable            mSelectedFileIcon;
-    private Drawable            mFolderIcon;
+    private DataModelFiles   mDataModel;
+    private FileListAdapter  mFileListAdapter;
+    private Context          mContext;
+    private Drawable         mSelectedFileIcon;
+    private Drawable         mFolderIcon;
     private AdapterCallbacks clickCallBack;
 
     private static final String TAG="FileSelectionManagement";
@@ -45,9 +45,9 @@ public class FileSelectionManagement {
         this.mContext     = context;
         mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
         mFolderIcon       = mContext.getDrawable(R.drawable.ic_default_folder);
-        clickCallBack = (AdapterCallbacks)mContext;
-        mFileListAdapter=adapter;
-        mFileFiller=adapter.getmFileFiller();
+        clickCallBack     = (AdapterCallbacks)mContext;
+        mFileListAdapter  =adapter;
+        mFileFiller       =adapter.getmFileFiller();
 
     }
 

@@ -22,14 +22,14 @@ public class MimeType {
     public static Drawable getIcon(String fileExtensionOrItems) {
 
         if (
-                fileExtensionOrItems.equalsIgnoreCase("mp4") ||
+                        fileExtensionOrItems.equalsIgnoreCase("mp4") ||
                         fileExtensionOrItems.equalsIgnoreCase("mkv") ||
                         fileExtensionOrItems.equalsIgnoreCase("3gp") ||
                         fileExtensionOrItems.equalsIgnoreCase("webm")) {
             return mIcons.VIDEO_ICON;
         }
        else if (
-                fileExtensionOrItems.equalsIgnoreCase("mp3") ||
+                        fileExtensionOrItems.equalsIgnoreCase("mp3") ||
                         fileExtensionOrItems.equalsIgnoreCase("aac") ||
                         fileExtensionOrItems.equalsIgnoreCase("m4a") ||
                         fileExtensionOrItems.equalsIgnoreCase("m4b") ||
@@ -51,8 +51,8 @@ public class MimeType {
             return mIcons.AUDIO_ICON;
         }
        else if (
-                fileExtensionOrItems.equalsIgnoreCase("jpeg") ||
-                         fileExtensionOrItems.equalsIgnoreCase("jpg") ||
+                        fileExtensionOrItems.equalsIgnoreCase("jpeg") ||
+                        fileExtensionOrItems.equalsIgnoreCase("jpg") ||
                         fileExtensionOrItems.equalsIgnoreCase("gif") ||
                         fileExtensionOrItems.equalsIgnoreCase("png") ||
                         fileExtensionOrItems.equalsIgnoreCase("bmp") ||
@@ -61,7 +61,7 @@ public class MimeType {
 
         }
        else if (
-                fileExtensionOrItems.equalsIgnoreCase("rar") ||
+                        fileExtensionOrItems.equalsIgnoreCase("rar") ||
                         fileExtensionOrItems.equalsIgnoreCase("zip") ||
                         fileExtensionOrItems.equalsIgnoreCase("tar") ||
                         fileExtensionOrItems.equalsIgnoreCase("iso") ||
@@ -76,7 +76,7 @@ public class MimeType {
             return mIcons.TEXT_ICON;
         }
        else if (
-                fileExtensionOrItems.equalsIgnoreCase("css") ||
+                        fileExtensionOrItems.equalsIgnoreCase("css") ||
                         fileExtensionOrItems.equalsIgnoreCase("htm") ||
                         fileExtensionOrItems.equalsIgnoreCase("html") ||
                         fileExtensionOrItems.equalsIgnoreCase("js") ||

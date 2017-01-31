@@ -98,9 +98,9 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             // find the secret key
             //
             Iterator it = enc.getEncryptedDataObjects();
-            PGPPrivateKey sKey = null;
-            PGPPublicKeyEncryptedData pbe = null;
-            PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
+            PGPPrivateKey sKey                  = null;
+            PGPPublicKeyEncryptedData pbe       = null;
+            PGPSecretKeyRingCollection pgpSec   = new PGPSecretKeyRingCollection(
                     PGPUtil.getDecoderStream(secKeyFile), new JcaKeyFingerprintCalculator());
 
             while (sKey == null && it.hasNext())
@@ -123,8 +123,8 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
 
             if (message instanceof PGPCompressedData)
             {
-                PGPCompressedData   cData = (PGPCompressedData)message;
-                JcaPGPObjectFactory    pgpFact = new JcaPGPObjectFactory(cData.getDataStream());
+                PGPCompressedData   cData       = (PGPCompressedData)message;
+                JcaPGPObjectFactory    pgpFact  = new JcaPGPObjectFactory(cData.getDataStream());
 
                 message = pgpFact.nextObject();
             }

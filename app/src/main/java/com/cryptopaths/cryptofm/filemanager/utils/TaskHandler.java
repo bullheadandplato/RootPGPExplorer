@@ -28,12 +28,12 @@ import java.util.ArrayList;
  */
 
 public class TaskHandler {
-    private EncryptTask     mEncryptTask;
-    private DecryptTask     mDecryptTask;
-    private FileListAdapter mAdapter;
-    private Context         mContext;
+    private EncryptTask             mEncryptTask;
+    private DecryptTask             mDecryptTask;
+    private FileListAdapter         mAdapter;
+    private Context                 mContext;
     private FileSelectionManagement mFileSelectionManagement;
-    private ArrayList<String> mSelectedFiles;
+    private ArrayList<String>       mSelectedFiles;
     public TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
         this.mContext=context;
         mAdapter=adapter;

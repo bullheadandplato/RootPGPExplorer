@@ -23,6 +23,7 @@ public class DataModelFiles {
     private Boolean     isFile       = false;
     private boolean     isEncrypted  = false;
     private Context     mContext;
+
     private static MimeType mIconManager;
     public DataModelFiles(String filename, Context context) {
         if(mIconManager==null){

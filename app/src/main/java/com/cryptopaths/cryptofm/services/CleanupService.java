@@ -15,9 +15,9 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
  */
 
 public class CleanupService  extends Service{
-    public static Boolean IS_TASK_RUNNING=false;
+    public static Boolean                    IS_TASK_RUNNING=false;
     public static NotificationCompat.Builder NOTIFICATION_BUILDER=null;
-    public static NotificationManager NOTIFICATION_MANAGER=null;
+    public static NotificationManager        NOTIFICATION_MANAGER=null;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
