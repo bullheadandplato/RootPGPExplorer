@@ -185,72 +185,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Log.d("fragment","yes the fragment created");
     }
 
-    /*
-    Generating keys area
 
-    private class KeyGenerationTask extends AsyncTask<Void,Void,byte[]> {
-
-        @Override
-        protected byte[] doInBackground(Void... strings) {
-            String email                = mUserName;
-            char[] password             = mUserSecretKeyPassword.toCharArray();
-            try {
-                Log.d(TAG,"start generating keys");
-                PGPKeyRingGenerator keyRingGenerator    = keyManagement.generateKey(email,password);
-                PGPPublicKeyRing publicKeys             = keyRingGenerator.generatePublicKeyRing();
-                PGPSecretKeyRing secretKeys             = keyRingGenerator.generateSecretKeyRing();
-
-                //output keys in ascii armored format
-                File file                   = new File(getFilesDir(),"pub.asc");
-                ArmoredOutputStream pubOut  = new ArmoredOutputStream(new FileOutputStream(file));
-                publicKeys.encode(pubOut);
-                pubOut.close();
-
-                ByteArrayOutputStream outputStream  = new ByteArrayOutputStream();
-                ArmoredOutputStream secOut          = new ArmoredOutputStream(outputStream);
-                secretKeys.encode(secOut);
-                secOut.close();
-
-                byte[] test=outputStream.toByteArray();
-                //call the db methods to store
-                mDatabaseHandler.insertSecKey(email,test);
-
-                Log.d(TAG,"secret key written to file");
-                return  test;
-
-            } catch (Exception e) {
-                Log.d(TAG,"Error generating keys");
-                e.printStackTrace();
-                return null;
-
-            }
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //show a progress dialog
-            mKeygenProgressBar.setIndeterminateDrawable(mProgressBarDefaultDrawable);
-
-        }
-
-        @Override
-        protected void onPostExecute(byte[] s) {
-            super.onPostExecute(s);
-            mKeygenProgressBar.setIndeterminateDrawableTiled(mProgressBarAfterDrawable);
-            //commit changes
-            commitInitActivity();
-            //start intermediateActivity
-            Intent intent = new Intent(InitActivity.this,UnlockDbActivity.class);
-            intent.putExtra("username",mUserName);
-            //this flag will remove all the previous activities from backstack
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivityForResult(intent,1);
-            finish();
-
-        }
-    }*/
     private ProgressDialog dialog;
     private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
         @Override
