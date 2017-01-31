@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/logo"
+            android:src="@drawable/logofinal"
             android:tint="#FFF"
             android:id="@+id/imageIcon"
             android:layout_height="100dp" />
@@ -82,42 +82,6 @@
 
             </android.support.v7.widget.CardView>
         </RelativeLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/get_secret_password_layout"
-            android:layout_below="@id/header_section_layout"
-            app:passwordToggleEnabled="true"
-            android:textColorHint="#FFF"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/user_secret_key_pass_edit"
-                android:hint="@string/key_password"
-                android:textColorHint="#FFF"
-                android:maxLines="1" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <CheckBox
-            android:text="Use different password for database"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:layout_margin="10dp"
-            android:layout_below="@id/get_secret_password_layout"
-            android:onClick="showDatabasePasswordFragment"
-            android:id="@+id/checkBox" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/password2_layout_select_activity"
-            android:layout_below="@id/checkBox"
-            android:layout_margin="10dp"
-            />
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/button_letsgo_keys_select"
             android:layout_width="match_parent"
@@ -131,7 +95,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/password2_layout_select_activity"
+            android:layout_below="@id/header_section_layout"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             />
