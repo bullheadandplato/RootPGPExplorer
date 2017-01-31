@@ -16,7 +16,7 @@
         android:layout_marginTop="36dp" />
 
     <TextView
-        android:text="Crypto File Manager helps to safely encrypt \n your all internal and external storage data \n and secure your data"
+        android:text="Crypto File Manager helps to safely encrypt \n your all internal and external storage data \n and secure your data to spy \n by someone or missused "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
