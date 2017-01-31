@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 public class OptionActivity extends AppCompatActivity {
     private String mKeyPassword;
     private static final String TAG=OptionActivity.class.getName();
+    private static final int RC_RESULT=121;
 
     private ProgressDialog mProgressDialog;
     @Override
@@ -48,9 +49,22 @@ public class OptionActivity extends AppCompatActivity {
             generateKeys();
         }else{
             Intent intent=new Intent(this,KeySelectActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,RC_RESULT);
+
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       if(requestCode==RC_RESULT){
+           if(resultCode==RESULT_OK){
+               //means browse keys was successful
+               finish();
+           }
+       }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void generateKeys(){
         //show password dialog
         final Dialog dialog=new Dialog(this);

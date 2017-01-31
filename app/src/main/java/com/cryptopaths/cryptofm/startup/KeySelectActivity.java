@@ -145,6 +145,7 @@ public class KeySelectActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
                 //start the unlock db activity
                 SharedData.KEYS_GENERATED=true;
+                setResult(RESULT_OK);
                 finish();
             }else{
                 Toast.makeText(
