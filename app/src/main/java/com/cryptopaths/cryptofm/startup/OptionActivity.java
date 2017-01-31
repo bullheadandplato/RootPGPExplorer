@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
@@ -58,14 +59,14 @@ public class OptionActivity extends AppCompatActivity {
         dialog.setTitle("keys password");
         final TextInputEditText editText=(TextInputEditText)dialog.findViewById(R.id.gen_keys_password_edit);
         final TextInputEditText confirmEditText=(TextInputEditText)dialog.findViewById(R.id.gen_keys_password_edit_confirm);
-
+        dialog.show();
 
         dialog.findViewById(R.id.trigger_gen_key_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //test the passwords
                 if (isValidPassword(editText.getText())) {
-                    if (editText.getText().equals(confirmEditText.getText())) {
+                    if (editText.getText().toString().equals(confirmEditText.getText().toString())) {
                         //be sure to dismiss the dialog
                         dialog.dismiss();
                         //start the async task
@@ -79,6 +80,12 @@ public class OptionActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+        dialog.findViewById(R.id.cancel_dialog_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }
@@ -149,9 +156,20 @@ public class OptionActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(byte[] s) {
             super.onPostExecute(s);
-            mProgressDialog.dismiss();
-            SharedData.KEYS_GENERATED=true;
-            finish();
+            if(s!=null){
+                Toast.makeText(
+                        OptionActivity.this,
+                        "Successfully generated keys. Now you can encrypt files",
+                        Toast.LENGTH_LONG).show();
+                mProgressDialog.dismiss();
+                SharedData.KEYS_GENERATED=true;
+                finish();
+            }else{
+                 Toast.makeText(
+                        OptionActivity.this,
+                        "There is an error in generating keys, please try again!",
+                        Toast.LENGTH_SHORT).show();
+            }
 
         }
     }

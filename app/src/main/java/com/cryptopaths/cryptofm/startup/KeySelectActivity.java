@@ -139,7 +139,10 @@ public class KeySelectActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             mProgressDialog.dismiss();
             if(aBoolean){
-
+                Toast.makeText(
+                        KeySelectActivity.this,
+                        "Successfully generated keys. Now you can encrypt files",
+                        Toast.LENGTH_LONG).show();
                 //start the unlock db activity
                 SharedData.KEYS_GENERATED=true;
                 finish();
