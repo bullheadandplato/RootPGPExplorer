@@ -2,7 +2,9 @@ package com.cryptopaths.cryptofm.startup;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -114,7 +116,11 @@ public class OptionActivity extends AppCompatActivity {
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 db.insertSecKey(email,test);
-
+                SharedPreferences prefs=getSharedPreferences("done", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=prefs.edit();
+                editor.putBoolean("keys_gen",true);
+                editor.apply();
+                editor.commit();
                 Log.d(TAG,"secret key written to file");
                 return  test;
 

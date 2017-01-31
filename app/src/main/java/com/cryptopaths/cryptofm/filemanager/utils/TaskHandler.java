@@ -148,10 +148,11 @@ public class TaskHandler {
     }
     public void encryptTask(ArrayList<String> files){
         //check if user hasn't generate keys
-        SharedPreferences prefs=mContext.getSharedPreferences("done",Context.MODE_PRIVATE);
-        if(!prefs.getBoolean("keys_gen",false)){
+
+        if(!SharedData.KEYS_GENERATED){
             //generate keys first
             generateKeys();
+            return;
         }
         SharedData.IS_TASK_CANCELED=false;
         ArrayList<String> tmp=new ArrayList<>();
@@ -182,6 +183,7 @@ public class TaskHandler {
         //get the password
         Intent intent = new Intent(mContext, OptionActivity.class);
         mContext.startActivity(intent);
+
     }
 
     public DecryptTask getDecryptTask() {
