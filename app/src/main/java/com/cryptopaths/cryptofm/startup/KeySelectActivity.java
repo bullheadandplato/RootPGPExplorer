@@ -1,6 +1,6 @@
 package com.cryptopaths.cryptofm.startup;
 
-import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +18,6 @@ import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.MyPGPUtil;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
-import com.cryptopaths.cryptofm.startup.fragments.PasswordsFragment;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptolib.org.spongycastle.bcpg.ArmoredOutputStream;
 import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
@@ -31,9 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by tripleheader on 1/16/17.
@@ -46,11 +41,14 @@ public class KeySelectActivity extends AppCompatActivity {
     private static final String     TAG                     ="keySelectActivity";
     private String                  mSecretKeyFilename;
     private TextView                mSecKeyEditText;
+    private ProgressDialog          mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.key_select);
+        mProgressDialog=new ProgressDialog(this);
+
 
         mSecKeyEditText=(TextView) findViewById(R.id.sec_key_edit_text);
 
@@ -139,6 +137,7 @@ public class KeySelectActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            mProgressDialog.dismiss();
             if(aBoolean){
 
                 //start the unlock db activity
@@ -152,9 +151,17 @@ public class KeySelectActivity extends AppCompatActivity {
                 ).show();
             }
         }
-    }
-    private boolean isValidPassword(CharSequence password){
-        return password.length() > 2;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog.setTitle("Generating keys");
+            mProgressDialog.setMessage("Pleas wait it can take a while");
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+        }
     }
 
 }
