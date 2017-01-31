@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.utils;
 
+import android.content.Context;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.support.v4.provider.DocumentFile;
@@ -20,12 +21,12 @@ public class FileDocumentUtils {
     }
 
     public static long getFileSize(String filename) {
-        return DocumentFile.fromSingleUri(CryptoFM.getContext(), Uri.parse(filename)).length();
+        return DocumentFile.fromTreeUri(CryptoFM.getContext(), Uri.parse(filename)).length();
     }
 
 
     public static String getFileExtension(String filename) {
-        String tmp= DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).getType();
+        String tmp= DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(filename)).getType();
         if(tmp.indexOf('/')>0){
             //this means file contains right mime type
             tmp=tmp.substring(tmp.lastIndexOf('/'));
@@ -34,7 +35,7 @@ public class FileDocumentUtils {
     }
 
     public static String getReadableSize(String filename) {
-        long size=DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).length();
+        long size=DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(filename)).length();
         if(size <= 0) return "0B";
         final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
         int digitGroups      = (int) (Math.log10(size)/Math.log10(1024));
@@ -56,7 +57,7 @@ public class FileDocumentUtils {
     }
 
     public static String getLastModifiedData(String filename) {
-        return ""+DocumentFile.fromSingleUri(CryptoFM.getContext(),Uri.parse(filename)).lastModified();
+        return ""+DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(filename)).lastModified();
     }
 
     public static boolean createFolder(String foldername) {

@@ -1,7 +1,10 @@
 package com.cryptopaths.cryptofm.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -18,7 +21,7 @@ import java.util.List;
 public class FileUtils {
     private static final String TAG     = "files";
     public static  String CURRENT_PATH  = " ";
-
+    public static String CONTENT_URI;
 
     public static long getFileSize(String filename){
         return new File(CURRENT_PATH+filename).length();
@@ -116,8 +119,8 @@ public class FileUtils {
     }
 
     public static Boolean isFile(String filename) {
-        if(filename.contains("content://")){
-            return FileDocumentUtils.isFile(filename);
+        if(isSdCardPath(filename)){
+           // return FileDocumentUtils.isFile(CONTENT_URI);
         }
         return new File(CURRENT_PATH + filename).isFile();
     }
@@ -131,8 +134,8 @@ public class FileUtils {
                 + " " + units[digitGroups];
     }
     public static String getLastModifiedDate(String filename){
-        if(filename.contains("content://")){
-            return FileDocumentUtils.getLastModifiedData(filename);
+        if(isSdCardPath(filename)){
+            //return FileDocumentUtils.getLastModifiedData(CONTENT_URI);
         }
         String date = new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
         Log.d(TAG, "getLastModifiedDate: date is: "+date);
@@ -142,8 +145,8 @@ public class FileUtils {
 
 
     public static Boolean createFolder(String folderName) {
-        if(folderName.contains("content://")){
-            return FileDocumentUtils.createFolder(folderName);
+        if(isSdCardPath(folderName)){
+          //  return FileDocumentUtils.createFolder(CONTENT_URI);
         }
         File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
@@ -176,5 +179,27 @@ public class FileUtils {
     }
     public static boolean checkReadStatus(String filename){
         return new File(FileUtils.CURRENT_PATH+filename).canRead();
+    }
+
+    public static boolean isSdCardPath(String path){
+        Log.d(TAG, "isSdCardPath: Yes entering sdcard path");
+        if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null && SharedData.EXT_ROOT_URI!=null){
+            if(CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                convertPathToUri(path);
+                return true;
+            }
+        }
+        return false;
+    }
+    private static String convertPathToUri(String path){
+        //change the path and make it content uri
+        CONTENT_URI=CURRENT_PATH.replace(SharedData.EXTERNAL_SDCARD_ROOT_PATH,"")+path;
+        CONTENT_URI=CONTENT_URI.replaceAll(" ","%20");  //cover spaces to match in uri
+        CONTENT_URI=CONTENT_URI.replaceAll("/","%2");   //change bar to match in URI
+        CONTENT_URI=SharedData.EXT_ROOT_URI+CONTENT_URI;
+        CONTENT_URI=CONTENT_URI.substring(0,CONTENT_URI.length()-2);
+        Log.d(TAG, "convertPathToUri: URI jkhjkis: "+CONTENT_URI);
+        return CONTENT_URI;
+
     }
 }

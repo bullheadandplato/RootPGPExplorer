@@ -33,6 +33,8 @@ import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
+import java.io.File;
+
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private int                     mTotalStorages;
     private boolean                 isEmptyFolder=false;
@@ -48,16 +50,15 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
-         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
         //see the external dirs
-       mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
+        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
         mTotalStorages=mStorageTitles.length;
         Log.d(TAG, "onCreate: total storages are: " +mTotalStorages);
         SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
         SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
         setToolbar();
-
 
 
     }
@@ -69,6 +70,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             mCurrentFragment=mFragmentOnes[0];
         }
         FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
+        String uri=null;
+
         Log.d(TAG, "onAddFloatingClicked: current path is: "+FileUtils.CURRENT_PATH);
         if(isEmptyFolder) {
             removeNoFilesFragment();
@@ -89,7 +92,17 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 if(folderName.length()<1){
                     folderEditText.setError("Give me the folder name");
                 }else{
-                    if(!FileUtils.createFolder(folderName)){
+                    if(FileUtils.isSdCardPath("")){
+                        Log.d(TAG, "onClick: Yes nigga creating folder via document");
+                        DocumentFile x=DocumentFile.fromTreeUri(FilemanagerTabs.this,Uri.parse(FileUtils.CONTENT_URI));
+                        x.createDirectory(folderName);
+                        dialog.dismiss();UiUtils.reloadData(
+                                FilemanagerTabs.this,
+                                mCurrentFragment.getmFileAdapter()
+                        );
+
+                    }
+                    else if(!FileUtils.createFolder(folderName)){
                         Toast.makeText(
                                 FilemanagerTabs.this,
                                 "Cannot create folder make sure current path is writable",
@@ -212,11 +225,20 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-       Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         toolbar.setSubtitle("/storage/emulated/0");
-       setSupportActionBar(toolbar);
-
+        setSupportActionBar(toolbar);
+        if (mTotalStorages > 1 && getContentResolver().getPersistedUriPermissions().size() < 1) {
+            Log.d(TAG, "setToolbar: found exeternal sdcard");
+            getExternalStoragePermissions();   
+        }
+        // set the external sdcard path
+        if (mTotalStorages > 1) {
+            SharedData.EXTERNAL_SDCARD_ROOT_PATH = mStorageTitles[0];
+            SharedData.EXT_ROOT_URI = getPreferences(Context.MODE_PRIVATE).getString("tree_uri", null);
+            FileUtils.CURRENT_PATH=SharedData.EXTERNAL_SDCARD_ROOT_PATH;
+        }
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorages);
@@ -256,9 +278,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             }
         });
-        if(mTotalStorages>1 && getContentResolver().getPersistedUriPermissions().size()<1){
-            getExternalStoragePermissions();
-        }
+
 
     }
     private void getExternalStoragePermissions(){
@@ -299,6 +319,13 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 Uri treeUri = data.getData();
                 Log.d(TAG, "onActivityResult: tree uri is: "+treeUri);
                 DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+                //save the uri for later use
+                SharedPreferences prefs=getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=prefs.edit();
+                editor.putString("tree_uri",treeUri.toString());
+                editor.apply();
+                editor.commit();
+
                 // Check for the freshest data.
                 getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION |
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
