@@ -180,9 +180,21 @@ public class TaskHandler {
     }
 
     private void generateKeys() {
-        //get the password
-        Intent intent = new Intent(mContext, OptionActivity.class);
-        mContext.startActivity(intent);
+        //show user of what Im going to do
+        final AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
+        dialog.setCancelable(false);
+        dialog.setTitle("Keys not generated");
+        dialog.setMessage("Looks like you haven't generated your keys. You need to generate keys now");
+        dialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                 //get the password
+                Intent intent = new Intent(mContext, OptionActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+        dialog.show();
+
 
     }
 
