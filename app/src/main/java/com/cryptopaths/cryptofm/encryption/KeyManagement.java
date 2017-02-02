@@ -41,12 +41,13 @@ import java.util.Iterator;
 
 /**
  * Created by osama on 10/8/16.
+ *
  */
 public class KeyManagement implements KeyOperations {
     @Override
     public PGPKeyRingGenerator generateKey(String email, char[] password) throws Exception {
         RSAKeyPairGenerator rsaKeyPairGenerator=new RSAKeyPairGenerator();
-        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001),new SecureRandom(),4096,12));
+        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001),new SecureRandom(),2048,12));
         PGPKeyPair keyPair=new BcPGPKeyPair(PGPPublicKey.RSA_SIGN,rsaKeyPairGenerator.generateKeyPair(),new Date());
         PGPKeyPair enKeyPair=new BcPGPKeyPair(PGPPublicKey.RSA_ENCRYPT,rsaKeyPairGenerator.generateKeyPair(),new Date());
 
@@ -150,18 +151,6 @@ public class KeyManagement implements KeyOperations {
     }
 
 
-    @Override
-    public PGPSecretKey getSecretKey(InputStream binaryData,long keyID) throws Exception {
-        InputStream inputStream=PGPUtil.getDecoderStream(binaryData);
-        JcaPGPSecretKeyRingCollection pgpSecretKeyRings=new JcaPGPSecretKeyRingCollection(PGPUtil.getDecoderStream(inputStream));
-        PGPSecretKey secretKey=pgpSecretKeyRings.getSecretKey(keyID);
-        if(secretKey!=null){
-            return secretKey;
-        }else{
-            return secretKey;
-        }
-
-    }
     public PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
             throws PGPException, NoSuchProviderException
     {
