@@ -21,7 +21,6 @@ import org.spongycastle.openpgp.PGPSignature;
 import org.spongycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPPublicKeyRingCollection;
-import org.spongycastle.openpgp.jcajce.JcaPGPSecretKeyRingCollection;
 import org.spongycastle.openpgp.operator.PBESecretKeyEncryptor;
 import org.spongycastle.openpgp.operator.PGPDigestCalculator;
 import org.spongycastle.openpgp.operator.bc.BcPBESecretKeyEncryptorBuilder;
