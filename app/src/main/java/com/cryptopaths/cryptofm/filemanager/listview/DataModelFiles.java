@@ -13,7 +13,7 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
  * Data model for the recyclerview
  */
 
-public class DataModelFiles {
+public class DataModelFiles  {
     private String      fileName;
     private String      fileExtensionOrItems;
     private String      fileSize;
