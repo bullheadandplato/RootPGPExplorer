@@ -44,11 +44,7 @@ public class FileUtils {
         File dir = new File(CURRENT_PATH+filename);
         //if file is not a directory but just a file
         if(dir.isFile()){
-            if(dir.getName().contains("pgp")){
-                return true;
-            }else{
-                return false;
-            }
+            return dir.getName().contains("pgp");
         }
         //if all the files in folder are encrypted than this variable will be zero
         if(dir.listFiles().length<1){
@@ -63,19 +59,11 @@ public class FileUtils {
                 temp++;
             }
         }
-        if(temp==0){
-            return true;
-        }else{
-            return false;
-        }
+        return temp == 0;
     }
 
     public static boolean isEncryptedFile(String filename){
-        if(filename.contains(".pgp")){
-            return true;
-        }else{
-            return false;
-        }
+        return filename.contains(".pgp");
     }
 
     public static int getNumberOfFiles(String  foldername){
@@ -152,11 +140,7 @@ public class FileUtils {
         if(temp.exists()){
             return false;
         }else{
-            if(temp.mkdirs()){
-                return true;
-            }else{
-                return false;
-            }
+            return temp.mkdirs();
         }
     }
 
