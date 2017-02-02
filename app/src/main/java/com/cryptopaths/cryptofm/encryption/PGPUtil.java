@@ -156,15 +156,7 @@ public class PGPUtil
      * Write out the contents of the provided file as a literal data packet.
      *
      * @param out the stream to write the literal data to.
-     * @param fileType the {@link PGPLi
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * teralData} type to use for the file data.
+     * @param fileType the {@link PGPLiteralData} type to use for the file data.
      * @param file the file to write the contents of.
      *
      * @throws IOException if an error occurs reading the file or writing to the output stream.
