@@ -127,7 +127,7 @@ public class TabsFragmentOne extends Fragment {
         mLinearLayoutManager=new LinearLayoutManager(mContext);
         mGridLayoutManager=new GridLayoutManager(mContext,2);
 
-        mFileFiller=new FileFillerWrapper();;
+        mFileFiller=new FileFillerWrapper();
         mFileAdapter= new FileListAdapter(mContext);
         mFileAdapter.setmFileFiller(mFileFiller);
         mManager=mFileAdapter.getmManager();
