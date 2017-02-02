@@ -110,28 +110,30 @@ public class TaskHandler {
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
 
+        if(!SharedData.KEYS_GENERATED){
+            //generate keys first
+            generateKeys();
+            return;
+        }
         SharedData.IS_TASK_CANCELED=false;
-        ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
         for (int i = 0; i < size; i++) {
             if(!SharedData.checkIfInRunningTask(files.get(i))){
-                tmp.add(files.get(i));
-            }
-        }
-        if(tmp.size()<1){
-            Toast.makeText(
+                            Toast.makeText(
                     mContext,
                     "Another operation is already running on files, please wait",
                     Toast.LENGTH_LONG
             ).show();
             return;
+            }
         }
-        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
+
+        SharedData.CURRENT_RUNNING_OPERATIONS=files;
 
         mDecryptTask=new DecryptTask(
                 mContext,
                 mAdapter,
-                files,
+                (ArrayList<String>) files.clone(),
                 dbpass,
                 username,
                 keypass
@@ -155,26 +157,22 @@ public class TaskHandler {
             return;
         }
         SharedData.IS_TASK_CANCELED=false;
-        ArrayList<String> tmp=new ArrayList<>();
         int size=files.size();
         for (int i = 0; i < size; i++) {
             if(!SharedData.checkIfInRunningTask(files.get(i))){
-                tmp.add(files.get(i));
-            }
-        }
-        if(tmp.size()<1){
-            Toast.makeText(
+             Toast.makeText(
                     mContext,
                     "Another operation is already running on files, please wait",
                     Toast.LENGTH_LONG
             ).show();
             return ;
+            }
         }
-        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
+        SharedData.CURRENT_RUNNING_OPERATIONS=files;
         mEncryptTask=new EncryptTask(
                 mContext,
                 mAdapter,
-                files
+                (ArrayList<String>) files.clone()
         );
         mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

@@ -230,7 +230,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         toolbar.setSubtitle("/storage/emulated/0");
         setSupportActionBar(toolbar);
         if (mTotalStorages > 1 && getContentResolver().getPersistedUriPermissions().size() < 1) {
-            Log.d(TAG, "setToolbar: found exeternal sdcard");
+            Log.d(TAG, "setToolbar: found external sdcard");
             getExternalStoragePermissions();   
         }
         // set the external sdcard path
