@@ -118,7 +118,7 @@ public class TaskHandler {
         SharedData.IS_TASK_CANCELED=false;
         int size=files.size();
         for (int i = 0; i < size; i++) {
-            if(!SharedData.checkIfInRunningTask(files.get(i))){
+            if(SharedData.checkIfInRunningTask(files.get(i))){
                             Toast.makeText(
                     mContext,
                     "Another operation is already running on files, please wait",
@@ -159,7 +159,7 @@ public class TaskHandler {
         SharedData.IS_TASK_CANCELED=false;
         int size=files.size();
         for (int i = 0; i < size; i++) {
-            if(!SharedData.checkIfInRunningTask(files.get(i))){
+            if(SharedData.checkIfInRunningTask(files.get(i))){
              Toast.makeText(
                     mContext,
                     "Another operation is already running on files, please wait",

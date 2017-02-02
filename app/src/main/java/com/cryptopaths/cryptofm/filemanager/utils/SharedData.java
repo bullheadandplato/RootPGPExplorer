@@ -51,6 +51,9 @@ public class SharedData {
      * @return true if no operation is going on else false
      */
     public static boolean checkIfInRunningTask(String path){
+        if(CURRENT_RUNNING_OPERATIONS.size()<1){
+            return false;
+        }
         for (String p: CURRENT_RUNNING_OPERATIONS) {
             if(path.contains(p) || p.contains(path)){
                 return true;
