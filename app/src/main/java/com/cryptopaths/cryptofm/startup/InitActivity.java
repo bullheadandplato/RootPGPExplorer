@@ -32,7 +32,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , InitActivityThirdFragment.FragmentCreated{
     static {
-        Security.insertProviderAt(new com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
     private static final String TAG          = "InitActivity";
     private static final int RC_PERMISSION   = 101;

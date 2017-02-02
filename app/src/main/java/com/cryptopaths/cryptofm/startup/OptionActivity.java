@@ -20,10 +20,10 @@ import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
 import com.cryptopaths.cryptofm.encryption.KeyManagement;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.ArmoredOutputStream;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPKeyRingGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyRing;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRing;
+import org.spongycastle.bcpg.ArmoredOutputStream;
+import org.spongycastle.openpgp.PGPKeyRingGenerator;
+import org.spongycastle.openpgp.PGPPublicKeyRing;
+import org.spongycastle.openpgp.PGPSecretKeyRing;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
