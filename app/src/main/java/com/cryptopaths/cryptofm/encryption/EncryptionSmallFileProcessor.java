@@ -1,24 +1,23 @@
 package com.cryptopaths.cryptofm.encryption;
 
-import com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPCompressedData;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedData;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedDataGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedDataList;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPLiteralData;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPOnePassSignatureList;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPrivateKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPUtil;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.util.io.Streams;
+import org.spongycastle.jce.provider.BouncyCastleProvider;
+import org.spongycastle.openpgp.PGPCompressedData;
+import org.spongycastle.openpgp.PGPEncryptedData;
+import org.spongycastle.openpgp.PGPEncryptedDataGenerator;
+import org.spongycastle.openpgp.PGPEncryptedDataList;
+import org.spongycastle.openpgp.PGPException;
+import org.spongycastle.openpgp.PGPLiteralData;
+import org.spongycastle.openpgp.PGPOnePassSignatureList;
+import org.spongycastle.openpgp.PGPPrivateKey;
+import org.spongycastle.openpgp.PGPPublicKey;
+import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
+import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
+import org.spongycastle.openpgp.PGPUtil;
+import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
+import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
+import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -38,7 +37,7 @@ import java.util.Iterator;
 
 public class EncryptionSmallFileProcessor implements EncryptionOperation{
     static {
-        Security.insertProviderAt(new com.cryptopaths.cryptolib.org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
     @Override
     public void encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {

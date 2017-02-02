@@ -19,10 +19,10 @@ import com.cryptopaths.cryptofm.encryption.MyPGPUtil;
 import com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.ArmoredOutputStream;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKey;
+import org.spongycastle.bcpg.ArmoredOutputStream;
+import org.spongycastle.openpgp.PGPException;
+import org.spongycastle.openpgp.PGPPublicKey;
+import org.spongycastle.openpgp.PGPSecretKey;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

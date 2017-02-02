@@ -2,33 +2,32 @@ package com.cryptopaths.cryptofm.encryption;
 
 import android.util.Log;
 
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.HashAlgorithmTags;
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.SymmetricKeyAlgorithmTags;
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.sig.Features;
-import com.cryptopaths.cryptolib.org.spongycastle.bcpg.sig.KeyFlags;
-import com.cryptopaths.cryptolib.org.spongycastle.crypto.generators.RSAKeyPairGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.crypto.params.RSAKeyGenerationParameters;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPEncryptedData;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPException;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPKeyPair;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPKeyRingGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPrivateKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPPublicKeyRing;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKey;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSignature;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPSignatureSubpacketGenerator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.PGPUtil;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.jcajce.JcaPGPPublicKeyRingCollection;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.jcajce.JcaPGPSecretKeyRingCollection;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.PBESecretKeyEncryptor;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.PGPDigestCalculator;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPBESecretKeyEncryptorBuilder;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.bc.BcPGPKeyPair;
-import com.cryptopaths.cryptolib.org.spongycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
+import org.spongycastle.bcpg.HashAlgorithmTags;
+import org.spongycastle.bcpg.SymmetricKeyAlgorithmTags;
+import org.spongycastle.bcpg.sig.Features;
+import org.spongycastle.bcpg.sig.KeyFlags;
+import org.spongycastle.crypto.generators.RSAKeyPairGenerator;
+import org.spongycastle.crypto.params.RSAKeyGenerationParameters;
+import org.spongycastle.openpgp.PGPEncryptedData;
+import org.spongycastle.openpgp.PGPException;
+import org.spongycastle.openpgp.PGPKeyPair;
+import org.spongycastle.openpgp.PGPKeyRingGenerator;
+import org.spongycastle.openpgp.PGPPrivateKey;
+import org.spongycastle.openpgp.PGPPublicKey;
+import org.spongycastle.openpgp.PGPPublicKeyRing;
+import org.spongycastle.openpgp.PGPSecretKey;
+import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
+import org.spongycastle.openpgp.PGPSignature;
+import org.spongycastle.openpgp.PGPSignatureSubpacketGenerator;
+import org.spongycastle.openpgp.PGPUtil;
+import org.spongycastle.openpgp.jcajce.JcaPGPPublicKeyRingCollection;
+import org.spongycastle.openpgp.operator.PBESecretKeyEncryptor;
+import org.spongycastle.openpgp.operator.PGPDigestCalculator;
+import org.spongycastle.openpgp.operator.bc.BcPBESecretKeyEncryptorBuilder;
+import org.spongycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
+import org.spongycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
+import org.spongycastle.openpgp.operator.bc.BcPGPKeyPair;
+import org.spongycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,12 +40,13 @@ import java.util.Iterator;
 
 /**
  * Created by osama on 10/8/16.
+ *
  */
 public class KeyManagement implements KeyOperations {
     @Override
     public PGPKeyRingGenerator generateKey(String email, char[] password) throws Exception {
         RSAKeyPairGenerator rsaKeyPairGenerator=new RSAKeyPairGenerator();
-        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001),new SecureRandom(),4096,12));
+        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001),new SecureRandom(),2048,12));
         PGPKeyPair keyPair=new BcPGPKeyPair(PGPPublicKey.RSA_SIGN,rsaKeyPairGenerator.generateKeyPair(),new Date());
         PGPKeyPair enKeyPair=new BcPGPKeyPair(PGPPublicKey.RSA_ENCRYPT,rsaKeyPairGenerator.generateKeyPair(),new Date());
 
@@ -150,18 +150,6 @@ public class KeyManagement implements KeyOperations {
     }
 
 
-    @Override
-    public PGPSecretKey getSecretKey(InputStream binaryData,long keyID) throws Exception {
-        InputStream inputStream=PGPUtil.getDecoderStream(binaryData);
-        JcaPGPSecretKeyRingCollection pgpSecretKeyRings=new JcaPGPSecretKeyRingCollection(PGPUtil.getDecoderStream(inputStream));
-        PGPSecretKey secretKey=pgpSecretKeyRings.getSecretKey(keyID);
-        if(secretKey!=null){
-            return secretKey;
-        }else{
-            return secretKey;
-        }
-
-    }
     public PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
             throws PGPException, NoSuchProviderException
     {
