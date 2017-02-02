@@ -17,7 +17,6 @@ import org.spongycastle.openpgp.PGPPrivateKey;
 import org.spongycastle.openpgp.PGPPublicKey;
 import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
 import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
 import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
