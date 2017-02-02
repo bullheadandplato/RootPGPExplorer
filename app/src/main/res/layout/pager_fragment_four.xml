@@ -5,7 +5,15 @@
     android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        app:srcCompat="@drawable/ic_view_pager_image4"
+        android:id="@+id/imageView4"
+        android:layout_marginBottom="14dp"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_marginStart="27dp" />
     <TextView
         android:text="Cryptopaths"
         android:layout_width="wrap_content"
@@ -16,9 +24,10 @@
         android:translationZ="8dp"
         android:textSize="25dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/imageView4"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="213dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/textView2" />
 
     <TextView
@@ -32,14 +41,5 @@
         android:layout_alignTop="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
-        app:srcCompat="@drawable/ic_view_pager_image4"
-        android:id="@+id/imageView4"
-        android:layout_marginBottom="14dp"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_marginStart="27dp" />
+
 </RelativeLayout>
