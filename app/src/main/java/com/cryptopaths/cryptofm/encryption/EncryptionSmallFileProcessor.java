@@ -18,7 +18,6 @@ import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
-import org.spongycastle.util.io.Streams;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
