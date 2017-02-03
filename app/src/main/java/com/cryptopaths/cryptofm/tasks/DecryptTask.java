@@ -110,7 +110,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 File out= new File(root.getPath()+"/"+in.getName().substring(0,in.getName().lastIndexOf('.')));
                 destFilename=out.getAbsolutePath();
                 if(out.exists()){
-                    throw new Exception("file already decrypted");
+                    return DECRYPTION_SUCCESS_MESSAGE;
                 }
                 mSecKey=getSecretKey();
                 EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
@@ -230,7 +230,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             Intent x = Intent.createChooser(intent, "Open with: ");
             mContext.startActivity(x);
 
-        } else {
+        } else if(!singleFileMode){
             mProgressDialog.dismiss("Decryption completed");
             SharedData.CURRENT_RUNNING_OPERATIONS.clear();
             Toast.makeText(mContext,
