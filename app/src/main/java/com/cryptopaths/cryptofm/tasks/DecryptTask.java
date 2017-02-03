@@ -102,7 +102,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
-                File out= new File(root.getPath()+in.getName().substring(0,in.getName().lastIndexOf('.')));
+                File out= new File(root.getPath()+"/"+in.getName().substring(0,in.getName().lastIndexOf('.')));
                 destFilename=out.getAbsolutePath();
                 if(out.exists()){
                     throw new Exception("file already decrypted");
@@ -120,7 +120,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
         return "decryption successful";
     }
-    ArrayList<String> tmp=new ArrayList<>();
+    private ArrayList<String> tmp=new ArrayList<>();
     private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
         int size=mFilePaths.size();
         for (int i = 0; i < size; i++) {
@@ -156,7 +156,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 Log.d(TAG, "decryptFile: rootpath is : " + f.getPath());
                 File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
                 if (out.exists()) {
-                    out.delete();
+                    if(!out.delete()){
+                        throw new IOException("Error in deleting already present file");
+                    }
                 }
 
                 publishProgress(f.getName(), "" +

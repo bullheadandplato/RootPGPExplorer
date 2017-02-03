@@ -1,5 +1,7 @@
 package com.cryptopaths.cryptofm.encryption;
 
+import android.util.Log;
+
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.openpgp.PGPCompressedData;
 import org.spongycastle.openpgp.PGPEncryptedData;
@@ -39,8 +41,10 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
+    private static final String TAG=EncryptionSmallFileProcessor.class.getName();
+
     @Override
-    public void encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {
+    public boolean encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {
         try
         {
             byte[] bytes = MyPGPUtil.compressFile(inputFile.getAbsolutePath(),PGPCompressedData.ZIP);
@@ -57,21 +61,24 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             cOut.close();
 
             out.close();
+            // if i got here means encryption was successful
+            return true;
 
         }
         catch (PGPException e)
         {
-            System.err.println(e);
+            Log.i(TAG, "encryptFile: cannot encrypt file");
             if (e.getUnderlyingException() != null)
             {
                 e.getUnderlyingException().printStackTrace();
             }
+            return false;
         }
 
     }
 
     @Override
-    public void decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass) throws Exception {
+    public boolean decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass) throws Exception {
         InputStream in =new BufferedInputStream(new FileInputStream(inputFile));
         in = PGPUtil.getDecoderStream(in);
 
@@ -139,6 +146,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
                 Streams.pipeAll(unc, fOut);
 
                 fOut.close();
+
             }
             else if (message instanceof PGPOnePassSignatureList)
             {
@@ -172,8 +180,11 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             {
                 e.getUnderlyingException().printStackTrace();
             }
+            return false;
         }
         in.close();
         secKeyFile.close();
+        //decryption was successful if execution got here
+        return true;
     }
 }
