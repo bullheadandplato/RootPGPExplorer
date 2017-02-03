@@ -47,8 +47,10 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
                         //this means it is external storage file
                         DocumentFile docFile= FileDocumentUtils.getDocumentFile(file);
                         deleteDocFile(docFile);
-                }           
-                deleteFile(file);
+                }      else{
+                         deleteFile(file);
+                  }
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
