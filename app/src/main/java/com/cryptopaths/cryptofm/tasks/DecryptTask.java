@@ -17,6 +17,7 @@ import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -264,20 +265,27 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onCancelled() {
+
+        for (File f : mCreatedFiles) {
+            if(f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                FileDocumentUtils.getDocumentFile(f).delete();
+            }else{
+                f.delete();
+            }
+        }
+
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         UiUtils.reloadData(
                 mContext,
                 mAdapter
         );
-        for (File f:
-                mCreatedFiles) {
-            f.delete();
-        }
+
         Toast.makeText(
                 mContext,
-                "Encryption canceled",
+                "Operation canceled",
                 Toast.LENGTH_SHORT
         ).show();
+
         mProgressDialog.dismiss("Canceled");
         super.onCancelled();
 

@@ -1,5 +1,6 @@
 package com.cryptopaths.cryptofm.tasks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -7,10 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.encryption.EncryptionSmallFileProcessor;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
@@ -27,11 +30,12 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private MyProgressDialog        mProgressDialog;
     private Context                 mContext;
     private File                    pubKeyFile;
+
     private ArrayList<File>         mCreatedFiles=new ArrayList<>();
     private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
 
-    private static final String TAG = "encrypt";
-    private static final String ENCRYPTION_SUCCESS_MESSAGE="Successfully encrypted files";
+    private static final String TAG                         = EncryptTask.class.getName();
+    private static final String ENCRYPTION_SUCCESS_MESSAGE  = "Successfully encrypted files";
 
     public EncryptTask(Context context,FileListAdapter adapter,ArrayList<String> filePaths){
         this.mAdapter           = adapter;
@@ -57,6 +61,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             return "error in encrypting file." + ex.getMessage();
         }
     }
+
     private void encryptFile(File f) throws Exception{
         if(!isCancelled()){
             if(f.isDirectory()){
@@ -100,6 +105,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
 
     }
+
     private void deleteAlertDialog(){
         //ask the user if he/she wants to delete the unencrypted version of file
         AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
@@ -131,10 +137,14 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onCancelled() {
-        for (File f:
-             mCreatedFiles) {
-            f.delete();
+        for (File f : mCreatedFiles) {
+            if(f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                FileDocumentUtils.getDocumentFile(f).delete();
+            }else{
+                f.delete();
+            }
         }
+
         Toast.makeText(
                 mContext,
                 "Encryption canceled",
