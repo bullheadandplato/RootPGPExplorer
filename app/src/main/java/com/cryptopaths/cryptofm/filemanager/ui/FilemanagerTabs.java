@@ -31,6 +31,7 @@ import com.cryptopaths.cryptofm.filemanager.utils.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
@@ -94,8 +95,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 }else{
                     if(FileUtils.isSdCardPath("")){
                         Log.d(TAG, "onClick: Yes nigga creating folder via document");
-                        DocumentFile x=DocumentFile.fromTreeUri(FilemanagerTabs.this,Uri.parse(FileUtils.CONTENT_URI));
-                        x.createDirectory(folderName);
+
+                        FileDocumentUtils.createFolder(FileUtils.CURRENT_PATH,folderName);
                         dialog.dismiss();UiUtils.reloadData(
                                 FilemanagerTabs.this,
                                 mCurrentFragment.getmFileAdapter()
@@ -318,7 +319,6 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             if(requestCode==GET_PERMISSION_CODE){
                 Uri treeUri = data.getData();
                 Log.d(TAG, "onActivityResult: tree uri is: "+treeUri);
-                DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
                 //save the uri for later use
                 SharedPreferences prefs=getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor=prefs.edit();
@@ -336,6 +336,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     /**
      * adapter callbacks section starting
      */
+
 
     ActionMode actionMode;
     @Override

@@ -134,7 +134,7 @@ public class FileUtils {
 
     public static Boolean createFolder(String folderName) {
         if(isSdCardPath(folderName)){
-          //  return FileDocumentUtils.createFolder(CONTENT_URI);
+           // return FileDocumentUtils.createFolder(CONTENT_URI);
         }
         File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
@@ -177,11 +177,7 @@ public class FileUtils {
     }
     private static String convertPathToUri(String path){
         //change the path and make it content uri
-        CONTENT_URI=CURRENT_PATH.replace(SharedData.EXTERNAL_SDCARD_ROOT_PATH,"")+path;
-        CONTENT_URI=CONTENT_URI.replaceAll(" ","%20");  //cover spaces to match in uri
-        CONTENT_URI=CONTENT_URI.replaceAll("/","%2");   //change bar to match in URI
-        CONTENT_URI=SharedData.EXT_ROOT_URI+CONTENT_URI;
-        CONTENT_URI=CONTENT_URI.substring(0,CONTENT_URI.length()-2);
+        CONTENT_URI=CURRENT_PATH+path;
         Log.d(TAG, "convertPathToUri: URI jkhjkis: "+CONTENT_URI);
         return CONTENT_URI;
 
