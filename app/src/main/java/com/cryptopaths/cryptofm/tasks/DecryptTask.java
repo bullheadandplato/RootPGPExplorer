@@ -45,12 +45,14 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private File                mPubKey;
     private char[]              mKeyPass;
     private String              rootPath;
-    private static final String TAG="decrypt";
-    private ArrayList<File>     mCreatedFiles=new ArrayList<>();
-    private boolean             singleFileMode=false;
     private ProgressDialog      singleModeDialog;
     private String              destFilename;
-    private static final String DECRYPTION_SUCCESS_MESSAGE="Decryption successful";
+
+    private ArrayList<File>     mCreatedFiles=new ArrayList<>();
+    private boolean             singleFileMode=false;
+
+    private static final String TAG                        =DecryptTask.class.getName();
+    private static final String DECRYPTION_SUCCESS_MESSAGE ="Decryption successful";
 
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,

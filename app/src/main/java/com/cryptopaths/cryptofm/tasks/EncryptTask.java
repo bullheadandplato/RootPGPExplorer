@@ -31,6 +31,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
 
     private static final String TAG = "encrypt";
+    private static final String ENCRYPTION_SUCCESS_MESSAGE="Successfully encrypted files";
 
     public EncryptTask(Context context,FileListAdapter adapter,ArrayList<String> filePaths){
         this.mAdapter           = adapter;
@@ -50,7 +51,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 }
 
             }
-            return "successfully encrypted file(s)";
+            return ENCRYPTION_SUCCESS_MESSAGE;
         } catch (Exception ex) {
             ex.printStackTrace();
             return "error in encrypting file." + ex.getMessage();
@@ -87,14 +88,16 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        mProgressDialog.dismiss("Encryption successful");
+        if(s.equals(ENCRYPTION_SUCCESS_MESSAGE)){
+            deleteAlertDialog();
+        }
+        mProgressDialog.dismiss(s);
         Toast.makeText(
                 mContext,
                 s,
                 Toast.LENGTH_SHORT
         ).show();
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
-        deleteAlertDialog();
 
     }
     private void deleteAlertDialog(){
