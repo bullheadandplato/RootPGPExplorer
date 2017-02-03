@@ -182,7 +182,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         String path=mCurrentFragment.getmCurrentPath();
         Log.d(TAG, "onBackPressed: Current path is: "+path);
-        if(mCurrentFragment.getmCurrentPath().equals(SharedData.FILES_ROOT_DIRECTORY)|| path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+        if(path.equals(SharedData.FILES_ROOT_DIRECTORY)|| path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
             super.onBackPressed();
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));
@@ -236,9 +236,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         // set the external sdcard path
         if (mTotalStorages > 1) {
+            Log.d(TAG, "setToolbar: yes there is an sdcard");
             SharedData.EXTERNAL_SDCARD_ROOT_PATH = mStorageTitles[0];
             SharedData.EXT_ROOT_URI = getPreferences(Context.MODE_PRIVATE).getString("tree_uri", null);
             FileUtils.CURRENT_PATH=SharedData.EXTERNAL_SDCARD_ROOT_PATH;
+            toolbar.setSubtitle(mStorageTitles[0]);
         }
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
