@@ -182,7 +182,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         String path=mCurrentFragment.getmCurrentPath();
         Log.d(TAG, "onBackPressed: Current path is: "+path);
-        if(mCurrentFragment.getmCurrentPath().equals(SharedData.FILES_ROOT_DIRECTORY)){
+        if(mCurrentFragment.getmCurrentPath().equals(SharedData.FILES_ROOT_DIRECTORY)|| path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
             super.onBackPressed();
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));
