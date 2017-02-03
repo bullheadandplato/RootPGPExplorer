@@ -126,6 +126,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         return DECRYPTION_SUCCESS_MESSAGE;
     }
     private ArrayList<String> tmp=new ArrayList<>();
+
     private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
         int size=mFilePaths.size();
         for (int i = 0; i < size; i++) {
@@ -158,7 +159,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     decryptFile(tmp);
                 }
             } else {
-                Log.d(TAG, "decryptFile: rootpath is : " + f.getPath());
                 File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
                 if (out.exists()) {
                     if(!out.delete()){
