@@ -107,9 +107,6 @@ public class FileUtils {
     }
 
     public static Boolean isFile(String filename) {
-        if(isSdCardPath(filename)){
-           // return FileDocumentUtils.isFile(CONTENT_URI);
-        }
         return new File(CURRENT_PATH + filename).isFile();
     }
 
@@ -122,9 +119,6 @@ public class FileUtils {
                 + " " + units[digitGroups];
     }
     public static String getLastModifiedDate(String filename){
-        if(isSdCardPath(filename)){
-            //return FileDocumentUtils.getLastModifiedData(CONTENT_URI);
-        }
         String date = new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
         Log.d(TAG, "getLastModifiedDate: date is: "+date);
         return date;
@@ -133,9 +127,6 @@ public class FileUtils {
 
 
     public static Boolean createFolder(String folderName) {
-        if(isSdCardPath(folderName)){
-           // return FileDocumentUtils.createFolder(CONTENT_URI);
-        }
         File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
             return false;

@@ -3,10 +3,14 @@ package com.cryptopaths.cryptofm.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.provider.DocumentFile;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
 
@@ -32,6 +36,15 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     @Override
     protected String doInBackground(Void... voids) {
         try{
+            if(FileUtils.CURRENT_PATH.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                DocumentFile file= FileDocumentUtils.getDocumentFile(new File(FileUtils.CURRENT_PATH+mFilePath));
+                assert file!=null;
+                if(file.renameTo(mRenamed)){
+                    return "successfully renamed";
+                }else{
+                    return "Cannot rename file";
+                }
+            }
             File file = TasksFileUtils.getFile(mFilePath);
             String filename=file.getPath();
             filename=filename.replace(file.getName(),"");

@@ -52,8 +52,8 @@ public class FileDocumentUtils {
         return false;
     }
 
-    public static int getNumberofFiles(String filename) {
-        return 0;
+    public static int getNumberofFiles(File file) {
+        return getDocumentFile(file).listFiles().length;
     }
 
     public static boolean isFile(String filename) {
@@ -80,6 +80,8 @@ public class FileDocumentUtils {
     public static boolean checkReadStatus(String filename) {
         return false;
     }
+
+
     public static DocumentFile getDocumentFile(final File file) {
         String baseFolder = SharedData.EXTERNAL_SDCARD_ROOT_PATH;
         boolean isDirectory=file.isDirectory();
