@@ -50,6 +50,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private boolean             singleFileMode=false;
     private ProgressDialog      singleModeDialog;
     private String              destFilename;
+    private static final String DECRYPTION_SUCCESS_MESSAGE="Decryption successful";
+
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
                        String DbPass,String mUsername,String keypass){
@@ -118,7 +120,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             return ex.getMessage();
         }
 
-        return "decryption successful";
+        return DECRYPTION_SUCCESS_MESSAGE;
     }
     private ArrayList<String> tmp=new ArrayList<>();
     private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
@@ -164,7 +166,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 publishProgress(f.getName(), "" +
                         ((FileUtils.getReadableSize((f.length())))));
                 mCreatedFiles.add(out);
-                EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass);
+                if(!EncryptionWrapper.decryptFile(f, out, mPubKey, getSecretKey(), mKeyPass)){
+                    if(out.delete()){
+                        throw new Exception("Error in decrypting file");
+                    }
+                }
             }
         }
 
@@ -184,53 +190,52 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-       if(singleFileMode){
-           singleModeDialog.dismiss();
-           Log.d(TAG, "onPostExecute: destination filename is: "+destFilename);
-           //open file
-        String mimeType=
-                MimeTypeMap.getSingleton().
-                        getMimeTypeFromExtension(
-                                FileUtils.getExtension(destFilename
-                                )
-                        );
+        if (singleFileMode && s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
+            singleModeDialog.dismiss();
+            Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
+            //open file
+            String mimeType =
+                    MimeTypeMap.getSingleton().
+                            getMimeTypeFromExtension(
+                                    FileUtils.getExtension(destFilename
+                                    )
+                            );
 
-        Intent intent=new Intent();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent intent = new Intent();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            Uri uri = null;
-            try {
-                uri = FileProvider.getUriForFile(
-                        mContext,
-                        mContext.getApplicationContext().getPackageName()+".provider",
-                        TasksFileUtils.getFile(destFilename)
-                );
-            } catch (IOException e) {
-                e.printStackTrace();
+                Uri uri = null;
+                try {
+                    uri = FileProvider.getUriForFile(
+                            mContext,
+                            mContext.getApplicationContext().getPackageName() + ".provider",
+                            TasksFileUtils.getFile(destFilename)
+                    );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                intent.setDataAndType(uri, mimeType);
+            } else {
+                try {
+                    intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)), mimeType);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            intent.setDataAndType(uri,mimeType);
-        }else {
-            try {
-                intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)),mimeType);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            intent.setAction(Intent.ACTION_VIEW);
+            Intent x = Intent.createChooser(intent, "Open with: ");
+            mContext.startActivity(x);
+
+        } else {
+            mProgressDialog.dismiss("Decryption completed");
+            SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+            Toast.makeText(mContext,
+                    s,
+                    Toast.LENGTH_LONG)
+                    .show();
+            UiUtils.reloadData(mContext, mAdapter);
         }
-        intent.setAction(Intent.ACTION_VIEW);
-        Intent x= Intent.createChooser(intent,"Open with: ");
-        mContext.startActivity(x);
-
-       }else{
-           mProgressDialog.dismiss("Decryption completed");
-        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
-        Toast.makeText(mContext,
-                s,
-                Toast.LENGTH_LONG)
-                .show();
-        UiUtils.reloadData(mContext,mAdapter);
-       }
-
 
     }
 
