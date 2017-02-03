@@ -1,7 +1,10 @@
 package com.cryptopaths.cryptofm.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -18,6 +21,7 @@ import java.util.List;
 public class FileUtils {
     private static final String TAG     = "files";
     public static  String CURRENT_PATH  = " ";
+    public static String CONTENT_URI;
 
     public static long getFileSize(String filename){
         return new File(CURRENT_PATH+filename).length();
@@ -36,19 +40,15 @@ public class FileUtils {
         }
         return size;
     }
-    public static String isEncryptedFolder(String filename){
+    public static boolean isEncryptedFolder(String filename){
         File dir = new File(CURRENT_PATH+filename);
         //if file is not a directory but just a file
         if(dir.isFile()){
-            if(dir.getName().contains("pgp")){
-                return "Encrypted";
-            }else{
-                return "Not encrypted";
-            }
+            return dir.getName().contains("pgp");
         }
         //if all the files in folder are encrypted than this variable will be zero
         if(dir.listFiles().length<1){
-            return "Cannot see";
+            return false;
         }
         int temp=dir.listFiles().length;
         for (File f:
@@ -59,24 +59,22 @@ public class FileUtils {
                 temp++;
             }
         }
-        if(temp==0){
-            return "Encrypted";
-        }else{
-            return "Not Encrypted";
-        }
+        return temp == 0;
     }
 
-    public static String isEncryptedFile(String filename){
-        if(filename.contains(".pgp")){
-            return "Encrypted";
-        }else{
-            return "Not encrypted";
-        }
+    public static boolean isEncryptedFile(String filename){
+        return filename.contains(".pgp");
     }
 
     public static int getNumberOfFiles(String  foldername){
         Log.d(TAG, "getNumberOfFiles: "+CURRENT_PATH+foldername);
-        return new File(CURRENT_PATH+foldername).list().length;
+        File file=new File(CURRENT_PATH+foldername);
+        if(file.canRead()){
+            return file.listFiles().length;
+        }else{
+            return 0;
+        }
+
     }
 
     public static String getExtension(String fileName){
@@ -108,18 +106,8 @@ public class FileUtils {
         return result;
     }
 
-    public static Boolean isFile(String filename){
-        return new File(CURRENT_PATH+filename).isFile();
-    }
-    /**
-     * Round to certain number of decimals
-     *
-     * @param d
-     * @param decimalPlace the numbers of decimals
-     * @return
-     */
-    private static float round(float d, int decimalPlace) {
-        return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).floatValue();
+    public static Boolean isFile(String filename) {
+        return new File(CURRENT_PATH + filename).isFile();
     }
 
     public static String getReadableSize(long size) {
@@ -135,7 +123,6 @@ public class FileUtils {
         Log.d(TAG, "getLastModifiedDate: date is: "+date);
         return date;
 
-
     }
 
 
@@ -144,15 +131,12 @@ public class FileUtils {
         if(temp.exists()){
             return false;
         }else{
-            if(temp.mkdir()){
-                return true;
-            }else{
-                return false;
-            }
+            return temp.mkdirs();
         }
     }
 
     public static void deleteDecryptedFolder() {
+
         File f=new File(Environment.getExternalStorageDirectory().getPath(),"decrypted");
         if(f.exists()){
             for (File child:
@@ -165,6 +149,28 @@ public class FileUtils {
         }
     }
     public static File getFile(String filename){
+        
         return new File(CURRENT_PATH+filename);
+    }
+    public static boolean checkReadStatus(String filename){
+        return new File(FileUtils.CURRENT_PATH+filename).canRead();
+    }
+
+    public static boolean isSdCardPath(String path){
+        Log.d(TAG, "isSdCardPath: Yes entering sdcard path");
+        if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null && SharedData.EXT_ROOT_URI!=null){
+            if(CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                convertPathToUri(path);
+                return true;
+            }
+        }
+        return false;
+    }
+    private static String convertPathToUri(String path){
+        //change the path and make it content uri
+        CONTENT_URI=CURRENT_PATH+path;
+        Log.d(TAG, "convertPathToUri: URI jkhjkis: "+CONTENT_URI);
+        return CONTENT_URI;
+
     }
 }

@@ -8,8 +8,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
-import com.cryptopaths.cryptofm.filemanager.FileListAdapter;
-import com.cryptopaths.cryptofm.filemanager.UiUtils;
+import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
+import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
@@ -26,23 +27,28 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private MyProgressDialog        mProgressDialog;
     private Context                 mContext;
     private File                    pubKeyFile;
+    private ArrayList<File>         mCreatedFiles=new ArrayList<>();
+    private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
 
     private static final String TAG = "encrypt";
 
     public EncryptTask(Context context,FileListAdapter adapter,ArrayList<String> filePaths){
-        this.mAdapter               = adapter;
-        this.mContext               = context;
-        this.mFilePaths             = filePaths;
-        this.mProgressDialog        = new MyProgressDialog(context,"Encrypting");
-        this.pubKeyFile             = new File(mContext.getFilesDir(),"pub.asc");
+        this.mAdapter           = adapter;
+        this.mContext           = context;
+        this.mFilePaths         = filePaths;
+        this.mProgressDialog    = new MyProgressDialog(context,"Encrypting",this);
+        this.pubKeyFile         = new File(mContext.getFilesDir(),"pub.asc");
     }
 
     @Override
     protected String doInBackground(Void... voids) {
         try {
             for (String path : mFilePaths) {
-                File f = TasksFileUtils.getFile(path);
-                encryptFile(f);
+                if(!isCancelled()){
+                    File f = TasksFileUtils.getFile(path);
+                    encryptFile(f);
+                }
+
             }
             return "successfully encrypted file(s)";
         } catch (Exception ex) {
@@ -51,21 +57,26 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         }
     }
     private void encryptFile(File f) throws Exception{
-        if(f.isDirectory()){
-            for (File tmp: f.listFiles()) {
-                encryptFile(tmp);
-            }
-        }else {
-            File out = new File(f.getAbsolutePath()+".pgp");
-            if(out.createNewFile()){
-                Log.d(TAG, "encryptFile: created file to encrypt into");
-            }
-            publishProgress(f.getName(),""+
-                    ((FileUtils.getReadableSize((f.length())))));
+        if(!isCancelled()){
+            if(f.isDirectory()){
+                for (File tmp: f.listFiles()) {
+                    encryptFile(tmp);
+                    mFilePaths.remove(f.getAbsolutePath());
+                }
+            }else {
+                File out = new File(f.getAbsolutePath()+".pgp");
+                if(out.createNewFile()){
+                    Log.d(TAG, "encryptFile: created file to encrypt into");
+                }
+                publishProgress(f.getName(),""+
+                        ((FileUtils.getReadableSize((f.length())))));
+                mCreatedFiles.add(out);
+                mUnencryptedFiles.add(f.getAbsolutePath());
+                EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
 
-            EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
-
+            }
         }
+
 
     }
 
@@ -82,6 +93,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 s,
                 Toast.LENGTH_SHORT
         ).show();
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         deleteAlertDialog();
 
     }
@@ -93,7 +105,8 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                new DeleteTask(mContext,mAdapter,mFilePaths).execute();
+
+                new DeleteTask(mContext,mAdapter,mUnencryptedFiles).execute();
             }
         });
         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -111,5 +124,25 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPreExecute() {
         mProgressDialog.show();
+    }
+
+    @Override
+    protected void onCancelled() {
+        for (File f:
+             mCreatedFiles) {
+            f.delete();
+        }
+        Toast.makeText(
+                mContext,
+                "Encryption canceled",
+                Toast.LENGTH_SHORT
+        ).show();
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+        UiUtils.reloadData(
+                mContext,
+                mAdapter
+        );
+        Log.d("cancel","yes task is canceled");
+        super.onCancelled();
     }
 }

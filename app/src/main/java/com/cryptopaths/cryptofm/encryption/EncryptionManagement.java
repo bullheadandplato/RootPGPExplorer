@@ -1,7 +1,9 @@
 package com.cryptopaths.cryptofm.encryption;
 
+import android.accounts.OperationCanceledException;
 import android.util.Log;
 
+import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.openpgp.PGPCompressedData;
 import org.spongycastle.openpgp.PGPCompressedDataGenerator;
@@ -15,7 +17,6 @@ import org.spongycastle.openpgp.PGPPrivateKey;
 import org.spongycastle.openpgp.PGPPublicKey;
 import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
 import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
-import org.spongycastle.openpgp.PGPUtil;
 import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
 import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
@@ -27,14 +28,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Iterator;
-
 /**
  * Created by osama on 10/13/16.
  * the encryption related operations
@@ -42,7 +40,7 @@ import java.util.Iterator;
 
 public class EncryptionManagement implements EncryptionOperation {
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        Security.addProvider(new org.spongycastle.jce.provider.BouncyCastleProvider());
     }
     private KeyManagement keyManagement;
     public EncryptionManagement(){
@@ -67,7 +65,7 @@ public class EncryptionManagement implements EncryptionOperation {
         PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
-        PGPEncryptedDataGenerator   cPk =
+        PGPEncryptedDataGenerator cPk =
                 new PGPEncryptedDataGenerator(
                         new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).
                                 setWithIntegrityPacket(integrityCheck).
@@ -80,7 +78,7 @@ public class EncryptionManagement implements EncryptionOperation {
 
         OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
 
-        PGPCompressedDataGenerator  comData = new PGPCompressedDataGenerator(
+        PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
                 PGPCompressedData.ZIP);
 
         PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, new File(fileName), new byte[1 << 16]);
@@ -98,17 +96,16 @@ public class EncryptionManagement implements EncryptionOperation {
             InputStream keyIn,
             char[]      passwd,
             String      defaultFileName,
-            long limit
+            long        limit
             )
-            throws IOException, NoSuchProviderException
-    {
+            throws Exception {
         Log.d("decrypt","yoo nigga decrypting");
         in = PGPUtil.getDecoderStream(in);
 
         try
         {
-            JcaPGPObjectFactory        pgpF = new JcaPGPObjectFactory(in);
-            PGPEncryptedDataList    enc;
+            JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
+            PGPEncryptedDataList enc;
 
             Object                  o = pgpF.nextObject();
             //
@@ -127,9 +124,9 @@ public class EncryptionManagement implements EncryptionOperation {
             // find the secret key
             //
             Iterator                    it = enc.getEncryptedDataObjects();
-            PGPPrivateKey               sKey = null;
-            PGPPublicKeyEncryptedData   pbe = null;
-            PGPSecretKeyRingCollection  pgpSec = new PGPSecretKeyRingCollection(
+            PGPPrivateKey sKey = null;
+            PGPPublicKeyEncryptedData pbe = null;
+            PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
                     PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
 
             while (sKey == null && it.hasNext())
@@ -142,7 +139,7 @@ public class EncryptionManagement implements EncryptionOperation {
             if (sKey == null)
             {
                 Log.d("decrypt", "decryptFile: no key found");
-                throw new IllegalArgumentException("secret key for message not found.");
+                throw new IllegalArgumentException("password is wrong.");
             }
 
             InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
@@ -158,21 +155,12 @@ public class EncryptionManagement implements EncryptionOperation {
 
             if (message instanceof PGPLiteralData)
             {
-                PGPLiteralData ld = (PGPLiteralData)message;
-
-
-                InputStream unc = ld.getInputStream();
+                PGPLiteralData ld   = (PGPLiteralData)message;
+                InputStream unc     = ld.getInputStream();
                 Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
+                pipeAll(unc,fOut,limit);
 
-                //Streams.pipeAllLimited(unc, limit,fOut);
-                //while ()
-                try {
-                    pipeAll(unc,fOut,limit);
-                } catch (Exception e) {
-                    Log.d("Google","nicely fucked");
-                    e.printStackTrace();
-                }
 
                 fOut.close();
             }
@@ -214,9 +202,11 @@ public class EncryptionManagement implements EncryptionOperation {
         long total = 0;
         byte[] bs = new byte[4096];
         int numRead;
-        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0)
+        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0 )
         {
-
+            if(SharedData.IS_TASK_CANCELED){
+                throw new OperationCanceledException("operation canceled");
+            }
             total += numRead;
             outStr.write(bs, 0, numRead);
             if((limit-total)<numRead){

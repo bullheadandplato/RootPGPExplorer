@@ -17,7 +17,7 @@ import com.cryptopaths.cryptofm.R;
 
 public class InitActivityThirdFragment extends Fragment {
     public interface FragmentCreated{
-        public void onThirdFragmentCreated();
+        void onThirdFragmentCreated();
     }
 
     @Nullable

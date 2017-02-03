@@ -9,17 +9,17 @@
 
 
 
-    <ImageView android:src="@drawable/logo"
+    <ImageView android:src="@drawable/logofinal"
         android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="23dp"
         android:layout_height="72dp"
         android:id="@+id/logo_image"
         android:tint="@color/colorAccent"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-
-<FrameLayout
+    <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@id/logo_image"
@@ -27,7 +27,5 @@
     >
 
 </FrameLayout>
-
-
 
 </RelativeLayout>

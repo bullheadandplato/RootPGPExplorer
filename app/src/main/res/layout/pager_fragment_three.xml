@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/ic_warning_black_24dp"
+        android:tint="#fff"
+        android:id="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="45dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView2">
     <TextView
-        android:text="Fragment Three"
+        android:text="Encryption keys Backup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="204dp"
-        android:id="@+id/textView4" />
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView4"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginBottom="20px"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FAFAFA" />
+
+
+
+
+    <TextView
+        android:text="Crypto FM encryption keys \n unique for every user so, keep \n backup  of your keys because in case \n of app uninstall or data clear you must \n have keys to decrypt your data so, \n keys backup on your own responsibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FAFAFA"
+        android:gravity="center"
+        android:id="@+id/textView10" />
+    </LinearLayout>
 </RelativeLayout>

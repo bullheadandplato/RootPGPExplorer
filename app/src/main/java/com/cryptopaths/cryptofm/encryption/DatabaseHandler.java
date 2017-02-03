@@ -12,22 +12,25 @@ import java.io.File;
 
 /**
  * Created by osama on 10/12/16.
+ * database handle class
  */
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private Context context;
-    private static DatabaseHandler mDb;
-
-    private static final String TAG="database";
-    private static final String DATABASE_NAME="pierce";
-    private static final int DATABASE_VERSION=1;
+    private static final String TAG             ="database";
+    private static final String DATABASE_NAME   ="pierce";
+    private static final int DATABASE_VERSION   =1;
     private SQLiteDatabase mDB;
     public DatabaseHandler(Context context,String pass,Boolean isCreated){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
         SQLiteDatabase.loadLibs(context);
+        Log.d(TAG, "DatabaseHandler: this is somewhat messed up ");
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
+
         if(!isCreated){
+            databaseFile.mkdirs();
+            databaseFile.delete();
             Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
@@ -57,7 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public boolean insertSecKey(String email,byte[] secKeyText){
-        boolean status=false;
+        boolean status;
         //create content values to put in db
         //not verifying email address here
 
@@ -74,26 +77,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             e.printStackTrace();
             Log.d(TAG,"cannot insert secret key");
         }
-
+        mDB.close();
         return status;
 
-    }
-    public boolean insertPubKey(String email,String pubKeyText){
-        boolean status=false;
-        Log.d(TAG,"started inserting public key");
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(FeedReaderContract.PubRing.TB_COL1_EMAIL,email);
-        contentValues.put(FeedReaderContract.PubRing.TB_COL2_PUBKEY,pubKeyText);
-        try{
-            mDB.insert(FeedReaderContract.PubRing.TABLE_NAME,null,contentValues);
-            status=true;
-            Log.d(TAG,"public key successfully inserted");
-        }catch (Exception e){
-            status=false;
-            e.printStackTrace();
-            Log.d(TAG,"cannot insert public key");
-        }
-        return status;
     }
 
     @Override
@@ -129,16 +115,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         query.close();
+        mDB.close();
         assert data!=null;
         return data;
     }
 
-    public static DatabaseHandler getInstance(String pass,Context context,Boolean isCreated){
-        if(mDb==null){
-            Log.d("dec", "getInstance: "+pass);
-            mDb = new DatabaseHandler(context,pass,isCreated);
-        }
-        return mDb;
-    }
 
 }
