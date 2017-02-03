@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 public class EncryptionWrapper {
     private static final int TWO_MB=2097152;
-    public static void encryptFile(File inputFile,
+    public static boolean encryptFile(File inputFile,
                                    File outputFile,
                                    File keyFile,
                                    Boolean integrityCheck)
@@ -22,14 +22,14 @@ public class EncryptionWrapper {
         Log.d("wrapper", "encryptFile: size/length is: "+inputFile.length());
         if(inputFile.length()>TWO_MB){
             EncryptionManagement enc=new EncryptionManagement();
-            enc.encryptFile(outputFile,inputFile,keyFile,integrityCheck);
+            return enc.encryptFile(outputFile,inputFile,keyFile,integrityCheck);
         }else{
             EncryptionSmallFileProcessor enc=new EncryptionSmallFileProcessor();
-            enc.encryptFile(inputFile,outputFile,keyFile,integrityCheck);
+            return enc.encryptFile(inputFile,outputFile,keyFile,integrityCheck);
         }
 
     }
-    public static void decryptFile(File inputFile,
+    public static boolean decryptFile(File inputFile,
                                    File outputFile,
                                    File pubKey,
                                    InputStream secKeyFile,
@@ -38,10 +38,10 @@ public class EncryptionWrapper {
         Log.d("wrapper", "decryptFile: size/length is: "+inputFile.length());
         if(inputFile.length()>TWO_MB){
             EncryptionManagement dec=new EncryptionManagement();
-            dec.decryptFile(inputFile,outputFile,pubKey,secKeyFile,pass);
+            return dec.decryptFile(inputFile,outputFile,pubKey,secKeyFile,pass);
         }else{
             EncryptionSmallFileProcessor dec=new EncryptionSmallFileProcessor();
-            dec.decryptFile(inputFile,outputFile,pubKey,secKeyFile,pass);
+            return dec.decryptFile(inputFile,outputFile,pubKey,secKeyFile,pass);
         }
     }
 }

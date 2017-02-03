@@ -48,16 +48,17 @@ public class EncryptionManagement implements EncryptionOperation {
     }
 
     @Override
-    public void decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
+    public boolean decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
         InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
-        decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath(),inputFile.length());
+        boolean status=decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath(),inputFile.length());
         Log.d("decrypt","look like i can handle it");
         secKeyFile.close();
         in.close();
+        return status;
     }
 
     @Override
-    public  void encryptFile(File outputFile, File inputFile,
+    public boolean encryptFile(File outputFile, File inputFile,
                              File pubKeyFile,Boolean integrityCheck
     ) throws Exception {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
@@ -87,11 +88,12 @@ public class EncryptionManagement implements EncryptionOperation {
 
         cOut.close();
         Log.d("encrypt","file successfully encrypted");
+        return true;
     }
     /**
      * decrypt the passed in message stream
      */
-    private void decryptFile(
+    private boolean decryptFile(
             InputStream in,
             InputStream keyIn,
             char[]      passwd,
@@ -196,7 +198,9 @@ public class EncryptionManagement implements EncryptionOperation {
             {
                 e.getUnderlyingException().printStackTrace();
             }
+            return false;
         }
+        return true;
     }
     private void pipeAll(InputStream inStr,OutputStream outStr,long limit) throws Exception{
         long total = 0;
