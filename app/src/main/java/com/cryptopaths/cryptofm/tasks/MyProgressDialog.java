@@ -71,7 +71,7 @@ public class MyProgressDialog {
         mNotBuilder             = new NotificationCompat.Builder(mContext);
         mNotBuilder.setContentTitle(mContentTitle);
         mNotBuilder.setContentText(mCurrentFilename);
-        mNotBuilder.setSmallIcon(R.drawable.logo);
+        mNotBuilder.setSmallIcon(R.drawable.logofinal);
         Log.d("notification","yoo showing notification");
         mNotBuilder.setProgress(0,0,true);
         mNotBuilder.setOngoing(true);
