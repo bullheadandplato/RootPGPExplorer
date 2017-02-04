@@ -108,11 +108,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
                 File out= TasksFileUtils.getFile(root.getPath() + "/" + in.getName().substring(0, in.getName().lastIndexOf('.')));
-
                 destFilename=out.getAbsolutePath();
-                if(out.exists()){
-                    return DECRYPTION_SUCCESS_MESSAGE;
-                }
                 mSecKey=getSecretKey();
                 EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
             }
@@ -194,44 +190,50 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        if (singleFileMode && s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
-            singleModeDialog.dismiss();
-            Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
-            //open file
-            String mimeType =
-                    MimeTypeMap.getSingleton().
-                            getMimeTypeFromExtension(
-                                    FileUtils.getExtension(destFilename
-                                    )
-                            );
+        if (singleFileMode){
+            if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
+                Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
+                //open file
+                String mimeType =
+                        MimeTypeMap.getSingleton().
+                                getMimeTypeFromExtension(
+                                        FileUtils.getExtension(destFilename
+                                        )
+                                );
 
-            Intent intent = new Intent();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Intent intent = new Intent();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                Uri uri = null;
-                try {
-                    uri = FileProvider.getUriForFile(
-                            mContext,
-                            mContext.getApplicationContext().getPackageName() + ".provider",
-                            TasksFileUtils.getFile(destFilename)
-                    );
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Uri uri = null;
+                    try {
+                        uri = FileProvider.getUriForFile(
+                                mContext,
+                                mContext.getApplicationContext().getPackageName() + ".provider",
+                                TasksFileUtils.getFile(destFilename)
+                        );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    intent.setDataAndType(uri, mimeType);
+                } else {
+                    try {
+                        intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)), mimeType);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                intent.setDataAndType(uri, mimeType);
-            } else {
-                try {
-                    intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)), mimeType);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                intent.setAction(Intent.ACTION_VIEW);
+                Intent x = Intent.createChooser(intent, "Open with: ");
+                mContext.startActivity(x);
+            }else{
+                singleModeDialog.dismiss();
+                Toast.makeText(mContext,
+                        s,
+                        Toast.LENGTH_LONG)
+                        .show();
             }
-            intent.setAction(Intent.ACTION_VIEW);
-            Intent x = Intent.createChooser(intent, "Open with: ");
-            mContext.startActivity(x);
-
-        } else if(!singleFileMode){
+        } else{
             mProgressDialog.dismiss("Decryption completed");
             SharedData.CURRENT_RUNNING_OPERATIONS.clear();
             Toast.makeText(mContext,
