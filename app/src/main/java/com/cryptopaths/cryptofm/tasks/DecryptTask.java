@@ -192,6 +192,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     protected void onPostExecute(String s) {
         if (singleFileMode){
             if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
+                singleModeDialog.dismiss();
                 Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
                 //open file
                 String mimeType =
