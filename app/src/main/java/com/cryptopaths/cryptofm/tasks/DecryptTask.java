@@ -268,7 +268,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     protected void onCancelled() {
 
         for (File f : mCreatedFiles) {
-            if(f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+            if(SharedData.EXTERNAL_SDCARD_ROOT_PATH !=null &&
+                    f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
                 FileDocumentUtils.getDocumentFile(f).delete();
             }else{
                 f.delete();
