@@ -66,24 +66,26 @@ public class MyProgressDialog {
     private void buildNotification() {
         thisNotificationNumber  =NOTIFICATION_NUMBER++;
         isInNotificationMode    =true;
-        mNotificationManager    =(NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager    =NotificationController.getNotificationManager();
         mNotBuilder             =new NotificationCompat.Builder(mContext);
         mNotBuilder.setContentTitle(mContentTitle);
         mNotBuilder.setContentText(mCurrentFilename);
         mNotBuilder.setSmallIcon(R.drawable.logo);
-        Log.d("notification","yoo nigga showing notification");
+        Log.d("notification","yoo showing notification");
         mNotBuilder.setProgress(0,0,true);
         mNotBuilder.setOngoing(true);
         mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
-        CleanupService.NOTIFICATION_BUILDER=mNotBuilder;
-        CleanupService.NOTIFICATION_MANAGER=mNotificationManager;
+
+        //add notification
+        NotificationController.addNewNotification(mNotBuilder,thisNotificationNumber);
+
     }
 
     public void setmProgressTextViewText(String text) {
         mCurrentFilename=text;
         if(isInNotificationMode){
              mNotBuilder.setContentText(text);
-            mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
+             mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
         }else{
             this.mProgressTextView.setText(text);
         }

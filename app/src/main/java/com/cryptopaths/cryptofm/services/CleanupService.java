@@ -18,6 +18,7 @@ public class CleanupService  extends Service{
     public static Boolean                    IS_TASK_RUNNING=false;
     public static NotificationCompat.Builder NOTIFICATION_BUILDER=null;
     public static NotificationManager        NOTIFICATION_MANAGER=null;
+    public static int                       totalNotificationNumbers;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,7 +37,7 @@ public class CleanupService  extends Service{
             NOTIFICATION_BUILDER.setContentText("Operation Canceled");
             NOTIFICATION_BUILDER.setOngoing(false);
             NOTIFICATION_BUILDER.setProgress(100,100,false);
-            NOTIFICATION_MANAGER.notify(1,NOTIFICATION_BUILDER.build());
+            NOTIFICATION_MANAGER.notify(totalNotificationNumbers,NOTIFICATION_BUILDER.build());
         }
         FileUtils.deleteDecryptedFolder();
         stopSelf();
