@@ -161,7 +161,7 @@ public class EncryptionManagement implements EncryptionOperation {
                 InputStream unc     = ld.getInputStream();
                 Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-                pipeAll(unc,fOut,limit);
+                Streams.pipeAll(unc,fOut);
 
 
                 fOut.close();
@@ -202,22 +202,7 @@ public class EncryptionManagement implements EncryptionOperation {
         }
         return true;
     }
-    private void pipeAll(InputStream inStr,OutputStream outStr,long limit) throws Exception{
-        long total = 0;
-        byte[] bs = new byte[4096];
-        int numRead;
-        while ((numRead = inStr.read(bs, 0, bs.length)) >= 0 )
-        {
-            if(SharedData.IS_TASK_CANCELED){
-                throw new OperationCanceledException("operation canceled");
-            }
-            total += numRead;
-            outStr.write(bs, 0, numRead);
-            if((limit-total)<numRead){
-                return;
-            }
-        }
-    }
+
 
 
 }
