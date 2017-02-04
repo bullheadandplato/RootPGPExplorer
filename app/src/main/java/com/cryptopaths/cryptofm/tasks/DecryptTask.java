@@ -107,7 +107,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
-                File out= new File(root.getPath()+"/"+in.getName().substring(0,in.getName().lastIndexOf('.')));
+                File out= TasksFileUtils.getFile(root.getPath() + "/" + in.getName().substring(0, in.getName().lastIndexOf('.')));
+
                 destFilename=out.getAbsolutePath();
                 if(out.exists()){
                     return DECRYPTION_SUCCESS_MESSAGE;

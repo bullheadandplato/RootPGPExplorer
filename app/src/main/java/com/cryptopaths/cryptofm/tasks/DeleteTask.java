@@ -43,7 +43,8 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
                 Log.d("delete","filepath: " +f);
 
                 File file = TasksFileUtils.getFile(f);
-                  if(f.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                  if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
+                          f.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
                         //this means it is external storage file
                         DocumentFile docFile= FileDocumentUtils.getDocumentFile(file);
                         deleteDocFile(docFile);
