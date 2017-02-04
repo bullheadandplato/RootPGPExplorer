@@ -106,8 +106,11 @@ public class MyProgressDialog {
     }
 
     public void setProgress(Integer integer) {
-        mNotBuilder.setProgress(100,integer,false);
-        mProgressBar.setProgress(integer);
+        if(isInNotificationMode){
+            mNotBuilder.setProgress(100,integer,false);
+        }else{
+            mProgressBar.setProgress(integer);
+        }
     }
 
     public void setMessage(String s) {

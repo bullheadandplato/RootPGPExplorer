@@ -112,7 +112,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 out.write(data, 0, start);
                 readData+=start;
                 progress=(double) readData/(double) totalFileLength;
-                Log.d(TAG, "move: read/total: "+progress);
                 publishProgress(""+(int)(progress*100));
             }
             in.close();
@@ -134,7 +133,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
     protected void onProgressUpdate(String... values) {
         try{
             int progress=Integer.valueOf(values[0]);
-            Log.d(TAG, "onProgressUpdate: progress is:  "+progress);
             mProgressDialog.setProgress(progress);
         }catch (NumberFormatException e){
             mProgressDialog.setMessage(values[0]);

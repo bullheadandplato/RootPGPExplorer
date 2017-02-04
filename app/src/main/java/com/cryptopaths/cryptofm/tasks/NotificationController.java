@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class NotificationController {
     private NotificationCompat.Builder notificationCompat;
-    private static NotificationManager notificationManager=
-            (NotificationManager) CryptoFM.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+    private static NotificationManager notificationManager=null;
+
     private int notificationNumber;
     private static ArrayList<NotificationController> allNotifications;
 
@@ -31,6 +31,10 @@ public class NotificationController {
     }
 
     public static NotificationManager getNotificationManager() {
+        if(notificationManager==null){
+            notificationManager=
+                    (NotificationManager) CryptoFM.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        }
         return notificationManager;
     }
 

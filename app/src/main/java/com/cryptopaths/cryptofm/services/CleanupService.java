@@ -1,12 +1,11 @@
 package com.cryptopaths.cryptofm.services;
 
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
+import com.cryptopaths.cryptofm.tasks.NotificationController;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 /**
@@ -15,10 +14,6 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
  */
 
 public class CleanupService  extends Service{
-    public static Boolean                    IS_TASK_RUNNING=false;
-    public static NotificationCompat.Builder NOTIFICATION_BUILDER=null;
-    public static NotificationManager        NOTIFICATION_MANAGER=null;
-    public static int                       totalNotificationNumbers;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,11 +28,15 @@ public class CleanupService  extends Service{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        if(NOTIFICATION_BUILDER!=null && !IS_TASK_RUNNING){
-            NOTIFICATION_BUILDER.setContentText("Operation Canceled");
-            NOTIFICATION_BUILDER.setOngoing(false);
-            NOTIFICATION_BUILDER.setProgress(100,100,false);
-            NOTIFICATION_MANAGER.notify(totalNotificationNumbers,NOTIFICATION_BUILDER.build());
+        if(NotificationController.getNotifications().size()>0){
+
+            for (NotificationController notfication:NotificationController.getNotifications()) {
+                notfication.getNotificationCompat().setProgress(100,100,false);
+                notfication.getNotificationCompat().setOngoing(false);
+                notfication.getNotificationCompat().setContentText("Operation canceled");
+                notfication.getNotificationCompat().setSubText("Application might be closed!!");
+                NotificationController.getNotificationManager().notify(notfication.getNotificationNumber(),notfication.getNotificationCompat().build());
+            }
         }
         FileUtils.deleteDecryptedFolder();
         stopSelf();
