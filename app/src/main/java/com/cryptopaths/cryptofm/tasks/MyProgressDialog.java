@@ -64,10 +64,10 @@ public class MyProgressDialog {
     }
 
     private void buildNotification() {
-        thisNotificationNumber  =NOTIFICATION_NUMBER++;
-        isInNotificationMode    =true;
-        mNotificationManager    =NotificationController.getNotificationManager();
-        mNotBuilder             =new NotificationCompat.Builder(mContext);
+        thisNotificationNumber  = NOTIFICATION_NUMBER++;
+        isInNotificationMode    = true;
+        mNotificationManager    = NotificationController.getNotificationManager();
+        mNotBuilder             = new NotificationCompat.Builder(mContext);
         mNotBuilder.setContentTitle(mContentTitle);
         mNotBuilder.setContentText(mCurrentFilename);
         mNotBuilder.setSmallIcon(R.drawable.logo);
@@ -106,6 +106,7 @@ public class MyProgressDialog {
     }
 
     public void setProgress(Integer integer) {
+        mNotBuilder.setProgress(100,integer,false);
         mProgressBar.setProgress(integer);
     }
 
