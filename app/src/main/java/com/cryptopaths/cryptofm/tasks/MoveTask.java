@@ -108,11 +108,17 @@ public class MoveTask extends AsyncTask<String,String,String> {
             long   readData        = 0;
             isNextFile=false;
             double progress;
+
             while ((start = in.read(data)) > 0){
                 out.write(data, 0, start);
                 readData+=start;
                 progress=(double) readData/(double) totalFileLength;
-                publishProgress(""+(int)(progress*100));
+                if(mProgressDialog.isInNotifyMode()){
+                    mProgressDialog.setProgress((int)(progress*100));
+                }else {
+                    publishProgress(""+(int)(progress*100));
+                }
+
             }
             in.close();
             out.close();

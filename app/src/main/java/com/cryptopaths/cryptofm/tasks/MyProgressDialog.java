@@ -32,6 +32,8 @@ public class MyProgressDialog {
     private int                         thisNotificationNumber=0;
     private ProgressBar                 mProgressBar;
 
+    private static final String TAG=MyProgressDialog.class.getName();
+
     MyProgressDialog(Context context, String title, final AsyncTask task){
         dialog=new Dialog(context);
         Log.d("dialog", "MyProgressDialog: not cancelable");
@@ -65,7 +67,6 @@ public class MyProgressDialog {
 
     private void buildNotification() {
         thisNotificationNumber  = NOTIFICATION_NUMBER++;
-        isInNotificationMode    = true;
         mNotificationManager    = NotificationController.getNotificationManager();
         mNotBuilder             = new NotificationCompat.Builder(mContext);
         mNotBuilder.setContentTitle(mContentTitle);
@@ -75,6 +76,7 @@ public class MyProgressDialog {
         mNotBuilder.setProgress(0,0,true);
         mNotBuilder.setOngoing(true);
         mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
+        isInNotificationMode    = true;
 
         //add notification
         NotificationController.addNewNotification(mNotBuilder,thisNotificationNumber);
@@ -105,9 +107,14 @@ public class MyProgressDialog {
         dialog.show();
     }
 
-    public void setProgress(Integer integer) {
-        if(isInNotificationMode){
+    private int prevProgress=0;
+    public void setProgress(final Integer integer) {
+        if(isInNotificationMode && prevProgress<integer){
+            prevProgress=integer;
+            Log.d(TAG, "setProgress: integer is: "+integer);
             mNotBuilder.setProgress(100,integer,false);
+            mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
+
         }else{
             mProgressBar.setProgress(integer);
         }
@@ -119,5 +126,8 @@ public class MyProgressDialog {
 
     public void setIndeterminate(boolean b) {
         this.mProgressBar.setIndeterminate(b);
+    }
+    public boolean isInNotifyMode(){
+        return isInNotificationMode;
     }
 }
