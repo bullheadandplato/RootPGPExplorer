@@ -28,8 +28,7 @@ public class CleanupService  extends Service{
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        if(NotificationController.getNotifications().size()>0){
-
+        if(NotificationController.getNotifications()!=null && NotificationController.getNotifications().size()>0){
             for (NotificationController notfication:NotificationController.getNotifications()) {
                 notfication.getNotificationCompat().setProgress(100,100,false);
                 notfication.getNotificationCompat().setOngoing(false);
