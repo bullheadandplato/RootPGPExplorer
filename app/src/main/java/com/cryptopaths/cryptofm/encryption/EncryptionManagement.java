@@ -80,7 +80,7 @@ public class EncryptionManagement implements EncryptionOperation {
         OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
 
         PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
-                PGPCompressedData.ZIP);
+                PGPCompressedData.UNCOMPRESSED);
 
         PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, new File(fileName), new byte[1 << 16]);
 
