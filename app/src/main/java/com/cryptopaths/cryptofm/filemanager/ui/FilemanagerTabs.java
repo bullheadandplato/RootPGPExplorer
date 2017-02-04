@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.ExternalStorageHandler;
@@ -30,6 +31,7 @@ import com.cryptopaths.cryptofm.filemanager.utils.FragmentCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.PagerAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+import com.cryptopaths.cryptofm.services.CleanupService;
 import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
@@ -43,7 +45,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private String[]                mStorageTitles;
     private TabsFragmentOne[]       mFragmentOnes;
     private static final int        GET_PERMISSION_CODE=432;
-
+    private static boolean          isServiceStarted=false;
     private static final String TAG=FilemanagerTabs.class.getName();
 
     @Override
@@ -53,6 +55,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
+
+        if(!isServiceStarted){
+            startService(new Intent(CryptoFM.getContext(),CleanupService.class));
+            isServiceStarted=true;
+        }
         //see the external dirs
         mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
         mTotalStorages=mStorageTitles.length;
