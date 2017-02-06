@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -16,6 +17,8 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.utils.MimeType;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.tasks.DecryptTask;
+import com.cryptopaths.cryptofm.tasks.TasksFileUtils;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -191,6 +194,11 @@ public class FileSelectionManagement {
 
         } else {
             //open file
+            if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
+                    FileUtils.CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                //open the document file
+                //DocumentFile file= FileDocumentUtils.getDocumentFile(FileUtils.getFile())
+            }
             String mimeType =
                     MimeTypeMap.getSingleton().
                             getMimeTypeFromExtension(
