@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -297,11 +298,34 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     }
 
-    private void performDocumentFileDecryption(){
-        //TODO
+    private void performDocumentFileDecryption() throws Exception{
+        tmp.clear();
+        mFilePaths=getOnlyEncryptedDocumentFiles(mFilePaths);
+    }
+    private ArrayList<String> getOnlyEncryptedDocumentFiles(ArrayList<String> files){
+        int size=files.size();
+        for (int i = 0; i < size; i++) {
+            DocumentFile file=FileDocumentUtils.getDocumentFile(new File(files.get(i)));
+            //check if file is directory
+            assert file != null;
+            if(file.isDirectory()){
+                //get all the lists of files in directory
+                ArrayList<String> tmp=new ArrayList<>();
+                for (DocumentFile f: file.listFiles()) {
+                    tmp.add(FileUtils.CURRENT_PATH+f.getName());
+                }
+                //recursively get files
+                getOnlyEncryptedDocumentFiles(tmp);
+            }
+            if(FileUtils.isEncryptedFile(mFilePaths.get(i))){
+                tmp.add(mFilePaths.get(i));
+            }
+        }
+        return tmp;
     }
 
     private void performNormalFormDecryption() throws Exception{
+        tmp.clear();
         //refactor list to hold only encrypted files
         mFilePaths=getOnlyEncryptedFiles(mFilePaths);
         for (String s : mFilePaths) {
@@ -310,7 +334,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 File f = TasksFileUtils.getFile(s);
                 decryptFile(f);
             }
-
         }
     }
 }
