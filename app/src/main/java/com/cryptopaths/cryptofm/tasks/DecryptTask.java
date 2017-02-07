@@ -86,7 +86,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     protected String doInBackground(Void... voids) {
 
         try{
-
             File root= new File(Environment.getExternalStorageDirectory(),"decrypted");
             if(!root.exists()){
                 if(!root.mkdir()){
@@ -94,6 +93,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }
             rootPath=root.getPath();
+
             if(mFileName==null){
                 //refactor list to hold only encrypted files
                 mFilePaths=getOnlyEncryptedFiles(mFilePaths);

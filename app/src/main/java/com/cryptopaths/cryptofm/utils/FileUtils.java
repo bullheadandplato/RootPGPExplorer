@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.cryptopaths.cryptofm.encryption.PGPUtil;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 
 import java.io.File;
@@ -172,5 +173,9 @@ public class FileUtils {
         Log.d(TAG, "convertPathToUri: URI jkhjkis: "+CONTENT_URI);
         return CONTENT_URI;
 
+    }
+    public static boolean isDocumentFile(String path){
+        return SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null
+                && path.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH);
     }
 }
