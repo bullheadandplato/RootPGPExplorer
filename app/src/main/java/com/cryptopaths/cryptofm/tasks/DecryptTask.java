@@ -95,16 +95,15 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             rootPath=root.getPath();
 
             if(mFileName==null){
-                //refactor list to hold only encrypted files
-                mFilePaths=getOnlyEncryptedFiles(mFilePaths);
-                for (String s : mFilePaths) {
-                    if(!isCancelled()) {
-                        Log.d(TAG, "doInBackground: +" + mFilePaths.size());
-                        File f = TasksFileUtils.getFile(s);
-                        decryptFile(f);
-                    }
-
+                //check if files are from external storage
+                if(FileUtils.isDocumentFile(mFilePaths.get(0))){
+                    //do the document files decryption
+                    performDocumentFileDecryption();
+                }else{
+                    //do the normal files decryption
+                    performNormalFormDecryption();
                 }
+
             }else{
                 File in= TasksFileUtils.getFile(mFileName);
                 File out= TasksFileUtils.getFile(root.getPath() + "/" + in.getName().substring(0, in.getName().lastIndexOf('.')));
@@ -296,5 +295,22 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         mProgressDialog.dismiss("Canceled");
         super.onCancelled();
 
+    }
+
+    private void performDocumentFileDecryption(){
+        //TODO
+    }
+
+    private void performNormalFormDecryption() throws Exception{
+        //refactor list to hold only encrypted files
+        mFilePaths=getOnlyEncryptedFiles(mFilePaths);
+        for (String s : mFilePaths) {
+            if(!isCancelled()) {
+                Log.d(TAG, "doInBackground: +" + mFilePaths.size());
+                File f = TasksFileUtils.getFile(s);
+                decryptFile(f);
+            }
+
+        }
     }
 }
