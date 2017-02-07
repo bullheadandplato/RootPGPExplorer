@@ -48,6 +48,7 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_forward"
             android:tint="@color/colorAccent"
+            android:foreground="?android:selectableItemBackground"
             />
     </LinearLayout>
 
