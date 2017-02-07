@@ -37,7 +37,7 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     @Override
     protected String doInBackground(Void... voids) {
         try{
-            if(mFilePath.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+            if(FileUtils.isDocumentFile(mFilePath)){
                  Log.d("niggers", "doInBackground: renaming document file");
                 DocumentFile file= FileDocumentUtils.getDocumentFile(new File(mFilePath));
                 assert file!=null;
