@@ -10,6 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
@@ -100,13 +103,20 @@ public class PreStartActivity extends AppCompatActivity {
                 break;
             case 3:
                 radioButton4.setChecked(true);
-                findViewById(R.id.pre_start_skip_button).setVisibility(View.VISIBLE);
                 prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
                 getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
                 getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+                animateButtonAndShow();
                 break;
 
         }
+    }
+    private void animateButtonAndShow(){
+        ImageButton button= (ImageButton) findViewById(R.id.pre_start_skip_button);
+        button.setVisibility(View.VISIBLE);
+        //animate
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.done_button_anim);
+        button.startAnimation(animation);
     }
 
 }
