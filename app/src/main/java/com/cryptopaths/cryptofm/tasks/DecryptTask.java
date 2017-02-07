@@ -52,8 +52,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<File>     mCreatedFiles=new ArrayList<>();
     private boolean             singleFileMode=false;
 
-    private static final String TAG                        =DecryptTask.class.getName();
-    private static final String DECRYPTION_SUCCESS_MESSAGE ="Decryption successful";
+    private static final String TAG                        = DecryptTask.class.getName();
+    private static final String DECRYPTION_SUCCESS_MESSAGE = "Decryption successful";
 
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
@@ -127,7 +127,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
         int size=mFilePaths.size();
         for (int i = 0; i < size; i++) {
-            Log.d("enclist", "getOnlyEncryptedFiles: file path is: "+mFilePaths.get(i));
+            Log.d(TAG, "getOnlyEncryptedFiles: file path is: "+mFilePaths.get(i));
             File f=TasksFileUtils.getFile(mFilePaths.get(i));
             if(f.isDirectory()){
                 File[] fs=f.listFiles();
@@ -273,8 +273,10 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         for (File f : mCreatedFiles) {
             if(SharedData.EXTERNAL_SDCARD_ROOT_PATH !=null &&
                     f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+                //noinspection ConstantConditions
                 FileDocumentUtils.getDocumentFile(f).delete();
             }else{
+                //noinspection ResultOfMethodCallIgnored
                 f.delete();
             }
         }
