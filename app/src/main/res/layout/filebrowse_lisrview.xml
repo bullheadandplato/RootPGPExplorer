@@ -4,6 +4,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:foreground="?android:selectableItemBackground"
     android:layout_height="wrap_content">
 
 
