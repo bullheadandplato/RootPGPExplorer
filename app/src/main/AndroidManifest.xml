@@ -54,12 +54,14 @@
             android:theme="@style/KeySelectStyle"
             >
         </activity>
-
         <!-- End of activities -->
+
+        <!--started service section-->
         <service
             android:name=".services.CleanupService"
             android:stopWithTask="false" />
 
+        <!--file read provider-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

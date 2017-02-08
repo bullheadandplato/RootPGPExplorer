@@ -214,6 +214,22 @@ public class PGPUtil
         pOut.close();
         in.close();
     }
+    public static void pipeDocumentFileContents(InputStream in,OutputStream pOut,int bufSize) throws Exception{
+        byte[] buf = new byte[bufSize];
+
+        int len;
+        while ((len = in.read(buf)) > 0)
+        {
+            //if user cancel the task break the pipe
+            if(SharedData.IS_TASK_CANCELED){
+                throw new IOException("Operation Canceled");
+            }
+            pOut.write(buf, 0, len);
+        }
+
+        pOut.close();
+        in.close();
+    }
 
     private static final int READ_AHEAD = 60;
 
