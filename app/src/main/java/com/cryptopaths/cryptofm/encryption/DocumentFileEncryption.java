@@ -67,14 +67,13 @@ public class DocumentFileEncryption  {
            PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
                    PGPCompressedData.UNCOMPRESSED);
 
-           //PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, in, new byte[1 << 16]);
            PGPLiteralDataGenerator lData = new PGPLiteralDataGenerator();
            OutputStream pOut = lData.open(out, PGPLiteralData.BINARY,filename ,fileDate, new byte[1 << 16]);
            PGPUtil.pipeDocumentFileContents(in,pOut, new byte[1 << 16].length);
            comData.close();
 
            cOut.close();
-           Log.d("encrypt","file successfully encrypted");
+           Log.d(TAG,"file successfully encrypted");
            status=true;
        }catch (Exception ex){
            Log.d(TAG, "encryptFile: error in encrypting document file");
@@ -91,7 +90,7 @@ public class DocumentFileEncryption  {
             String      defaultFileName
     ){
 
-        Log.d("decrypt","yoo nigga decrypting");
+        Log.d(TAG,"decrypting document file");
 
         try
         {
@@ -131,7 +130,7 @@ public class DocumentFileEncryption  {
 
             if (sKey == null)
             {
-                Log.d("decrypt", "decryptFile: no key found");
+                Log.d(TAG, "decryptFile: no key found");
                 throw new IllegalArgumentException("password is wrong.");
             }
 
@@ -150,10 +149,8 @@ public class DocumentFileEncryption  {
             {
                 PGPLiteralData ld   = (PGPLiteralData)message;
                 InputStream unc     = ld.getInputStream();
-                Log.d("decrypt","now trying with limit: ");
                 OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
                 Streams.pipeAll(unc,fOut);
-
 
                 fOut.close();
             }
