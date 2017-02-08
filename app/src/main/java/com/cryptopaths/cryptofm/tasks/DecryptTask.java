@@ -301,7 +301,25 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private void performDocumentFileDecryption() throws Exception{
         tmp.clear();
         mFilePaths=getOnlyEncryptedDocumentFiles(mFilePaths);
+        for (String path:mFilePaths) {
+            decryptDocumentFiles(FileDocumentUtils.getDocumentFile(new File(path)));
+        }
     }
+
+    private void decryptDocumentFiles(DocumentFile f) {
+        Log.d(TAG, "decryptDocumentFiles: Running decryption on document file");
+        //first always check if task is canceled
+        if(!isCancelled()){
+            if(f.isDirectory()){
+                for (DocumentFile tmpFile:f.listFiles()) {
+                    decryptDocumentFiles(tmpFile);
+                }
+            }else{
+
+            }
+        }
+    }
+
     private ArrayList<String> getOnlyEncryptedDocumentFiles(ArrayList<String> files){
         int size=files.size();
         for (int i = 0; i < size; i++) {
@@ -320,6 +338,10 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             if(FileUtils.isEncryptedFile(mFilePaths.get(i))){
                 tmp.add(mFilePaths.get(i));
             }
+        }
+        //if there are no encrypted file
+        if(tmp.size()<1){
+            throw new IllegalArgumentException("No encrypted files found.");
         }
         return tmp;
     }
