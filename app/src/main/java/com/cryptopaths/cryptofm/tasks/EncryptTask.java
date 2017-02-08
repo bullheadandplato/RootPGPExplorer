@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     private ArrayList<File>         mCreatedFiles=new ArrayList<>();
     private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
+    private ArrayList<DocumentFile> mCreatedDocumentFiles=new ArrayList<>();
 
     private static final String TAG                         = EncryptTask.class.getName();
     private static final String ENCRYPTION_SUCCESS_MESSAGE  = "Successfully encrypted files";
@@ -51,7 +53,12 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             for (String path : mFilePaths) {
                 if(!isCancelled()){
                     File f = TasksFileUtils.getFile(path);
-                    encryptFile(f);
+                    if(FileUtils.isDocumentFile(path)){
+                        encryptDocumentFile(FileDocumentUtils.getDocumentFile(f));
+                    }else{
+                        encryptFile(f);
+                    }
+
                 }
 
             }
@@ -137,14 +144,17 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onCancelled() {
-        for (File f : mCreatedFiles) {
-            if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
-                    f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
-                FileDocumentUtils.getDocumentFile(f).delete();
-            }else{
+        if(mCreatedDocumentFiles.size()>0){
+            //this means encryption was performed on document files
+            for (DocumentFile get:mCreatedDocumentFiles) {
+                get.delete();
+            }
+        }else{
+            for (File f : mCreatedFiles) {
                 f.delete();
             }
         }
+
 
         Toast.makeText(
                 mContext,
@@ -158,5 +168,19 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         );
         Log.d("cancel","yes task is canceled");
         super.onCancelled();
+    }
+    private DocumentFile rootDocumentFile;
+    private void encryptDocumentFile(DocumentFile file){
+        Log.d(TAG, "encryptDocumentFile: encrypting document file");
+        if(file.isDirectory()){
+            rootDocumentFile=file;
+            for (DocumentFile f:file.listFiles()) {
+                encryptDocumentFile(f);
+            }
+        }else{
+            DocumentFile temp=rootDocumentFile.createFile("pgp", file.getName());
+            mCreatedDocumentFiles.add(temp);
+
+        }
     }
 }
