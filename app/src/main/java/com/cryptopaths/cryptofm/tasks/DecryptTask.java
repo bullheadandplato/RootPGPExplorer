@@ -13,7 +13,9 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.encryption.DatabaseHandler;
+import com.cryptopaths.cryptofm.encryption.DocumentFileEncryption;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
@@ -24,8 +26,10 @@ import com.cryptopaths.cryptofm.utils.FileUtils;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -306,7 +310,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         }
     }
 
-    private void decryptDocumentFiles(DocumentFile f) {
+    private void decryptDocumentFiles(DocumentFile f) throws Exception{
         Log.d(TAG, "decryptDocumentFiles: Running decryption on document file");
         //first always check if task is canceled
         if(!isCancelled()){
@@ -315,7 +319,14 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     decryptDocumentFiles(tmpFile);
                 }
             }else{
+                File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
+                DocumentFileEncryption.decryptFile(
+                        CryptoFM.getContext().getContentResolver().openInputStream(f.getUri()),
+                        getSecretKey(),
+                        mKeyPass,
+                        new BufferedOutputStream(new FileOutputStream(out))
 
+                );
             }
         }
     }

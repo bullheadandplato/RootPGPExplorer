@@ -44,7 +44,7 @@ import java.util.Iterator;
 
 public class DocumentFileEncryption  {
     private static final String TAG=DocumentFileEncryption.class.getName();
-    public boolean encryptFile(InputStream in, OutputStream out, File pubKeyFile,
+    public static boolean encryptFile(InputStream in, OutputStream out, File pubKeyFile,
                                boolean integrityCheck, Date fileDate,String filename){
         boolean status;
        try{
@@ -83,11 +83,11 @@ public class DocumentFileEncryption  {
 
         return status;
     }
-    public boolean decryptFile(
+    public static boolean decryptFile(
             InputStream in,
             InputStream keyIn,
             char[]      passwd,
-            String      defaultFileName
+            OutputStream outFile
     ){
 
         Log.d(TAG,"decrypting document file");
@@ -149,10 +149,10 @@ public class DocumentFileEncryption  {
             {
                 PGPLiteralData ld   = (PGPLiteralData)message;
                 InputStream unc     = ld.getInputStream();
-                OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-                Streams.pipeAll(unc,fOut);
+                //OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
+                Streams.pipeAll(unc,outFile);
 
-                fOut.close();
+                outFile.close();
             }
             else if (message instanceof PGPOnePassSignatureList)
             {
