@@ -320,6 +320,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }else{
                 File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
+                // add the file in created files. top remove the files later of user cancels the task
+                mCreatedFiles.add(out.getAbsoluteFile());
+                publishProgress(f.getName(), "" +
+                        ((FileUtils.getReadableSize((f.length())))));
+
                 DocumentFileEncryption.decryptFile(
                         CryptoFM.getContext().getContentResolver().openInputStream(f.getUri()),
                         getSecretKey(),
@@ -327,8 +332,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                         new BufferedOutputStream(new FileOutputStream(out))
 
                 );
-                // add the file in created files. top remove the files later of user cancels the task
-                mCreatedFiles.add(out.getAbsoluteFile());
+
             }
         }
     }
