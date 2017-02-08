@@ -8,28 +8,45 @@ import org.spongycastle.openpgp.PGPCompressedData;
 import org.spongycastle.openpgp.PGPCompressedDataGenerator;
 import org.spongycastle.openpgp.PGPEncryptedData;
 import org.spongycastle.openpgp.PGPEncryptedDataGenerator;
+import org.spongycastle.openpgp.PGPEncryptedDataList;
+import org.spongycastle.openpgp.PGPException;
 import org.spongycastle.openpgp.PGPLiteralData;
 import org.spongycastle.openpgp.PGPLiteralDataGenerator;
+import org.spongycastle.openpgp.PGPOnePassSignatureList;
+import org.spongycastle.openpgp.PGPPrivateKey;
 import org.spongycastle.openpgp.PGPPublicKey;
+import org.spongycastle.openpgp.PGPPublicKeyEncryptedData;
+import org.spongycastle.openpgp.PGPSecretKeyRingCollection;
+import org.spongycastle.openpgp.jcajce.JcaPGPObjectFactory;
+import org.spongycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
+import org.spongycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
 import org.spongycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
 import org.spongycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Created by bullhead on 2/8/17.
+ *
  */
 
 public class DocumentFileEncryption  {
     private static final String TAG=DocumentFileEncryption.class.getName();
-    public boolean encryptFile(InputStream in, OutputStream out, File pubKeyFile,boolean integrityCheck, Date fileDate,String filename){
-        boolean status=false;
+    public boolean encryptFile(InputStream in, OutputStream out, File pubKeyFile,
+                               boolean integrityCheck, Date fileDate,String filename){
+        boolean status;
        try{
            PGPPublicKey encKey=MyPGPUtil.readPublicKey(new FileInputStream(pubKeyFile));
            Security.addProvider(new BouncyCastleProvider());
@@ -66,5 +83,121 @@ public class DocumentFileEncryption  {
        }
 
         return status;
+    }
+    public boolean decryptFile(
+            InputStream in,
+            InputStream keyIn,
+            char[]      passwd,
+            String      defaultFileName
+    ){
+
+        Log.d("decrypt","yoo nigga decrypting");
+
+        try
+        {
+            in = PGPUtil.getDecoderStream(in);
+
+            JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
+            PGPEncryptedDataList enc;
+
+            Object                  o = pgpF.nextObject();
+            //
+            // the first object might be a PGP marker packet.
+            //
+            if (o instanceof PGPEncryptedDataList)
+            {
+                enc = (PGPEncryptedDataList)o;
+            }
+            else
+            {
+                enc = (PGPEncryptedDataList)pgpF.nextObject();
+            }
+
+            //
+            // find the secret key
+            //
+            Iterator it = enc.getEncryptedDataObjects();
+            PGPPrivateKey sKey = null;
+            PGPPublicKeyEncryptedData pbe = null;
+            PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
+                    PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
+
+            while (sKey == null && it.hasNext())
+            {
+                pbe = (PGPPublicKeyEncryptedData)it.next();
+
+                sKey = KeyManagement.findSecretKey(pgpSec, pbe.getKeyID(), passwd);
+            }
+
+            if (sKey == null)
+            {
+                Log.d("decrypt", "decryptFile: no key found");
+                throw new IllegalArgumentException("password is wrong.");
+            }
+
+            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
+
+            JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
+
+            PGPCompressedData   cData = (PGPCompressedData)plainFact.nextObject();
+
+            InputStream         compressedStream = new BufferedInputStream(cData.getDataStream());
+            JcaPGPObjectFactory    pgpFact = new JcaPGPObjectFactory(compressedStream);
+
+            Object              message = pgpFact.nextObject();
+
+            if (message instanceof PGPLiteralData)
+            {
+                PGPLiteralData ld   = (PGPLiteralData)message;
+                InputStream unc     = ld.getInputStream();
+                Log.d("decrypt","now trying with limit: ");
+                OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
+                Streams.pipeAll(unc,fOut);
+
+
+                fOut.close();
+            }
+            else if (message instanceof PGPOnePassSignatureList)
+            {
+                throw new PGPException("encrypted message contains a signed message - not literal data.");
+            }
+            else
+            {
+                throw new PGPException("message is not a simple encrypted file - type unknown.");
+            }
+
+            if (pbe.isIntegrityProtected())
+            {
+                if (!pbe.verify())
+                {
+                    System.err.println("message failed integrity check");
+                }
+                else
+                {
+                    System.err.println("message integrity check passed");
+                }
+            }
+            else
+            {
+                System.err.println("no message integrity check");
+            }
+        }
+        catch (PGPException e)
+        {
+            e.printStackTrace();
+            if (e.getUnderlyingException() != null)
+            {
+                e.getUnderlyingException().printStackTrace();
+            }
+            return false;
+        }catch (IOException ex){
+            Log.d(TAG, "decryptFile: Error decrypting file");
+            ex.printStackTrace();
+            return false;
+        }catch (NoSuchProviderException ex){
+            Log.d(TAG, "decryptFile: No such provider exception");
+            return false;
+        }
+        return true;
     }
 }

@@ -150,7 +150,7 @@ public class KeyManagement implements KeyOperations {
     }
 
 
-    public PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
+    public static PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
             throws PGPException, NoSuchProviderException
     {
         PGPSecretKey pgpSecKey = pgpSec.getSecretKey(keyID);
