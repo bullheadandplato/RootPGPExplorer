@@ -6,9 +6,12 @@ import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 import com.cryptopaths.cryptofm.filemanager.utils.SharedData;
 import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
+import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
+import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -35,6 +38,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
     private boolean             isNextFile=true;
     private String              originalDestination;
     private FileListAdapter     mAdapter;
+    private DocumentFile        rootDocumentFile;
 
     public MoveTask(Context context,ArrayList<String> files,String destination,FileListAdapter mAdapter){
         this.mContext               = context;
@@ -67,7 +71,13 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 //check if destination folder is same as source
 
                 mDestinationFolder=originalDestination;
-                move(TasksFileUtils.getFile(source));
+               File temp=TasksFileUtils.getFile(source);
+                if(FileUtils.isDocumentFile(source)){
+                    rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
+                    moveDocumentFile(FileDocumentUtils.getDocumentFile(temp));
+                }else{
+                    move(temp);
+                }
             }catch (Exception ex){
                 ex.printStackTrace();
                 return "failed";
@@ -174,8 +184,36 @@ public class MoveTask extends AsyncTask<String,String,String> {
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.show();
     }
-    private void moveDocumentFile(DocumentFile file){
+    private void moveDocumentFile(DocumentFile file) throws Exception{
+        if(file.isDirectory()){
+            Log.d(TAG, "moveDocumentFile: Yes document file is directory");
+            //change the destination folder
+            mDestinationFolder=mDestinationFolder+ file.getName()+"/";
+            rootDocumentFile=rootDocumentFile.createDirectory(file.getName());
+            for (DocumentFile f:file.listFiles()) {
+                moveDocumentFile(f);
+            }
+        }else{
+            Log.d(TAG, "moveDocumentFile: Moving document file honey");
+            DocumentFile destFile=rootDocumentFile.createFile(file.getType(),file.getName());
+            isNextFile=true;
+            publishProgress(file.getName());
+            publishProgress(""+0);
 
+            innerMove(
+                    CryptoFM.getContext().getContentResolver().openInputStream(file.getUri()),
+                    CryptoFM.getContext().getContentResolver().openOutputStream(destFile.getUri()),
+                    file.length()
+                    );
+        }
+        //delete the input file
+        //if copying then don't
+        if(SharedData.IS_COPYING_NOT_MOVING){
+            return;
+        }
+        if(!file.delete()){
+            throw new IOException("cannot move files");
+        }
     }
 
 }
