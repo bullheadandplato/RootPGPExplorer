@@ -213,6 +213,10 @@ public class TaskHandler {
         new MoveTask(mContext,mSelectedFiles,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public ArrayList<String> getmSelectedFiles() {
+        return mSelectedFiles;
+    }
+
     public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
         this.mSelectedFiles = mSelectedFiles;
     }

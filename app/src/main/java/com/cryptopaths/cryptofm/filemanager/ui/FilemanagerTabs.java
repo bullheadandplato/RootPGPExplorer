@@ -268,14 +268,16 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 //if in copy mode and switching tabs
                 ArrayList<String> fileList=null;
                 if(SharedData.IS_IN_COPY_MODE){
+                    Log.d(TAG, "onPageSelected: Yes im in copying mode but user is switching tab");
                     // get the selected files list
-                    fileList=mCurrentFragment.getmFileAdapter().getmManager().getmSelectedFilePaths();
+                    fileList= mCurrentFragment.getmTaskHandler().getmSelectedFiles();
                 }
                 mCurrentFragment=mFragmentOnes[position];
                 //again if is in copy mode
                 // had to do it twice because the instance of current fragment changes
                 if(SharedData.IS_IN_COPY_MODE){
-                    mCurrentFragment.getmFileAdapter().getmManager().setmSelectedFilePaths(fileList);
+                    Log.d(TAG, "onPageSelected: Setting selected files list: "+fileList.size());
+                    mCurrentFragment.getmTaskHandler().setmSelectedFiles(fileList);
                 }
                 if(actionMode!=null){
                     actionMode.finish();

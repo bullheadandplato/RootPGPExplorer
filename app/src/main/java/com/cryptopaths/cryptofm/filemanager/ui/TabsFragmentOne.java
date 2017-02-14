@@ -222,4 +222,7 @@ public class TabsFragmentOne extends Fragment {
     public String getRootPath(){
         return mPath;
     }
+    public TaskHandler getmTaskHandler(){
+        return this.mTaskHandler;
+    }
 }
