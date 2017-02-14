@@ -12,6 +12,7 @@ import com.cryptopaths.cryptofm.filemanager.utils.UiUtils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -120,6 +121,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 }
 
             }
+            out.flush();
+            
             in.close();
             out.close();
 
