@@ -68,7 +68,7 @@ public class DocumentFileEncryption  {
                    PGPCompressedData.UNCOMPRESSED);
 
            PGPLiteralDataGenerator lData = new PGPLiteralDataGenerator();
-           OutputStream pOut = lData.open(out, PGPLiteralData.BINARY,filename ,fileDate, new byte[1 << 16]);
+           OutputStream pOut = lData.open(comData.open(cOut), PGPLiteralData.BINARY,filename ,fileDate, new byte[1 << 16]);
            PGPUtil.pipeDocumentFileContents(in,pOut, new byte[1 << 16].length);
            comData.close();
 

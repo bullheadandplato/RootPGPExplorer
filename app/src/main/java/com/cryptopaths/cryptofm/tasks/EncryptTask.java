@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cryptopaths.cryptofm.CryptoFM;
+import com.cryptopaths.cryptofm.encryption.DocumentFileEncryption;
 import com.cryptopaths.cryptofm.encryption.EncryptionSmallFileProcessor;
 import com.cryptopaths.cryptofm.encryption.EncryptionWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
@@ -18,7 +20,11 @@ import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by home on 12/29/16.
@@ -54,6 +60,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 if(!isCancelled()){
                     File f = TasksFileUtils.getFile(path);
                     if(FileUtils.isDocumentFile(path)){
+                        Log.d(TAG, "doInBackground: file is not null"+f.getAbsolutePath());
                         encryptDocumentFile(FileDocumentUtils.getDocumentFile(f));
                     }else{
                         encryptFile(f);
@@ -170,7 +177,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         super.onCancelled();
     }
     private DocumentFile rootDocumentFile;
-    private void encryptDocumentFile(DocumentFile file){
+    private void encryptDocumentFile(DocumentFile file) throws FileNotFoundException {
         Log.d(TAG, "encryptDocumentFile: encrypting document file");
         if(file.isDirectory()){
             rootDocumentFile=file;
@@ -178,8 +185,18 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 encryptDocumentFile(f);
             }
         }else{
-            DocumentFile temp=rootDocumentFile.createFile("pgp", file.getName());
+            //check if root document is not null
+            if(rootDocumentFile==null){
+                String path=mFilePaths.get(0).substring(0,mFilePaths.get(0).lastIndexOf('/'));
+
+                Log.d(TAG, "encryptDocumentFile: Getting the root document: "+path);
+                rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(path));
+            }
+            DocumentFile temp=rootDocumentFile.createFile("pgp", file.getName()+".pgp");
             mCreatedDocumentFiles.add(temp);
+            InputStream in= CryptoFM.getContext().getContentResolver().openInputStream(file.getUri());
+            OutputStream out=CryptoFM.getContext().getContentResolver().openOutputStream(temp.getUri());
+            DocumentFileEncryption.encryptFile(in,out,pubKeyFile,true,new Date(file.lastModified()),file.getName());
 
         }
     }
