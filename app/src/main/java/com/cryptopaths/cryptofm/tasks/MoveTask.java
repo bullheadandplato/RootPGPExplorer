@@ -2,6 +2,7 @@ package com.cryptopaths.cryptofm.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -101,31 +102,12 @@ public class MoveTask extends AsyncTask<String,String,String> {
             if(destinationFile.exists()){
                 return;
             }
-            InputStream in         = new BufferedInputStream(new FileInputStream(f));
-            OutputStream out       = new BufferedOutputStream(new FileOutputStream(destinationFile));
-            byte[] data            = new byte[2048];
-            int start              = 0;
-            long totalFileLength   = f.length();
-            long   readData        = 0;
-            isNextFile=false;
-            double progress;
 
-            while ((start = in.read(data)) > 0){
-                out.write(data, 0, start);
-                readData+=start;
-                progress=(double) readData/(double) totalFileLength;
-                if(mProgressDialog.isInNotifyMode()){
-                    mProgressDialog.setProgress((int)(progress*100));
-                }else {
-                    publishProgress(""+(int)(progress*100));
-                }
-
-            }
-            out.flush();
-            
-            in.close();
-            out.close();
-
+        innerMove(
+                new BufferedInputStream(new FileInputStream(f)),
+                new BufferedOutputStream(new FileOutputStream(destinationFile)),
+                f.length()
+            );
         }
 
         //delete the input file
@@ -136,6 +118,30 @@ public class MoveTask extends AsyncTask<String,String,String> {
         if(!f.delete()){
             throw new IOException("cannot move files");
         }
+    }
+    private void innerMove(InputStream in,OutputStream out, long totalFileLength) throws Exception{
+
+        byte[] data            = new byte[2048];
+        int start              = 0;
+        long   readData        = 0;
+        isNextFile=false;
+        double progress;
+
+        while ((start = in.read(data)) > 0){
+            out.write(data, 0, start);
+            readData+=start;
+            progress=(double) readData/(double) totalFileLength;
+            if(mProgressDialog.isInNotifyMode()){
+                mProgressDialog.setProgress((int)(progress*100));
+            }else {
+                publishProgress(""+(int)(progress*100));
+            }
+
+        }
+        out.flush();
+
+        in.close();
+        out.close();
     }
 
     @Override
@@ -168,4 +174,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.show();
     }
+    private void moveDocumentFile(DocumentFile file){
+
+    }
+
 }
