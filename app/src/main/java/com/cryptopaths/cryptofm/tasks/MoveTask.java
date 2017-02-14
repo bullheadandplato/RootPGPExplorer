@@ -76,6 +76,9 @@ public class MoveTask extends AsyncTask<String,String,String> {
                     rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
                     moveDocumentFile(FileDocumentUtils.getDocumentFile(temp));
                 }else{
+                    if(FileUtils.isDocumentFile(mDestinationFolder)){
+                        rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
+                    }
                     move(temp);
                 }
             }catch (Exception ex){
@@ -88,15 +91,23 @@ public class MoveTask extends AsyncTask<String,String,String> {
     }
     private void move(File f) throws Exception{
         if(f.isDirectory()){
-            //create folder in the destination
+           //check if destination folder is in external sdcard
+            if(FileUtils.isDocumentFile(mDestinationFolder)){
+                DocumentFile rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
+                rootDocumentFile.createDirectory(f.getName());
+            }else{
+             //create folder in the destination
             mDestinationFolder=mDestinationFolder+f.getName()+"/";
+
             File tmp=new File(mDestinationFolder);
             if(!tmp.exists()){
                 tmp.mkdir();
             }else{
                 return;
             }
-            Log.d(TAG, "move: File is a directory");
+
+            }
+           Log.d(TAG, "move: File is a directory");
             for (File file:
                 f.listFiles() ) {
                 move(file);
@@ -107,7 +118,15 @@ public class MoveTask extends AsyncTask<String,String,String> {
             isNextFile=true;
             publishProgress(f.getName());
             publishProgress(""+0);
-            //check if file already exits
+            if(FileUtils.isDocumentFile(mDestinationFolder)){
+                DocumentFile dest=rootDocumentFile.createFile(FileUtils.getExtension(f.getName()),f.getName());
+                innerMove(
+                        new BufferedInputStream(new FileInputStream(f)),
+                        CryptoFM.getContext().getContentResolver().openOutputStream(dest.getUri()),
+                        f.length()
+                );
+            }else{
+                //check if file already exits
             File destinationFile   =new File(mDestinationFolder+f.getName());
             if(destinationFile.exists()){
                 return;
@@ -119,6 +138,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 f.length()
             );
         }
+            }
+
 
         //delete the input file
         //if copying then don't
