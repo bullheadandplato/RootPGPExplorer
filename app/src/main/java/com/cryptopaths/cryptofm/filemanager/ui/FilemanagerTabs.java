@@ -37,6 +37,7 @@ import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private int                     mTotalStorages;
@@ -264,7 +265,18 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             @Override
             public void onPageSelected(int position) {
+                //if in copy mode and switching tabs
+                ArrayList<String> fileList=null;
+                if(SharedData.IS_IN_COPY_MODE){
+                    // get the selected files list
+                    fileList=mCurrentFragment.getmFileAdapter().getmManager().getmSelectedFilePaths();
+                }
                 mCurrentFragment=mFragmentOnes[position];
+                //again if is in copy mode
+                // had to do it twice because the instance of current fragment changes
+                if(SharedData.IS_IN_COPY_MODE){
+                    mCurrentFragment.getmFileAdapter().getmManager().setmSelectedFilePaths(fileList);
+                }
                 if(actionMode!=null){
                     actionMode.finish();
                     actionMode=null;

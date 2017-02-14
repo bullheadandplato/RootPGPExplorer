@@ -124,6 +124,9 @@ public class FileSelectionManagement {
             mSelectedFilePaths.clear();
         }
     }
+    public void setmSelectedFilePaths(ArrayList<String> filePaths){
+        this.mSelectedFilePaths=filePaths;
+    }
 
     public void resetFileIcons(){
         for (Integer pos:
