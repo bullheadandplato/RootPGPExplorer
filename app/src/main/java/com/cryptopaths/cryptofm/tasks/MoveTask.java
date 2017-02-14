@@ -72,6 +72,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
 
                 mDestinationFolder=originalDestination;
                File temp=TasksFileUtils.getFile(source);
+                Log.d(TAG, "doInBackground: source path is: "+source);
                 if(FileUtils.isDocumentFile(source)){
                     rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
                     moveDocumentFile(FileDocumentUtils.getDocumentFile(temp));
@@ -210,16 +211,37 @@ public class MoveTask extends AsyncTask<String,String,String> {
             Log.d(TAG, "moveDocumentFile: Yes document file is directory");
             //change the destination folder
             mDestinationFolder=mDestinationFolder+ file.getName()+"/";
-            rootDocumentFile=rootDocumentFile.createDirectory(file.getName());
+            //check if destination folder is not document file
+            if(FileUtils.isDocumentFile(mDestinationFolder)){
+                rootDocumentFile=rootDocumentFile.createDirectory(file.getName());
+            }else {
+                File tmp = new File(mDestinationFolder);
+                if (!tmp.exists()) {
+                    tmp.mkdir();
+                } else {
+                    return;
+                }
+            }
             for (DocumentFile f:file.listFiles()) {
                 moveDocumentFile(f);
             }
         }else{
-            Log.d(TAG, "moveDocumentFile: Moving document file honey");
-            DocumentFile destFile=rootDocumentFile.createFile(file.getType(),file.getName());
             isNextFile=true;
             publishProgress(file.getName());
             publishProgress(""+0);
+            //check if pasting in internal storage
+            if(!FileUtils.isDocumentFile(mDestinationFolder)){
+                Log.d(TAG, "moveDocumentFile: moving document file in internal storage");
+                File destinationFile   =new File(mDestinationFolder+file.getName());
+                innerMove(
+                        CryptoFM.getContext().getContentResolver().openInputStream(file.getUri()),
+                        new BufferedOutputStream(new FileOutputStream(destinationFile)),
+                        file.length()
+                );
+            }else{
+                Log.d(TAG, "moveDocumentFile: Moving document file honey");
+            DocumentFile destFile=rootDocumentFile.createFile(file.getType(),file.getName());
+
 
             innerMove(
                     CryptoFM.getContext().getContentResolver().openInputStream(file.getUri()),
@@ -227,6 +249,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
                     file.length()
                     );
         }
+            }
+
         //delete the input file
         //if copying then don't
         if(SharedData.IS_COPYING_NOT_MOVING){
