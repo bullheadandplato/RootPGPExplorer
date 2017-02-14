@@ -194,6 +194,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             }
             DocumentFile temp=rootDocumentFile.createFile("pgp", file.getName()+".pgp");
             mCreatedDocumentFiles.add(temp);
+            publishProgress(file.getName(),""+
+                    ((FileUtils.getReadableSize((file.length())))));
+
             InputStream in= CryptoFM.getContext().getContentResolver().openInputStream(file.getUri());
             OutputStream out=CryptoFM.getContext().getContentResolver().openOutputStream(temp.getUri());
             DocumentFileEncryption.encryptFile(in,out,pubKeyFile,true,new Date(file.lastModified()),file.getName());
