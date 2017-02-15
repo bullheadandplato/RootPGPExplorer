@@ -175,7 +175,12 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             }
             return true;
         }
+        if(item.getItemId()==R.id.open_source_menu_item){
+            startActivity(new Intent(this,AboutActivity.class));
+        }else{
         mCurrentFragment.toggleLayout(item);
+        }
+
         return true;
     }
 
