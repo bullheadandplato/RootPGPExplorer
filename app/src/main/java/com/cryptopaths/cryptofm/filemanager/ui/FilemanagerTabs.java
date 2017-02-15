@@ -238,25 +238,28 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         toolbar.setTitle("Home");
         toolbar.setSubtitle("/storage/emulated/0");
         setSupportActionBar(toolbar);
+
         if (mTotalStorages > 1 && getContentResolver().getPersistedUriPermissions().size() < 1) {
             Log.d(TAG, "setToolbar: found external sdcard");
             getExternalStoragePermissions();   
         }
+
         // set the external sdcard path
         if (mTotalStorages > 1) {
-            Log.d(TAG, "setToolbar: yes there is an sdcard");
+            Log.d(TAG, "setToolbar: yes there is a sdcard");
             SharedData.EXTERNAL_SDCARD_ROOT_PATH = mStorageTitles[0];
             SharedData.EXT_ROOT_URI = getPreferences(Context.MODE_PRIVATE).getString("tree_uri", null);
             FileUtils.CURRENT_PATH=SharedData.EXTERNAL_SDCARD_ROOT_PATH;
             toolbar.setSubtitle(mStorageTitles[0]);
-        }
-        final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
+            toolbar.setTitle("Sdcard home");
+            final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorages);
         mPagerAdapter.setTitles(mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        mFragmentOnes=new TabsFragmentOne[mTotalStorages];
+
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -304,9 +307,16 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             }
         });
-
-
+        }
+        if(mTotalStorages<=1){
+            mCurrentFragment=TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY,0);
+            getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,mCurrentFragment).commit();
+            Log.d(TAG, "setToolbar: Tab layout is hiding itself");
+            tabLayout.setVisibility(View.GONE);
+        }
+        mFragmentOnes=new TabsFragmentOne[mTotalStorages];
     }
+
     private void getExternalStoragePermissions(){
         Log.d(TAG, "getExternalStoragePermissions: Getting permissions");
         //inform user what to do
@@ -431,6 +441,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         mCurrentFragment.setmIsEmptyFolder(false);
         FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
         layout.removeAllViews();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,mCurrentFragment).commit();
     }
 
     public void showCopyDialog() {

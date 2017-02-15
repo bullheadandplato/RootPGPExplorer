@@ -30,15 +30,15 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        if(SharedData.EXTERNAL_SDCARD_ROOT_PATH==null){
+            return null;
+        }
         return "Storage "+position;
     }
 
     @Override
     public int getCount() {
         return mNumOfTabs;
-    }
-    public TabsFragmentOne getCurrentFragment(int position){
-        return tabsFragment[position];
     }
 
     public void setTitles(String[] mStorageTitles) {
