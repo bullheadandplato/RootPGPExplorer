@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.cryptopaths.cryptofm.startup.InitActivity">
+    tools:context="com.osama.cryptofm.startup.InitActivity">
 
 
 
