@@ -70,7 +70,10 @@
         </provider>
 
         <activity android:name=".about.AboutActivity" />
-        <activity android:name=".about.LicencesActivity"></activity>
+        <activity
+            android:name=".about.LicencesActivity"
+            android:parentActivityName=".about.AboutActivity"
+            />
     </application>
 
 </manifest>
