@@ -295,6 +295,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
+                //reload data
+                UiUtils.reloadData(FilemanagerTabs.this,mCurrentFragment.getmFileAdapter());
             }
 
             @Override

@@ -10,7 +10,6 @@ import com.cryptopaths.cryptofm.R;
 import com.cryptopaths.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.cryptopaths.cryptofm.filemanager.listview.FileListAdapter;
 
-//import static com.cryptopaths.cryptofm.filemanager.ui.FileBrowserActivity.mFilesData;
 
 /**
  * Created by home on 12/29/16.
