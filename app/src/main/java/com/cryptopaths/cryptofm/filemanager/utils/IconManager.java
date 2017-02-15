@@ -30,28 +30,27 @@ public class IconManager {
     public  Drawable VIDEO_ICON;
     public  Drawable BLANK_ICON;
     public  Drawable PDF;
+    public Drawable EXCEL;
+    public Drawable PPT;
+    public Drawable DOC;
+    public Drawable APK;
 
     public IconManager(Context context){
         //get the references to all the icons here
-        DELETE_ICON        =context.getDrawable(R.drawable.ic_delete);
-        PDF                =context.getDrawable(R.drawable.ic_application_pdf);
-        DECRYPT_ICON       =context.getDrawable(R.drawable.ic_decrypt);
-        ENCRYPT_ICON       =context.getDrawable(R.drawable.ic_encrypted);
-        NO_FILE_ICON       =context.getDrawable(R.drawable.nofiles_image);
-        GRID_VIEW_ICON     =context.getDrawable(R.drawable.ic_grid_view);
-        NEXT_PAGE_ICON     =context.getDrawable(R.drawable.ic_next_page);
-        ITEMS_VIEW_ICON    =context.getDrawable(R.drawable.ic_items_view);
-        SELECT_ALL_ICON    =context.getDrawable(R.drawable.ic_select_all);
-        TEXT_ICON          =context.getDrawable(R.drawable.ic_application_text);
-        AUDIO_ICON         =context.getDrawable(R.drawable.ic_application_audio);
-        BLANK_ICON         =context.getDrawable(R.drawable.ic_application_blank);
-        CUT_CONTENT_ICON   =context.getDrawable(R.drawable.ic_cut_content);
-        VIDEO_ICON         =context.getDrawable(R.drawable.ic_application_video);
-        IMAGE_ICON         =context.getDrawable(R.drawable.ic_application_images);
-        TORRENT_ICON       =context.getDrawable(R.drawable.ic_application_torrent);
-        ARCHIVE_ZIP        =context.getDrawable(R.drawable.ic_application_archive_zip);
-        SCRIPT_ICON        =context.getDrawable(R.drawable.ic_application_script_blank);
-        CHECK_CIRCLE_ICON  =context.getDrawable(R.drawable.ic_check_circle_white_48dp);
+        PDF                = context.getDrawable(R.drawable.ic_application_pdf);
+        ENCRYPT_ICON       = context.getDrawable(R.drawable.ic_encrypted);
+        TEXT_ICON          = context.getDrawable(R.drawable.ic_application_text);
+        AUDIO_ICON         = context.getDrawable(R.drawable.ic_application_audio);
+        BLANK_ICON         = context.getDrawable(R.drawable.ic_application_blank);
+        VIDEO_ICON         = context.getDrawable(R.drawable.ic_application_video);
+        IMAGE_ICON         = context.getDrawable(R.drawable.ic_application_images);
+        TORRENT_ICON       = context.getDrawable(R.drawable.ic_application_torrent);
+        ARCHIVE_ZIP        = context.getDrawable(R.drawable.ic_application_archive_zip);
+        SCRIPT_ICON        = context.getDrawable(R.drawable.ic_application_script_blank);
+        EXCEL              = context.getDrawable(R.drawable.ic_application_table);
+        PPT                = context.getDrawable(R.drawable.ic_application_presentation);
+        DOC                = context.getDrawable(R.drawable.ic_application_word);
+        APK                = context.getDrawable(R.drawable.ic_application_apk);
 
     }
 }
