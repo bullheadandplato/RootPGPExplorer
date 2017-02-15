@@ -252,7 +252,10 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             FileUtils.CURRENT_PATH=SharedData.EXTERNAL_SDCARD_ROOT_PATH;
             toolbar.setSubtitle(mStorageTitles[0]);
             toolbar.setTitle("Sdcard home");
-            final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
+
+        }
+
+        final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorages);
         mPagerAdapter.setTitles(mStorageTitles);
@@ -307,13 +310,12 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
             }
         });
-        }
+
         if(mTotalStorages<=1){
-            mCurrentFragment=TabsFragmentOne.newInstance(SharedData.FILES_ROOT_DIRECTORY,0);
-            getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,mCurrentFragment).commit();
             Log.d(TAG, "setToolbar: Tab layout is hiding itself");
             tabLayout.setVisibility(View.GONE);
         }
+
         mFragmentOnes=new TabsFragmentOne[mTotalStorages];
     }
 
@@ -442,7 +444,6 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         FrameLayout layout=(FrameLayout)findViewById(R.id.no_files_frame_fragment);
         layout.removeAllViews();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame_fragment,mCurrentFragment).commit();
     }
 
     public void showCopyDialog() {
