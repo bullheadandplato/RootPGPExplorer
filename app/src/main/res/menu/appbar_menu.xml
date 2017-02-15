@@ -6,4 +6,8 @@
         android:id="@+id/items_view_menu_item"
         app:showAsAction="ifRoom|collapseActionView"
         />
+    <item
+        android:title="About"
+        android:id="@+id/open_source_menu_item"
+        app:showAsAction="never"/>
 </menu>
