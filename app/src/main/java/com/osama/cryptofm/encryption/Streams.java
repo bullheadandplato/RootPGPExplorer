@@ -4,16 +4,15 @@ import com.osama.cryptofm.filemanager.utils.SharedData;
 
 import org.spongycastle.util.io.StreamOverflowException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by tripleheader on 2/3/17.
  * basic stream methods
  */
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Utility methods to assist with stream processing.

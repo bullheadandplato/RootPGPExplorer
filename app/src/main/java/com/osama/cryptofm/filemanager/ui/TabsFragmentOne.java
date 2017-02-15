@@ -17,14 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.osama.cryptofm.R;
-import com.osama.cryptofm.filemanager.utils.ActionViewHandler;
-import com.osama.cryptofm.filemanager.utils.FragmentCallbacks;
-import com.osama.cryptofm.filemanager.utils.SharedData;
-import com.osama.cryptofm.filemanager.utils.TaskHandler;
 import com.osama.cryptofm.filemanager.listview.FileFillerWrapper;
 import com.osama.cryptofm.filemanager.listview.FileListAdapter;
 import com.osama.cryptofm.filemanager.listview.FileSelectionManagement;
 import com.osama.cryptofm.filemanager.listview.RecyclerViewSwipeHandler;
+import com.osama.cryptofm.filemanager.utils.ActionViewHandler;
+import com.osama.cryptofm.filemanager.utils.FragmentCallbacks;
+import com.osama.cryptofm.filemanager.utils.SharedData;
+import com.osama.cryptofm.filemanager.utils.TaskHandler;
 
 /**
  * Created by Shadow on 1/21/2017.

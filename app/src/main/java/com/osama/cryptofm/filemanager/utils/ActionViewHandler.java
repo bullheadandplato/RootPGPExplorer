@@ -2,8 +2,8 @@ package com.osama.cryptofm.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.ActionMode;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
