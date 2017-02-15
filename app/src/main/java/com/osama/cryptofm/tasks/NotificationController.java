@@ -68,4 +68,8 @@ public class NotificationController {
     public static ArrayList<NotificationController> getNotifications(){
         return allNotifications;
     }
+
+    public static void removeNotification(int thisNotificationNumber) {
+    allNotifications.remove(thisNotificationNumber);
+    }
 }

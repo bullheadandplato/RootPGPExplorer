@@ -117,6 +117,7 @@ public class MyProgressDialog {
             mNotBuilder.setProgress(100,100,false);
             mNotificationManager.notify(thisNotificationNumber,mNotBuilder.build());
             this.mNotBuilder=null;
+            NotificationController.removeNotification(thisNotificationNumber);
         }else{
             dialog.dismiss();
         }
