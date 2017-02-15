@@ -124,9 +124,6 @@ public class FileSelectionManagement {
             mSelectedFilePaths.clear();
         }
     }
-    public void setmSelectedFilePaths(ArrayList<String> filePaths){
-        this.mSelectedFilePaths=filePaths;
-    }
 
     public void resetFileIcons(){
         for (Integer pos:
@@ -200,7 +197,13 @@ public class FileSelectionManagement {
             if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
                     FileUtils.CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
                 //open the document file
-                //DocumentFile file= FileDocumentUtils.getDocumentFile(FileUtils.getFile())
+                DocumentFile file= FileDocumentUtils.getDocumentFile(FileUtils.getFile(filename));
+                Intent intent = new Intent();
+                intent.setDataAndType(file.getUri(),file.getType());
+                intent.setAction(Intent.ACTION_VIEW);
+                Intent x=Intent.createChooser(intent,"Open with");
+                mContext.startActivity(x);
+                return;
             }
             String mimeType =
                     MimeTypeMap.getSingleton().
