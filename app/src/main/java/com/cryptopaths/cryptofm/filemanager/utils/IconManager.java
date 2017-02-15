@@ -11,16 +11,8 @@ import com.cryptopaths.cryptofm.R;
  */
 
 public class IconManager {
-    public  Drawable CHECK_CIRCLE_ICON;
-    public  Drawable CUT_CONTENT_ICON;
-    public  Drawable DECRYPT_ICON;
-    public  Drawable DELETE_ICON;
+
     public  Drawable ENCRYPT_ICON;
-    public  Drawable GRID_VIEW_ICON;
-    public  Drawable ITEMS_VIEW_ICON;
-    public  Drawable NEXT_PAGE_ICON;
-    public  Drawable SELECT_ALL_ICON;
-    public  Drawable NO_FILE_ICON;
     public  Drawable ARCHIVE_ZIP;
     public  Drawable TORRENT_ICON;
     public  Drawable AUDIO_ICON;

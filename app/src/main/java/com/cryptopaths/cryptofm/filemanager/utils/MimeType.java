@@ -90,6 +90,22 @@ public class MimeType {
             return mIcons.ENCRYPT_ICON;
         }else if(fileExtensionOrItems.equalsIgnoreCase("pdf")){
             return mIcons.PDF;
+        }else if(
+                fileExtensionOrItems.equalsIgnoreCase("docx") ||
+                        fileExtensionOrItems.equalsIgnoreCase("doc") ||
+                        fileExtensionOrItems.equalsIgnoreCase("odp")
+                ){
+            return mIcons.DOC;
+        } else if (
+                fileExtensionOrItems.equalsIgnoreCase("ppt") ||
+                fileExtensionOrItems.equalsIgnoreCase("pptx")) {
+            return mIcons.PPT;
+        } else if(
+                fileExtensionOrItems.equalsIgnoreCase("xlsx") ||
+                fileExtensionOrItems.equalsIgnoreCase("ods")  ||
+                fileExtensionOrItems.equalsIgnoreCase("ots")  ||
+                fileExtensionOrItems.equalsIgnoreCase("xls")){
+            return mIcons.EXCEL;
         }
         else {
             return mIcons.BLANK_ICON;
