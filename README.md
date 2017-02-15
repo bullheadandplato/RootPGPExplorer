@@ -4,6 +4,7 @@ Android application. The basic purppose of this application is to provide encryp
 * Spongy castle
 * Easy permissions
 * Sqlcipher
+
 ## Features
 * Support to do any file related operation in external sdcard
 * User interface according to Material design guidelines
@@ -13,9 +14,14 @@ Android application. The basic purppose of this application is to provide encryp
 ## Todo
 1. reduce memory usage
 2. show encryption progress in encrption dialog
-3. and more...whateve
+3. and more...whatever
+
 ## Notice
-I'm at intial stage in mobile application development so expect some bugs. If you contribute, it would be great! 
+I'm at intial stage in mobile application development so expect some bugs. Your contribution will be very helpful.
+
+## Contributions
+**Awaiting....**
+
 # LICENSE
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
