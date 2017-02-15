@@ -39,17 +39,17 @@
         <activity
             android:name=".filemanager.ui.FilemanagerTabs"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/TabsTheme"></activity>
+            android:theme="@style/TabsTheme" />
         <activity
             android:name=".startup.PreStartActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PreActivityThemeFragmentTwo"></activity>
+            android:theme="@style/PreActivityThemeFragmentTwo" />
         <activity android:name=".startup.OptionActivity" />
 
         <!-- Key select activity  have different theme -->
         <activity
             android:name=".startup.KeySelectActivity"
-            android:theme="@style/KeySelectStyle"></activity>
+            android:theme="@style/KeySelectStyle" />
         <!-- End of activities -->
 
 
@@ -69,7 +69,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".filemanager.ui.AboutActivity"></activity>
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".about.LicencesActivity"></activity>
     </application>
 
 </manifest>
