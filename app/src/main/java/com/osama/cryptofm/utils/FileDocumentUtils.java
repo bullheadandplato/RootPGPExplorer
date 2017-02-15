@@ -111,6 +111,7 @@ public class FileDocumentUtils {
             Log.d(TAG, "getDocumentFile: basefolder:file"+baseFolder+" : "+file.getAbsolutePath());
             String fullPath = file.getCanonicalPath();
             if((file.getAbsolutePath()+"/").equals(baseFolder)){
+                Log.d(TAG, "getDocumentFile: uri is: "+SharedData.EXT_ROOT_URI);
                 return DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(SharedData.EXT_ROOT_URI));
             }else{
 

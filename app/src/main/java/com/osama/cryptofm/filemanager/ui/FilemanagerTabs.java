@@ -441,7 +441,10 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
         if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
             path="Home";
-        }else{
+        }else if(path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)) {
+            path="Sdcard home";
+        }
+        else{
             path=path.substring(0,path.lastIndexOf('/'));
             path=path.substring(path.lastIndexOf('/')+1);
         }
