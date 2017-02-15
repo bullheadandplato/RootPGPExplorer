@@ -1,3 +1,22 @@
+<!--
+  ~ Copyright (c) 2017. Osama Bin Omar
+  ~    This file is part of Crypto File Manager also known as Crypto FM
+  ~
+  ~     Crypto File Manager is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     Crypto File Manager is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Crypto File Manager.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+
 <vector android:height="100dp" android:viewportHeight="101.33541"
     android:viewportWidth="121.14483" android:width="100dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#ffffff" android:pathData="M61.12,53.97C57.16,46.09 46.43,40.44 33.82,40.44 17.83,40.44 4.83,49.54 4.83,60.74c0,11.2 13,20.3 28.99,20.3 12.61,0 23.34,-5.65 27.3,-13.53L82.14,67.51l0,13.53l19.33,0l0,-13.53l9.66,0L111.13,53.97ZM33.82,67.51c-5.31,0 -9.66,-3.04 -9.66,-6.77 0,-3.72 4.35,-6.77 9.66,-6.77 5.31,0 9.66,3.04 9.66,6.77 0,3.72 -4.35,6.77 -9.66,6.77z"/>
