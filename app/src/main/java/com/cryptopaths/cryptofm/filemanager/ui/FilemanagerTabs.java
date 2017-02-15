@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 
 import com.cryptopaths.cryptofm.CryptoFM;
 import com.cryptopaths.cryptofm.R;
+import com.cryptopaths.cryptofm.about.AboutActivity;
 import com.cryptopaths.cryptofm.filemanager.listview.AdapterCallbacks;
 import com.cryptopaths.cryptofm.filemanager.utils.ExternalStorageHandler;
 import com.cryptopaths.cryptofm.filemanager.utils.FragmentCallbacks;
@@ -36,7 +36,6 @@ import com.cryptopaths.cryptofm.utils.ActionHandler;
 import com.cryptopaths.cryptofm.utils.FileDocumentUtils;
 import com.cryptopaths.cryptofm.utils.FileUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{

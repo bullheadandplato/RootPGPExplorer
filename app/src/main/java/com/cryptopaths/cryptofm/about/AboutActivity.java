@@ -1,4 +1,4 @@
-package com.cryptopaths.cryptofm.filemanager.ui;
+package com.cryptopaths.cryptofm.about;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

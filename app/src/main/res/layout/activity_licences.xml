@@ -8,11 +8,38 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context="com.cryptopaths.cryptofm.about.LicencesActivity">
 <TextView
+    android:layout_margin="5dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
+    android:text="Spongy castle"
+    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+    android:id="@+id/spongy_castle_license"
     />
+    <TextView
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Numix Icons"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:id="@+id/numix_icon_license"
+        />
+        <TextView
+            android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Easy permission"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:id="@+id/easy_permission_license"
+        />
+        <TextView
+            android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sqlcipher"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:id="@+id/sqlcipher_license"
+        />
 </LinearLayout>
