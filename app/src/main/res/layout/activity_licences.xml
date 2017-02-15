@@ -17,6 +17,7 @@
     android:text="Spongy castle"
     android:textAppearance="@android:style/TextAppearance.Material.Medium"
     android:id="@+id/spongy_castle_license"
+    android:onClick="licenseClick"
     />
     <TextView
         android:layout_margin="5dp"
@@ -25,6 +26,7 @@
         android:text="Numix Icons"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/numix_icon_license"
+        android:onClick="licenseClick"
         />
         <TextView
             android:layout_margin="5dp"
@@ -33,6 +35,7 @@
         android:text="Easy permission"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/easy_permission_license"
+            android:onClick="licenseClick"
         />
         <TextView
             android:layout_margin="5dp"
@@ -41,5 +44,6 @@
         android:text="Sqlcipher"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/sqlcipher_license"
+            android:onClick="licenseClick"
         />
 </LinearLayout>

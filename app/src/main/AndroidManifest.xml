@@ -72,7 +72,10 @@
         <activity android:name=".about.AboutActivity" />
         <activity
             android:name=".about.LicencesActivity"
-            android:parentActivityName=".about.AboutActivity"
+            android:parentActivityName=".about.AboutActivity" />
+        <activity
+            android:name=".about.ShowLicenseActivity"
+            android:parentActivityName=".about.LicencesActivity"
             />
     </application>
 
