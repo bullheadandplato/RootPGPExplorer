@@ -34,8 +34,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 
 import com.osama.cryptofm.R;
 import com.osama.cryptofm.filemanager.listview.FileFillerWrapper;
@@ -170,16 +173,9 @@ public class TabsFragmentOne extends Fragment {
 
     }
     void changeDirectory(String path) {
-        this.mCurrentPath=path;
-        Log.d("filesc", "current path: " + path);
-        mFileFiller.fillData(path, mContext);
-        if (mFileFiller.getTotalFilesCount() < 1) {
-            mCallbacks.tellNoFiles();
-            this.mIsEmptyFolder=true;
-            return;
-        }
+        forwardAnimation(path);
         mFileAdapter.notifyDataSetChanged();
-        forwardAnimation();
+
     }
 
     public void setmCurrentPath(String mCurrentPath) {
@@ -249,10 +245,36 @@ public class TabsFragmentOne extends Fragment {
         return this.mTaskHandler;
     }
 
-    private void forwardAnimation(){
-        Animation animation=new ScaleAnimation(1f,0f,1f,0f);
-        animation.setDuration(1000);
+    private void forwardAnimation(final String path){
+        Animation animation= AnimationUtils.loadAnimation(mContext,R.anim.exit_to_right);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d(TAG, "onAnimationStart: Animation started");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d(TAG, "onAnimationEnd: animation ends");
+                mCurrentPath=path;
+                Log.d("filesc", "current path: " + path);
+                mFileFiller.fillData(path, mContext);
+                if (mFileFiller.getTotalFilesCount() < 1) {
+                    mCallbacks.tellNoFiles();
+                    mIsEmptyFolder=true;
+                    return;
+                }
+                mFileAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         mRecyclerView.setAnimation(animation);
         mRecyclerView.animate();
+       // animation.startNow();
     }
 }
