@@ -36,6 +36,8 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -484,4 +486,5 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath());
 
     }
+
 }

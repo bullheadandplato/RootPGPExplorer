@@ -34,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import com.osama.cryptofm.R;
 import com.osama.cryptofm.filemanager.listview.FileFillerWrapper;
@@ -176,8 +178,11 @@ public class TabsFragmentOne extends Fragment {
             this.mIsEmptyFolder=true;
             return;
         }
-            mFileAdapter.notifyDataSetChanged();
-        }
+
+        mFileAdapter.notifyDataSetChanged();
+        forwardAnimation();
+
+    }
 
     public void setmCurrentPath(String mCurrentPath) {
         this.mCurrentPath = mCurrentPath;
@@ -244,5 +249,12 @@ public class TabsFragmentOne extends Fragment {
     }
     public TaskHandler getmTaskHandler(){
         return this.mTaskHandler;
+    }
+
+    private void forwardAnimation(){
+        Animation animation=new ScaleAnimation(1f,0f,1f,0f);
+        animation.setDuration(1000);
+        mRecyclerView.setAnimation(animation);
+        mRecyclerView.animate();
     }
 }
