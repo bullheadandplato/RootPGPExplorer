@@ -37,67 +37,11 @@ import java.text.DecimalFormat;
 
 public class FileDocumentUtils {
     private static final String TAG=FileDocumentUtils.class.getName();
-    FileDocumentUtils() {
-
-    }
-
-    public static long getFileSize(String filename) {
-        return DocumentFile.fromTreeUri(CryptoFM.getContext(), Uri.parse(filename)).length();
-    }
-
-
-    public static String getFileExtension(String filename) {
-        String tmp= DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(filename)).getType();
-        if(tmp.indexOf('/')>0){
-            //this means file contains right mime type
-            tmp=tmp.substring(tmp.lastIndexOf('/'));
-        }
-        return tmp;
-    }
-
-    public static String getReadableSize(String filename) {
-        long size=DocumentFile.fromTreeUri(CryptoFM.getContext(),Uri.parse(filename)).length();
-        if(size <= 0) return "0B";
-        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
-        int digitGroups      = (int) (Math.log10(size)/Math.log10(1024));
-
-        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
-                + " " + units[digitGroups];
-    }
-
-    public static boolean isEncryptedFile(String filename) {
-        return false;
-    }
-
-    public static int getNumberofFiles(File file) {
-        return getDocumentFile(file).listFiles().length;
-    }
-
-    public static boolean isFile(String filename) {
-        return false;
-    }
-
-    public static String getLastModifiedData(String filename) {
-        return ""+getDocumentFile(new File(filename)).lastModified();
-    }
 
     public static boolean createFolder(String currentPath,String foldername) {
         getDocumentFile(new File(currentPath)).createDirectory(foldername);
         return false;
     }
-
-    public static void deleteDecryptedFolder() {
-
-    }
-
-    public static boolean getFile(String filename) {
-        return false;
-    }
-
-    public static boolean checkReadStatus(String filename) {
-        return false;
-    }
-
 
     public static DocumentFile getDocumentFile(final File file) {
         String baseFolder = SharedData.EXTERNAL_SDCARD_ROOT_PATH+"/";
