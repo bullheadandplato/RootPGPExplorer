@@ -290,7 +290,6 @@ public class TabsFragmentOne extends Fragment {
         });
         mRecyclerView.setAnimation(animation);
         mRecyclerView.animate();
-       // animation.startNow();
     }
 
 }
