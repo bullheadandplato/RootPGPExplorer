@@ -115,7 +115,7 @@ public class TabsFragmentOne extends Fragment {
     public static TabsFragmentOne newInstance(String path,int position){
         Log.d(TAG, "newInstance: path is: "+path);
         Bundle bundle=new Bundle();
-        bundle.putString(KEY,path+"/");
+        bundle.putString(KEY,path);
         bundle.putInt("pos",position);
         TabsFragmentOne tabsFragmentOne=new TabsFragmentOne();
         tabsFragmentOne.setArguments(bundle);
@@ -178,10 +178,8 @@ public class TabsFragmentOne extends Fragment {
             this.mIsEmptyFolder=true;
             return;
         }
-
         mFileAdapter.notifyDataSetChanged();
         forwardAnimation();
-
     }
 
     public void setmCurrentPath(String mCurrentPath) {

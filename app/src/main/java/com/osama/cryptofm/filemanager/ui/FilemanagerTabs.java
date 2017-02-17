@@ -272,9 +272,10 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         // set the external sdcard path
         if (mTotalStorages > 1) {
             Log.d(TAG, "setToolbar: yes there is a sdcard");
-            SharedData.EXTERNAL_SDCARD_ROOT_PATH = mStorageTitles[0];
+            setExternalStoragePath(mStorageTitles[0]);
+            setCurrentPath(SharedData.FILES_ROOT_DIRECTORY);
+
             SharedData.EXT_ROOT_URI = getPreferences(Context.MODE_PRIVATE).getString("tree_uri", null);
-            FileUtils.CURRENT_PATH=SharedData.EXTERNAL_SDCARD_ROOT_PATH;
             toolbar.setSubtitle(mStorageTitles[0]);
             toolbar.setTitle("Sdcard home");
 
@@ -485,6 +486,25 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         changeTitle(mCurrentFragment.getRootPath());
         mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath());
 
+    }
+
+    private void setExternalStoragePath(String path){
+        //check if last index of external storage has  /
+        if(path.charAt(path.length())=='/'){
+            SharedData.EXTERNAL_SDCARD_ROOT_PATH=path;
+        }else{
+            //concat the "/" add the end of the path
+            SharedData.EXTERNAL_SDCARD_ROOT_PATH=path+"/";
+        }
+    }
+    private void setCurrentPath(String path){
+        //check if last index of external storage has  /
+        if(path.charAt(path.length())=='/'){
+            FileUtils.CURRENT_PATH=path;
+        }else{
+            //concat the "/" add the end of the path
+            FileUtils.CURRENT_PATH=path+"/";
+        }
     }
 
 }
