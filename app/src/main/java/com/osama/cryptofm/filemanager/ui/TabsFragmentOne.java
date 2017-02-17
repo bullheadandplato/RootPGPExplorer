@@ -172,8 +172,18 @@ public class TabsFragmentOne extends Fragment {
         mRecyclerView.setAdapter(mFileAdapter);
 
     }
-    void changeDirectory(String path) {
-        forwardAnimation(path);
+    void changeDirectory(String path,int mode) {
+        if(mode==0){
+            mCurrentPath=path;
+            Log.d("filesc", "current path: " + path);
+            mFileFiller.fillData(path, mContext);
+            if (mFileFiller.getTotalFilesCount() < 1) {
+                mCallbacks.tellNoFiles();
+                mIsEmptyFolder=true;
+                return;
+            }
+        }
+        forwardAnimation(path,mode);
         mFileAdapter.notifyDataSetChanged();
 
     }
@@ -245,8 +255,11 @@ public class TabsFragmentOne extends Fragment {
         return this.mTaskHandler;
     }
 
-    private void forwardAnimation(final String path){
+    private void forwardAnimation(final String path, final int mode){
         Animation animation= AnimationUtils.loadAnimation(mContext,R.anim.exit_to_right);
+        if(mode==0){
+            animation=AnimationUtils.loadAnimation(mContext,R.anim.enter_from_right);
+        }
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -255,16 +268,18 @@ public class TabsFragmentOne extends Fragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.d(TAG, "onAnimationEnd: animation ends");
-                mCurrentPath=path;
-                Log.d("filesc", "current path: " + path);
-                mFileFiller.fillData(path, mContext);
-                if (mFileFiller.getTotalFilesCount() < 1) {
-                    mCallbacks.tellNoFiles();
-                    mIsEmptyFolder=true;
-                    return;
+                if(mode==1){
+                    Log.d(TAG, "onAnimationEnd: animation ends");
+                    mCurrentPath=path;
+                    Log.d("filesc", "current path: " + path);
+                    mFileFiller.fillData(path, mContext);
+                    if (mFileFiller.getTotalFilesCount() < 1) {
+                        mCallbacks.tellNoFiles();
+                        mIsEmptyFolder=true;
+                        return;
+                    }
+                    mFileAdapter.notifyDataSetChanged();
                 }
-                mFileAdapter.notifyDataSetChanged();
 
             }
 
@@ -277,4 +292,5 @@ public class TabsFragmentOne extends Fragment {
         mRecyclerView.animate();
        // animation.startNow();
     }
+
 }

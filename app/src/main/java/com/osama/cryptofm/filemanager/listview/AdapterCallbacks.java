@@ -31,4 +31,5 @@ public interface AdapterCallbacks {
     void changeTitle(String path);
     void showNoFilesFragment();
     void removeNoFilesFragment();
+    void animateForward(String path);
 }

@@ -223,7 +223,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             FileUtils.CURRENT_PATH = path;
             Log.d(TAG, "onBackPressed: Changing directory");
             changeTitle(path);
-            mCurrentFragment.changeDirectory(path);
+            mCurrentFragment.changeDirectory(path,1);
         }
 
     }
@@ -475,6 +475,11 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
 
     }
 
+    @Override
+    public void animateForward(String path) {
+        mCurrentFragment.changeDirectory(path,0);
+    }
+
     public void showCopyDialog() {
         actionMode.finish();
         invalidateOptionsMenu();
@@ -484,7 +489,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             mCurrentFragment=mFragmentOnes[0];
         }
         changeTitle(mCurrentFragment.getRootPath());
-        mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath());
+        mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath(),1);
 
     }
 

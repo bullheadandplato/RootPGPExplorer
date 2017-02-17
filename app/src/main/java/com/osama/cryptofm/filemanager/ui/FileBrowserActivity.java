@@ -331,6 +331,11 @@ public class FileBrowserActivity extends AppCompatActivity
 		getSupportFragmentManager().beginTransaction().remove(mNoFilesFragment).commit();
 	}
 
+	@Override
+	public void animateForward(String path) {
+
+	}
+
 	/**
 	 * end of task executing section
 	 */

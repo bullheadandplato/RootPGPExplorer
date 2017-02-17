@@ -258,16 +258,14 @@ public class FileSelectionManagement {
             selectionOperation(position);
             return;
         }
+
         String folderPath = mFileFiller.getCurrentPath() + filename + "/";
         clickCallBack.changeTitle(folderPath);
-        mFileFiller.fillData(folderPath, mContext);
-        mFileListAdapter.notifyDataSetChanged();
-        if (mFileFiller.getTotalFilesCount() < 1) {
-            clickCallBack.showNoFilesFragment();
-        }
+        clickCallBack.animateForward(folderPath);
     }
     void startSelectionMode(){
         SharedData.SELECTION_MODE = true;
         clickCallBack.onLongClick();
     }
+
 }
