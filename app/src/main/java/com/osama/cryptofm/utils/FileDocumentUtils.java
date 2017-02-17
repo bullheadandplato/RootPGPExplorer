@@ -100,7 +100,7 @@ public class FileDocumentUtils {
 
 
     public static DocumentFile getDocumentFile(final File file) {
-        String baseFolder = SharedData.EXTERNAL_SDCARD_ROOT_PATH;
+        String baseFolder = SharedData.EXTERNAL_SDCARD_ROOT_PATH+"/";
         boolean isDirectory=file.isDirectory();
         if (baseFolder == null) {
             return null;
