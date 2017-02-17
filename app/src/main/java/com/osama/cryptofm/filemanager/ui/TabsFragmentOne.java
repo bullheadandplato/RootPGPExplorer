@@ -111,8 +111,9 @@ public class TabsFragmentOne extends Fragment {
         super.onPause();
     }
     public static TabsFragmentOne newInstance(String path,int position){
+        Log.d(TAG, "newInstance: path is: "+path);
         Bundle bundle=new Bundle();
-        bundle.putString(KEY,path);
+        bundle.putString(KEY,path+"/");
         bundle.putInt("pos",position);
         TabsFragmentOne tabsFragmentOne=new TabsFragmentOne();
         tabsFragmentOne.setArguments(bundle);

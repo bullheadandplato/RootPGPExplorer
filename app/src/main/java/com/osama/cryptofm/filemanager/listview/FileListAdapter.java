@@ -21,6 +21,7 @@ package com.osama.cryptofm.filemanager.listview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: loading files");
              DataModelFiles mDataModel= mFileFiller.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;

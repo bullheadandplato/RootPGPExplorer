@@ -169,8 +169,9 @@ public class FileUtils {
         
         return new File(CURRENT_PATH+filename);
     }
-    public static boolean checkReadStatus(String filename){
-        return new File(FileUtils.CURRENT_PATH+filename).canRead();
+    public static boolean checkReadStatus(File f){
+        Log.d(TAG, "checkReadStatus: reading file read status: "+f.getName());
+        return f.canRead();
     }
 
     public static boolean isSdCardPath(String path){
