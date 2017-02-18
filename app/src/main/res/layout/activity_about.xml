@@ -62,5 +62,7 @@
         android:text="Open Source licences"
         android:onClick="onLicenseClick"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
         />
     </LinearLayout>

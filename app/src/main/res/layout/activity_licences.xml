@@ -37,6 +37,8 @@
     android:textAppearance="@android:style/TextAppearance.Material.Medium"
     android:id="@+id/spongy_castle_license"
     android:onClick="licenseClick"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
     />
     <TextView
         android:layout_margin="5dp"
@@ -46,6 +48,8 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/numix_icon_license"
         android:onClick="licenseClick"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
         />
         <TextView
             android:layout_margin="5dp"
@@ -55,6 +59,8 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/easy_permission_license"
             android:onClick="licenseClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
         />
         <TextView
             android:layout_margin="5dp"
@@ -64,5 +70,8 @@
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:id="@+id/sqlcipher_license"
             android:onClick="licenseClick"
-        />
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+
+            />
 </LinearLayout>
