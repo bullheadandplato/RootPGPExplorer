@@ -125,7 +125,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         if(s.equals(ENCRYPTION_SUCCESS_MESSAGE)){
-            deleteAlertDialog();
+//            deleteAlertDialog();
+            new DeleteTask(mContext,mAdapter,mUnencryptedFiles).execute();
+
         }
         mProgressDialog.dismiss(s);
         Toast.makeText(
