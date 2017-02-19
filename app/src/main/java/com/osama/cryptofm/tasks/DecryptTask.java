@@ -213,6 +213,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+
         if (singleFileMode){
             if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
                 singleModeDialog.dismiss();
