@@ -178,6 +178,7 @@ public class TabsFragmentOne extends Fragment {
             Log.d("filesc", "current path: " + path);
             mFileFiller.fillData(path, mContext);
             if (mFileFiller.getTotalFilesCount() < 1) {
+                mFileAdapter.notifyDataSetChanged();
                 mCallbacks.tellNoFiles();
                 mIsEmptyFolder=true;
                 return;
