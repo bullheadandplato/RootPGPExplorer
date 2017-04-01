@@ -199,7 +199,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             {
                 e.getUnderlyingException().printStackTrace();
             }
-            return false;
+            throw e;
         }
         in.close();
         secKeyFile.close();
