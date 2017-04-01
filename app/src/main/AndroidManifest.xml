@@ -63,7 +63,9 @@
             android:name="com.osama.cryptofm.startup.PreStartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PreActivityThemeFragmentTwo" />
-        <activity android:name="com.osama.cryptofm.startup.OptionActivity" />
+        <activity android:name="com.osama.cryptofm.startup.OptionActivity"
+            android:theme="@style/KeySelectStyle"
+            />
 
         <!-- Key select activity  have different theme -->
         <activity

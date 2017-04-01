@@ -77,7 +77,7 @@
     </style>
 
     <!--key select activity theme different due to edit text-->
-    <style name="KeySelectStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="KeySelectStyle" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Customize your theme here. -->
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

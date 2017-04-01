@@ -70,7 +70,7 @@ public class PreStartActivity extends AppCompatActivity {
         viewPager.setAdapter(pAdapter);
         pAdapter.setPreStartActivity(this);
         radioButton1.setChecked(true);
-        prestartlayout.setBackgroundColor(getResources().getColor(R.color.pagercolor1));
+        prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor1));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
