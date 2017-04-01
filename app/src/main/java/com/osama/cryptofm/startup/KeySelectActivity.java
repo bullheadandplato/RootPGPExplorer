@@ -145,10 +145,7 @@ public class KeySelectActivity extends AppCompatActivity {
                 editor.commit();
                 return true;
 
-            } catch (PGPException e) {
-                e.printStackTrace();
-                return false;
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
