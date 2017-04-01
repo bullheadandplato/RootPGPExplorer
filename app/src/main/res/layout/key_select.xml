@@ -40,7 +40,9 @@
             android:src="@drawable/logofinal"
             android:tint="#FFF"
             android:id="@+id/imageIcon"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:layout_margin="30dp"
+            />
         <RelativeLayout
             android:layout_below="@id/imageIcon"
             android:layout_width="match_parent"

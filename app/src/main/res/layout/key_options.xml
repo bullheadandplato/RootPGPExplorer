@@ -32,6 +32,15 @@
         android:layout_margin="5dp"
         tools:context=".startup.KeySelectActivity"
         >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logofinal"
+            android:tint="#FFF"
+            android:id="@+id/imageIcon"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            />
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             app:cardBackgroundColor="@color/colorAccent"

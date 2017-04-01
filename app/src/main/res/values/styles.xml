@@ -84,7 +84,6 @@
     <item name="colorAccent">@color/colorAccent</item>
     <item name="android:textColorPrimary">@color/textColorPrimary</item>
     <item name="android:textColorTertiary">@color/dividerColor</item>
-        <item name="colorControlActivated">#FFF</item>
 
     </style>
 </resources>
