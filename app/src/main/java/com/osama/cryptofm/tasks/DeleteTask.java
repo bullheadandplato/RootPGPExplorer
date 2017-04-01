@@ -45,6 +45,8 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
     private FileListAdapter     mAdapter;
     private ProgressDialog      mProgressDialog;
     private Context             mContext;
+
+    private boolean             isRunningFromEncryption=false;
     
     private static final String TAG=DeleteTask.class.getName();
 
@@ -54,6 +56,11 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
         mContext        = context;
         mProgressDialog = new ProgressDialog(context);
     }
+
+    public void setRunningFromEncryption(boolean runningFromEncryption) {
+        isRunningFromEncryption = runningFromEncryption;
+    }
+
     @Override
     protected String doInBackground(Void... voids) {
         try {
@@ -104,7 +111,7 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
             }
         }
         if (!f.delete()) {
-            throw new IOException("error is deleting file");
+            throw new IOException("error in deleting file");
         }
 
     }
@@ -117,15 +124,18 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
     @Override
     protected void onPostExecute(String s) {
         mProgressDialog.dismiss();
-        Toast.makeText(
-                mContext,
-                s,
-                Toast.LENGTH_LONG
-        ).show();
+        if(!isRunningFromEncryption) {
+            Toast.makeText(
+                    mContext,
+                    s,
+                    Toast.LENGTH_LONG
+            ).show();
+        }
         UiUtils.reloadData(
                 mContext,
                 mAdapter
                 );
+
     }
 
     @Override
