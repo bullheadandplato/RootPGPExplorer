@@ -20,13 +20,17 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="change view"
+    <item android:title="@string/change_view"
         android:icon="@drawable/ic_items_view"
         android:id="@+id/items_view_menu_item"
         app:showAsAction="ifRoom|collapseActionView"
         />
+    <item android:title="@string/backup_keys"
+        android:id="@+id/backup_menu_item"
+        app:showAsAction="never"
+        />
     <item
-        android:title="About"
+        android:title="@string/about"
         android:id="@+id/open_source_menu_item"
         app:showAsAction="never"/>
 </menu>

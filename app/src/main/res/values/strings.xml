@@ -950,4 +950,7 @@ DEALINGS IN THE SOFTWARE.
         and secure your data to spy.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
         for user files.</string>
     <string name="start_message3">Crypto FM encryption keys   unique for every user so, keep   backup of your keys because in case   of app uninstall or data clear you must   have keys to decrypt your data so,   <b>backing up keys is your own responsibility</b></string>
+    <string name="backup_keys">Backup keys</string>
+    <string name="change_view">change view</string>
+    <string name="about">About</string>
 </resources>
