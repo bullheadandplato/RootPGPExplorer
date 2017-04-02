@@ -945,4 +945,6 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRA
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
     </string>
+    <string name="start_message1">Crypto File Manager helps to safely encrypt   your all internal and external storage data   and secure your data to spy   by someone or missused</string>
+    <string name="start_message3">Crypto FM encryption keys   unique for every user so, keep   backup of your keys because in case   of app uninstall or data clear you must   have keys to decrypt your data so,   keys backup on your own responsibility</string>
 </resources>

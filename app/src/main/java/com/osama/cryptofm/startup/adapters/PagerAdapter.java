@@ -34,14 +34,6 @@ import com.osama.cryptofm.startup.fragments.ViewPagerFragmentTwo;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-
-    private PreStartActivity mActivity;
-
-
-    public void setPreStartActivity(PreStartActivity act){
-        this.mActivity=act;
-    }
-
     public PagerAdapter(FragmentManager fm) {
         super(fm);
         // TODO Auto-generated constructor stub
@@ -58,8 +50,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
             case 2:
                 return new ViewPagerFragmentThree();
-            case 3:
-                return new ViewPagerFragmentFour();
 
             default:
                 break;
@@ -70,7 +60,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return 4;
+        return 3;
     }
 
 

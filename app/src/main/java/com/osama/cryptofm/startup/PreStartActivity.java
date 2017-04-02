@@ -68,9 +68,8 @@ public class PreStartActivity extends AppCompatActivity {
         viewPager   = (ViewPager) findViewById(R.id.pager);
         pAdapter    = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pAdapter);
-        pAdapter.setPreStartActivity(this);
         radioButton1.setChecked(true);
-        prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor1));
+        checkRadioButton(0);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -103,9 +102,9 @@ public class PreStartActivity extends AppCompatActivity {
         switch (num) {
             case 0:
                 radioButton1.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor1));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
+                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
                 break;
             case 1:
 
@@ -119,12 +118,6 @@ public class PreStartActivity extends AppCompatActivity {
                 prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
                 getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
                 getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
-                break;
-            case 3:
-                radioButton4.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
                 animateButtonAndShow();
                 break;
 

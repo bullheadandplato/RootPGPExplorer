@@ -28,14 +28,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_view_pager_image1"
+        app:srcCompat="@drawable/logofinal"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp" />
 
     <TextView
-        android:text="Crypto File Manager helps to safely encrypt \n your all internal and external storage data \n and secure your data to spy \n by someone or missused "
+        android:text="@string/start_message1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:textColor="#FAFAFA"
         android:textStyle="bold"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:layout_marginTop="47dp"
