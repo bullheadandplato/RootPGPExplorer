@@ -61,11 +61,7 @@
                 android:id="@+id/radioButton3"
                 />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioButton4"
-                />
+
         </RadioGroup>
 
         <ImageButton
