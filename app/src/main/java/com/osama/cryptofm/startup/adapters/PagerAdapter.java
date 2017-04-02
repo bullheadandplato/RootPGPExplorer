@@ -26,8 +26,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.osama.cryptofm.startup.PreStartActivity;
-import com.osama.cryptofm.startup.fragments.ViewPagerFragmentFour;
 import com.osama.cryptofm.startup.fragments.ViewPagerFragmentOne;
 import com.osama.cryptofm.startup.fragments.ViewPagerFragmentThree;
 import com.osama.cryptofm.startup.fragments.ViewPagerFragmentTwo;
