@@ -53,6 +53,7 @@ import com.osama.cryptofm.filemanager.utils.PagerAdapter;
 import com.osama.cryptofm.filemanager.utils.SharedData;
 import com.osama.cryptofm.filemanager.utils.UiUtils;
 import com.osama.cryptofm.services.CleanupService;
+import com.osama.cryptofm.tasks.BackupKeysTask;
 import com.osama.cryptofm.utils.ActionHandler;
 import com.osama.cryptofm.utils.FileDocumentUtils;
 import com.osama.cryptofm.utils.FileUtils;
@@ -197,11 +198,39 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         if(item.getItemId()==R.id.open_source_menu_item){
             startActivity(new Intent(this,AboutActivity.class));
+        }else if(item.getItemId()==R.id.backup_menu_item) {
+                showBackupDialog();
         }else{
         mCurrentFragment.toggleLayout(item);
         }
 
         return true;
+    }
+
+    private void showBackupDialog() {
+      final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.password_dialog_layout);
+        Button button=(Button)dialog.findViewById(R.id.decrypt_file_button)
+        button.setText("Backup");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pass=((EditText)dialog.findViewById(R.id.key_password)).getText().toString();
+                if(pass.length()<1){
+                    Toast.makeText(FilemanagerTabs.this,"Please input application password",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                new BackupKeysTask().execute();
+            }
+        });
+        dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 
     @Override
