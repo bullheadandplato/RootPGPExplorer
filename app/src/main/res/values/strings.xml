@@ -949,8 +949,15 @@ DEALINGS IN THE SOFTWARE.
         your all internal and external storage data
         and secure your data to spy.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
         for user files.</string>
-    <string name="start_message3">Crypto FM encryption keys   unique for every user so, keep   backup of your keys because in case   of app uninstall or data clear you must   have keys to decrypt your data so,   <b>backing up keys is your own responsibility</b></string>
+    <string name="start_message3">Crypto FM encryption keys
+        unique for every user so keep   backup of your keys because in case
+        of app uninstall or data clear you must   have keys to decrypt your data
+        <b>backing up keys is your own responsibility</b></string>
     <string name="backup_keys">Backup keys</string>
     <string name="change_view">change view</string>
     <string name="about">About</string>
+    <string name="start_message2">In Crypto FM you have your
+        database password that\'s used   for decrypting you data.If you
+        forget your password keep in mind   <b>you will lost your all data.</b>
+        You will   unable to decrypt your data.</string>
 </resources>

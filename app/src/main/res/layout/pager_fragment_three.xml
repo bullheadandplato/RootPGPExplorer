@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:id="@+id/textView4"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
@@ -62,6 +62,7 @@
         android:layout_gravity="center_horizontal"
         android:textColor="#FAFAFA"
         android:gravity="center"
+        android:textSize="16sp"
         android:id="@+id/textView10" />
     </LinearLayout>
 </RelativeLayout>

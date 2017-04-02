@@ -38,26 +38,27 @@
     android:orientation="vertical"
     android:layout_centerHorizontal="true">
     <TextView
-        android:text="Instructions to Use Applicaton"
+        android:text="Instructions to Use Application"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="#FAFAFA"
-        android:layout_marginBottom="20px"
+        android:layout_marginBottom="20dp"
         android:id="@+id/textView5" />
 
-
-
     <TextView
-        android:text="In Crypto FM you have your \n database password that's used \n for decrypting you data.If you \n forget your password keep in mind \n you will lost your all data.You will \n unable to decrypt your data password is \n unable to be reset"
+        android:text="@string/start_message2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
+        android:textSize="16sp"
         android:id="@+id/textView7" />
+
+
 </LinearLayout>
 
 </RelativeLayout>

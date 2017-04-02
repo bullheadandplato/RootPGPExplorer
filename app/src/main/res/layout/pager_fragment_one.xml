@@ -44,6 +44,7 @@
         android:layout_marginTop="44dp"
         android:gravity="center"
         android:id="@+id/textView8"
+        android:textSize="16sp"
         android:layout_alignTop="@+id/textView"
         android:layout_centerHorizontal="true" />
 
@@ -52,7 +53,7 @@
         android:layout_width="wrap_content"
         android:textColor="#FAFAFA"
         android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:layout_marginTop="47dp"
