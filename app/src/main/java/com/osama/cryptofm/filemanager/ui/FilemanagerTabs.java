@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -210,8 +211,9 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private void showBackupDialog() {
       final Dialog dialog=new Dialog(this);
         dialog.setContentView(R.layout.password_dialog_layout);
-        Button button=(Button)dialog.findViewById(R.id.decrypt_file_button)
+        Button button=(Button)dialog.findViewById(R.id.decrypt_file_button);
         button.setText("Backup");
+        ((TextInputLayout)dialog.findViewById(R.id.key_password_layout)).setHint("Application password");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
