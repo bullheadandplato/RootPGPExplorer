@@ -1,8 +1,6 @@
 package com.osama.cryptofm.tasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,9 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by bullhead on 4/2/17.
@@ -84,10 +80,12 @@ public class BackupKeysTask extends AsyncTask<String,Void,Boolean> {
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         if(aBoolean){
-            Toast.makeText(CryptoFM.getContext(),"Keys exported to folder \'cryptoFM\'",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CryptoFM.getContext(),
+                    "Keys exported to folder \'cryptoFM\'",Toast.LENGTH_SHORT).show();
         }else {
 
-            Toast.makeText(CryptoFM.getContext(),"Cannot export keys. "+errorMessage,Toast.LENGTH_SHORT).show();
+            Toast.makeText(CryptoFM.getContext(),
+                    "Cannot export keys. "+errorMessage,Toast.LENGTH_SHORT).show();
         }
     }
 }
