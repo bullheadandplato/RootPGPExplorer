@@ -166,7 +166,7 @@ public class FileSelectionManagement {
         if (SharedData.IS_IN_COPY_MODE) {
             return;
         }
-        if (FileUtils.getExtension(filename).equals("pgp")) {
+        if (FileUtils.isEncryptedFile(filename)) {
             Log.d(TAG, "openFile: File name is: "+filename);
             if (SharedData.KEY_PASSWORD == null) {
                 final Dialog dialog = new Dialog(mContext);

@@ -105,7 +105,9 @@ public class MimeType {
         }
         else if (fileExtensionOrItems.equalsIgnoreCase("torrent")) {
             return mIcons.TORRENT_ICON;
-        }else if(fileExtensionOrItems.equalsIgnoreCase("pgp")){
+        }else if(fileExtensionOrItems.equalsIgnoreCase("pgp") ||
+                fileExtensionOrItems.equalsIgnoreCase("gpg")
+                ){
             return mIcons.ENCRYPT_ICON;
         }else if(fileExtensionOrItems.equalsIgnoreCase("pdf")){
             return mIcons.PDF;

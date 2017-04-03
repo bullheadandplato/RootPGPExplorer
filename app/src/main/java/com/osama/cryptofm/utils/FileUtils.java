@@ -80,7 +80,7 @@ public class FileUtils {
     }
 
     public static boolean isEncryptedFile(String filename){
-        return filename.contains(".pgp");
+        return filename.contains(".pgp") || filename.contains(".gpg");
     }
 
     public static int getNumberOfFiles(String  foldername){
