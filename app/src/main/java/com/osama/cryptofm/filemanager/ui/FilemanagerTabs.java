@@ -222,7 +222,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                     Toast.makeText(FilemanagerTabs.this,"Please input application password",Toast.LENGTH_LONG).show();
                     return;
                 }
-                new BackupKeysTask().execute();
+                new BackupKeysTask().execute(pass);
+                dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
