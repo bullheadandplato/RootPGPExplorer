@@ -97,8 +97,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             mCurrentFragment=mFragmentOnes[0];
         }
         FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
-        String uri=null;
-
         Log.d(TAG, "onAddFloatingClicked: current path is: "+FileUtils.CURRENT_PATH);
         if(isEmptyFolder) {
             removeNoFilesFragment();
@@ -281,22 +279,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         toolbar.setSubtitle("/storage/emulated/0");
         setSupportActionBar(toolbar);
 
-        if (mTotalStorages > 1 && getContentResolver().getPersistedUriPermissions().size() < 1) {
-            Log.d(TAG, "setToolbar: found external sdcard");
-            getExternalStoragePermissions();   
-        }
-
-        // set the external sdcard path
-        if (mTotalStorages > 1) {
-            Log.d(TAG, "setToolbar: yes there is a sdcard");
-            setExternalStoragePath(mStorageTitles[0]);
-            setCurrentPath(SharedData.FILES_ROOT_DIRECTORY);
-
-            SharedData.EXT_ROOT_URI = getPreferences(Context.MODE_PRIVATE).getString("tree_uri", null);
-            toolbar.setSubtitle(mStorageTitles[0]);
-            toolbar.setTitle("Sdcard home");
-
-        }
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
@@ -510,15 +492,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
 
     }
 
-    private void setExternalStoragePath(String path){
-        //check if last index of external storage has  /
-        if(path.charAt(path.length())=='/'){
-            SharedData.EXTERNAL_SDCARD_ROOT_PATH=path;
-        }else{
-            //concat the "/" add the end of the path
-            SharedData.EXTERNAL_SDCARD_ROOT_PATH=path+"/";
-        }
-    }
     private void setCurrentPath(String path){
         //check if last index of external storage has  /
         if(path.charAt(path.length())=='/'){
