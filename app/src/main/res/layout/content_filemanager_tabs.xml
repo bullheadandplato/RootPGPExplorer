@@ -24,7 +24,7 @@
     android:id="@+id/content_filemanager_tabs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.osama.cryptofmroot.filemanager.ui.FilemanagerTabs">
+    tools:context="com.osama.cryptofmroot.filemanager.ui.FileManagerTabs">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

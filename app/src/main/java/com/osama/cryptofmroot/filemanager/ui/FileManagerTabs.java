@@ -58,7 +58,7 @@ import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
 
-public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
+public class FileManagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private int                     mTotalStorages;
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
@@ -66,7 +66,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
     private TabsFragmentOne[]       mFragmentOnes;
     private static final int        GET_PERMISSION_CODE=432;
     private static boolean          isServiceStarted=false;
-    private static final String TAG=FilemanagerTabs.class.getName();
+    private static final String TAG=FileManagerTabs.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,14 +122,14 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 }
                 else if(!FileUtils.createFolder(folderName)){
                         Toast.makeText(
-                                FilemanagerTabs.this,
+                                FileManagerTabs.this,
                                 "Cannot create folder make sure current path is writable",
                                 Toast.LENGTH_SHORT
                         ).show();
                     }else{
                         dialog.dismiss();
                         UiUtils.reloadData(
-                                FilemanagerTabs.this,
+                                FileManagerTabs.this,
                                 mCurrentFragment.getmFileAdapter()
                         );
                     }
@@ -205,7 +205,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             public void onClick(View view) {
                 String pass=((EditText)dialog.findViewById(R.id.key_password)).getText().toString();
                 if(pass.length()<1){
-                    Toast.makeText(FilemanagerTabs.this,"Please input application password",Toast.LENGTH_LONG).show();
+                    Toast.makeText(FileManagerTabs.this,"Please input application password",Toast.LENGTH_LONG).show();
                     return;
                 }
                 new BackupKeysTask().execute(pass);
@@ -346,7 +346,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
                 //reload data
-                UiUtils.reloadData(FilemanagerTabs.this,mCurrentFragment.getmFileAdapter());
+                UiUtils.reloadData(FileManagerTabs.this,mCurrentFragment.getmFileAdapter());
             }
 
             @Override
@@ -382,7 +382,7 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mStorageTitles[0]=mStorageTitles[1];
-                Toast.makeText(FilemanagerTabs.this,
+                Toast.makeText(FileManagerTabs.this,
                         "I wont be able to perform any operation on external sdcard",
                         Toast.LENGTH_LONG
                 ).show();

@@ -35,7 +35,7 @@ import android.widget.EditText;
 
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
-import com.osama.cryptofmroot.filemanager.ui.FilemanagerTabs;
+import com.osama.cryptofmroot.filemanager.ui.FileManagerTabs;
 import com.osama.cryptofmroot.startup.fragments.InitActivityFirstFragment;
 import com.osama.cryptofmroot.startup.fragments.InitActivityThirdFragment;
 import com.osama.cryptofmroot.utils.ActionHandler;
@@ -232,7 +232,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
            dialog.dismiss();
             commitInitActivity();
             //start intermediateActivity
-            Intent intent = new Intent(InitActivity.this,FilemanagerTabs.class);
+            Intent intent = new Intent(InitActivity.this,FileManagerTabs.class);
             intent.putExtra("dbpass",mUserSecretDatabase);
             intent.putExtra("username",mUserName);
             //this flag will remove all the previous activities from backstack

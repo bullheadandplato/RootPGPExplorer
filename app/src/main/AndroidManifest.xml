@@ -56,7 +56,7 @@
 
         <!-- Pre start activity -->
         <activity
-            android:name="com.osama.cryptofmroot.filemanager.ui.FilemanagerTabs"
+            android:name="com.osama.cryptofmroot.filemanager.ui.FileManagerTabs"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/TabsTheme" />
         <activity
