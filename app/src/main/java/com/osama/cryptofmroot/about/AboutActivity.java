@@ -17,26 +17,23 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.about;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
+import com.osama.cryptofmroot.R;
+
+public class AboutActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public void onLicenseClick(View view){
+        startActivity(new Intent(this,LicencesActivity.class));
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

@@ -17,26 +17,19 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.filemanager.listview;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+/**
+ * Created by tripleheader on 1/21/17.
+ * necessary callback which will be invoked upon item selection
+ */
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+public interface AdapterCallbacks {
+    void onLongClick();
+    void incrementSelectionCount();
+    void decrementSelectionCount();
+    void changeTitle(String path);
+    void showNoFilesFragment();
+    void removeNoFilesFragment();
+    void animateForward(String path);
 }

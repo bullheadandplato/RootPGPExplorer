@@ -23,7 +23,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.cryptopaths.cryptofm"
+        applicationId "com.osama.cryptofmroot"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1

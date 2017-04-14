@@ -17,26 +17,21 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.about;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+
+import com.osama.cryptofmroot.R;
+
+public class ShowLicenseActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_license);
+        //get the licence string and show it
+        ((TextView)findViewById(R.id.show_license_textview)).setText(getIntent().getExtras().getString("license"));
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

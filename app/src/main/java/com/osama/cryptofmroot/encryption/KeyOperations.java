@@ -17,26 +17,18 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.encryption;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+import org.spongycastle.openpgp.PGPKeyRingGenerator;
+import org.spongycastle.openpgp.PGPPublicKey;
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+import java.io.File;
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+/**
+ * Created by osama on 10/8/16.
+ *
+ */
+public interface KeyOperations  {
+    PGPPublicKey getPublicKey(File binaryData)throws Exception;
+    PGPKeyRingGenerator generateKey(String email, char[] password) throws Exception;
 }

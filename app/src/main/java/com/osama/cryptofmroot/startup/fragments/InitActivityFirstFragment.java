@@ -17,26 +17,28 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.startup.fragments;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.osama.cryptofmroot.R;
+
+/**
+ * Created by tripleheader on 11/28/16.
+ */
+
+public class InitActivityFirstFragment extends Fragment {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.first_fragment,null);
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

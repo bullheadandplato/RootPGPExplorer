@@ -17,26 +17,18 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.filemanager.utils;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+import com.osama.cryptofmroot.filemanager.ui.TabsFragmentOne;
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+/**
+ * Created by tripleheader on 1/22/17.
+ * different callback that will be executed on changes in fragment state
+ */
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+public interface FragmentCallbacks {
+    void init();
+    void finishActionMode();
+    void tellNoFiles();
+    void setCurrentFragment(TabsFragmentOne fragment, int position);
 }

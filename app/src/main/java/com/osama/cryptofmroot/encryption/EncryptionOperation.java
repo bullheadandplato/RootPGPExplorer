@@ -17,26 +17,16 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package com.osama.cryptofmroot.encryption;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+import java.io.File;
+import java.io.InputStream;
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+/**
+ * Created by osama on 10/13/16.
+ */
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+public interface EncryptionOperation {
+    boolean encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck)throws Exception ;
+    boolean decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass)throws Exception;
 }
