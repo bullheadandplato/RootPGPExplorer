@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
-import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -36,7 +35,6 @@ import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.tasks.DecryptTask;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -210,19 +208,7 @@ public class FileSelectionManagement {
                         SharedData.KEY_PASSWORD).execute();
             }
 
-        } else {
-            //open file
-            if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
-                    FileUtils.CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
-                //open the document file
-                DocumentFile file= FileDocumentUtils.getDocumentFile(FileUtils.getFile(filename));
-                Intent intent = new Intent();
-                intent.setDataAndType(file.getUri(),file.getType());
-                intent.setAction(Intent.ACTION_VIEW);
-                Intent x=Intent.createChooser(intent,"Open with");
-                mContext.startActivity(x);
-                return;
-            }
+        }else{
             String mimeType =
                     MimeTypeMap.getSingleton().
                             getMimeTypeFromExtension(

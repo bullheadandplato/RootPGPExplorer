@@ -22,14 +22,11 @@ package com.osama.cryptofmroot.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
-import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,14 +66,8 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
                 Log.d("delete","filepath: " +f);
 
                 File file = TasksFileUtils.getFile(f);
-                  if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null &&
-                          f.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
-                        //this means it is external storage file
-                        DocumentFile docFile= FileDocumentUtils.getDocumentFile(file);
-                        deleteDocFile(docFile);
-                }      else{
                          deleteFile(file);
-                  }
+
 
             }
         } catch (Exception ex) {
@@ -85,19 +76,6 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
         }
         return "successfully deleted file(s)";
 
-    }
-
-    private void deleteDocFile(DocumentFile docFile) throws IOException{
-        Log.d(TAG, "deleteDocFile: Deleting document file");
-        publishProgress(docFile.getName());
-        if(docFile.isDirectory() && docFile.listFiles().length>0){
-            for (DocumentFile d: docFile.listFiles()) {
-                deleteDocFile(d);
-            }
-        }
-        if(!docFile.delete()){
-            throw new IOException("cannot delete files");
-        }
     }
 
     private void deleteFile(File f) throws IOException{

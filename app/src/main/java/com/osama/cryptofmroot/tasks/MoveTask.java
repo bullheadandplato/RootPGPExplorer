@@ -25,12 +25,9 @@ import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
-import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -91,15 +88,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 mDestinationFolder=originalDestination;
                File temp=TasksFileUtils.getFile(source);
                 Log.d(TAG, "doInBackground: source path is: "+source);
-                if(FileUtils.isDocumentFile(source)){
-                    rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
-                    moveDocumentFile(FileDocumentUtils.getDocumentFile(temp));
-                }else{
-                    if(FileUtils.isDocumentFile(mDestinationFolder)){
-                        rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
-                    }
-                    move(temp);
-                }
+                 move(temp);
             }catch (Exception ex){
                 ex.printStackTrace();
                 return "failed";
@@ -110,11 +99,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
     }
     private void move(File f) throws Exception{
         if(f.isDirectory()){
-           //check if destination folder is in external sdcard
-            if(FileUtils.isDocumentFile(mDestinationFolder)){
-                DocumentFile rootDocumentFile=FileDocumentUtils.getDocumentFile(new File(mDestinationFolder));
-                rootDocumentFile.createDirectory(f.getName());
-            }else{
              //create folder in the destination
             mDestinationFolder=mDestinationFolder+f.getName()+"/";
 
@@ -123,8 +107,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 tmp.mkdir();
             }else{
                 return;
-            }
-
             }
            Log.d(TAG, "move: File is a directory");
             for (File file:
@@ -137,14 +119,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
             isNextFile=true;
             publishProgress(f.getName());
             publishProgress(""+0);
-            if(FileUtils.isDocumentFile(mDestinationFolder)){
-                DocumentFile dest=rootDocumentFile.createFile(FileUtils.getExtension(f.getName()),f.getName());
-                innerMove(
-                        new BufferedInputStream(new FileInputStream(f)),
-                        CryptoFM.getContext().getContentResolver().openOutputStream(dest.getUri()),
-                        f.length()
-                );
-            }else{
                 //check if file already exits
             File destinationFile   =new File(mDestinationFolder+f.getName());
             if(destinationFile.exists()){
@@ -157,9 +131,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 f.length()
             );
         }
-            }
-
-
         //delete the input file
         //if copying then don't
         if(SharedData.IS_COPYING_NOT_MOVING){
@@ -223,60 +194,6 @@ public class MoveTask extends AsyncTask<String,String,String> {
         mProgressDialog.setMessage("Moving file");
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.show();
-    }
-    private void moveDocumentFile(DocumentFile file) throws Exception{
-        if(file.isDirectory()){
-            Log.d(TAG, "moveDocumentFile: Yes document file is directory");
-            //change the destination folder
-            mDestinationFolder=mDestinationFolder+ file.getName()+"/";
-            //check if destination folder is not document file
-            if(FileUtils.isDocumentFile(mDestinationFolder)){
-                rootDocumentFile=rootDocumentFile.createDirectory(file.getName());
-            }else {
-                File tmp = new File(mDestinationFolder);
-                if (!tmp.exists()) {
-                    tmp.mkdir();
-                } else {
-                    return;
-                }
-            }
-            for (DocumentFile f:file.listFiles()) {
-                moveDocumentFile(f);
-            }
-        }else{
-            isNextFile=true;
-            publishProgress(file.getName());
-            publishProgress(""+0);
-            //check if pasting in internal storage
-            if(!FileUtils.isDocumentFile(mDestinationFolder)){
-                Log.d(TAG, "moveDocumentFile: moving document file in internal storage");
-                File destinationFile   =new File(mDestinationFolder+file.getName());
-                innerMove(
-                        CryptoFM.getContext().getContentResolver().openInputStream(file.getUri()),
-                        new BufferedOutputStream(new FileOutputStream(destinationFile)),
-                        file.length()
-                );
-            }else{
-                Log.d(TAG, "moveDocumentFile: Moving document file honey");
-            DocumentFile destFile=rootDocumentFile.createFile(file.getType(),file.getName());
-
-
-            innerMove(
-                    CryptoFM.getContext().getContentResolver().openInputStream(file.getUri()),
-                    CryptoFM.getContext().getContentResolver().openOutputStream(destFile.getUri()),
-                    file.length()
-                    );
-        }
-            }
-
-        //delete the input file
-        //if copying then don't
-        if(SharedData.IS_COPYING_NOT_MOVING){
-            return;
-        }
-        if(!file.delete()){
-            throw new IOException("cannot move files");
-        }
     }
 
 }

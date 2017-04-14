@@ -54,7 +54,6 @@ import com.osama.cryptofmroot.filemanager.utils.UiUtils;
 import com.osama.cryptofmroot.services.CleanupService;
 import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -120,18 +119,8 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                 String folderName=folderEditText.getText().toString();
                 if(folderName.length()<1){
                     folderEditText.setError("Give me the folder name");
-                }else{
-                    if(FileUtils.isSdCardPath("")){
-                        Log.d(TAG, "onClick: Yes nigga creating folder via document");
-
-                        FileDocumentUtils.createFolder(FileUtils.CURRENT_PATH,folderName);
-                        dialog.dismiss();UiUtils.reloadData(
-                                FilemanagerTabs.this,
-                                mCurrentFragment.getmFileAdapter()
-                        );
-
-                    }
-                    else if(!FileUtils.createFolder(folderName)){
+                }
+                else if(!FileUtils.createFolder(folderName)){
                         Toast.makeText(
                                 FilemanagerTabs.this,
                                 "Cannot create folder make sure current path is writable",
@@ -144,7 +133,6 @@ public class FilemanagerTabs extends AppCompatActivity implements AdapterCallbac
                                 mCurrentFragment.getmFileAdapter()
                         );
                     }
-                }
             }
         });
     }

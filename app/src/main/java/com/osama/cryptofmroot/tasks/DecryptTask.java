@@ -27,28 +27,22 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
-import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
-import com.osama.cryptofmroot.encryption.DocumentFileEncryption;
 import com.osama.cryptofmroot.encryption.EncryptionWrapper;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -119,13 +113,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             rootPath=root.getPath();
 
             if(mFileName==null){
-                //check if files are from external storage
-                if(FileUtils.isDocumentFile(mFilePaths.get(0))){
-                    //do the document files decryption
-                    performDocumentFileDecryption();
-                }else{
                     //do the normal files decryption
+                try {
                     performNormalFormDecryption();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }else{
@@ -296,16 +288,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     protected void onCancelled() {
 
         for (File f : mCreatedFiles) {
-            if(SharedData.EXTERNAL_SDCARD_ROOT_PATH !=null &&
-                    f.getAbsolutePath().contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
-                //noinspection ConstantConditions
-                FileDocumentUtils.getDocumentFile(f).delete();
-            }else{
                 //noinspection ResultOfMethodCallIgnored
                 f.delete();
             }
-        }
-
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         UiUtils.reloadData(
                 mContext,
@@ -323,66 +308,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     }
 
-    private void performDocumentFileDecryption() throws Exception{
-        tmp.clear();
-        mFilePaths=getOnlyEncryptedDocumentFiles(mFilePaths);
-        for (String path:mFilePaths) {
-            decryptDocumentFiles(FileDocumentUtils.getDocumentFile(new File(path)));
-        }
-    }
 
-    private void decryptDocumentFiles(DocumentFile f) throws Exception{
-        Log.d(TAG, "decryptDocumentFiles: Running decryption on document file");
-        //first always check if task is canceled
-        if(!isCancelled()){
-            if(f.isDirectory()){
-                for (DocumentFile tmpFile:f.listFiles()) {
-                    decryptDocumentFiles(tmpFile);
-                }
-            }else{
-                File out = new File(rootPath+"/", f.getName().substring(0, f.getName().lastIndexOf('.')));
-                // add the file in created files. top remove the files later of user cancels the task
-                mCreatedFiles.add(out.getAbsoluteFile());
-                publishProgress(f.getName(), "" +
-                        ((FileUtils.getReadableSize((f.length())))));
 
-                DocumentFileEncryption.decryptFile(
-                        CryptoFM.getContext().getContentResolver().openInputStream(f.getUri()),
-                        getSecretKey(),
-                        mKeyPass,
-                        new BufferedOutputStream(new FileOutputStream(out))
-
-                );
-
-            }
-        }
-    }
-
-    private ArrayList<String> getOnlyEncryptedDocumentFiles(ArrayList<String> files){
-        int size=files.size();
-        for (int i = 0; i < size; i++) {
-            DocumentFile file=FileDocumentUtils.getDocumentFile(new File(files.get(i)));
-            //check if file is directory
-            assert file != null;
-            if(file.isDirectory()){
-                //get all the lists of files in directory
-                ArrayList<String> tmp=new ArrayList<>();
-                for (DocumentFile f: file.listFiles()) {
-                    tmp.add(FileUtils.CURRENT_PATH+f.getName());
-                }
-                //recursively get files
-                getOnlyEncryptedDocumentFiles(tmp);
-            }
-            if(FileUtils.isEncryptedFile(mFilePaths.get(i))){
-                tmp.add(mFilePaths.get(i));
-            }
-        }
-        //if there are no encrypted file
-        if(tmp.size()<1){
-            throw new IllegalArgumentException("No encrypted files found.");
-        }
-        return tmp;
-    }
 
     private void performNormalFormDecryption() throws Exception{
         tmp.clear();

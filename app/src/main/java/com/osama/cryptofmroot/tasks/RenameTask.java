@@ -22,13 +22,11 @@ package com.osama.cryptofmroot.tasks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
-import com.osama.cryptofmroot.utils.FileDocumentUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
@@ -55,17 +53,7 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     @Override
     protected String doInBackground(Void... voids) {
         try{
-            if(FileUtils.isDocumentFile(mFilePath)){
-                 Log.d("niggers", "doInBackground: renaming document file");
-                DocumentFile file= FileDocumentUtils.getDocumentFile(new File(mFilePath));
-                assert file!=null;
-                if(file.renameTo(mRenamed)){
 
-                    return "successfully renamed";
-                }else{
-                    return "Cannot rename file";
-                }
-            }
             Log.d("niggers", "doInBackground: current path is: "+FileUtils.CURRENT_PATH);
             File file = TasksFileUtils.getFile(mFilePath);
             String filename=file.getPath();
