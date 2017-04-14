@@ -46,7 +46,6 @@ import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.about.AboutActivity;
 import com.osama.cryptofmroot.filemanager.listview.AdapterCallbacks;
-import com.osama.cryptofmroot.filemanager.utils.ExternalStorageHandler;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.PagerAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
@@ -81,7 +80,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             isServiceStarted=true;
         }
         //see the external dirs
-        mStorageTitles=ExternalStorageHandler.getStorageDirectories(this);
+        mStorageTitles=new String[]{"Home","Google"};
         mTotalStorages=mStorageTitles.length;
         Log.d(TAG, "onCreate: total storages are: " +mTotalStorages);
         SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
