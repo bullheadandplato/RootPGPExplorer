@@ -23,6 +23,7 @@ package com.osama.cryptofmroot.filemanager.listview;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.utils.FileUtils;
@@ -43,20 +44,18 @@ public class DataModelFiles  {
     private Boolean     isSelected   = false;
     private Boolean     isFile       = false;
     private boolean     isEncrypted  = false;
-    private Context     mContext;
     private String      mFilePath;
 
     private static MimeType mIconManager;
-    public DataModelFiles(File file, Context context) {
+    public DataModelFiles(File file) {
         if(mIconManager==null){
-            mIconManager=new MimeType(context);
+            mIconManager=new MimeType(CryptoFM.getContext());
         }
         this.fileName   = file.getName();
         this.mFilePath  = file.getPath();
-        this.mContext=context;
         //check if i can read file
         if(FileUtils.isFile(file)){
-            this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive);
+            this.fileIcon=CryptoFM.getContext().getDrawable(R.drawable.ic_insert_drive);
             this.fileExtensionOrItems=FileUtils.getExtension(file.getName());
             this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
             long size=FileUtils.getFileSize(file);
@@ -64,7 +63,7 @@ public class DataModelFiles  {
             this.isEncrypted=FileUtils.isEncryptedFile(file.getName());
             this.isFile=true;
         }else {
-            this.fileIcon = context.getDrawable(R.drawable.ic_default_folder);
+            this.fileIcon = CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder);
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems = FileUtils.getNumberOfFiles(file) + " items";
             this.isEncrypted = FileUtils.isEncryptedFolder(file);
@@ -79,9 +78,9 @@ public class DataModelFiles  {
 
     public Drawable getFileEncryptionStatus() {
         if(isEncrypted){
-            return mContext.getDrawable(R.drawable.ic_encrypt);
+            return CryptoFM.getContext().getDrawable(R.drawable.ic_encrypt);
         }else{
-            return mContext.getDrawable(R.drawable.ic_decrypt);
+            return CryptoFM.getContext().getDrawable(R.drawable.ic_decrypt);
         }
     }
 

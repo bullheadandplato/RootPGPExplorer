@@ -109,8 +109,9 @@ public class FileBrowserActivity extends AppCompatActivity
 			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
 		}
 //hello change
-		mFileFillerWrapper.fillData(mCurrentPath,this);
+
 		mFileListView.setAdapter(mmFileListAdapter);
+		mFileFillerWrapper.fillData(mCurrentPath,mmFileListAdapter);
 
 		startService(new Intent(this,CleanupService.class));
 
@@ -216,14 +217,14 @@ public class FileBrowserActivity extends AppCompatActivity
 	void changeDirectory(String path) {
 		changeTitle(path);
 		Log.d("filesc","current path: "+path);
-		mFileFillerWrapper.fillData(path,this);
+		mFileFillerWrapper.fillData(path,mmFileListAdapter);
 		if(mFileFillerWrapper.getTotalFilesCount()<1){
 			showNoFilesFragment();
 			return;
 		}else if(emptyFiles){
 			removeNoFilesFragment();
 		}
-		mmFileListAdapter.notifyDataSetChanged();
+		//mmFileListAdapter.notifyDataSetChanged();
 
 	}
 

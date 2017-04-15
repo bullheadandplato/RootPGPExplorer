@@ -165,23 +165,23 @@ public class TabsFragmentOne extends Fragment {
         }else{
             mRecyclerView.setLayoutManager(mGridLayoutManager);
         }
-        mFileFiller.fillData(mPath,mContext);
+
         mRecyclerView.setAdapter(mFileAdapter);
+        mFileFiller.fillData(mPath,mFileAdapter);
 
     }
     void changeDirectory(String path,int mode) {
 
             mCurrentPath=path;
             Log.d("filesc", "current path: " + path);
-            mFileFiller.fillData(path, mContext);
+            mFileFiller.fillData(path,mFileAdapter);
             if (mFileFiller.getTotalFilesCount() < 1) {
-                mFileAdapter.notifyDataSetChanged();
+                //mFileAdapter.notifyDataSetChanged();
                 mCallbacks.tellNoFiles();
                 mIsEmptyFolder=true;
                 return;
             }
         forwardAnimation(mode);
-        mFileAdapter.notifyDataSetChanged();
 
     }
 

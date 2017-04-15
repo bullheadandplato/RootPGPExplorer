@@ -20,6 +20,7 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.osama.cryptofmroot.utils.FileUtils;
@@ -37,31 +38,14 @@ public  class FileFillerWrapper {
     private static final String TAG = "FileFillerWrapper";
     private  List<DataModelFiles> allFiles   = new ArrayList<>();
     private  int totalFilesCount             = 0;
+    private FileListAdapter mAdapter;
 
     private  String currentPath;
 
 
-    public  void fillData(String current, Context context){
-        Log.d(TAG, "fillData: Current path is : "+current);
-        currentPath=current;
-        totalFilesCount=0;
-
-        //for each file in current path fill data
-        File file              = FileUtils.getFile(currentPath);
-        if(FileUtils.checkReadStatus(file)){
-            if(file.list().length>0){
-                allFiles.clear();
-                for (File f: file.listFiles()) {
-                    //only add file which I can read
-                    if(FileUtils.checkReadStatus(f)){
-                        allFiles.add(new DataModelFiles(f,context));
-                        totalFilesCount++;
-                    }
-                }
-                sortData();
-            }
-        }
-
+    public  void fillData(String current,FileListAdapter mAdapter){
+        this.mAdapter=mAdapter;
+       new FileFillerTask().execute(current);
     }
     public  DataModelFiles getFileAtPosition(int position){
         return allFiles.get(position);
@@ -84,6 +68,42 @@ public  class FileFillerWrapper {
                 allFiles.remove(md);
                 allFiles.add(0,md);
             }
+        }
+    }
+    private class FileFillerTask extends AsyncTask<String,Integer,Void>{
+
+        @Override
+        protected Void doInBackground(String... path) {
+            Log.d(TAG, "fillData: Current path is : "+path[0]);
+            currentPath=path[0];
+            totalFilesCount=0;
+            //for each file in current path fill data
+            File file              = FileUtils.getFile(currentPath);
+            if(FileUtils.checkReadStatus(file)){
+                if(file.list().length>0){
+                    allFiles.clear();
+                    for (File f: file.listFiles()) {
+                        //only add file which I can read
+                         if(FileUtils.checkReadStatus(f)){
+                             allFiles.add(new DataModelFiles(f));
+                             totalFilesCount++;
+                    }
+                }
+                sortData();
+            }
+        }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... position) {
+            mAdapter.notifyItemInserted(position[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

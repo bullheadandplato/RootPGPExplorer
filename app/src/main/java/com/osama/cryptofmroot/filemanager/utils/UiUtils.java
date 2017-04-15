@@ -60,8 +60,8 @@ public class UiUtils {
             actionMode.finish();
         }
         String path= adapter.getmFileFiller().getCurrentPath();
-        adapter.getmFileFiller().fillData(path,context);
-        adapter.notifyDataSetChanged();
+        adapter.getmFileFiller().fillData(path,adapter);
+        //adapter.notifyDataSetChanged();
 
     }
 }
