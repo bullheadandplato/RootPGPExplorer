@@ -39,7 +39,6 @@ import com.osama.cryptofmroot.R;
 
 public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
-
     private  static final String    TAG                 = "filesList";
     private static final int        NORMAL_VIEW         = 50;
     private Context mContext;

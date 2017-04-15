@@ -44,6 +44,7 @@ public  class FileFillerWrapper {
     public  void fillData(String current, Context context){
         Log.d(TAG, "fillData: Current path is : "+current);
         currentPath=current;
+        totalFilesCount=0;
 
         //for each file in current path fill data
         File file              = FileUtils.getFile(currentPath);
@@ -73,6 +74,7 @@ public  class FileFillerWrapper {
     public  String getCurrentPath() {
         return currentPath;
     }
+
     private void sortData(){
         DataModelFiles md;
         int size=allFiles.size();
