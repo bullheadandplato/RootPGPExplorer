@@ -327,8 +327,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
                     removeNoFilesFragment();
                 }
                 changeTitle(mCurrentFragment.getmCurrentPath());
-                //reload data
-                UiUtils.reloadData(FileManagerTabs.this,mCurrentFragment.getmFileAdapter());
             }
 
             @Override
