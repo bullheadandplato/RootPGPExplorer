@@ -29,6 +29,7 @@
         <item name="android:textColorTertiary">@color/dividerColor</item>
 
 
+
     </style>
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
@@ -67,9 +68,18 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorTertiary">@color/dividerColor</item>
+         <item name="android:actionBarDivider">@color/colorPrimaryDark</item>
+         <item name="actionBarDivider">@color/colorPrimaryDark</item>
+        <item name="actionModeBackground">@color/colorPrimaryDark</item>
+        <item name="android:actionModeBackground">@color/colorPrimaryDark</item>
     </style>
     <!-- ToolBar -->
     <style name="ToolBarStyle" parent="Theme.AppCompat">
+         <item name="android:actionBarDivider">@color/colorPrimaryDark</item>
+         <item name="actionBarDivider">@color/colorPrimaryDark</item>
+        <item name="actionModeBackground">@color/colorPrimaryDark</item>
+        <item name="android:actionModeBackground">@color/colorPrimaryDark</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
