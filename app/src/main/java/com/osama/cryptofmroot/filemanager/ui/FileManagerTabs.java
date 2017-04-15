@@ -112,7 +112,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
                 if(folderName.length()<1){
                     folderEditText.setError("Give me the folder name");
                 }
-                else if(!FileUtils.createFolder(folderName)){
+                else if(!FileUtils.createFolder(mCurrentFragment.getmCurrentPath()+folderName)){
                         Toast.makeText(
                                 FileManagerTabs.this,
                                 "Cannot create folder make sure current path is writable",
