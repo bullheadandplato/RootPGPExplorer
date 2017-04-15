@@ -189,7 +189,10 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             startActivity(new Intent(this,AboutActivity.class));
         }else if(item.getItemId()==R.id.backup_menu_item) {
                 showBackupDialog();
-        }else{
+        }else if (item.getItemId()==R.id.refresh_menu_item){
+            UiUtils.reloadData(this,mCurrentFragment.getmFileAdapter());
+        }
+        else{
         mCurrentFragment.toggleLayout(item);
         }
 

@@ -25,6 +25,11 @@
         android:id="@+id/items_view_menu_item"
         app:showAsAction="ifRoom|collapseActionView"
         />
+    <item android:title="Refresh"
+        android:icon="@drawable/ic_refresh"
+        android:id="@+id/refresh_menu_item"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
     <item android:title="@string/backup_keys"
         android:id="@+id/backup_menu_item"
         app:showAsAction="never"
