@@ -37,7 +37,7 @@
         android:title="Encrypt"
         />
     <item app:showAsAction="ifRoom|collapseActionView"
-        android:title="decrypt"
+        android:title="Decrypt"
         android:icon="@drawable/ic_decrypt"
         android:id="@+id/decrypt_menu_item"
         />
@@ -49,7 +49,7 @@
     <item app:showAsAction="ifRoom"
         android:title="Move"
         android:id="@+id/move_menu_item"
-        android:icon="@drawable/ic_cut_content"
+        android:icon="@drawable/ic_cut"
         />
     <item
         android:id="@+id/rename_menu_item"

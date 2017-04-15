@@ -69,6 +69,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //check root access
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
@@ -149,7 +150,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         MenuItem item=menu.getItem(0);
         if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
-            item.setIcon(getDrawable(R.drawable.ic_grid_view));
+            item.setIcon(getDrawable(R.drawable.ic_gridview));
         }
         return true;
     }

@@ -197,7 +197,7 @@ public class TabsFragmentOne extends Fragment {
         Log.d(TAG, "toggleLayout: Changing layout");
         if(item.getItemId()==R.id.items_view_menu_item){
             if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
-                item.setIcon(mContext.getDrawable(R.drawable.ic_grid_view));
+                item.setIcon(mContext.getDrawable(R.drawable.ic_gridview));
                 if(mLinearLayoutManager==null){
                     mLinearLayoutManager=new LinearLayoutManager(mContext);
                 }
@@ -205,7 +205,7 @@ public class TabsFragmentOne extends Fragment {
                 mRecyclerView.setLayoutManager(mLinearLayoutManager);
                 new SharedPreferencesTask().execute(true);
             }else{
-                item.setIcon(mContext.getDrawable(R.drawable.ic_items_view));
+                item.setIcon(mContext.getDrawable(R.drawable.ic_listview));
                 if(mGridLayoutManager==null){
                     mGridLayoutManager=new GridLayoutManager(mContext,2);
                 }

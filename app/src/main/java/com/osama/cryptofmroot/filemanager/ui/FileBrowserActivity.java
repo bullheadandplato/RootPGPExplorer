@@ -153,14 +153,14 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
-				item.setIcon(getDrawable(R.drawable.ic_grid_view));
+				item.setIcon(getDrawable(R.drawable.ic_gridview));
 				if(mFileViewLinearLayoutManager==null){
 					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 				}
 				mHelper.attachToRecyclerView(mFileListView);
 				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 			}else{
-				item.setIcon(getDrawable(R.drawable.ic_items_view));
+				item.setIcon(getDrawable(R.drawable.ic_listview));
 				if(mFileViewGridLayoutManager==null){
 					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 				}

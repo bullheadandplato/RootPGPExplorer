@@ -56,7 +56,7 @@ public class DataModelFiles  {
         this.mContext=context;
         //check if i can read file
         if(FileUtils.isFile(file)){
-            this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
+            this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive);
             this.fileExtensionOrItems=FileUtils.getExtension(file.getName());
             this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
             long size=FileUtils.getFileSize(file);
