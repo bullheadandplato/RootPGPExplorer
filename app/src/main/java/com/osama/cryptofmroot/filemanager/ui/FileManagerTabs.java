@@ -79,7 +79,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             isServiceStarted=true;
         }
         //see the external dirs
-        mStorageTitles=new String[]{"Home","Google"};
+        mStorageTitles=new String[]{SharedData.FILES_ROOT_DIRECTORY,SharedData.FILES_ROOT_DIRECTORY+"Download/"};
         mTotalStorage =mStorageTitles.length;
         SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
         SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
