@@ -55,6 +55,7 @@ import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileManagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
@@ -70,6 +71,11 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check root access
+        try {
+            Runtime.getRuntime().exec("su");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
