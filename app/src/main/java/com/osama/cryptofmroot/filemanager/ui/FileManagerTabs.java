@@ -82,11 +82,9 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         //see the external dirs
         mStorageTitles=new String[]{"Home","Google"};
         mTotalStorages=mStorageTitles.length;
-        Log.d(TAG, "onCreate: total storages are: " +mTotalStorages);
-        SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
+        SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
         SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
         setToolbar();
-
 
     }
     @ActionHandler(layoutResource = R.id.fab_add_folder)

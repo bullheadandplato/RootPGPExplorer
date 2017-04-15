@@ -174,25 +174,4 @@ public class FileUtils {
         return f.canRead();
     }
 
-    public static boolean isSdCardPath(String path){
-        Log.d(TAG, "isSdCardPath: Yes entering sdcard path");
-        if(SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null && SharedData.EXT_ROOT_URI!=null){
-            if(CURRENT_PATH.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
-                convertPathToUri(path);
-                return true;
-            }
-        }
-        return false;
-    }
-    private static String convertPathToUri(String path){
-        //change the path and make it content uri
-        CONTENT_URI=CURRENT_PATH+path;
-        Log.d(TAG, "convertPathToUri: URI jkhjkis: "+CONTENT_URI);
-        return CONTENT_URI;
-
-    }
-    public static boolean isDocumentFile(String path){
-        return SharedData.EXTERNAL_SDCARD_ROOT_PATH!=null
-                && path.contains(SharedData.EXTERNAL_SDCARD_ROOT_PATH);
-    }
 }

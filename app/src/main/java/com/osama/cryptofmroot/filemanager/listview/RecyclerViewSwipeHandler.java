@@ -96,7 +96,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                             mTaskHandler.decryptFile(
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
-                                    SharedData.DB_PASSWWORD,
+                                    SharedData.DB_PASSWORD,
                                     innerTmp
                             );
                         }
@@ -106,7 +106,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                 mTaskHandler.decryptFile(
                         SharedData.USERNAME,
                         SharedData.KEY_PASSWORD,
-                        SharedData.DB_PASSWWORD,
+                        SharedData.DB_PASSWORD,
                         tmp
                 );
             }

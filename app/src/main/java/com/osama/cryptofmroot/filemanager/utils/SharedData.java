@@ -38,31 +38,15 @@ public class SharedData {
     public static boolean           IS_COPYING_NOT_MOVING=false;
     public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String      FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
-    public static String            EXTERNAL_SDCARD_ROOT_PATH=null;
-    public static String            EXT_ROOT_URI;
     public static int               SELECT_COUNT=0;
     public static String            USERNAME;
-    public static String            DB_PASSWWORD;
+    public static String            DB_PASSWORD;
     public static String            KEY_PASSWORD;
-
-    private static SharedData   mSharedData;
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method
      */
     private SharedData(){}
-
-    /**
-     *
-     * @return the instance of this class
-     */
-    public static SharedData getInstance(){
-        if(mSharedData==null){
-            mSharedData=new SharedData();
-        }
-        return mSharedData;
-    }
-
 
     /**
      *
@@ -80,9 +64,5 @@ public class SharedData {
         }
         return false;
     }
-
-    
-
-
 
 }

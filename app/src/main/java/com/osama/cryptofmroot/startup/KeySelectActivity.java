@@ -128,7 +128,7 @@ public class KeySelectActivity extends AppCompatActivity {
                 pubOut.close();
 
                 publishProgress("Setting up database");
-                DatabaseHandler db=new DatabaseHandler(KeySelectActivity.this,SharedData.DB_PASSWWORD,true);
+                DatabaseHandler db=new DatabaseHandler(KeySelectActivity.this,SharedData.DB_PASSWORD,true);
                 ByteArrayOutputStream outputStream  = new ByteArrayOutputStream();
                 ArmoredOutputStream secOut          = new ArmoredOutputStream(outputStream);
                 key.encode(secOut);

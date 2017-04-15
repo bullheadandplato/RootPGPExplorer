@@ -153,7 +153,7 @@ public class OptionActivity extends AppCompatActivity {
                 secretKeys.encode(secOut);
                 secOut.close();
 
-                DatabaseHandler db=new DatabaseHandler(OptionActivity.this,SharedData.DB_PASSWWORD,true);
+                DatabaseHandler db=new DatabaseHandler(OptionActivity.this,SharedData.DB_PASSWORD,true);
                 byte[] test=outputStream.toByteArray();
                 //call the db methods to store
                 db.insertSecKey(email,test);

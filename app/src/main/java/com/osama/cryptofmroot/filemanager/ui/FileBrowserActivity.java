@@ -93,7 +93,7 @@ public class FileBrowserActivity extends AppCompatActivity
 			findViewById(R.id.floating_add).setVisibility(View.GONE);
 		}else{
 			setResult(RESULT_OK);
-			SharedData.DB_PASSWWORD 	= getIntent().getExtras().getString("dbpass");
+			SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
 			SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
 		}
 

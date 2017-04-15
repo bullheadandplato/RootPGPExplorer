@@ -190,7 +190,7 @@ public class FileSelectionManagement {
                             new DecryptTask(
                                     mContext,
                                     mFileListAdapter,
-                                    SharedData.DB_PASSWWORD,
+                                    SharedData.DB_PASSWORD,
                                     SharedData.USERNAME,
                                     FileUtils.CURRENT_PATH+filename,
                                     SharedData.KEY_PASSWORD).execute();
@@ -202,7 +202,7 @@ public class FileSelectionManagement {
                 new DecryptTask(
                         mContext,
                         mFileListAdapter,
-                        SharedData.DB_PASSWWORD,
+                        SharedData.DB_PASSWORD,
                         SharedData.USERNAME,
                         FileUtils.CURRENT_PATH+filename,
                         SharedData.KEY_PASSWORD).execute();

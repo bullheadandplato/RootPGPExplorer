@@ -102,7 +102,7 @@ public class ActionViewHandler implements ActionMode.Callback {
                             mTaskHandler.decryptFile(
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
-                                    SharedData.DB_PASSWWORD,
+                                    SharedData.DB_PASSWORD,
                                     mManager.getmSelectedFilePaths()
                                     );
                         }
@@ -112,7 +112,7 @@ public class ActionViewHandler implements ActionMode.Callback {
                 mTaskHandler.decryptFile(
                         SharedData.USERNAME,
                         SharedData.KEY_PASSWORD,
-                        SharedData.DB_PASSWWORD,
+                        SharedData.DB_PASSWORD,
                         mManager.getmSelectedFilePaths()
                 );
             }
