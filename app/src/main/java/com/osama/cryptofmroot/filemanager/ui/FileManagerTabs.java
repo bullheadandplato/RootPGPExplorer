@@ -58,12 +58,11 @@ import com.osama.cryptofmroot.utils.FileUtils;
 import java.util.ArrayList;
 
 public class FileManagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
-    private int                     mTotalStorages;
+    private int                     mTotalStorage;
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
     private String[]                mStorageTitles;
     private TabsFragmentOne[]       mFragmentOnes;
-    private static final int        GET_PERMISSION_CODE=432;
     private static boolean          isServiceStarted=false;
     private static final String TAG=FileManagerTabs.class.getName();
 
@@ -81,7 +80,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         //see the external dirs
         mStorageTitles=new String[]{"Home","Google"};
-        mTotalStorages=mStorageTitles.length;
+        mTotalStorage =mStorageTitles.length;
         SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
         SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
         setToolbar();
@@ -280,7 +279,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
-                (getSupportFragmentManager(), mTotalStorages);
+                (getSupportFragmentManager(), mTotalStorage);
         mPagerAdapter.setTitles(mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -334,63 +333,12 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             }
         });
 
-        if(mTotalStorages<=1){
+        if(mTotalStorage <=1){
             Log.d(TAG, "setToolbar: Tab layout is hiding itself");
             tabLayout.setVisibility(View.GONE);
         }
 
-        mFragmentOnes=new TabsFragmentOne[mTotalStorages];
-    }
-
-    private void getExternalStoragePermissions(){
-        Log.d(TAG, "getExternalStoragePermissions: Getting permissions");
-        //inform user what to do
-        final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-        dialog.setCancelable(false);
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                startActivityForResult(intent,GET_PERMISSION_CODE);
-            }
-        });
-        dialog.setMessage("Looks like you have external sdcard. " +
-                "Please choose it in next screen to enable read and write on it. " +
-                "Otherwise I will not be able to use it");
-        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mStorageTitles[0]=mStorageTitles[1];
-                Toast.makeText(FileManagerTabs.this,
-                        "I wont be able to perform any operation on external sdcard",
-                        Toast.LENGTH_LONG
-                ).show();
-
-            }
-        });
-        dialog.setTitle("Need permission");
-        dialog.show();
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==RESULT_OK){
-            if(requestCode==GET_PERMISSION_CODE){
-                Uri treeUri = data.getData();
-                Log.d(TAG, "onActivityResult: tree uri is: "+treeUri);
-                //save the uri for later use
-                SharedPreferences prefs=getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor=prefs.edit();
-                editor.putString("tree_uri",treeUri.toString());
-                editor.apply();
-                editor.commit();
-
-                // Check for the freshest data.
-                getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            }
-        }
+        mFragmentOnes=new TabsFragmentOne[mTotalStorage];
     }
 
     /**
