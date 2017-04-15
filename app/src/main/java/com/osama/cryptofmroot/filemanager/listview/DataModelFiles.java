@@ -44,13 +44,15 @@ public class DataModelFiles  {
     private Boolean     isFile       = false;
     private boolean     isEncrypted  = false;
     private Context     mContext;
+    private String      mFilePath;
 
     private static MimeType mIconManager;
     public DataModelFiles(File file, Context context) {
         if(mIconManager==null){
             mIconManager=new MimeType(context);
         }
-        this.fileName = file.getName();
+        this.fileName   = file.getName();
+        this.mFilePath  = file.getPath();
         this.mContext=context;
         //check if i can read file
         if(FileUtils.isFile(file)){
@@ -105,7 +107,7 @@ public class DataModelFiles  {
         isSelected = selected;
     }
     public String getFilePath(){
-        return FileUtils.CURRENT_PATH+this.fileName;
+        return mFilePath;
     }
 
     public Boolean getFile() {

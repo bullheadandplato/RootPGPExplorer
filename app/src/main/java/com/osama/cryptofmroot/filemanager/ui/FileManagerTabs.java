@@ -93,8 +93,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             Log.d(TAG, "onAddFloatingClicked: fragment is null ");
             mCurrentFragment=mFragmentOnes[0];
         }
-        FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
-        Log.d(TAG, "onAddFloatingClicked: current path is: "+FileUtils.CURRENT_PATH);
         if(isEmptyFolder) {
             removeNoFilesFragment();
         }
@@ -232,7 +230,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));
             path 		   = path.substring(0,path.lastIndexOf('/')+1);
-            FileUtils.CURRENT_PATH = path;
             Log.d(TAG, "onBackPressed: Changing directory");
             changeTitle(path);
             mCurrentFragment.changeDirectory(path,1);
@@ -319,8 +316,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
                 }else{
                     removeNoFilesFragment();
                 }
-
-                FileUtils.CURRENT_PATH=mCurrentFragment.getmCurrentPath();
                 changeTitle(mCurrentFragment.getmCurrentPath());
                 //reload data
                 UiUtils.reloadData(FileManagerTabs.this,mCurrentFragment.getmFileAdapter());
@@ -433,16 +428,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         changeTitle(mCurrentFragment.getRootPath());
         mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath(),1);
 
-    }
-
-    private void setCurrentPath(String path){
-        //check if last index of external storage has  /
-        if(path.charAt(path.length())=='/'){
-            FileUtils.CURRENT_PATH=path;
-        }else{
-            //concat the "/" add the end of the path
-            FileUtils.CURRENT_PATH=path+"/";
-        }
     }
 
 }

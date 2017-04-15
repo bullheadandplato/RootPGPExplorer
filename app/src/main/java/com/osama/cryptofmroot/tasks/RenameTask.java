@@ -54,7 +54,6 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         try{
 
-            Log.d("niggers", "doInBackground: current path is: "+FileUtils.CURRENT_PATH);
             File file = TasksFileUtils.getFile(mFilePath);
             String filename=file.getPath();
             filename=filename.replace(file.getName(),"");

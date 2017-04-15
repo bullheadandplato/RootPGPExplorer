@@ -229,17 +229,15 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public void onBackPressed() {
-		if(emptyFiles){
+		if(emptyFiles) {
 			removeNoFilesFragment();
 		}
-		mCurrentPath = FileUtils.CURRENT_PATH;
 		if(mCurrentPath.equals(mRootPath)){
 			super.onBackPressed();
 		}else{
 			//modify the mCurrentPath
 			mCurrentPath		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/'));
 			mCurrentPath 		   = mCurrentPath.substring(0,mCurrentPath.lastIndexOf('/')+1);
-			FileUtils.CURRENT_PATH = mCurrentPath;
 			changeDirectory(mCurrentPath);
 
 		}

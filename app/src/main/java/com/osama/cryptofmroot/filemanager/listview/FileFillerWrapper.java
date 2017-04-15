@@ -42,19 +42,18 @@ public  class FileFillerWrapper {
 
 
     public  void fillData(String current, Context context){
+        Log.d(TAG, "fillData: Current path is : "+current);
         currentPath=current;
-        //be sure to change the path in File utilities
-        FileUtils.CURRENT_PATH = currentPath;
+
         //for each file in current path fill data
         File file              = FileUtils.getFile(currentPath);
         if(FileUtils.checkReadStatus(file)){
-            totalFilesCount=0;
             if(file.list().length>0){
                 allFiles.clear();
                 for (File f: file.listFiles()) {
                     //only add file which I can read
                     if(FileUtils.checkReadStatus(f)){
-                        allFiles.add(new DataModelFiles(f.getName(),context));
+                        allFiles.add(new DataModelFiles(f,context));
                         totalFilesCount++;
                     }
                 }
@@ -68,7 +67,6 @@ public  class FileFillerWrapper {
     }
 
     public  int getTotalFilesCount() {
-        Log.d(TAG, "getTotalFilesCount: Total file count is: "+totalFilesCount);
         return totalFilesCount;
     }
 

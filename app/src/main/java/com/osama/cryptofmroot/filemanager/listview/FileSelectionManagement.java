@@ -192,7 +192,7 @@ public class FileSelectionManagement {
                                     mFileListAdapter,
                                     SharedData.DB_PASSWORD,
                                     SharedData.USERNAME,
-                                    FileUtils.CURRENT_PATH+filename,
+                                    mFileFiller.getCurrentPath()+filename,
                                     SharedData.KEY_PASSWORD).execute();
                         }
 
@@ -204,7 +204,7 @@ public class FileSelectionManagement {
                         mFileListAdapter,
                         SharedData.DB_PASSWORD,
                         SharedData.USERNAME,
-                        FileUtils.CURRENT_PATH+filename,
+                        mFileFiller.getCurrentPath()+filename,
                         SharedData.KEY_PASSWORD).execute();
             }
 
@@ -244,10 +244,8 @@ public class FileSelectionManagement {
             selectionOperation(position);
             return;
         }
-
-        String folderPath = mFileFiller.getCurrentPath() + filename + "/";
-        clickCallBack.changeTitle(folderPath);
-        clickCallBack.animateForward(folderPath);
+        clickCallBack.changeTitle(filename);
+        clickCallBack.animateForward(filename);
     }
     void startSelectionMode(){
         SharedData.SELECTION_MODE = true;

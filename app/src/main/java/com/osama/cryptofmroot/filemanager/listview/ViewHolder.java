@@ -37,6 +37,7 @@ import com.osama.cryptofmroot.utils.FileUtils;
 
 class ViewHolder extends RecyclerView.ViewHolder{
     private FileSelectionManagement mFileSelectionManagement;
+    private FileFillerWrapper mFileFiller;
     private static final String TAG="ViewHolder";
     ImageView        mImageView;
     TextView         mTextView;
@@ -45,9 +46,10 @@ class ViewHolder extends RecyclerView.ViewHolder{
     ImageView        mEncryptionStatusImage;
 
 
-    ViewHolder(View itemView, Context c,FileSelectionManagement m){
+    ViewHolder(View itemView, Context c,FileSelectionManagement m,FileFillerWrapper wrapper){
         super(itemView);
         mFileSelectionManagement= m;
+        mFileFiller=wrapper;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,15 +60,16 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 }
                 TextView textView   = (TextView)view.findViewById(R.id.list_textview);
                 String filename     = textView.getText().toString();
-                if(FileUtils.isFile(filename)){
+                filename=mFileFiller.getCurrentPath()+filename;
+                if(FileUtils.isFile(FileUtils.getFile(filename))){
                     if(SharedData.STARTED_IN_SELECTION_MODE){
                         Log.d(TAG, "onClick: yes nigga im started in selection mode");
                         mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                         return;
                     }
-                        mFileSelectionManagement.openFile(filename);
+                    mFileSelectionManagement.openFile(filename);
                 }else{
-                        mFileSelectionManagement.openFolder(filename,getAdapterPosition());
+                        mFileSelectionManagement.openFolder(filename+"/",getAdapterPosition());
                     }
 
             }

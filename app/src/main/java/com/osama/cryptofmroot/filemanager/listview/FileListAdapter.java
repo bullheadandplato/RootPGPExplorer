@@ -58,7 +58,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
-            return new ViewHolder(view,mContext,mManager);
+            return new ViewHolder(view,mContext,mManager,mFileFiller);
 
     }
 

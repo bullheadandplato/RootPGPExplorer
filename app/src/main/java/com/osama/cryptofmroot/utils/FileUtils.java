@@ -37,8 +37,6 @@ import java.util.List;
 
 public class FileUtils {
     private static final String TAG     = "files";
-    public static  String CURRENT_PATH  = " ";
-    public static String CONTENT_URI;
 
     public static long getFileSize(File file){
         return file.length();
@@ -102,22 +100,6 @@ public class FileUtils {
         return fileName.substring(index + 1);
     }
 
-    public static List<String> getFileNamesInAFolder(String foldername) throws IllegalArgumentException{
-        List<String> result=new ArrayList<>();
-        File folder=new File(CURRENT_PATH+foldername);
-
-        File[] files=folder.listFiles();
-        if(files.length>0){
-            for (File f:
-                 files) {
-                result.add(f.getName());
-            }
-
-        } else{
-            throw new IllegalArgumentException("folder is empty");
-        }
-        return result;
-    }
 
     public static boolean isFile(File file) {
         return file.isFile();
@@ -137,7 +119,7 @@ public class FileUtils {
 
 
     public static boolean createFolder(String folderName) {
-        File temp = new File(CURRENT_PATH+folderName);
+        File temp = new File(folderName);
         if(temp.exists()){
             return false;
         }else{
@@ -159,7 +141,7 @@ public class FileUtils {
         }
     }
     public static File getFile(String filename){
-        return new File(CURRENT_PATH+filename);
+        return new File(filename);
     }
     public static boolean checkReadStatus(File f){
         return f.canRead();
