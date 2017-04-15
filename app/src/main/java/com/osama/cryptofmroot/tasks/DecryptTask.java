@@ -121,6 +121,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
 
             }else{
+                Log.d(TAG, "doInBackground: Filename is: "+mFileName);
                 File in= TasksFileUtils.getFile(mFileName);
                 File out= TasksFileUtils.getFile(root.getPath() + "/" + in.getName().substring(0, in.getName().lastIndexOf('.')));
                 destFilename=out.getAbsolutePath();

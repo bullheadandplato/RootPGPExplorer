@@ -192,7 +192,7 @@ public class FileSelectionManagement {
                                     mFileListAdapter,
                                     SharedData.DB_PASSWORD,
                                     SharedData.USERNAME,
-                                    mFileFiller.getCurrentPath()+filename,
+                                    filename,
                                     SharedData.KEY_PASSWORD).execute();
                         }
 
@@ -204,7 +204,7 @@ public class FileSelectionManagement {
                         mFileListAdapter,
                         SharedData.DB_PASSWORD,
                         SharedData.USERNAME,
-                        mFileFiller.getCurrentPath()+filename,
+                        filename,
                         SharedData.KEY_PASSWORD).execute();
             }
 
