@@ -150,6 +150,7 @@ public class FileSelectionManagement {
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
+            Log.d(TAG, "resetFileIcons: Reseting file icon");
             mFileListAdapter.notifyItemChanged(pos);
 
         }

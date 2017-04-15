@@ -97,7 +97,7 @@ public class TaskHandler {
         });
     }
     public void deleteFile(){
-        AlertDialog dialog=new AlertDialog.Builder(mContext).create();
+        final AlertDialog dialog=new AlertDialog.Builder(mContext).create();
         dialog.setTitle("Delete confirmation");
         dialog.setMessage("Do you really want to delete these files(s)?");
         dialog.setButton(
@@ -111,6 +111,7 @@ public class TaskHandler {
                                 mAdapter,
                                 (ArrayList<String>) mFileSelectionManagement.getmSelectedFilePaths().clone());
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        dialog.dismiss();
 
                     }
                 });

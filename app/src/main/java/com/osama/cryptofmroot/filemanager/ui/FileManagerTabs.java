@@ -73,8 +73,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         //check root access
         try {
             Runtime.getRuntime().exec("su");
-           Process p= Runtime.getRuntime().exec("ls -A /");
-            Log.d(TAG, "onCreate: "+p.getInputStream().read());
         } catch (IOException e) {
             e.printStackTrace();
         }

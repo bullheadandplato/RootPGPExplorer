@@ -94,15 +94,11 @@ public  class FileFillerWrapper {
         }
             return null;
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... position) {
-            mAdapter.notifyItemInserted(position[0]);
-        }
-
+        
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.d(TAG, "onPostExecute: changing google");
             mAdapter.notifyDataSetChanged();
         }
     }

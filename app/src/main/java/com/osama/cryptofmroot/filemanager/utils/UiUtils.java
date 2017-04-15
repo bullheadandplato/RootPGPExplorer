@@ -21,6 +21,7 @@ package com.osama.cryptofmroot.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,7 @@ import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 
 public class UiUtils {
     public static ActionMode actionMode;
+    private static final String TAG=UiUtils.class.getCanonicalName();
 
     public static Dialog createDialog(Context context, String title, String buttonTitle){
         final Dialog dialog=new Dialog(context);
@@ -57,11 +59,11 @@ public class UiUtils {
 
     public static void reloadData(Context context, FileListAdapter adapter){
         if(actionMode!=null){
+            SharedData.DO_NOT_RESET_ICON=true;
             actionMode.finish();
         }
+        Log.d(TAG, "reloadData: Happy here");
         String path= adapter.getmFileFiller().getCurrentPath();
         adapter.getmFileFiller().fillData(path,adapter);
-        //adapter.notifyDataSetChanged();
-
     }
 }

@@ -165,7 +165,6 @@ public class TabsFragmentOne extends Fragment {
         }else{
             mRecyclerView.setLayoutManager(mGridLayoutManager);
         }
-
         mRecyclerView.setAdapter(mFileAdapter);
         mFileFiller.fillData(mPath,mFileAdapter);
 
@@ -175,12 +174,9 @@ public class TabsFragmentOne extends Fragment {
             mCurrentPath=path;
             Log.d("filesc", "current path: " + path);
             mFileFiller.fillData(path,mFileAdapter);
-            if (mFileFiller.getTotalFilesCount() < 1) {
-                //mFileAdapter.notifyDataSetChanged();
-                mCallbacks.tellNoFiles();
-                mIsEmptyFolder=true;
-                return;
-            }
+        if(mFileFiller.getTotalFilesCount()<1){
+            return;
+        }
         forwardAnimation(mode);
 
     }
@@ -233,7 +229,7 @@ public class TabsFragmentOne extends Fragment {
         mTaskHandler.moveFiles(mCurrentPath,mFileAdapter);
     }
 
-    class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
+    private class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
 
         @Override
         protected Void doInBackground(Boolean... booleen) {

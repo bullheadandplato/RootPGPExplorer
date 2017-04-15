@@ -42,6 +42,7 @@ public class SharedData {
     public static String            USERNAME;
     public static String            DB_PASSWORD;
     public static String            KEY_PASSWORD;
+    public static boolean           DO_NOT_RESET_ICON=false;
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method

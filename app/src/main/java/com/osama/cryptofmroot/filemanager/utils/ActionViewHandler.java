@@ -142,7 +142,9 @@ public class ActionViewHandler implements ActionMode.Callback {
         Log.d("action","destroying action mode");
         SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=false;
-        mManager.resetFileIcons();
+        if(!SharedData.DO_NOT_RESET_ICON){
+            mManager.resetFileIcons();
+        }
         mManager.setmSelectionMode(false);
     }
 
