@@ -144,6 +144,7 @@ public class ActionViewHandler implements ActionMode.Callback {
         SharedData.SELECTION_MODE=false;
         if(!SharedData.DO_NOT_RESET_ICON){
             mManager.resetFileIcons();
+            SharedData.DO_NOT_RESET_ICON=false;
         }
         mManager.setmSelectionMode(false);
     }
