@@ -40,8 +40,8 @@ public class FileUtils {
     public static  String CURRENT_PATH  = " ";
     public static String CONTENT_URI;
 
-    public static long getFileSize(String filename){
-        return new File(CURRENT_PATH+filename).length();
+    public static long getFileSize(File file){
+        return file.length();
     }
 
     public static long getFolderSize(String folderPath) {
@@ -57,8 +57,7 @@ public class FileUtils {
         }
         return size;
     }
-    public static boolean isEncryptedFolder(String filename){
-        File dir = new File(CURRENT_PATH+filename);
+    public static boolean isEncryptedFolder(File dir){
         //if file is not a directory but just a file
         if(dir.isFile()){
             return dir.getName().contains("pgp");
@@ -83,15 +82,12 @@ public class FileUtils {
         return filename.contains(".pgp") || filename.contains(".gpg");
     }
 
-    public static int getNumberOfFiles(String  foldername){
-        Log.d(TAG, "getNumberOfFiles: "+CURRENT_PATH+foldername);
-        File file=new File(CURRENT_PATH+foldername);
+    public static int getNumberOfFiles(File file ){
         if(file.canRead()){
             return file.listFiles().length;
         }else{
             return 0;
         }
-
     }
 
     public static String getExtension(String fileName){
@@ -123,8 +119,8 @@ public class FileUtils {
         return result;
     }
 
-    public static Boolean isFile(String filename) {
-        return new File(CURRENT_PATH + filename).isFile();
+    public static boolean isFile(File file) {
+        return file.isFile();
     }
 
     public static String getReadableSize(long size) {
@@ -135,15 +131,12 @@ public class FileUtils {
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups))
                 + " " + units[digitGroups];
     }
-    public static String getLastModifiedDate(String filename){
-        String date = new Date(new File(CURRENT_PATH+filename).lastModified()).toString();
-        Log.d(TAG, "getLastModifiedDate: date is: "+date);
-        return date;
-
+    public static String getLastModifiedDate(File file){
+        return new Date(file.lastModified()).toString();
     }
 
 
-    public static Boolean createFolder(String folderName) {
+    public static boolean createFolder(String folderName) {
         File temp = new File(CURRENT_PATH+folderName);
         if(temp.exists()){
             return false;
@@ -166,11 +159,9 @@ public class FileUtils {
         }
     }
     public static File getFile(String filename){
-        
         return new File(CURRENT_PATH+filename);
     }
     public static boolean checkReadStatus(File f){
-        Log.d(TAG, "checkReadStatus: reading file read status: "+f.getName());
         return f.canRead();
     }
 

@@ -27,6 +27,8 @@ import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.File;
+
 /**
  * Created by tripleheader on 12/17/16.
  * Data model for the recyclerview
@@ -44,27 +46,27 @@ public class DataModelFiles  {
     private Context     mContext;
 
     private static MimeType mIconManager;
-    public DataModelFiles(String filename, Context context) {
+    public DataModelFiles(File file, Context context) {
         if(mIconManager==null){
             mIconManager=new MimeType(context);
         }
-        this.fileName = filename;
+        this.fileName = file.getName();
         this.mContext=context;
         //check if i can read file
-        if(FileUtils.isFile(filename)){
+        if(FileUtils.isFile(file)){
             this.fileIcon=context.getDrawable(R.drawable.ic_insert_drive_file_white_48dp);
-            this.fileExtensionOrItems=FileUtils.getExtension(filename);
+            this.fileExtensionOrItems=FileUtils.getExtension(file.getName());
             this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
-            long size=FileUtils.getFileSize(filename);
+            long size=FileUtils.getFileSize(file);
             this.fileSize=FileUtils.getReadableSize(size);
-            this.isEncrypted=FileUtils.isEncryptedFile(filename);
+            this.isEncrypted=FileUtils.isEncryptedFile(file.getName());
             this.isFile=true;
-        }else{
-            this.fileIcon=context.getDrawable(R.drawable.ic_default_folder);
+        }else {
+            this.fileIcon = context.getDrawable(R.drawable.ic_default_folder);
             //in case of folder file extension will be number of items in folder
-            this.fileExtensionOrItems=FileUtils.getNumberOfFiles(filename)+" items";
-            this.isEncrypted=FileUtils.isEncryptedFolder(filename);
-            this.fileSize=FileUtils.getLastModifiedDate(filename);
+            this.fileExtensionOrItems = FileUtils.getNumberOfFiles(file) + " items";
+            this.isEncrypted = FileUtils.isEncryptedFolder(file);
+            this.fileSize = FileUtils.getLastModifiedDate(file);
         }
     }
 

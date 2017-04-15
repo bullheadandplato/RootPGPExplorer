@@ -46,16 +46,14 @@ public  class FileFillerWrapper {
         //be sure to change the path in File utilities
         FileUtils.CURRENT_PATH = currentPath;
         //for each file in current path fill data
-        File file              = new File(currentPath);
+        File file              = FileUtils.getFile(currentPath);
         if(FileUtils.checkReadStatus(file)){
             totalFilesCount=0;
             if(file.list().length>0){
-                Log.d(TAG, "fillData: i cannot reached here: "+file.listFiles().length);
                 allFiles.clear();
                 for (File f: file.listFiles()) {
                     //only add file which I can read
                     if(FileUtils.checkReadStatus(f)){
-                        Log.d(TAG, "fillData: adding new file. filename is: "+f.getName());
                         allFiles.add(new DataModelFiles(f.getName(),context));
                         totalFilesCount++;
                     }
