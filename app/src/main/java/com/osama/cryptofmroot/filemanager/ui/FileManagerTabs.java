@@ -227,7 +227,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         String path=mCurrentFragment.getmCurrentPath();
         Log.d(TAG, "onBackPressed: Current path is: "+path);
-        if(path.equals(SharedData.FILES_ROOT_DIRECTORY)|| path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)){
+        if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
             super.onBackPressed();
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));
@@ -280,7 +280,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
                 (getSupportFragmentManager(), mTotalStorage);
-        mPagerAdapter.setTitles(mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -386,13 +385,11 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         mCurrentFragment.setmCurrentPath(path);
 
-
         if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
             path="Home";
-        }else if(path.equals(SharedData.EXTERNAL_SDCARD_ROOT_PATH)) {
-            path="Sdcard home";
         }
         else{
+            Log.d(TAG, "changeTitle: Path is: "+path);
             path=path.substring(0,path.lastIndexOf('/'));
             path=path.substring(path.lastIndexOf('/')+1);
         }

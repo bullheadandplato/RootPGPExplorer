@@ -31,8 +31,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.osama.cryptofmroot.filemanager.ui.TabsFragmentOne;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    int mNumOfTabs;
-    private String              tabTitles[] = new String[] { "Home", "Sdcard" };
+    private int mNumOfTabs;
+    private String              tabTitles[] = new String[] { SharedData.FILES_ROOT_DIRECTORY, SharedData.FILES_ROOT_DIRECTORY+"Download/" };
     private TabsFragmentOne[]   tabsFragment;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -49,10 +49,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(SharedData.EXTERNAL_SDCARD_ROOT_PATH==null){
-            return null;
-        }
-        return "Storage "+position;
+        String title=tabTitles[position];
+        title=title.substring(0,title.lastIndexOf('/'));
+        title=title.substring(title.lastIndexOf('/')+1,title.length());
+        return title;
     }
 
     @Override
@@ -60,9 +60,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         return mNumOfTabs;
     }
 
-    public void setTitles(String[] mStorageTitles) {
-        tabTitles=mStorageTitles;
-    }
 }
 
 

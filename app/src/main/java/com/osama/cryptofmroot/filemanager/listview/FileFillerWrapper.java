@@ -48,7 +48,6 @@ public  class FileFillerWrapper {
         //for each file in current path fill data
         File file              = new File(currentPath);
         if(FileUtils.checkReadStatus(file)){
-            Log.d(TAG, "fillData: Cannot read files");
             totalFilesCount=0;
             if(file.list().length>0){
                 Log.d(TAG, "fillData: i cannot reached here: "+file.listFiles().length);
