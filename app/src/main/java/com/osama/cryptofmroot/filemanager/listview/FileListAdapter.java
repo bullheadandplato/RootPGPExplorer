@@ -81,8 +81,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: loading files");
-             DataModelFiles mDataModel= mFileFiller.getFileAtPosition(position);
+            DataModelFiles mDataModel= mFileFiller.getFileAtPosition(position);
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;

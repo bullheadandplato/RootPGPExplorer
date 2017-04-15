@@ -73,6 +73,8 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         //check root access
         try {
             Runtime.getRuntime().exec("su");
+           Process p= Runtime.getRuntime().exec("ls -A /");
+            Log.d(TAG, "onCreate: "+p.getInputStream().read());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,8 +90,11 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         //see the external dirs
         mStorageTitles=new String[]{SharedData.FILES_ROOT_DIRECTORY,SharedData.FILES_ROOT_DIRECTORY+"Download/"};
         mTotalStorage =mStorageTitles.length;
-        SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
-        SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
+        if(SharedData.DB_PASSWORD==null ){
+            SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
+            SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
+        }
+
         setToolbar();
 
     }
