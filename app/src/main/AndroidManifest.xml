@@ -71,6 +71,17 @@
         <activity
             android:name="com.osama.cryptofmroot.startup.KeySelectActivity"
             android:theme="@style/KeySelectStyle" />
+
+        <activity android:name="com.osama.cryptofmroot.about.AboutActivity"
+                android:parentActivityName=".filemanager.ui.FileManagerTabs"
+            />
+        <activity
+            android:name="com.osama.cryptofmroot.about.LicencesActivity"
+            android:parentActivityName="com.osama.cryptofmroot.about.AboutActivity" />
+        <activity
+            android:name="com.osama.cryptofmroot.about.ShowLicenseActivity"
+            android:parentActivityName="com.osama.cryptofmroot.about.LicencesActivity"
+            />
         <!-- End of activities -->
 
 
@@ -90,14 +101,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name="com.osama.cryptofmroot.about.AboutActivity" />
-        <activity
-            android:name="com.osama.cryptofmroot.about.LicencesActivity"
-            android:parentActivityName="com.osama.cryptofmroot.about.AboutActivity" />
-        <activity
-            android:name="com.osama.cryptofmroot.about.ShowLicenseActivity"
-            android:parentActivityName="com.osama.cryptofmroot.about.LicencesActivity"
-            />
     </application>
 
 </manifest>
