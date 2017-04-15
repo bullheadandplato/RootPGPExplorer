@@ -138,7 +138,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                 RectF background = new RectF((float) itemView.getLeft(),
                         (float) itemView.getTop(), dX,(float) itemView.getBottom());
                 c.drawRect(background,p);
-                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_encrypt);
+                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_encrypt_scalar);
                 RectF icon_dest = new RectF((float) itemView.getLeft() + width ,
                         (float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,
                         (float)itemView.getBottom() - width);
@@ -149,7 +149,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                         (float) itemView.getTop(),(float) itemView.getRight(),
                         (float) itemView.getBottom());
                 c.drawRect(background,p);
-                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_decrypt);
+                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_decrypt_scalar);
                 RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,
                         (float) itemView.getTop() + width,
                         (float) itemView.getRight() - width,(float)itemView.getBottom() - width);
