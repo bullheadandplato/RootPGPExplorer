@@ -1,5 +1,5 @@
 # musical-happiness
-Android application. The basic purppose of this application is to provide encryption of files. Currently implemented encryption is RSA 2048 bit keys. The idea behind this is to avoid random acess to files by any other *unwanted application*. <br>
+Android application. The basic purppose of this application is to provide encryption of files. Currently implemented encryption is RSA 2048 bit. The idea behind this application is to avoid random access to files by any other *unwanted application*. <br>
 ## Library used
 * Spongy castle
 * Easy permissions
