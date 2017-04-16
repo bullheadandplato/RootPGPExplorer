@@ -19,11 +19,21 @@
 
 package com.osama.cryptofmroot.startup;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
@@ -31,10 +41,60 @@ import android.support.v7.app.AppCompatActivity;
  * Splash activity which just starts another activity
  */
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+    private static final int RC_PERMISSION=454;
+    private static final String TAG=SplashScreen.class.getCanonicalName();
+    String[] perms={Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private boolean permissionGranted=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //check storage permissions
+        if(!EasyPermissions.hasPermissions(this,perms)){
+            EasyPermissions.requestPermissions(this,"App needs access to phone storage to work.",RC_PERMISSION,perms);
+        }else {
+            performTask();
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(permissionGranted){
+            performTask();
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+           Log.d(TAG, "onPermissionsGranted: permission granted.");
+           permissionGranted=true;
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        askPermissionAgain();
+    }
+    private void askPermissionAgain(){
+        Toast.makeText(this,"I can't work without storage permission.",Toast.LENGTH_LONG).show();
+        EasyPermissions.requestPermissions(this,"This app needs access to phone storage to work.",RC_PERMISSION,this.perms);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==RC_PERMISSION){
+            if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                performTask();
+            }else{
+                askPermissionAgain();
+            }
+        }
+    }
+
+    private void performTask(){
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         if(prefs.getBoolean("done",false)){
             Intent intent = new Intent(this,UnlockDbActivity.class);
@@ -62,7 +122,6 @@ public class SplashScreen extends AppCompatActivity {
         }
         // close this activity
         finish();
-
 
     }
 }
