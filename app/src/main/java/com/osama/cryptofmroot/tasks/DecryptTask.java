@@ -259,7 +259,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     s,
                     Toast.LENGTH_LONG)
                     .show();
-            UiUtils.reloadData(mContext, mAdapter);
+            UiUtils.reloadData(mAdapter);
         }
 
     }
@@ -294,7 +294,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         UiUtils.reloadData(
-                mContext,
                 mAdapter
         );
 

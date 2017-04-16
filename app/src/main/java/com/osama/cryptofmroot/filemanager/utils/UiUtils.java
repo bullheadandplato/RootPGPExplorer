@@ -57,7 +57,7 @@ public class UiUtils {
         return dialog;
     }
 
-    public static void reloadData(Context context, FileListAdapter adapter){
+    public static void reloadData(FileListAdapter adapter){
 
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         if(actionMode!=null){

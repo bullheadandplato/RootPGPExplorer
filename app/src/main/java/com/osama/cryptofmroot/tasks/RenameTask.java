@@ -78,7 +78,6 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
                 Toast.LENGTH_LONG
         ).show();
         UiUtils.reloadData(
-                mContext,
                 mAdapter
         );
     }

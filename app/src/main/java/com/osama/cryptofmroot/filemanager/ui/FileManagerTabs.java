@@ -133,7 +133,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
                     }else{
                         dialog.dismiss();
                         UiUtils.reloadData(
-                                FileManagerTabs.this,
                                 mCurrentFragment.getmFileAdapter()
                         );
                     }
@@ -192,7 +191,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }else if(item.getItemId()==R.id.backup_menu_item) {
                 showBackupDialog();
         }else if (item.getItemId()==R.id.refresh_menu_item){
-            UiUtils.reloadData(this,mCurrentFragment.getmFileAdapter());
+            UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
         }
         else{
         mCurrentFragment.toggleLayout(item);

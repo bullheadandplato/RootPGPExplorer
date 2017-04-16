@@ -110,7 +110,6 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
             ).show();
         }
         UiUtils.reloadData(
-                mContext,
                 mAdapter
                 );
 

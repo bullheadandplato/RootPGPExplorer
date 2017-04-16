@@ -144,7 +144,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 UiUtils.reloadData(
-                        mContext,
                         mAdapter
                 );
             }
@@ -178,7 +177,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         ).show();
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         UiUtils.reloadData(
-                mContext,
                 mAdapter
         );
         Log.d("cancel","yes task is canceled");

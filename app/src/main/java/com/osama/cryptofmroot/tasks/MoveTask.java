@@ -184,7 +184,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
                 s,
                 Toast.LENGTH_SHORT
         ).show();
-        UiUtils.reloadData(mContext,mAdapter);
+        UiUtils.reloadData(mAdapter);
 
     }
 
