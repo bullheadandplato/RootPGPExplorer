@@ -62,6 +62,7 @@ public class TaskHandler {
     }
 
     public void renameFile(){
+        SharedData.DO_NOT_RESET_ICON=true;
         final Dialog dialog = UiUtils.createDialog(
                 mContext,
                 "Rename file",
@@ -97,6 +98,7 @@ public class TaskHandler {
         });
     }
     public void deleteFile(){
+        SharedData.DO_NOT_RESET_ICON=true;
         final AlertDialog dialog=new AlertDialog.Builder(mContext).create();
         dialog.setTitle("Delete confirmation");
         dialog.setMessage("Do you really want to delete these files(s)?");
@@ -128,7 +130,7 @@ public class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
-
+        SharedData.DO_NOT_RESET_ICON=true;
         if(!SharedData.KEYS_GENERATED){
             //generate keys first
             generateKeys();
@@ -168,6 +170,7 @@ public class TaskHandler {
         }
     }
     public void encryptTask(ArrayList<String> files){
+        SharedData.DO_NOT_RESET_ICON=true;
         //check if user hasn't generate keys
 
         if(!SharedData.KEYS_GENERATED){
@@ -224,6 +227,7 @@ public class TaskHandler {
     }
 
     public void moveFiles(String dest,FileListAdapter m){
+        SharedData.DO_NOT_RESET_ICON=true;
         //make sure files have been placed
         assert mSelectedFiles!=null;
         if(mSelectedFiles.size()<1){
