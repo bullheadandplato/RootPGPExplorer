@@ -13,12 +13,10 @@ public final class RootUtils {
             String command="su";
             ProcessBuilder builder=new ProcessBuilder(command);
                 Process p=builder.start();
-                if(p.exitValue()==0){
                     return true;
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return false;
+        return false;
     }
 }

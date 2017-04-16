@@ -58,6 +58,8 @@ public class UiUtils {
     }
 
     public static void reloadData(Context context, FileListAdapter adapter){
+
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         if(actionMode!=null){
             SharedData.DO_NOT_RESET_ICON=true;
             actionMode.finish();
