@@ -72,7 +72,6 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check root access
-        if(RootToo)
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedData.DO_NOT_RESET_ICON=false;
