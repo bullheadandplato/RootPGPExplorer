@@ -42,6 +42,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.about.AboutActivity;
@@ -72,6 +73,15 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check root access
+        if(RootTools.isRootAvailable()){
+            if(RootTools.isAccessGiven()){
+                Log.d(TAG, "onCreate: Root access is available and given");
+            }else{
+                Log.d(TAG, "onCreate: Root access is available but not granted");
+            }
+        }else{
+            Log.d(TAG, "onCreate: Root access is not available");
+        }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedData.DO_NOT_RESET_ICON=false;
