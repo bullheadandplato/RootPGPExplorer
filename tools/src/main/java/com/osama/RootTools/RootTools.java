@@ -569,7 +569,7 @@ public final class RootTools {
      * @throws TimeoutException if this operation times out. (cannot determine if access is given)
      */
     public static boolean isAccessGiven() {
-        return RootShell.isAccessGiven(0, 3);
+        return RootShell.isAccessGiven();
     }
 
     /**
@@ -582,7 +582,7 @@ public final class RootTools {
      * @throws TimeoutException if this operation times out. (cannot determine if access is given)
      */
     public static boolean isAccessGiven(int timeout, int retries) {
-        return RootShell.isAccessGiven(timeout, retries);
+        return RootShell.isAccessGiven();
     }
 
     /**

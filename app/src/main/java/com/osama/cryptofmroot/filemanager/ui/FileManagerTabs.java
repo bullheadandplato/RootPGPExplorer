@@ -72,11 +72,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check root access
-        if(RootUtils.checkRootAccess()){
-            Log.d(TAG, "onCreate: Yes this device has root access.");
-        }else{
-            Log.d(TAG, "onCreate: No this device does not have root access.");
-        }
+        if(RootToo)
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
         SharedData.DO_NOT_RESET_ICON=false;
