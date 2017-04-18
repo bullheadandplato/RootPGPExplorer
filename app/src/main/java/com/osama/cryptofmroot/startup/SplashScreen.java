@@ -74,14 +74,20 @@ public class SplashScreen extends AppCompatActivity implements EasyPermissions.P
            permissionGranted=true;
     }
 
+    private int retries=0;
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         askPermissionAgain();
     }
     private void askPermissionAgain(){
+        retries++;
         Toast.makeText(this,"I can't work without storage permission.",Toast.LENGTH_LONG).show();
+        if(retries>=3){
+            System.exit(0);
+        }
         EasyPermissions.requestPermissions(this,"This app needs access to phone storage to work.",RC_PERMISSION,this.perms);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
