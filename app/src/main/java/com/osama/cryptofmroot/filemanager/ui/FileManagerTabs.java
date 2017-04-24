@@ -76,6 +76,8 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         if(RootTools.isRootAvailable()){
             if(RootTools.isAccessGiven()){
                 Log.d(TAG, "onCreate: Root access is available and given");
+                RootUtils.getFileNames("/");
+
             }else{
                 Log.d(TAG, "onCreate: Root access is available but not granted");
             }
