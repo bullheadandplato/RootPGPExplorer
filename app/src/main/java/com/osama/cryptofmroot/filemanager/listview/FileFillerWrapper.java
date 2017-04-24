@@ -23,6 +23,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
@@ -74,6 +75,9 @@ public  class FileFillerWrapper {
 
         @Override
         protected Void doInBackground(String... path) {
+            if(path[0].equalsIgnoreCase("/")){
+                fillRootData(path[0]);
+            }
             Log.d(TAG, "fillData: Current path is : "+path[0]);
             currentPath=path[0];
             totalFilesCount=0;
@@ -94,7 +98,11 @@ public  class FileFillerWrapper {
         }
             return null;
         }
-        
+
+        private void fillRootData(String s) {
+            allFiles= RootUtils.getFileNames(s);
+        }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);

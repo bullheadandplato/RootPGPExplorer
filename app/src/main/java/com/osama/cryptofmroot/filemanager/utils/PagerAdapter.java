@@ -32,7 +32,7 @@ import com.osama.cryptofmroot.filemanager.ui.TabsFragmentOne;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
-    private String              tabTitles[] = new String[] { SharedData.FILES_ROOT_DIRECTORY, SharedData.FILES_ROOT_DIRECTORY+"Download/" };
+    private String              tabTitles[] = new String[] { "/", SharedData.FILES_ROOT_DIRECTORY+"Download/" };
     private TabsFragmentOne[]   tabsFragment;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {

@@ -3,6 +3,8 @@ package com.osama.cryptofmroot.root;
 import android.util.Log;
 
 import com.osama.RootTools.RootTools;
+import com.osama.cryptofmroot.filemanager.listview.DataModelFiles;
+import com.osama.cryptofmroot.filemanager.listview.FileFillerWrapper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,8 +21,8 @@ import java.util.ArrayList;
 public final class RootUtils {
     private static final String TAG=RootUtils.class.getCanonicalName();
 
-    public static ArrayList<String> getFileNames(String path){
-        ArrayList<String> names=new ArrayList<>();
+    public static ArrayList<DataModelFiles> getFileNames(String path){
+        ArrayList<DataModelFiles> names=new ArrayList<>();
         try {
             Process process=Runtime.getRuntime().exec("su -c ls "+path);
             process.waitFor();
@@ -28,11 +30,8 @@ public final class RootUtils {
             BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(stream));
             String line;
             while ((line=bufferedReader.readLine())!=null){
-                names.add(line);
                 File file=new File(path,line);
-                if(file.isDirectory()){
-                    Log.d(TAG, "getFileNames: file is dir: "+file.getName());
-                }
+                names.add(new DataModelFiles(file));
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

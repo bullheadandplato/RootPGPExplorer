@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
@@ -55,6 +56,7 @@ public class DataModelFiles  {
         this.mFilePath  = file.getPath();
         //check if i can read file
         if(FileUtils.isFile(file)){
+            Log.d("rootF", "DataModelFiles: file name is: "+file.getName());
             this.fileIcon=CryptoFM.getContext().getDrawable(R.drawable.ic_insert_drive);
             this.fileExtensionOrItems=FileUtils.getExtension(file.getName());
             this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
@@ -66,7 +68,7 @@ public class DataModelFiles  {
             this.fileIcon = CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder);
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems = FileUtils.getNumberOfFiles(file) + " items";
-            this.isEncrypted = FileUtils.isEncryptedFolder(file);
+            this.isEncrypted = false;
             this.fileSize = FileUtils.getLastModifiedDate(file);
         }
     }
