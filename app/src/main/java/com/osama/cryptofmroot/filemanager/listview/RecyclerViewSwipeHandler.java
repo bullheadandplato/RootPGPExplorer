@@ -112,7 +112,6 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
             }
         }
         UiUtils.reloadData(
-                mContext,
                 mAdapter
         );
     }

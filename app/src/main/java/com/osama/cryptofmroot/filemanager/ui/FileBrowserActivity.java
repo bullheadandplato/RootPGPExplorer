@@ -205,7 +205,6 @@ public class FileBrowserActivity extends AppCompatActivity
 					}else{
 						dialog.dismiss();
 						UiUtils.reloadData(
-								FileBrowserActivity.this,
 								mmFileListAdapter
 						);
 					}
