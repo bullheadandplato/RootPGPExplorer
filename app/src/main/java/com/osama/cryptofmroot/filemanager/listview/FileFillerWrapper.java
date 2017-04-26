@@ -77,20 +77,22 @@ public  class FileFillerWrapper {
         protected Void doInBackground(String... path) {
             if(path[0].equalsIgnoreCase("/")){
                 fillRootData(path[0]);
-            }
+            }else{
+
             Log.d(TAG, "fillData: Current path is : "+path[0]);
             currentPath=path[0];
             totalFilesCount=0;
             //for each file in current path fill data
             File file              = FileUtils.getFile(currentPath);
             if(FileUtils.checkReadStatus(file)){
-                if(file.list().length>0){
+                if(file.list().length>0) {
                     allFiles.clear();
-                    for (File f: file.listFiles()) {
+                    for (File f : file.listFiles()) {
                         //only add file which I can read
-                         if(FileUtils.checkReadStatus(f)){
-                             allFiles.add(new DataModelFiles(f));
-                             totalFilesCount++;
+                        if (FileUtils.checkReadStatus(f)) {
+                            allFiles.add(new DataModelFiles(f));
+                            totalFilesCount++;
+                        }
                     }
                 }
                 sortData();
@@ -100,7 +102,9 @@ public  class FileFillerWrapper {
         }
 
         private void fillRootData(String s) {
+            currentPath=s;
             allFiles= RootUtils.getFileNames(s);
+            totalFilesCount=allFiles.size();
         }
 
         @Override

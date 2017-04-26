@@ -24,7 +24,7 @@ public final class RootUtils {
     public static ArrayList<DataModelFiles> getFileNames(String path){
         ArrayList<DataModelFiles> names=new ArrayList<>();
         try {
-            Process process=Runtime.getRuntime().exec("su -c ls "+path);
+            Process process=Runtime.getRuntime().exec("su -c ls -A -1 "+path);
             process.waitFor();
             InputStream stream=process.getInputStream();
             BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(stream));
