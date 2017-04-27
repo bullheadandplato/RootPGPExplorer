@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
@@ -64,7 +65,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     private int                     mTotalStorage;
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
-    private String[]                mStorageTitles;
+    private ArrayList<String>       mStorageTitles;
     private TabsFragmentOne[]       mFragmentOnes;
     private static boolean          isServiceStarted=false;
     private static final String TAG=FileManagerTabs.class.getName();
@@ -72,16 +73,22 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mStorageTitles=new ArrayList<>();
         //check root access
         if(RootTools.isRootAvailable()){
             if(RootTools.isAccessGiven()){
                 Log.d(TAG, "onCreate: Root access is available and given");
-
+                mStorageTitles.add("/");
+                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
             }else{
                 Log.d(TAG, "onCreate: Root access is available but not granted");
+                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
             }
         }else{
             Log.d(TAG, "onCreate: Root access is not available");
+            mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+            mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
         }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
@@ -94,8 +101,8 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             isServiceStarted=true;
         }
         //see the external dirs
-        mStorageTitles=new String[]{SharedData.FILES_ROOT_DIRECTORY,SharedData.FILES_ROOT_DIRECTORY+"Download/"};
-        mTotalStorage =mStorageTitles.length;
+
+        mTotalStorage =mStorageTitles.size();
         if(SharedData.DB_PASSWORD==null ){
             SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
             SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
@@ -282,7 +289,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         Log.d(TAG, "setCurrentFragment: Setting fragments at position: "+position);
         mFragmentOnes[position]=m;
         Log.d(TAG, "setCurrentFragment: fragment at position: "+position+"has path: "+m.getmCurrentPath());
-        mFragmentOnes[position].setmCurrentPath(mStorageTitles[position]);
+        mFragmentOnes[position].setmCurrentPath(mStorageTitles.get(position));
 
     }
 
@@ -296,7 +303,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new PagerAdapter
-                (getSupportFragmentManager(), mTotalStorage);
+                (getSupportFragmentManager(), mTotalStorage,mStorageTitles);
         viewPager.setAdapter(mPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 

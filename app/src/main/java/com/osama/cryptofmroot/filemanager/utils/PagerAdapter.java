@@ -30,26 +30,29 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.osama.cryptofmroot.filemanager.ui.TabsFragmentOne;
 
+import java.util.ArrayList;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
-    private String              tabTitles[] = new String[] { "/", SharedData.FILES_ROOT_DIRECTORY+"Download/" };
+    private ArrayList<String> tabPaths;
     private TabsFragmentOne[]   tabsFragment;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs,ArrayList<String> paths) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         tabsFragment=new TabsFragmentOne[mNumOfTabs];
+        this.tabPaths=paths;
     }
 
     @Override
     public Fragment getItem(int position) {
-        tabsFragment[position] =TabsFragmentOne.newInstance(tabTitles[position],position);
+        tabsFragment[position] =TabsFragmentOne.newInstance(tabPaths.get(position),position);
         return tabsFragment[position];
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String title=tabTitles[position];
+        String title=tabPaths.get(position);
         title=title.substring(0,title.lastIndexOf('/'));
         title=title.substring(title.lastIndexOf('/')+1,title.length());
         return title;

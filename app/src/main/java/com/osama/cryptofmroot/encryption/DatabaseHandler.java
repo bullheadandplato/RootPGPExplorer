@@ -55,7 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_PUBRING);
             close();
-
+            mDB.close();
         }else{
             Log.d(TAG, "database was present, so opened");
             mDB=SQLiteDatabase.openDatabase(databaseFile.getPath(),pass,null,0);
