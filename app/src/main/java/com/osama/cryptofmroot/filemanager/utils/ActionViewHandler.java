@@ -31,7 +31,7 @@ import android.widget.EditText;
 
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.FileSelectionManagement;
-import com.osama.cryptofmroot.filemanager.ui.FileManagerTabs;
+import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
 
 import java.util.ArrayList;
 
@@ -126,12 +126,12 @@ public class ActionViewHandler implements ActionMode.Callback {
             SharedData.IS_COPYING_NOT_MOVING=false;
             //set the files to be move or copied
             mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
-            ((FileManagerTabs)mContext).showCopyDialog();
+            ((FileManagerActivity)mContext).showCopyDialog();
         }else if(item.getItemId()==R.id.copy_menu_item){
             SharedData.IS_IN_COPY_MODE=true;
             SharedData.IS_COPYING_NOT_MOVING=true;
             mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
-            ((FileManagerTabs)mContext).showCopyDialog();
+            ((FileManagerActivity)mContext).showCopyDialog();
 
         }
         return true;

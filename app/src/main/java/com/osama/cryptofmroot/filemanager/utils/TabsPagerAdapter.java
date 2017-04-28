@@ -19,11 +19,6 @@
 
 package com.osama.cryptofmroot.filemanager.utils;
 
-/**
- * Created by Shadow on 1/21/2017.
- *
- */
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -32,16 +27,16 @@ import com.osama.cryptofmroot.filemanager.ui.TabsFragmentOne;
 
 import java.util.ArrayList;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
-    private int mNumOfTabs;
+public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<String> tabPaths;
+    private ArrayList<String> pageTitles;
     private TabsFragmentOne[]   tabsFragment;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs,ArrayList<String> paths) {
+    public TabsPagerAdapter(FragmentManager fm, ArrayList<String> paths, ArrayList<String> pageTitles) {
         super(fm);
-        this.mNumOfTabs = NumOfTabs;
-        tabsFragment=new TabsFragmentOne[mNumOfTabs];
+        tabsFragment=new TabsFragmentOne[paths.size()];
         this.tabPaths=paths;
+        this.pageTitles=pageTitles;
     }
 
     @Override
@@ -52,15 +47,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String title=tabPaths.get(position);
-        title=title.substring(0,title.lastIndexOf('/'));
-        title=title.substring(title.lastIndexOf('/')+1,title.length());
-        return title;
+        return pageTitles.get(position);
     }
 
     @Override
     public int getCount() {
-        return mNumOfTabs;
+        return tabPaths.size();
     }
 
 }

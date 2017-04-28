@@ -21,16 +21,13 @@ package com.osama.cryptofmroot.filemanager.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -49,46 +46,45 @@ import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.about.AboutActivity;
 import com.osama.cryptofmroot.filemanager.listview.AdapterCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
-import com.osama.cryptofmroot.filemanager.utils.PagerAdapter;
+import com.osama.cryptofmroot.filemanager.utils.TabsPagerAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
-import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.services.CleanupService;
 import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
 import com.osama.cryptofmroot.utils.FileUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileManagerTabs extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
+public class FileManagerActivity extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
     private int                     mTotalStorage;
     private boolean                 isEmptyFolder=false;
     private TabsFragmentOne         mCurrentFragment;
-    private ArrayList<String>       mStorageTitles;
+    private ArrayList<String>       mStoragePaths;
     private TabsFragmentOne[]       mFragmentOnes;
+    private ArrayList<String>       mStorgeTitles;
     private static boolean          isServiceStarted=false;
-    private static final String TAG=FileManagerTabs.class.getName();
+    private static final String TAG=FileManagerActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mStorageTitles=new ArrayList<>();
+        mStoragePaths =new ArrayList<>();
         //check root access
         if(RootTools.isRootAvailable()){
             if(RootTools.isAccessGiven()){
                 Log.d(TAG, "onCreate: Root access is available and given");
-                mStorageTitles.add("/");
-                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
-            }else{
-                Log.d(TAG, "onCreate: Root access is available but not granted");
-                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
-                mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
+                mStoragePaths.add("/");
+                mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+                mStorgeTitles.add("root");
+                mStorgeTitles.add("home");
             }
         }else{
             Log.d(TAG, "onCreate: Root access is not available");
-            mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
-            mStorageTitles.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
+            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
+            mStorgeTitles.add("home");
+            mStorgeTitles.add("download");
         }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
@@ -102,7 +98,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         }
         //see the external dirs
 
-        mTotalStorage =mStorageTitles.size();
+        mTotalStorage = mStoragePaths.size();
         if(SharedData.DB_PASSWORD==null ){
             SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
             SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
@@ -139,7 +135,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
                 }
                 else if(!FileUtils.createFolder(mCurrentFragment.getmCurrentPath()+folderName)){
                         Toast.makeText(
-                                FileManagerTabs.this,
+                                FileManagerActivity.this,
                                 "Cannot create folder make sure current path is writable",
                                 Toast.LENGTH_SHORT
                         ).show();
@@ -224,7 +220,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
             public void onClick(View view) {
                 String pass=((EditText)dialog.findViewById(R.id.key_password)).getText().toString();
                 if(pass.length()<1){
-                    Toast.makeText(FileManagerTabs.this,"Please input application password",Toast.LENGTH_LONG).show();
+                    Toast.makeText(FileManagerActivity.this,"Please input application password",Toast.LENGTH_LONG).show();
                     return;
                 }
                 new BackupKeysTask().execute(pass);
@@ -289,7 +285,7 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
         Log.d(TAG, "setCurrentFragment: Setting fragments at position: "+position);
         mFragmentOnes[position]=m;
         Log.d(TAG, "setCurrentFragment: fragment at position: "+position+"has path: "+m.getmCurrentPath());
-        mFragmentOnes[position].setmCurrentPath(mStorageTitles.get(position));
+        mFragmentOnes[position].setmCurrentPath(mStoragePaths.get(position));
 
     }
 
@@ -302,9 +298,9 @@ public class FileManagerTabs extends AppCompatActivity implements AdapterCallbac
 
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
-        PagerAdapter mPagerAdapter = new PagerAdapter
-                (getSupportFragmentManager(), mTotalStorage,mStorageTitles);
-        viewPager.setAdapter(mPagerAdapter);
+        TabsPagerAdapter mTabsPagerAdapter = new TabsPagerAdapter
+                (getSupportFragmentManager(), mTotalStorage, mStoragePaths);
+        viewPager.setAdapter(mTabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
 

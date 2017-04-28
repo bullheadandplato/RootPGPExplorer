@@ -32,7 +32,7 @@ import android.widget.EditText;
 
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
-import com.osama.cryptofmroot.filemanager.ui.FileManagerTabs;
+import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
 import com.osama.cryptofmroot.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -86,7 +86,7 @@ public class UnlockDbActivity extends AppCompatActivity {
             super.onPostExecute(result);
             mProgressDialog.dismiss();
             if(result){
-                Intent intent=new Intent(UnlockDbActivity.this,FileManagerTabs.class);
+                Intent intent=new Intent(UnlockDbActivity.this,FileManagerActivity.class);
                 intent.putExtra("dbpass",pass);
                 intent.putExtra("username",getIntent().getExtras().getString("username"));
                 startActivityForResult(intent,1);
