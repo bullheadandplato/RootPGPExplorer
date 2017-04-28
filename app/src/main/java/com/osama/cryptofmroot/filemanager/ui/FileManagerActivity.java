@@ -70,6 +70,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mStoragePaths =new ArrayList<>();
+        mStorgeTitles=new ArrayList<>();
         //check root access
         if(RootTools.isRootAvailable()){
             if(RootTools.isAccessGiven()){
@@ -299,7 +300,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         TabsPagerAdapter mTabsPagerAdapter = new TabsPagerAdapter
-                (getSupportFragmentManager(), mTotalStorage, mStoragePaths);
+                (getSupportFragmentManager(), mStoragePaths,mStorgeTitles);
         viewPager.setAdapter(mTabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
