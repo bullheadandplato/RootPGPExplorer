@@ -23,46 +23,180 @@
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.osama.cryptofmroot.about.AboutActivity">
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms and condition"
+            android:id="@+id/termsandcondition_textview"
+            android:textSize="18dp"
+            android:textColor="#212121"
+            android:clickable="false"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:text="View our terms and conditions"
+            android:textSize="15dp"
+            android:textColor="#9E9E9E"
+            android:clickable="false"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#BDBDBD"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Privacy policy"
+            android:id="@+id/privacypolicy_textview"
+            android:textSize="18dp"
+            android:textColor="#212121"
+            android:clickable="false"
+             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View our privacy policy"
+            android:textSize="15dp"
+            android:textColor="#9E9E9E"
+            android:clickable="false"/>
+
+</LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#BDBDBD"
+
+            />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team"
+            android:id="@+id/team_textview"
+            android:textSize="18dp"
+            android:textColor="#212121"
+            android:clickable="false"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The team that built this app"
+            android:textSize="15dp"
+            android:textColor="#9E9E9E"
+            android:clickable="false"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#BDBDBD"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="onLicenseClick">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Credit"
+            android:id="@+id/credit_textview"
+            android:textSize="18dp"
+            android:textColor="#212121"
+            android:clickable="false"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open source libraries used by this app"
+            android:textSize="15dp"
+            android:textColor="#9E9E9E"
+            android:clickable="false"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#BDBDBD"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Version"
             android:id="@+id/version_textview"
-
-            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+            android:textSize="18dp"
+            android:textColor="#212121"
+            android:clickable="false"
+            />
         <TextView
-            android:layout_below="@id/version_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1.0.0"
-            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+            android:textSize="15dp"
+            android:textColor="#9E9E9E"
+            android:clickable="false"/>
 
-</RelativeLayout>
+
+    </LinearLayout>
     <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#212121"
-
-            />
-    <TextView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Open Source licences"
-        android:onClick="onLicenseClick"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground"
+        android:layout_height="1px"
+        android:background="#BDBDBD"
+
         />
     </LinearLayout>

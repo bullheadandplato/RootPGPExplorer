@@ -36,4 +36,5 @@ public class AboutActivity extends AppCompatActivity {
     public void onLicenseClick(View view){
         startActivity(new Intent(this,LicencesActivity.class));
     }
+
 }
