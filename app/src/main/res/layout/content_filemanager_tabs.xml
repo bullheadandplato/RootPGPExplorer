@@ -47,6 +47,7 @@
         app:tabSelectedTextColor="@color/pagercolor3"
         app:tabGravity="fill"
         app:tabMode="fixed"
+        app:tabMaxWidth="0dp"
         android:background="?attr/colorPrimary"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"

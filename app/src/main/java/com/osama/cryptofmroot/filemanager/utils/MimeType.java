@@ -31,8 +31,6 @@ import android.icu.util.ICUUncheckedIOException;
 
 public class MimeType {
 
-    private static IconManager mIcons;
-
     public static Drawable getIcon(String fileExtensionOrItems) {
 
         if (
@@ -87,7 +85,7 @@ public class MimeType {
             return IconManager.ARCHIVE_ZIP;
         }
         else if (fileExtensionOrItems.equalsIgnoreCase("txt")) {
-            return mIcons.TEXT_ICON;
+            return IconManager.TEXT_ICON;
         }
        else if (
                         fileExtensionOrItems.equalsIgnoreCase("css") ||
