@@ -249,7 +249,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         }
         String path=mCurrentFragment.getmCurrentPath();
         Log.d(TAG, "onBackPressed: Current path is: "+path);
-        if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
+        if(path.equals(mCurrentFragment.getRootPath())){
             super.onBackPressed();
         }else{
             path		   = path.substring(0,path.lastIndexOf('/'));

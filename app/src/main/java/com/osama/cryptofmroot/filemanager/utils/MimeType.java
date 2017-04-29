@@ -21,6 +21,8 @@ package com.osama.cryptofmroot.filemanager.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.icu.util.ICUUncheckedIOException;
 
 /**
  * Created by Shadow on 1/25/2017.
@@ -29,15 +31,6 @@ import android.graphics.drawable.Drawable;
 
 public class MimeType {
 
-    private static IconManager mIcons;
-
-    public MimeType(Context context) {
-        if (mIcons == null) {
-            mIcons = new IconManager(context);
-        }
-    }
-
-
     public static Drawable getIcon(String fileExtensionOrItems) {
 
         if (
@@ -45,7 +38,7 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("mkv") ||
                         fileExtensionOrItems.equalsIgnoreCase("3gp") ||
                         fileExtensionOrItems.equalsIgnoreCase("webm")) {
-            return mIcons.VIDEO_ICON;
+            return IconManager.VIDEO_ICON;
         }
        else if (
                         fileExtensionOrItems.equalsIgnoreCase("mp3") ||
@@ -67,7 +60,7 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("wave") ||
                         fileExtensionOrItems.equalsIgnoreCase("opus")) {
 
-            return mIcons.AUDIO_ICON;
+            return IconManager.AUDIO_ICON;
         }
        else if (
                         fileExtensionOrItems.equalsIgnoreCase("jpeg") ||
@@ -76,7 +69,7 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("png") ||
                         fileExtensionOrItems.equalsIgnoreCase("bmp") ||
                         fileExtensionOrItems.equalsIgnoreCase("webp")) {
-            return mIcons.IMAGE_ICON;
+            return IconManager.IMAGE_ICON;
 
         }
        else if (
@@ -89,10 +82,10 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("rz") ||
                         fileExtensionOrItems.equalsIgnoreCase("z")) {
 
-            return mIcons.ARCHIVE_ZIP;
+            return IconManager.ARCHIVE_ZIP;
         }
         else if (fileExtensionOrItems.equalsIgnoreCase("txt")) {
-            return mIcons.TEXT_ICON;
+            return IconManager.TEXT_ICON;
         }
        else if (
                         fileExtensionOrItems.equalsIgnoreCase("css") ||
@@ -100,36 +93,36 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("html") ||
                         fileExtensionOrItems.equalsIgnoreCase("js") ||
                         fileExtensionOrItems.equalsIgnoreCase("aspx")) {
-            return mIcons.SCRIPT_ICON;
+            return IconManager.SCRIPT_ICON;
 
         }
         else if (fileExtensionOrItems.equalsIgnoreCase("torrent")) {
-            return mIcons.TORRENT_ICON;
+            return IconManager.TORRENT_ICON;
         }else if(fileExtensionOrItems.equalsIgnoreCase("pgp") ||
                 fileExtensionOrItems.equalsIgnoreCase("gpg")
                 ){
-            return mIcons.ENCRYPT_ICON;
+            return IconManager.ENCRYPT_ICON;
         }else if(fileExtensionOrItems.equalsIgnoreCase("pdf")){
-            return mIcons.PDF;
+            return IconManager.PDF;
         }else if(
                 fileExtensionOrItems.equalsIgnoreCase("docx") ||
                         fileExtensionOrItems.equalsIgnoreCase("doc") ||
                         fileExtensionOrItems.equalsIgnoreCase("odp")
                 ){
-            return mIcons.DOC;
+            return IconManager.DOC;
         } else if (
                 fileExtensionOrItems.equalsIgnoreCase("ppt") ||
                 fileExtensionOrItems.equalsIgnoreCase("pptx")) {
-            return mIcons.PPT;
+            return IconManager.PPT;
         } else if(
                 fileExtensionOrItems.equalsIgnoreCase("xlsx") ||
                 fileExtensionOrItems.equalsIgnoreCase("ods")  ||
                 fileExtensionOrItems.equalsIgnoreCase("ots")  ||
                 fileExtensionOrItems.equalsIgnoreCase("xls")){
-            return mIcons.EXCEL;
+            return IconManager.EXCEL;
         }
         else {
-            return mIcons.BLANK_ICON;
+            return IconManager.BLANK_ICON;
         }
     }
 }

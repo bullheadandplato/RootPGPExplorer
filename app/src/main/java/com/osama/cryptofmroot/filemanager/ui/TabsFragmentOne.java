@@ -69,6 +69,7 @@ public class TabsFragmentOne extends Fragment {
     private ActionViewHandler       mActionViewHandler;
     private int                     mFragmentPosition;
     private boolean                 mIsEmptyFolder=false;
+    private String                  mRootPath;
     private String mPath;
     private FragmentCallbacks mCallbacks;
     @Nullable
@@ -129,6 +130,7 @@ public class TabsFragmentOne extends Fragment {
         super.onCreate(savedInstanceState);
         mPath= getArguments().getString(KEY);
         mCurrentPath=mPath;
+        this.mRootPath=mPath;
         mFragmentPosition=getArguments().getInt("pos");
         if(SharedData.ALREADY_INSTANTIATED){
             Log.d(TAG, "onCreate: already created");
@@ -143,7 +145,9 @@ public class TabsFragmentOne extends Fragment {
     public String getmCurrentPath() {
         return mCurrentPath;
     }
-
+    public String getRootPath() {
+        return mRootPath;
+    }
 
     public void init(){
         mLinearLayoutManager=new LinearLayoutManager(mContext);
@@ -241,9 +245,7 @@ public class TabsFragmentOne extends Fragment {
             return null;
         }
     }
-    public String getRootPath(){
-        return mPath;
-    }
+
     public TaskHandler getmTaskHandler(){
         return this.mTaskHandler;
     }

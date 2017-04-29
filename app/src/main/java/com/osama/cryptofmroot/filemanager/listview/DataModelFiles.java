@@ -47,11 +47,7 @@ public class DataModelFiles  {
     private boolean     isEncrypted  = false;
     private String      mFilePath;
 
-    private static MimeType mIconManager;
     public DataModelFiles(File file) {
-        if(mIconManager==null){
-            mIconManager=new MimeType(CryptoFM.getContext());
-        }
         this.fileName   = file.getName();
         this.mFilePath  = file.getPath();
         //check if i can read file
