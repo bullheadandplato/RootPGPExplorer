@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.filemanager.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 
 /**
@@ -31,22 +32,22 @@ import com.osama.cryptofmroot.R;
 
 public class IconManager {
 
-    public  Drawable ENCRYPT_ICON;
-    public  Drawable ARCHIVE_ZIP;
-    public  Drawable TORRENT_ICON;
-    public  Drawable AUDIO_ICON;
-    public  Drawable IMAGE_ICON;
-    public  Drawable TEXT_ICON;
-    public  Drawable SCRIPT_ICON;
-    public  Drawable VIDEO_ICON;
-    public  Drawable BLANK_ICON;
-    public  Drawable PDF;
-    public Drawable EXCEL;
-    public Drawable PPT;
-    public Drawable DOC;
-    public Drawable APK;
+    public static final  Drawable ENCRYPT_ICON= CryptoFM.getContext().getDrawable(R.drawable.ic_encrypted);
+    public static final   Drawable ARCHIVE_ZIP=CryptoFM.getContext().getDrawable(R.drawable.ic_application_archive_zip);
+    public  static final  Drawable TORRENT_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_torrent);
+    public   static final Drawable AUDIO_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_audio);
+    public  static final  Drawable IMAGE_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_images);
+    public  static final  Drawable TEXT_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_text);
+    public  static final  Drawable SCRIPT_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_script_blank);
+    public  static final  Drawable VIDEO_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_video);
+    public  static final  Drawable BLANK_ICON=CryptoFM.getContext().getDrawable(R.drawable.ic_application_blank);
+    public static final   Drawable PDF=CryptoFM.getContext().getDrawable(R.drawable.ic_application_pdf);
+    public static final Drawable EXCEL=CryptoFM.getContext().getDrawable(R.drawable.ic_application_table);
+    public static final Drawable PPT=CryptoFM.getContext().getDrawable(R.drawable.ic_application_presentation);
+    public static final Drawable DOC=CryptoFM.getContext().getDrawable(R.drawable.ic_application_word);
+    public static final Drawable APK=CryptoFM.getContext().getDrawable(R.drawable.ic_application_apk);
 
-    public IconManager(Context context){
+   /* public IconManager(Context context){
         //get the references to all the icons here
         PDF                = context.getDrawable(R.drawable.ic_application_pdf);
         ENCRYPT_ICON       = context.getDrawable(R.drawable.ic_encrypted);
@@ -63,5 +64,5 @@ public class IconManager {
         DOC                = context.getDrawable(R.drawable.ic_application_word);
         APK                = context.getDrawable(R.drawable.ic_application_apk);
 
-    }
+    }*/
 }
