@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/show_license"
+        android:id="@+id/show_license_textview"
         android:textSize="15dp"
         android:textColor="#9E9E9E"
         android:clickable="false"/>
