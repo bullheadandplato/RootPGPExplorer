@@ -2,16 +2,16 @@ package com.osama.cryptofmroot.root;
 
 import android.util.Log;
 
-import com.osama.RootTools.RootTools;
+import com.osama.cryptofmroot.CryptoFM;
+import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.DataModelFiles;
-import com.osama.cryptofmroot.filemanager.listview.FileFillerWrapper;
+import com.osama.cryptofmroot.filemanager.utils.MimeType;
+import com.osama.cryptofmroot.utils.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by bullhead on 4/16/17.
@@ -20,21 +20,42 @@ import java.util.ArrayList;
 
 public final class RootUtils {
     private static final String TAG=RootUtils.class.getCanonicalName();
+    private static final int DATE_INDEX=3;
+    private static final int SIZE_INDEX=2;
+    private static final int NO_OF_ITEMS_INDEX=1;
+    private static final int FILENAME_INDEX=5;
+
 
     public static ArrayList<DataModelFiles> getFileNames(String path){
         ArrayList<DataModelFiles> names=new ArrayList<>();
-        try {
-            Process process=Runtime.getRuntime().exec("su -c ls -A -1 "+path);
-            process.waitFor();
-            InputStream stream=process.getInputStream();
-            BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(stream));
-            String line;
-            while ((line=bufferedReader.readLine())!=null){
-                File file=new File(path,line);
-                names.add(new DataModelFiles(file));
+       // Log.d(TAG, "getFileNames: test: "+test.size());
+            List<String> test=Shell.SU.run("ls -lAhpog -1");
+
+        for (int i = 1; i < test.size(); i++) {
+            String currentString=test.get(i);
+            currentString=currentString.trim().replaceAll(" +"," ");
+            //Log.d(TAG, "getFileNames: "+currentString);
+            String[] parts=currentString.split(" ");
+            //filedates[i]=parts[DATE_INDEX]+" "+parts[DATE_INDEX+1];
+            DataModelFiles temp=new DataModelFiles();
+            String filename=parts[FILENAME_INDEX];
+            for (int j = FILENAME_INDEX; j < parts.length; j++) {
+                filename=" "+parts[j];
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            if(filename.contains("/")){
+                temp.setFile(false);
+                temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]);
+                temp.setFileName(filename.substring(0,filename.lastIndexOf('/')));
+                temp.setFileIcon(CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder));
+            }else{
+                temp.setFile(false);
+                temp.setFileExtensionOrItems(FileUtils.getExtension(filename));
+                temp.setFileName(filename);
+                temp.setFileIcon(MimeType.getIcon(FileUtils.getExtension(filename)));
+                temp.setEncrypted(FileUtils.isEncryptedFile(filename));
+            }
+            temp.setFileDate(parts[DATE_INDEX]+" "+parts[DATE_INDEX+1]);
+            names.add(temp);
         }
         return names;
     }

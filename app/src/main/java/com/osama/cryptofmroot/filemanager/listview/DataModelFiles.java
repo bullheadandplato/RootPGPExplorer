@@ -20,7 +20,6 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -39,7 +38,7 @@ import java.io.File;
 public class DataModelFiles  {
     private String      fileName;
     private String      fileExtensionOrItems;
-    private String      fileSize;
+    private String fileDate;
     private Drawable    fileIcon;
 
     private Boolean     isSelected   = false;
@@ -47,17 +46,18 @@ public class DataModelFiles  {
     private boolean     isEncrypted  = false;
     private String      mFilePath;
 
+    public DataModelFiles(){}
     public DataModelFiles(File file) {
         this.fileName   = file.getName();
         this.mFilePath  = file.getPath();
         //check if i can read file
         if(FileUtils.isFile(file)){
             Log.d("rootF", "DataModelFiles: file name is: "+file.getName());
-            this.fileIcon=CryptoFM.getContext().getDrawable(R.drawable.ic_insert_drive);
+            //this.fileIcon=CryptoFM.getContext().getDrawable(R.drawable.ic_insert_drive);
             this.fileExtensionOrItems=FileUtils.getExtension(file.getName());
             this.fileIcon=MimeType.getIcon(fileExtensionOrItems);
             long size=FileUtils.getFileSize(file);
-            this.fileSize=FileUtils.getReadableSize(size);
+            this.fileDate =FileUtils.getReadableSize(size);
             this.isEncrypted=FileUtils.isEncryptedFile(file.getName());
             this.isFile=true;
         }else {
@@ -65,7 +65,7 @@ public class DataModelFiles  {
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems = FileUtils.getNumberOfFiles(file) + " items";
             this.isEncrypted = false;
-            this.fileSize = FileUtils.getLastModifiedDate(file);
+            this.fileDate = FileUtils.getLastModifiedDate(file);
         }
     }
 
@@ -86,8 +86,8 @@ public class DataModelFiles  {
         return fileExtensionOrItems;
     }
 
-    public String getFileSize() {
-        return fileSize;
+    public String getFileDate() {
+        return fileDate;
     }
     public Drawable getFileIcon(){
         return this.fileIcon;
@@ -109,5 +109,25 @@ public class DataModelFiles  {
 
     public Boolean getFile() {
         return isFile;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setFileExtensionOrItems(String fileExtensionOrItems) {
+        this.fileExtensionOrItems = fileExtensionOrItems;
+    }
+
+    public void setFileDate(String fileDate) {
+        this.fileDate = fileDate;
+    }
+
+    public void setFile(Boolean file) {
+        isFile = file;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        isEncrypted = encrypted;
     }
 }
