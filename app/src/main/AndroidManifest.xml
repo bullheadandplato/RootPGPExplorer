@@ -102,8 +102,12 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".extras.TextEditorActivity"
-            android:parentActivityName=".filemanager.ui.FileManagerActivity"/>
+        <activity
+            android:name=".extras.TextEditorActivity"
+            android:parentActivityName=".filemanager.ui.FileManagerActivity" />
+        <activity android:name=".about.ShowTeam" />
+        <activity android:name=".about.ShowTeamActivity" />
+        <activity android:name=".about.ShowTermsActivity"></activity>
     </application>
 
 </manifest>

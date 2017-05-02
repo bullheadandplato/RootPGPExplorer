@@ -960,5 +960,5 @@ DEALINGS IN THE SOFTWARE.
         database password that\'s used   for decrypting you data.If you
         forget your password keep in mind   <b>you will lost your all data.</b>
         You will   unable to decrypt your data.</string>
-    <string name ="terms_and_condition"></string>
+    <string name="terms_and_condition">We are not responsible if you forget your password or do not clear your data otherwise your keys will be deleted and you will be not able to decrypt your data again. </string>
 </resources>
