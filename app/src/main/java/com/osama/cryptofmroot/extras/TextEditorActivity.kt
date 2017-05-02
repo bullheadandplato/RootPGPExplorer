@@ -12,5 +12,6 @@ class TextEditorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_editor)
         kotlin_textview.setText("Osama Bin Omar is now using kotlin");
+
     }
 }

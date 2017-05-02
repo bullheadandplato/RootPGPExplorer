@@ -96,4 +96,8 @@
     <item name="android:textColorTertiary">@color/dividerColor</item>
 
     </style>
+    <style name="menu_labels_style">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

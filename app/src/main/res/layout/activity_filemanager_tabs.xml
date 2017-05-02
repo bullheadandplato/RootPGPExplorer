@@ -31,17 +31,40 @@
 
     <include layout="@layout/content_filemanager_tabs" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab_add_folder"
         android:onClick="onAddFloatingClicked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/colorAccent"
-        android:background="#FFF"
-        android:backgroundTint="#FFF"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:fab_addButtonColorNormal="@color/white"
+        app:fab_addButtonColorPressed="@color/cardview_dark_background"
+        app:fab_addButtonPlusIconColor="@color/colorAccent"
+        app:fab_labelsPosition="left"
+        app:fab_expandDirection="up"
+        app:fab_labelStyle="@style/menu_labels_style"
+        >
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/white"
+            app:fab_title="Create folder"
+            android:onClick="onAddFloatingClicked"
+            android:src="@drawable/ic_default_folder"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/white"
+            app:fab_size="normal"
+            app:fab_title="Create file"
+            android:src="@drawable/ic_application_text"
+            />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
