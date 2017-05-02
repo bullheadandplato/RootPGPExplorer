@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.osama.cryptofmroot.R;
 
 public class ShowTeamActivity extends AppCompatActivity {
- private String firstDevelporName="Android Develpors/nUsama Bin Omar";
+ private String firstDevelporName="Android Developers\nUsama Bin Omar";
     private String secondDevelporsName="Asad Yasin";
     private String workFirstDevelpor="Application backend architect";
     private String workSecondDevelpor="Application design engineer";
