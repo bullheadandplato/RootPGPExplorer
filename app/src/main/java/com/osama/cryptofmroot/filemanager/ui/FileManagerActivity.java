@@ -44,6 +44,7 @@ import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.about.AboutActivity;
+import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.AdapterCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.TabsPagerAdapter;
@@ -148,6 +149,11 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                     }
             }
         });
+    }
+    @ActionHandler(layoutResource = R.id.createFilebutton)
+    public void onCreateFileButtonClick(View view){
+        //start editor activity
+        startActivity(new Intent(this, TextEditorActivity.class));
     }
 
 

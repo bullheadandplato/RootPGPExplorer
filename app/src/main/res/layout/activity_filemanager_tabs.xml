@@ -33,7 +33,6 @@
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab_add_folder"
-        android:onClick="onAddFloatingClicked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -53,6 +52,7 @@
             app:fab_title="Create folder"
             android:onClick="onAddFloatingClicked"
             android:src="@drawable/ic_default_folder"
+
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -62,6 +62,8 @@
             app:fab_size="normal"
             app:fab_title="Create file"
             android:src="@drawable/ic_application_text"
+            android:id="@+id/createFilebutton"
+            android:onClick="onCreateFileButtonClick"
             />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
