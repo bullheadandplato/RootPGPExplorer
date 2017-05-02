@@ -34,7 +34,19 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
     }
     public void onLicenseClick(View view){
-        startActivity(new Intent(this,LicencesActivity.class));
+        switch (view.getId())
+        {
+            case R.id.credit:
+                startActivity(new Intent(this,LicencesActivity.class));
+                break;
+            case R.id.termsandconditions:
+                startActivity(new Intent(this,ShowTermsActivity.class));
+                break;
+            case R.id.team:
+                startActivity(new Intent(this,ShowTeamActivity.class));
+                break;
+        }
+
     }
 
 }

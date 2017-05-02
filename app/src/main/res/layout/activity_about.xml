@@ -33,12 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/termsandconditions"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="10dp"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="onLicenseClick">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,12 +70,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/team"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="10dp"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="onLicenseClick">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,6 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/credit"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
