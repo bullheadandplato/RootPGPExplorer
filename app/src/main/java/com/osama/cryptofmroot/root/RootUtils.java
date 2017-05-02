@@ -22,13 +22,13 @@ import eu.chainfire.libsuperuser.Shell;
 public final class RootUtils {
     private static final String TAG=RootUtils.class.getCanonicalName();
     private static final int DATE_INDEX=3;
-    private static final int SIZE_INDEX=2;
     private static final int NO_OF_ITEMS_INDEX=1;
     private static final int FILENAME_INDEX=5;
 
 
     public static ArrayList<DataModelFiles> getFileNames(String path){
         ArrayList<DataModelFiles> names=new ArrayList<>();
+        Log.d(TAG, "getFileNames: path is: "+path);
        // Log.d(TAG, "getFileNames: test: "+test.size());
             List<String> test=Shell.SU.run("ls -lAhpog -1 "+path);
 
@@ -56,7 +56,7 @@ public final class RootUtils {
             filename=filename.trim();
             if(filename.contains("/")){
                 temp.setFile(false);
-                temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]);
+                temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]+" links");
                 temp.setFileName(filename.substring(0,filename.lastIndexOf('/')));
                 temp.setFileIcon(CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder));
             }else{

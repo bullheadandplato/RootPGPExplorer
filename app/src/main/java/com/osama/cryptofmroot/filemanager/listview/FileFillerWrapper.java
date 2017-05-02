@@ -75,7 +75,7 @@ public  class FileFillerWrapper {
 
         @Override
         protected Void doInBackground(String... path) {
-            if(path[0].equalsIgnoreCase("/")){
+            if(RootUtils.isRootPath(path[0])){
                 fillRootData(path[0]);
             }else{
 
