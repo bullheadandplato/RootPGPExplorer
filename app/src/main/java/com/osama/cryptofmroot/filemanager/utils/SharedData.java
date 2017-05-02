@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.filemanager.utils;
 import android.os.Environment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by tripleheader on 1/13/17.
@@ -43,6 +44,7 @@ public class SharedData {
     public static String            DB_PASSWORD;
     public static String            KEY_PASSWORD;
     public static boolean           DO_NOT_RESET_ICON=false;
+    public static HashMap<String,String> symbolicLinks =new HashMap<>();
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method

@@ -92,7 +92,9 @@ public class MimeType {
                         fileExtensionOrItems.equalsIgnoreCase("htm") ||
                         fileExtensionOrItems.equalsIgnoreCase("html") ||
                         fileExtensionOrItems.equalsIgnoreCase("js") ||
-                        fileExtensionOrItems.equalsIgnoreCase("aspx")) {
+                        fileExtensionOrItems.equalsIgnoreCase("aspx") ||
+                        fileExtensionOrItems.equalsIgnoreCase("rc")
+                ) {
             return IconManager.SCRIPT_ICON;
 
         }

@@ -6,6 +6,7 @@ import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.DataModelFiles;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
+import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public final class RootUtils {
     public static ArrayList<DataModelFiles> getFileNames(String path){
         ArrayList<DataModelFiles> names=new ArrayList<>();
        // Log.d(TAG, "getFileNames: test: "+test.size());
-            List<String> test=Shell.SU.run("ls -lAhpog -1");
+            List<String> test=Shell.SU.run("ls -lAhpog -1 "+path);
 
         for (int i = 1; i < test.size(); i++) {
             String currentString=test.get(i);
@@ -40,6 +41,16 @@ public final class RootUtils {
             DataModelFiles temp=new DataModelFiles();
             String filename=parts[FILENAME_INDEX];
             for (int j = FILENAME_INDEX; j < parts.length; j++) {
+                if(parts[j].contains("->")){
+                    String linksPath="";
+                    for (int k = j+1; k <parts.length ; k++) {
+                        linksPath=linksPath+parts[k];
+                    }
+                    Log.d(TAG, "getFileNames: Link path is: "+linksPath);
+                    SharedData.symbolicLinks.put(filename,linksPath);
+                    filename=filename+"/";
+                    break;
+                }
                 filename=" "+parts[j];
             }
             if(filename.contains("/")){
