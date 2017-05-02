@@ -23,12 +23,15 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.root.RootUtils;
 
 import java.io.File;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by tripleheader on 12/17/16.
@@ -141,6 +144,7 @@ public class FileUtils {
         }
     }
     public static File getFile(String filename){
+        Log.d(TAG, "getFile: getting file: "+filename);
         return new File(filename);
     }
     public static boolean checkReadStatus(File f){

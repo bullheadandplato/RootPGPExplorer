@@ -34,10 +34,13 @@ import android.widget.EditText;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.tasks.DecryptTask;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by tripleheader on 1/21/17.

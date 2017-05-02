@@ -53,13 +53,14 @@ public final class RootUtils {
                 }
                 filename=" "+parts[j];
             }
+            filename=filename.trim();
             if(filename.contains("/")){
                 temp.setFile(false);
                 temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]);
                 temp.setFileName(filename.substring(0,filename.lastIndexOf('/')));
                 temp.setFileIcon(CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder));
             }else{
-                temp.setFile(false);
+                temp.setFile(true);
                 temp.setFileExtensionOrItems(FileUtils.getExtension(filename));
                 temp.setFileName(filename);
                 temp.setFileIcon(MimeType.getIcon(FileUtils.getExtension(filename)));
@@ -69,5 +70,9 @@ public final class RootUtils {
             names.add(temp);
         }
         return names;
+    }
+
+    public static boolean isRootPath(String filename) {
+        return !filename.contains(SharedData.FILES_ROOT_DIRECTORY);
     }
 }

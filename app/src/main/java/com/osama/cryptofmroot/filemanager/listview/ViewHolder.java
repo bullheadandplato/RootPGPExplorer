@@ -26,9 +26,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by tripleheader on 1/21/17
@@ -59,17 +63,23 @@ class ViewHolder extends RecyclerView.ViewHolder{
                     return;
                 }
                 TextView textView   = (TextView)view.findViewById(R.id.list_textview);
-                String filename     = textView.getText().toString();
-                filename=mFileFiller.getCurrentPath()+filename;
-                if(FileUtils.isFile(FileUtils.getFile(filename))){
+                String filename1     = textView.getText().toString();
+                String completeFilename=mFileFiller.getCurrentPath()+filename1;
+
+                if(mFileFiller.getFileAtPosition(getAdapterPosition()).getFile()){
                     if(SharedData.STARTED_IN_SELECTION_MODE){
                         Log.d(TAG, "onClick: yes nigga im started in selection mode");
                         mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                         return;
                     }
-                    mFileSelectionManagement.openFile(filename);
+                    if(RootUtils.isRootPath(completeFilename)){
+                    String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+filename1;
+                    Shell.SU.run("cat "+completeFilename+" > "+ sPath);
+                    completeFilename=sPath;
+                }
+                    mFileSelectionManagement.openFile(completeFilename);
                 }else{
-                        mFileSelectionManagement.openFolder(filename+"/",getAdapterPosition());
+                        mFileSelectionManagement.openFolder(completeFilename+"/",getAdapterPosition());
                     }
 
             }
