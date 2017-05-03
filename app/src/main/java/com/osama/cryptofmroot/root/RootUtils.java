@@ -75,4 +75,7 @@ public final class RootUtils {
     public static boolean isRootPath(String filename) {
         return !filename.contains(SharedData.FILES_ROOT_DIRECTORY);
     }
+    public static void mountRw(){
+        Shell.SU.run("mount -o rw,remount /");
+    }
 }

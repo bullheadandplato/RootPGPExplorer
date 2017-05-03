@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
 
@@ -26,16 +28,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import eu.chainfire.libsuperuser.Shell;
+
 /**
  * Created by bullhead on 5/2/17.
  *
  */
 
 public class TextEditorActivity extends AppCompatActivity{
+    private static final String TAG=TextEditorActivity.class.getCanonicalName();
+
     private File mFile;
     private EditText mEditText;
     private ProgressDialog mProgressDialog;
     private boolean isNewFile=false;
+    private String mPath;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +55,9 @@ public class TextEditorActivity extends AppCompatActivity{
             mFile=new File(path);
             if(mFile.isDirectory()){
               isNewFile=true;
+                mPath=mFile.getAbsolutePath();
             }else{
+                mPath=path;
                 new FileOpenTask().execute();
             }
         }
@@ -88,23 +97,8 @@ public class TextEditorActivity extends AppCompatActivity{
                     String folderName = folderEditText.getText().toString();
                     if (folderName.length() < 1) {
                         folderEditText.setError("Give me the file name");
-                    }
-                    String path = mFile.getPath();
-                    mFile = new File(path + "/" + folderName);
-                    try {
-                        if (!mFile.createNewFile()) {
-                            Toast.makeText(
-                                    TextEditorActivity.this,
-                                    "Cannot save file, make sure current path is writable",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                        } else {
-                            isNewFile = false;
-                            dialog.dismiss();
-                            new FileSaveTask().execute(mEditText.getText().toString());
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        new FileSaveTask().execute(folderName,mEditText.getText().toString());
                     }
                 }
             });
@@ -118,10 +112,22 @@ public class TextEditorActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(mFile));
-                String text = params[0];
+                String text = params[1];
+                String filename=params[0];
+                if(RootUtils.isRootPath(mPath)){
+                    Log.d(TAG, "doInBackground: full path and filename is: "+mPath+filename);
+                    RootUtils.mountRw();
+                    Shell.SU.run("echo \'"+text+"\' >> "+mPath+"/"+filename);
+                    return true;
+                }
+                mFile=new File(mPath+"/"+filename);
+                if(!mFile.exists()){
+                    mFile.createNewFile();
+                }
+                BufferedWriter writer=new BufferedWriter(new FileWriter(mFile));
                 writer.write(text);
                 writer.close();
+                writer.flush();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -152,6 +158,12 @@ public class TextEditorActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
+                if(RootUtils.isRootPath(mPath)){
+                    String filename=mFile.getName();
+                    mFile=new File(getFilesDir()+"/"+filename);
+                    mFile.createNewFile();
+                    Shell.SU.run("cat "+mPath+" > "+getFilesDir()+"/"+filename);
+                }
                 BufferedReader reader=new BufferedReader(new FileReader(mFile));
                 builder=new StringBuilder();
                 String line;

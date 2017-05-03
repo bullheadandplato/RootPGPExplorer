@@ -64,7 +64,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     private TabsFragmentOne         mCurrentFragment;
     private ArrayList<String>       mStoragePaths;
     private TabsFragmentOne[]       mFragmentOnes;
-    private ArrayList<String>       mStorgeTitles;
+    private ArrayList<String>       mStorageTitles;
     private static boolean          isServiceStarted=false;
     private static final String TAG=FileManagerActivity.class.getName();
 
@@ -72,22 +72,22 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mStoragePaths =new ArrayList<>();
-        mStorgeTitles=new ArrayList<>();
+        mStorageTitles =new ArrayList<>();
         //check root access
         if(RootTools.isRootAvailable()){
             if(RootTools.isAccessGiven()){
                 Log.d(TAG, "onCreate: Root access is available and given");
                 mStoragePaths.add("/");
                 mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
-                mStorgeTitles.add("root");
-                mStorgeTitles.add("home");
+                mStorageTitles.add("root");
+                mStorageTitles.add("home");
             }
         }else{
             Log.d(TAG, "onCreate: Root access is not available");
             mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
             mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
-            mStorgeTitles.add("home");
-            mStorgeTitles.add("download");
+            mStorageTitles.add("home");
+            mStorageTitles.add("download");
         }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
@@ -312,7 +312,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         TabsPagerAdapter mTabsPagerAdapter = new TabsPagerAdapter
-                (getSupportFragmentManager(), mStoragePaths,mStorgeTitles);
+                (getSupportFragmentManager(), mStoragePaths, mStorageTitles);
         viewPager.setAdapter(mTabsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
