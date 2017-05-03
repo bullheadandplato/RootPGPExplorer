@@ -47,7 +47,6 @@ class ViewHolder extends RecyclerView.ViewHolder{
     TextView         mTextView;
     TextView         mNumberFilesTextView;
     TextView         mFolderSizeTextView;
-    ImageView        mEncryptionStatusImage;
 
 
     ViewHolder(View itemView, Context c,FileSelectionManagement m,FileFillerWrapper wrapper){
@@ -107,7 +106,6 @@ class ViewHolder extends RecyclerView.ViewHolder{
         mImageView              = (ImageView)itemView.findViewById(R.id.list_imageview);
         mNumberFilesTextView    = (TextView)itemView.findViewById(R.id.nofiles_textview);
         mFolderSizeTextView     = (TextView)itemView.findViewById(R.id.folder_size_textview);
-        mEncryptionStatusImage  = (ImageView) itemView.findViewById(R.id.encryption_status_image);
 
     }
 

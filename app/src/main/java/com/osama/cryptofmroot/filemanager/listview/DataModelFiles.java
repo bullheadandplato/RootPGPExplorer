@@ -78,7 +78,7 @@ public class DataModelFiles  {
         if(isEncrypted){
             return CryptoFM.getContext().getDrawable(R.drawable.ic_encrypt);
         }else{
-            return CryptoFM.getContext().getDrawable(R.drawable.ic_decrypt);
+            return null;
         }
     }
 

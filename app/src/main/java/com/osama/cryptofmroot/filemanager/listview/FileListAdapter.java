@@ -20,6 +20,7 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,14 +85,13 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
-            ImageView image=holder.mEncryptionStatusImage;
+
             TextView textView4=holder.mNumberFilesTextView;
 
-            textView1.setText(mDataModel.getFileName());
-            textView2.setText(mDataModel.getFileDate());
-            image.setImageDrawable(mDataModel.getFileEncryptionStatus());
-            textView4.setText(mDataModel.getFileExtension());
-            imageView.setImageDrawable(mDataModel.getFileIcon());
+                textView1.setText(mDataModel.getFileName());
+                textView2.setText(mDataModel.getFileDate());
+                textView4.setText(mDataModel.getFileExtension());
+                imageView.setImageDrawable(mDataModel.getFileIcon());
 
     }
 
