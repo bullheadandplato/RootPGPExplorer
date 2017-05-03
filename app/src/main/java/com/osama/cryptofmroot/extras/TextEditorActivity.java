@@ -76,7 +76,7 @@ public class TextEditorActivity extends AppCompatActivity{
             final Dialog dialog = UiUtils.createDialog(
                     this,
                     "Save File",
-                    "filename"
+                    "Save"
             );
 
             final EditText folderEditText = (EditText) dialog.findViewById(R.id.foldername_edittext);
@@ -100,6 +100,7 @@ public class TextEditorActivity extends AppCompatActivity{
                             ).show();
                         } else {
                             isNewFile = false;
+                            dialog.dismiss();
                             new FileSaveTask().execute(mEditText.getText().toString());
                         }
                     } catch (IOException e) {

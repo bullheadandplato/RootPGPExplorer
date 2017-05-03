@@ -155,6 +155,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     public void onCreateFileButtonClick(View view){
         //start editor activity
         Intent intent=new Intent(this,TextEditorActivity.class);
+        if(mCurrentFragment==null){
+            mCurrentFragment=mFragmentOnes[0];
+        }
         intent.putExtra(CommonConstants.TEXTEDITACT_PARAM_PATH,mCurrentFragment.getmCurrentPath());
         startActivity(intent);
     }
