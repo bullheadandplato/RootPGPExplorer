@@ -53,6 +53,7 @@ import com.osama.cryptofmroot.filemanager.utils.UiUtils;
 import com.osama.cryptofmroot.services.CleanupService;
 import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
+import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -153,7 +154,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     @ActionHandler(layoutResource = R.id.createFilebutton)
     public void onCreateFileButtonClick(View view){
         //start editor activity
-        startActivity(new Intent(this, TextEditorActivity.class));
+        Intent intent=new Intent(this,TextEditorActivity.class);
+        intent.putExtra(CommonConstants.TEXTEDITACT_PARAM_PATH,mCurrentFragment.getmCurrentPath());
+        startActivity(intent);
     }
 
 
