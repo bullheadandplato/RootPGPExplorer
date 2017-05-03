@@ -21,10 +21,19 @@ package com.osama.cryptofmroot.filemanager.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +55,8 @@ import com.osama.cryptofmroot.filemanager.utils.ActionViewHandler;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.TaskHandler;
+
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created by Shadow on 1/21/2017.
@@ -71,7 +82,9 @@ public class TabsFragmentOne extends Fragment {
     private boolean                 mIsEmptyFolder=false;
     private String                  mRootPath;
     private String mPath;
+    private ViewGroup viewGroup;
     private FragmentCallbacks mCallbacks;
+    private  View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,7 +92,8 @@ public class TabsFragmentOne extends Fragment {
         if(SharedData.ALREADY_INSTANTIATED){
             Log.d(TAG, "onCreateView: yes saved instance is not null");
         }
-        View view= inflater.inflate(R.layout.tabs_fragment_one,container,false);
+        view= inflater.inflate(R.layout.tabs_fragment_one,container,false);
+        viewGroup=container;
         mRecyclerView=(RecyclerView) view.findViewById(R.id.fragment_recycler_view);
 
         return view;
@@ -89,6 +103,7 @@ public class TabsFragmentOne extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated: view created");
         super.onViewCreated(view, savedInstanceState);
+        this.view=view;
 
     }
 
@@ -96,6 +111,7 @@ public class TabsFragmentOne extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onActivityCreated: fragment activity created");
         super.onActivityCreated(savedInstanceState);
+        blurView=view.findViewById(R.id.blur_layout);
         mCallbacks=(FragmentCallbacks)getActivity();
         mContext=getActivity();
         mCallbacks.setCurrentFragment(this,mFragmentPosition);
@@ -258,6 +274,65 @@ public class TabsFragmentOne extends Fragment {
 
         mRecyclerView.setAnimation(animation);
         mRecyclerView.animate();
+    }
+    private boolean isBlur=false;
+    View blurView;
+
+    public void toggleBlur()
+    {
+
+        if(!isBlur){
+            blur();
+        }
+        else{
+            blurView.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            isBlur=false;
+        }
+
+
+    }
+    private void blur(){
+        view.setDrawingCacheEnabled(true);
+
+        view.buildDrawingCache();
+
+        Bitmap bm = view.getDrawingCache();
+        blurView.setBackground(new BitmapDrawable(getResources(),blur(getContext(),bm)));
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        blurView.setVisibility(View.VISIBLE);
+        isBlur=true;
+    }
+
+    public boolean isBlur() {
+        return isBlur;
+    }
+
+    public void setBlur(boolean blur) {
+        isBlur = blur;
+    }
+
+    static final float BITMAP_SCALE = 0.4f;
+        static final float BLUR_RADIUS = 7.5f;
+
+        public static Bitmap blur(Context context, Bitmap image) {
+            int width = Math.round(image.getWidth() * BITMAP_SCALE);
+            int height = Math.round(image.getHeight() * BITMAP_SCALE);
+
+            Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+            Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+
+            RenderScript rs = RenderScript.create(context);
+            ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+            Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+            theIntrinsic.setRadius(BLUR_RADIUS);
+            theIntrinsic.setInput(tmpIn);
+            theIntrinsic.forEach(tmpOut);
+            tmpOut.copyTo(outputBitmap);
+
+            return outputBitmap;
+
     }
 
 }

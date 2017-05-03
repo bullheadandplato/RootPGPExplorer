@@ -40,6 +40,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
@@ -58,14 +59,16 @@ import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.util.ArrayList;
 
-public class FileManagerActivity extends AppCompatActivity implements AdapterCallbacks, FragmentCallbacks{
+public class FileManagerActivity extends AppCompatActivity implements AdapterCallbacks,
+        FragmentCallbacks, FloatingActionsMenu.OnFloatingActionsMenuUpdateListener{
     private int                     mTotalStorage;
     private boolean                 isEmptyFolder=false;
-    private TabsFragmentOne         mCurrentFragment;
+    private  TabsFragmentOne         mCurrentFragment;
     private ArrayList<String>       mStoragePaths;
     private TabsFragmentOne[]       mFragmentOnes;
     private ArrayList<String>       mStorgeTitles;
     private static boolean          isServiceStarted=false;
+    private FloatingActionsMenu     mFloatingActionsMenu;
     private static final String TAG=FileManagerActivity.class.getName();
 
     @Override
@@ -108,6 +111,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         }
 
         setToolbar();
+        mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
+        mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
 
     }
     @ActionHandler(layoutResource = R.id.fab_add_folder)
@@ -325,6 +330,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
             @Override
             public void onPageSelected(int position) {
+                boolean blur=mCurrentFragment.isBlur();
                 //if in copy mode and switching tabs
                 ArrayList<String> fileList=null;
                 if(SharedData.IS_IN_COPY_MODE){
@@ -352,6 +358,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 }else{
                     removeNoFilesFragment();
                 }
+                mCurrentFragment.setBlur(!blur);
+                mCurrentFragment.toggleBlur();
                 changeTitle(mCurrentFragment.getmCurrentPath());
             }
 
@@ -464,4 +472,25 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
     }
 
+    private boolean isShowingFloatingMenu=false;
+
+    @Override
+    public void onMenuExpanded() {
+        Log.d("osama123", "onMenuExpanded: yes it worked");
+        if(mCurrentFragment==null) {
+            mCurrentFragment=mFragmentOnes[0];
+        }
+        isShowingFloatingMenu=true;
+        mCurrentFragment.toggleBlur();
+
+    }
+
+    @Override
+    public void onMenuCollapsed() {
+        if(mCurrentFragment==null){
+            mCurrentFragment=mFragmentOnes[0];
+        }
+        isShowingFloatingMenu=false;
+        mCurrentFragment.toggleBlur();
+    }
 }
