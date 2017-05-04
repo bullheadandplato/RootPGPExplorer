@@ -34,6 +34,7 @@ import android.widget.EditText;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.filemanager.utils.UiUtils;
 import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.tasks.DecryptTask;
 import com.osama.cryptofmroot.utils.FileUtils;
@@ -213,29 +214,7 @@ public class FileSelectionManagement {
             }
 
         }else{
-            String mimeType =
-                    MimeTypeMap.getSingleton().
-                            getMimeTypeFromExtension(
-                                    FileUtils.getExtension(filename
-                                    )
-                            );
-
-            Intent intent = new Intent();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                Uri uri = FileProvider.getUriForFile(
-                        mContext,
-                        mContext.getApplicationContext().getPackageName() + ".provider",
-                        FileUtils.getFile(filename)
-                );
-                intent.setDataAndType(uri, mimeType);
-            } else {
-                intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
-            }
-            intent.setAction(Intent.ACTION_VIEW);
-            Intent x = Intent.createChooser(intent, "Open with: ");
-            mContext.startActivity(x);
+            UiUtils.openFile(filename);
         }
     }
 

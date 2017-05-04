@@ -21,13 +21,20 @@ package com.osama.cryptofmroot.filemanager.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
+import com.osama.cryptofmroot.utils.FileUtils;
 
 
 /**
@@ -68,4 +75,30 @@ public class UiUtils {
         String path= adapter.getmFileFiller().getCurrentPath();
         adapter.getmFileFiller().fillData(path,adapter);
     }
+
+    public static void openFile(String filename){
+         String mimeType =
+                    MimeTypeMap.getSingleton().
+                            getMimeTypeFromExtension(
+                                    FileUtils.getExtension(filename
+                                    )
+                            );
+
+            Intent intent = new Intent();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                Uri uri = FileProvider.getUriForFile(
+                        CryptoFM.getContext(),
+                        CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
+                        FileUtils.getFile(filename)
+                );
+                intent.setDataAndType(uri, mimeType);
+            } else {
+                intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
+            }
+            intent.setAction(Intent.ACTION_VIEW);
+            Intent x = Intent.createChooser(intent, "Open with: ");
+            CryptoFM.getContext().startActivity(x);
+        }
 }

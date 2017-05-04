@@ -213,38 +213,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 singleModeDialog.dismiss();
                 Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
                 //open file
-                String mimeType =
-                        MimeTypeMap.getSingleton().
-                                getMimeTypeFromExtension(
-                                        FileUtils.getExtension(destFilename
-                                        )
-                                );
-
-                Intent intent = new Intent();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    Uri uri = null;
-                    try {
-                        uri = FileProvider.getUriForFile(
-                                mContext,
-                                mContext.getApplicationContext().getPackageName() + ".provider",
-                                TasksFileUtils.getFile(destFilename)
-                        );
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    intent.setDataAndType(uri, mimeType);
-                } else {
-                    try {
-                        intent.setDataAndType(Uri.fromFile(TasksFileUtils.getFile(destFilename)), mimeType);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                intent.setAction(Intent.ACTION_VIEW);
-                Intent x = Intent.createChooser(intent, "Open with: ");
-                mContext.startActivity(x);
+                UiUtils.openFile(destFilename);
             }else{
                 singleModeDialog.dismiss();
                 Toast.makeText(mContext,
