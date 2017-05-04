@@ -58,6 +58,7 @@ public class TextEditorActivity extends AppCompatActivity{
                 mPath=mFile.getAbsolutePath();
             }else{
                 mPath=path;
+                Log.d(TAG, "onCreate: file path is: "+path);
                 new FileOpenTask().execute();
             }
         }
@@ -103,7 +104,7 @@ public class TextEditorActivity extends AppCompatActivity{
                 }
             });
         }else{
-            new FileSaveTask().execute(mEditText.getText().toString());
+            new FileSaveTask().execute("",mEditText.getText().toString());
         }
     }
 
@@ -113,21 +114,26 @@ public class TextEditorActivity extends AppCompatActivity{
         protected Boolean doInBackground(String... params) {
             try {
                 String text = params[1];
-                String filename=params[0];
+                String filename;
+                if(new File(mPath).isDirectory()){
+                    filename=mPath+"/"+params[0];
+                }else{
+                    filename=mPath;
+                }
                 if(RootUtils.isRootPath(mPath)){
-                    Log.d(TAG, "doInBackground: full path and filename is: "+mPath+filename);
+                    Log.d(TAG, "doInBackground: full path and filename is: "+filename);
                     RootUtils.mountRw();
-                    Shell.SU.run("echo \'"+text+"\' >> "+mPath+"/"+filename);
+                    Shell.SU.run("echo \'"+text+"\' >> "+filename);
                     return true;
                 }
-                mFile=new File(mPath+"/"+filename);
+                mFile=new File(filename);
                 if(!mFile.exists()){
                     mFile.createNewFile();
                 }
                 BufferedWriter writer=new BufferedWriter(new FileWriter(mFile));
                 writer.write(text);
-                writer.close();
                 writer.flush();
+                writer.close();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -164,6 +170,7 @@ public class TextEditorActivity extends AppCompatActivity{
                     mFile.createNewFile();
                     Shell.SU.run("cat "+mPath+" > "+getFilesDir()+"/"+filename);
                 }
+                Log.d(TAG, "doInBackground: mFile name is: "+mFile.getName());
                 BufferedReader reader=new BufferedReader(new FileReader(mFile));
                 builder=new StringBuilder();
                 String line;
@@ -182,6 +189,7 @@ public class TextEditorActivity extends AppCompatActivity{
         protected void onPostExecute(Boolean aBoolean) {
             mProgressDialog.dismiss();
             if(aBoolean){
+                Log.d(TAG, "onPostExecute: setting text "+builder.toString());
                 mEditText.setText(builder.toString());
             }else{
                 Toast.makeText(TextEditorActivity.this,"Cannot open file.",Toast.LENGTH_LONG).show();

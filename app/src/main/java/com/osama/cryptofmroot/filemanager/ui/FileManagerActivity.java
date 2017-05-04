@@ -330,6 +330,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
             @Override
             public void onPageSelected(int position) {
+                if(mCurrentFragment==null){
+                    mCurrentFragment=mFragmentOnes[0];
+                }
                 boolean blur=mCurrentFragment.isBlur();
                 //if in copy mode and switching tabs
                 ArrayList<String> fileList=null;
@@ -472,15 +475,12 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
     }
 
-    private boolean isShowingFloatingMenu=false;
-
     @Override
     public void onMenuExpanded() {
         Log.d("osama123", "onMenuExpanded: yes it worked");
         if(mCurrentFragment==null) {
             mCurrentFragment=mFragmentOnes[0];
         }
-        isShowingFloatingMenu=true;
         mCurrentFragment.toggleBlur();
 
     }
@@ -490,7 +490,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(mCurrentFragment==null){
             mCurrentFragment=mFragmentOnes[0];
         }
-        isShowingFloatingMenu=false;
         mCurrentFragment.toggleBlur();
     }
 }
