@@ -111,6 +111,10 @@ public class DataModelFiles  {
         return isFile;
     }
 
+    public void setmFilePath(String mFilePath) {
+        this.mFilePath = mFilePath;
+    }
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }

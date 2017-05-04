@@ -34,7 +34,12 @@ import android.widget.Button;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
+
+import java.io.File;
+
+import eu.chainfire.libsuperuser.Shell;
 
 
 /**
@@ -77,6 +82,11 @@ public class UiUtils {
     }
 
     public static void openFile(String filename){
+          if(RootUtils.isRootPath(filename)){
+                    String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
+                    Shell.SU.run("cat "+filename+" > "+ sPath);
+                    filename=sPath;
+                }
          String mimeType =
                     MimeTypeMap.getSingleton().
                             getMimeTypeFromExtension(

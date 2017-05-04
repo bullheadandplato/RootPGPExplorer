@@ -247,6 +247,7 @@ public class TaskHandler {
     }
     public void openWith(){
         final String filename=mFileSelectionManagement.getmSelectedFilePaths().get(0);
+        Log.d("nullpov", "openWith: filename is: "+filename);
         final Dialog dialog=new Dialog(mContext);
         dialog.setContentView(R.layout.openwith_dialog_layout);
         dialog.findViewById(R.id.openwith_texteditor_button).setOnClickListener(new View.OnClickListener() {

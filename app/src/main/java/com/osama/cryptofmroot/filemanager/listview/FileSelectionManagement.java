@@ -110,6 +110,7 @@ public class FileSelectionManagement {
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
             clickCallBack.incrementSelectionCount();
+
         }
     }
     void selectFileInSelectionMode(int position){

@@ -71,11 +71,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                         mFileSelectionManagement.selectFileInSelectionMode(getAdapterPosition());
                         return;
                     }
-                    if(RootUtils.isRootPath(completeFilename)){
-                    String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+filename1;
-                    Shell.SU.run("cat "+completeFilename+" > "+ sPath);
-                    completeFilename=sPath;
-                }
+
                     mFileSelectionManagement.openFile(completeFilename);
                 }else{
                         mFileSelectionManagement.openFolder(completeFilename+"/",getAdapterPosition());

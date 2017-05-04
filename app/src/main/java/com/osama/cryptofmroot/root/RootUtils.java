@@ -2,6 +2,7 @@ package com.osama.cryptofmroot.root;
 
 import android.util.Log;
 
+import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.listview.DataModelFiles;
@@ -67,6 +68,7 @@ public final class RootUtils {
                 temp.setEncrypted(FileUtils.isEncryptedFile(filename));
             }
             temp.setFileDate(parts[DATE_INDEX]+" "+parts[DATE_INDEX+1]);
+            temp.setmFilePath(path+filename);
             names.add(temp);
         }
         return names;
@@ -77,5 +79,8 @@ public final class RootUtils {
     }
     public static void mountRw(){
         Shell.SU.run("mount -o rw,remount /");
+    }
+    public static void copyFile(String filename){
+        //RootTools.copyFile()
     }
 }
