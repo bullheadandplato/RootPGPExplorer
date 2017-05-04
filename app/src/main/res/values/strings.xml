@@ -964,4 +964,6 @@ DEALINGS IN THE SOFTWARE.
     <string name="type_here">Type here...</string>
     <string name="terms_and_condition">We are not responsible if you forget your password or do not clear your data otherwise your keys will be deleted and you will be not able to decrypt your data again. </string>
     <string name="save_file">save</string>
+    <string name="openwith_button1">Text editor</string>
+    <string name="openwith_button2">Installed app</string>
 </resources>

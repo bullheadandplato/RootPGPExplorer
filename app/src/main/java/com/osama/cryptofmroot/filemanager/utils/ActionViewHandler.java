@@ -133,6 +133,8 @@ public class ActionViewHandler implements ActionMode.Callback {
             mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
             ((FileManagerActivity)mContext).showCopyDialog();
 
+        }else if(item.getItemId()==R.id.openwith_menu_item){
+            mTaskHandler.openWith();
         }
         return true;
     }

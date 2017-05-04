@@ -55,4 +55,9 @@
         android:id="@+id/rename_menu_item"
         android:title="Rename"
         />
+    <item
+        android:id="@+id/openwith_menu_item"
+        android:title="Open with"
+        app:showAsAction="never"
+        />
 </menu>

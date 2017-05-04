@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.osama.cryptofmroot.R;
+import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.listview.FileSelectionManagement;
 import com.osama.cryptofmroot.startup.OptionActivity;
@@ -40,6 +41,7 @@ import com.osama.cryptofmroot.tasks.DeleteTask;
 import com.osama.cryptofmroot.tasks.EncryptTask;
 import com.osama.cryptofmroot.tasks.MoveTask;
 import com.osama.cryptofmroot.tasks.RenameTask;
+import com.osama.cryptofmroot.utils.CommonConstants;
 
 import java.util.ArrayList;
 
@@ -242,5 +244,27 @@ public class TaskHandler {
 
     public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
         this.mSelectedFiles = mSelectedFiles;
+    }
+    public void openWith(){
+        final String filename=mFileSelectionManagement.getmSelectedFilePaths().get(0);
+        final Dialog dialog=new Dialog(mContext);
+        dialog.setContentView(R.layout.openwith_dialog_layout);
+        dialog.findViewById(R.id.openwith_texteditor_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent=new Intent(mContext, TextEditorActivity.class);
+                intent.putExtra(CommonConstants.TEXTEDITACT_PARAM_PATH,filename);
+                mContext.startActivity(intent);
+            }
+        });
+        dialog.findViewById(R.id.openwith_installed_app_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                UiUtils.openFile(filename);
+            }
+        });
+        dialog.show();
     }
 }
