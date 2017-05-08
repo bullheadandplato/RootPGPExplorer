@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,10 +65,13 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
             for (String f :
                     mFilePaths) {
                 Log.d("delete","filepath: " +f);
-
-                File file = TasksFileUtils.getFile(f);
-                         deleteFile(file);
-
+                if(RootUtils.isRootPath(f)){
+                    publishProgress(f);
+                    RootUtils.deleteFile(f);
+                }else {
+                    File file = TasksFileUtils.getFile(f);
+                    deleteFile(file);
+                }
 
             }
         } catch (Exception ex) {
