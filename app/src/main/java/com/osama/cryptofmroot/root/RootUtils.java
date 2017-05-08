@@ -83,7 +83,7 @@ public final class RootUtils {
     }
     public static void copyFile(String source,String destination) throws IOException {
         mountRw();
-         Runtime.getRuntime().exec("su -c cp \'" +source + "\' \'"+destination+"\'");
+         Runtime.getRuntime().exec("su -c cp '" +source + "' '"+destination+"'");
     }
     public static void deleteFile(String filename){
         Shell.SU.run("rm -rf "+filename);

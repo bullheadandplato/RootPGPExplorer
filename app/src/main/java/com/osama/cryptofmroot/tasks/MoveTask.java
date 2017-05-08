@@ -134,7 +134,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
     }
     private String getRootFileSize(String path) throws IOException, InterruptedException {
         Log.d(TAG, "getRootFileSize: path is: "+path);
-        return Shell.SU.run("du -sh \'"+path+"\' | cut -f1").get(0);
+        return Shell.SU.run("du -sh '"+path+"' | cut -f1").get(0);
     }
 
     private void move(File f) throws Exception{
