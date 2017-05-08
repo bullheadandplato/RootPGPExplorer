@@ -56,12 +56,6 @@ import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.TaskHandler;
 
-import jp.wasabeef.blurry.Blurry;
-
-/**
- * Created by Shadow on 1/21/2017.
- *
- */
 
 public class TabsFragmentOne extends Fragment {
 

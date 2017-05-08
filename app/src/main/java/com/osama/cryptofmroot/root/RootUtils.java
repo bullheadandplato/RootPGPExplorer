@@ -10,6 +10,7 @@ import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,24 @@ public final class RootUtils {
     public static void mountRw(){
         Shell.SU.run("mount -o rw,remount /");
     }
-    public static void copyFile(String filename){
-        //RootTools.copyFile()
+    public static void copyFile(String source,String destination){
+        String fileSize=Shell.SU.run("du -sh "+source +" | cut -f1 ").get(0);
+        double size=Double.valueOf(fileSize.substring(0,fileSize.length()-1));
+
+        Log.d(TAG, "copyFile: file size is: "+size);
+        try {
+            Runtime.getRuntime().exec("su -c cp "+source+" "+destination);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        destination=destination+source.substring(source.lastIndexOf('/')+1,source.length());
+        Log.d(TAG, "copyFile: Destination is: "+destination);
+        String desSize;
+        do {
+            desSize=Shell.SU.run("du -sh "+destination+" | cut -f1 ").get(0);
+            double des=Double.valueOf(desSize.substring(0,desSize.length()-1));
+            Log.d(TAG, "copyFile: Progress is: "+(size/des));
+        }while (fileSize.equalsIgnoreCase(desSize));
+
     }
 }
