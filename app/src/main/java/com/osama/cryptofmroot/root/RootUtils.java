@@ -81,26 +81,11 @@ public final class RootUtils {
     public static void mountRw(){
         Shell.SU.run("mount -o rw,remount /");
     }
-    public static void copyFile(String source,String destination){
-        String fileSize=Shell.SU.run("du -sh "+source +" | cut -f1 ").get(0);
-        double size=Double.valueOf(fileSize.substring(0,fileSize.length()-1));
-
-        Log.d(TAG, "copyFile: file size is: "+size);
-        try {
-            Runtime.getRuntime().exec("su -c cp "+source+" "+destination);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        destination=destination+source.substring(source.lastIndexOf('/')+1,source.length());
-       // Log.d(TAG, "copyFile: Destination is: "+destination);
-        String desSize;
-        do {
-            desSize=Shell.SU.run("du -sh "+destination+" | cut -f1 ").get(0);
-            double des=Double.valueOf(desSize.substring(0,desSize.length()-1));
-            Log.d(TAG, "copyFile: Dessize is: "+des);
-            int progress= (int) ((des/size)*100);
-            Log.d(TAG, "copyFile: Progress is: "+progress);
-        }while (!fileSize.equalsIgnoreCase(desSize));
-
+    public static void copyFile(String source,String destination) throws IOException {
+        mountRw();
+         Runtime.getRuntime().exec("su -c cp \'" +source + "\' \'"+destination+"\'");
+    }
+    public static void deleteFile(String filename){
+        Shell.SU.run("rm -rf "+filename);
     }
 }
