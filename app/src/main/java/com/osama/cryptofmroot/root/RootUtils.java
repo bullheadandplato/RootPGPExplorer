@@ -37,12 +37,10 @@ public final class RootUtils {
         for (int i = 1; i < test.size(); i++) {
             String currentString=test.get(i);
             currentString=currentString.trim().replaceAll(" +"," ");
-            //Log.d(TAG, "getFileNames: "+currentString);
             String[] parts=currentString.split(" ");
-            //filedates[i]=parts[DATE_INDEX]+" "+parts[DATE_INDEX+1];
             DataModelFiles temp=new DataModelFiles();
             String filename=parts[FILENAME_INDEX];
-            for (int j = FILENAME_INDEX; j < parts.length; j++) {
+            for (int j = FILENAME_INDEX+1; j < parts.length; j++) {
                 if(parts[j].contains("->")){
                     String linksPath="";
                     for (int k = j+1; k <parts.length ; k++) {
@@ -53,7 +51,7 @@ public final class RootUtils {
                     filename=filename+"/";
                     break;
                 }
-                filename=" "+parts[j];
+                filename=filename+" "+parts[j];
             }
             filename=filename.trim();
             if(filename.contains("/")){
@@ -86,6 +84,6 @@ public final class RootUtils {
          Runtime.getRuntime().exec("su -c cp '" +source + "' '"+destination+"'");
     }
     public static void deleteFile(String filename){
-        Shell.SU.run("rm -rf "+filename);
+        Shell.SU.run("rm -rf '"+filename+"'");
     }
 }
