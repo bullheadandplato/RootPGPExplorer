@@ -40,6 +40,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
@@ -51,6 +52,7 @@ import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.TabsPagerAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.services.CleanupService;
 import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
@@ -118,6 +120,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     @ActionHandler(layoutResource = R.id.fab_add_folder)
     public void onAddFloatingClicked(View v){
         UiUtils.actionMode = this.actionMode;
+        mFloatingActionsMenu.collapse();
         if(mCurrentFragment==null){
             Log.d(TAG, "onAddFloatingClicked: fragment is null ");
             mCurrentFragment=mFragmentOnes[0];
@@ -140,6 +143,11 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 String folderName=folderEditText.getText().toString();
                 if(folderName.length()<1){
                     folderEditText.setError("Give me the folder name");
+                }else if(RootUtils.isRootPath(mCurrentFragment.getmCurrentPath())){
+                    RootUtils.createFolder(mCurrentFragment.getmCurrentPath()+folderName);
+                    dialog.dismiss();
+                    UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
+
                 }
                 else if(!FileUtils.createFolder(mCurrentFragment.getmCurrentPath()+folderName)){
                         Toast.makeText(
@@ -158,6 +166,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     }
     @ActionHandler(layoutResource = R.id.createFilebutton)
     public void onCreateFileButtonClick(View view){
+        mFloatingActionsMenu.collapse();
         //start editor activity
         Intent intent=new Intent(this,TextEditorActivity.class);
         if(mCurrentFragment==null){

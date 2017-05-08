@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
@@ -54,6 +55,10 @@ public class RenameTask extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         try{
 
+            if(RootUtils.isRootPath(mFilePath)){
+                RootUtils.renameFile(mFilePath,mFilePath.substring(0,mFilePath.lastIndexOf("/"))+mRenamed);
+                return "Successfully renamed.";
+            }
             File file = TasksFileUtils.getFile(mFilePath);
             String filename=file.getPath();
             filename=filename.replace(file.getName(),"");

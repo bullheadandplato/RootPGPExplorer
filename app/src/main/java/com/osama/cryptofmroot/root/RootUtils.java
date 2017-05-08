@@ -86,4 +86,11 @@ public final class RootUtils {
     public static void deleteFile(String filename){
         Shell.SU.run("rm -rf '"+filename+"'");
     }
+
+    public static void createFolder(String s) {
+        Shell.SU.run("mkdir '"+s+"'");
+    }
+    public static void renameFile(String from,String to){
+        Shell.SU.run("mv '"+from+ "' '"+to+"'");
+    }
 }
