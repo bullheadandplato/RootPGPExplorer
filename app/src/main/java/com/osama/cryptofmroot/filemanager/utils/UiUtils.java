@@ -84,7 +84,7 @@ public class UiUtils {
     public static void openFile(String filename){
           if(RootUtils.isRootPath(filename)){
                     String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
-                    Shell.SU.run("cat "+filename+" > "+ sPath);
+                    Shell.SU.run("cat '"+filename+"' > '"+ sPath+"'");
                     filename=sPath;
                 }
          String mimeType =
