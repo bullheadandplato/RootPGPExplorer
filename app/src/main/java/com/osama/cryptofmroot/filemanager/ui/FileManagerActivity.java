@@ -409,6 +409,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         actionMode.setTitle(++SharedData.SELECT_COUNT+"");
         if(SharedData.SELECT_COUNT>1){
             actionMode.getMenu().removeItem(R.id.rename_menu_item);
+            actionMode.getMenu().removeItem(R.id.openwith_menu_item);
         }
     }
 
