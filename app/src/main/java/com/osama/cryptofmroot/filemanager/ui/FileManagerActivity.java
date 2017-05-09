@@ -421,7 +421,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 actionMode.finish();
             }
             else if(SharedData.SELECT_COUNT<2){
-                actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
+                actionMode.getMenu().add(0,R.id.rename_menu_item,0,"Rename");
+                actionMode.getMenu().add(0,R.id.openwith_menu_item,0,"Open with");
             }
         }
     }

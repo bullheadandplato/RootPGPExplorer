@@ -70,14 +70,18 @@ public class ActionViewHandler implements ActionMode.Callback {
 
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
+            finishFileSelection();
         }
         else if(item.getItemId()==R.id.delete_menu_item){
             mTaskHandler.deleteFile();
+            finishFileSelection();
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
             mTaskHandler.encryptTask(mManager.getmSelectedFilePaths());
+            finishFileSelection();
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
+            finishFileSelection();
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
                 dialog.setCancelable(false);
@@ -135,6 +139,7 @@ public class ActionViewHandler implements ActionMode.Callback {
 
         }else if(item.getItemId()==R.id.openwith_menu_item){
             mTaskHandler.openWith();
+            finishFileSelection();
         }
         return true;
     }
@@ -142,7 +147,10 @@ public class ActionViewHandler implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         Log.d("action","destroying action mode");
-        SharedData.SELECT_COUNT=0;
+        finishFileSelection();
+    }
+    private void finishFileSelection(){
+       SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=false;
         if(!SharedData.DO_NOT_RESET_ICON){
             mManager.resetFileIcons();
