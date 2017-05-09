@@ -20,7 +20,9 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.osama.cryptofmroot.CryptoFM;
@@ -45,12 +47,16 @@ public class DataModelFiles  {
     private Boolean     isFile       = false;
     private boolean     isEncrypted  = false;
     private String      mFilePath;
+    private int       backgroundColor;
 
-    public DataModelFiles(){}
+    public DataModelFiles(){
+        backgroundColor= ContextCompat.getColor(CryptoFM.getContext(),R.color.white);
+    }
     public DataModelFiles(File file) {
         this.fileName   = file.getName();
         this.mFilePath  = file.getPath();
         //check if i can read file
+        backgroundColor= ContextCompat.getColor(CryptoFM.getContext(),R.color.white);
         if(FileUtils.isFile(file)){
             Log.d("rootF", "DataModelFiles: file name is: "+file.getName());
             //this.fileIcon=CryptoFM.getContext().getDrawable(R.drawable.ic_insert_drive);
@@ -69,6 +75,13 @@ public class DataModelFiles  {
         }
     }
 
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
 
     public String getFileName() {
         return fileName;

@@ -20,6 +20,7 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -58,7 +59,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
             public void onClick(View view) {
 
                 if(SharedData.SELECTION_MODE){
-                    mFileSelectionManagement.selectionOperation(getAdapterPosition());
+                    mFileSelectionManagement.selectionOperation(getAdapterPosition(),view);
                     return;
                 }
                 TextView textView   = (TextView)view.findViewById(R.id.list_textview);
@@ -74,7 +75,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
                     mFileSelectionManagement.openFile(completeFilename);
                 }else{
-                        mFileSelectionManagement.openFolder(completeFilename+"/",getAdapterPosition());
+                        mFileSelectionManagement.openFolder(completeFilename+"/",getAdapterPosition(),view);
                     }
 
             }
@@ -91,7 +92,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
                     mFileSelectionManagement.startSelectionMode();
                 }
                 if(!SharedData.IS_IN_COPY_MODE){
-                    mFileSelectionManagement.selectionOperation(getAdapterPosition());
+                    mFileSelectionManagement.selectionOperation(getAdapterPosition(),view);
                 }
                 return true;
 

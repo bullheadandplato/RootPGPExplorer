@@ -25,12 +25,14 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
@@ -83,9 +85,8 @@ public class FileSelectionManagement {
     }
 
 
-    void selectionOperation(int position){
+    void selectionOperation(int position, View view){
         mDataModel  = mFileFiller.getFileAtPosition(position);
-
         if(mDataModel.getSelected()){
             Log.d(TAG, "selectionOperation: fixing a bug in files selection");
             mSelectedFilePaths.remove(mDataModel.getFilePath());
@@ -96,15 +97,15 @@ public class FileSelectionManagement {
             }else{
                 mDataModel.setFileIcon(mFolderIcon);
             }
+            mDataModel.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.white));
         }else{
             selectFile(position);
         }
-
         mFileListAdapter.notifyItemChanged(position);
-
     }
     private void selectFile(int position){
         if(!mDataModel.getSelected()) {
+           mDataModel.setBackgroundColor(ContextCompat.getColor(CryptoFM.getContext(),R.color.cardSelectedColor));
             mSelectedPosition.add(position);
             mSelectedFilePaths.add(mDataModel.getFilePath());
             mDataModel.setFileIcon(mSelectedFileIcon);
@@ -150,6 +151,7 @@ public class FileSelectionManagement {
         for (Integer pos:
                 mSelectedPosition) {
             mDataModel = mFileFiller.getFileAtPosition(pos);
+            mDataModel.setBackgroundColor(ContextCompat.getColor(CryptoFM.getContext(),R.color.white));
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             }else{
@@ -219,13 +221,13 @@ public class FileSelectionManagement {
         }
     }
 
-    void openFolder(String filename,int position) {
+    void openFolder(String filename,int position,View view) {
         if(SharedData.STARTED_IN_SELECTION_MODE) {
             mSelectedPosition.clear();
             mSelectedFilePaths.clear();
         }
         if(SharedData.SELECTION_MODE){
-            selectionOperation(position);
+            selectionOperation(position,view);
             return;
         }
         clickCallBack.changeTitle(filename);

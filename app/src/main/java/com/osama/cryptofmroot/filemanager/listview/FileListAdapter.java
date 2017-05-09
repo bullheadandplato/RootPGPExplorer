@@ -31,6 +31,8 @@ import android.widget.TextView;
 import com.osama.cryptofmroot.R;
 
 
+import java.util.HashMap;
+
 import static com.osama.cryptofmroot.CryptoFM.getContext;
 
 
@@ -47,6 +49,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private Context mContext;
     private FileFillerWrapper mFileFiller;
     private FileSelectionManagement mManager;
+    private HashMap<Integer,View> mAllView=new HashMap<>();
 
     public FileListAdapter(Context context){
             this.mContext=context;
@@ -95,6 +98,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
                 textView2.setText(mDataModel.getFileDate());
                 textView4.setText(mDataModel.getFileExtension());
                 imageView.setImageDrawable(mDataModel.getFileIcon());
+        holder.itemView.setBackgroundColor(mDataModel.getBackgroundColor());
 
     }
 

@@ -33,4 +33,5 @@
     <color name="pagercolor2">#FF5252</color>
     <color name="pagercolor3">#2196f3</color>
     <color name="white">#FFF</color>
+    <color name="cardSelectedColor">#DD8888</color>
 </resources>
