@@ -73,12 +73,14 @@ public class ActionViewHandler implements ActionMode.Callback {
             finishFileSelection();
         }
         else if(item.getItemId()==R.id.delete_menu_item){
-            mTaskHandler.deleteFile();
             finishFileSelection();
+            mTaskHandler.deleteFile();
+
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
+           finishFileSelection();
             mTaskHandler.encryptTask(mManager.getmSelectedFilePaths());
-            finishFileSelection();
+
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
             finishFileSelection();
@@ -138,8 +140,9 @@ public class ActionViewHandler implements ActionMode.Callback {
             ((FileManagerActivity)mContext).showCopyDialog();
 
         }else if(item.getItemId()==R.id.openwith_menu_item){
+           finishFileSelection();
             mTaskHandler.openWith();
-            finishFileSelection();
+
         }
         return true;
     }
