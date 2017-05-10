@@ -84,10 +84,10 @@ public class UiUtils {
 
     public static void openFile(String filename){
           if(RootUtils.isRootPath(filename)){
-                    String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
+                    /*String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
                     Shell.SU.run("cat '"+filename+"' > '"+ sPath+"'");
-                    filename=sPath;
-                    //RootUtils.chmod666(filename);
+                    filename=sPath;*/
+                    RootUtils.chmod666(filename);
                 }
          String mimeType =
                     MimeTypeMap.getSingleton().
@@ -99,7 +99,7 @@ public class UiUtils {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-               /* Uri uri = FileProvider.getUriForFile(
+               /*Uri uri = FileProvider.getUriForFile(
                         CryptoFM.getContext(),
                         CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
                         FileUtils.getFile(filename)
@@ -112,5 +112,6 @@ public class UiUtils {
             intent.setAction(Intent.ACTION_VIEW);
             Intent x = Intent.createChooser(intent, "Open with: ");
             CryptoFM.getContext().startActivity(x);
+        RootUtils.restoreCon(filename);
         }
 }

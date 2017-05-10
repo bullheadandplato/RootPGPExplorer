@@ -98,4 +98,7 @@ public final class RootUtils {
         Log.d(TAG, "chmod666: changing file permision.");
         Shell.SU.run("chmod 666 \""+filename+"\"");
     }
+    public static void restoreCon(String filename){
+        Shell.SU.run("restorecon \""+filename+"\"");
+    }
 }
