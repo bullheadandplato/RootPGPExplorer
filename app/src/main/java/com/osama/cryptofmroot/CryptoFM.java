@@ -43,11 +43,11 @@ public class CryptoFM extends Application {
         return instance;
     }
 
-    /*@Override
+    @Override
     public void onCreate() {
         super.onCreate();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
-    }*/
+    }
 }
