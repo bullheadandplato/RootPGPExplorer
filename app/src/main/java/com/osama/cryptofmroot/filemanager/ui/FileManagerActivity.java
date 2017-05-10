@@ -112,7 +112,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
             SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
         }
-
+        SharedData.GRID_LAYOUTMANAGER=getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
         setToolbar();
         mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
@@ -196,7 +196,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             return super.onPrepareOptionsMenu(menu);
         }
         MenuItem item=menu.getItem(0);
-        if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
+        if(SharedData.GRID_LAYOUTMANAGER){
             item.setIcon(getDrawable(R.drawable.ic_gridview));
         }
         if(SharedData.SIMPLE_VIEW_MODE){
@@ -242,7 +242,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             }
 
         }
-        else{
+        else if(item.getItemId()==R.id.items_view_menu_item){
+            SharedData.GRID_LAYOUTMANAGER=!SharedData.GRID_LAYOUTMANAGER;
         mCurrentFragment.toggleLayout(item);
         }
 
