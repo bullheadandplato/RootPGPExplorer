@@ -10,6 +10,7 @@ import com.osama.cryptofmroot.filemanager.utils.MimeType;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +98,15 @@ public final class RootUtils {
     public static void chmod666(String filename) {
         Log.d(TAG, "chmod666: changing file permision.");
         Shell.SU.run("chmod 666 \""+filename+"\"");
+        
+        //test
+        String ds="supolicy --live \"allow untrusted_app rootfs file { append create execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton ";
+        File file=FileUtils.getFile(filename);
+        if(file.canRead()){
+            Log.d(TAG, "chmod666: Can read files");
+        }else{
+            Log.d(TAG, "chmod666: Cannot read file");
+        }
     }
     public static void restoreCon(String filename){
         Shell.SU.run("restorecon \""+filename+"\"");
