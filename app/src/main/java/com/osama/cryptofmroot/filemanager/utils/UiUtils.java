@@ -87,6 +87,7 @@ public class UiUtils {
                     String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
                     Shell.SU.run("cat '"+filename+"' > '"+ sPath+"'");
                     filename=sPath;
+                    //RootUtils.chmod666(filename);
                 }
          String mimeType =
                     MimeTypeMap.getSingleton().

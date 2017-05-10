@@ -94,4 +94,8 @@ public final class RootUtils {
         Shell.SU.run("mv '"+from+ "' '"+to+"'");
     }
 
+    public static void chmod666(String filename) {
+        Log.d(TAG, "chmod666: changing file permision.");
+        Shell.SU.run("chmod 666 \""+filename+"\"");
+    }
 }
