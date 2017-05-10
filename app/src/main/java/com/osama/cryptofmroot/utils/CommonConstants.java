@@ -7,4 +7,5 @@ package com.osama.cryptofmroot.utils;
 
 public final class  CommonConstants {
     public static final String TEXTEDITACT_PARAM_PATH="path";
+    public static final String VIEW_MODE_SHARED_PREF="viewmode";
 }

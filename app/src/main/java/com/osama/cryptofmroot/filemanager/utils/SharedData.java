@@ -30,6 +30,7 @@ import java.util.HashMap;
  */
 
 public class SharedData {
+    public static boolean SIMPLE_VIEW_MODE = false;
     public static boolean           KEYS_GENERATED = false;
     public static boolean           SELECTION_MODE = false;
     public static boolean           STARTED_IN_SELECTION_MODE=false;

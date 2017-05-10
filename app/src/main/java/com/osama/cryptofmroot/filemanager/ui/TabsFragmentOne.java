@@ -55,6 +55,7 @@ import com.osama.cryptofmroot.filemanager.utils.ActionViewHandler;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.TaskHandler;
+import com.osama.cryptofmroot.utils.CommonConstants;
 
 
 public class TabsFragmentOne extends Fragment {
@@ -241,6 +242,22 @@ public class TabsFragmentOne extends Fragment {
 
     public void executeCopyTask() {
         mTaskHandler.moveFiles(mCurrentPath,mFileAdapter);
+    }
+
+    public void toggleViewMode() {
+        SharedData.SIMPLE_VIEW_MODE=!SharedData.SIMPLE_VIEW_MODE;
+        SharedPreferences prefs=getActivity().getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=prefs.edit();
+        editor.putBoolean(CommonConstants.VIEW_MODE_SHARED_PREF,SharedData.SIMPLE_VIEW_MODE);
+        editor.apply();
+        editor.commit();
+
+reloadDataSet();
+    }
+    public void reloadDataSet(){
+       mRecyclerView.setAdapter(null);
+        mRecyclerView.setAdapter(mFileAdapter);
+        mFileAdapter.notifyDataSetChanged();
     }
 
     private class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{

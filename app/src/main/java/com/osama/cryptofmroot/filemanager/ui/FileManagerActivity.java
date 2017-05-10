@@ -72,6 +72,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     private static boolean          isServiceStarted=false;
     private FloatingActionsMenu     mFloatingActionsMenu;
     private static final String TAG=FileManagerActivity.class.getName();
+    private boolean viewChanged=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         SharedData.DO_NOT_RESET_ICON=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
-
+        SharedData.SIMPLE_VIEW_MODE=prefs.getBoolean(CommonConstants.VIEW_MODE_SHARED_PREF,false);
         if(!isServiceStarted){
             startService(new Intent(CryptoFM.getContext(),CleanupService.class));
             isServiceStarted=true;
@@ -198,6 +199,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(!getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true)){
             item.setIcon(getDrawable(R.drawable.ic_gridview));
         }
+        if(SharedData.SIMPLE_VIEW_MODE){
+            menu.getItem(2).setTitle("Card view");
+        }
         return true;
     }
 
@@ -228,6 +232,15 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 showBackupDialog();
         }else if (item.getItemId()==R.id.refresh_menu_item){
             UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
+        }else if(item.getItemId()==R.id.viewmode_menu_item){
+            mCurrentFragment.toggleViewMode();
+            viewChanged=true;
+            if(SharedData.SIMPLE_VIEW_MODE){
+                item.setTitle("Card view");
+            }else{
+                item.setTitle("Simple view");
+            }
+
         }
         else{
         mCurrentFragment.toggleLayout(item);
@@ -367,7 +380,11 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 if(mCurrentFragment.ismIsEmptyFolder()){
                     showNoFilesFragment();
 
-                }else{
+                }if(viewChanged){
+                    viewChanged=false;
+                    mCurrentFragment.reloadDataSet();
+                }
+                else{
                     removeNoFilesFragment();
                 }
                 mCurrentFragment.setBlur(!blur);

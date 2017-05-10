@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.osama.cryptofmroot.R;
+import com.osama.cryptofmroot.filemanager.utils.SharedData;
 
 
 import java.util.HashMap;
@@ -62,7 +63,12 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
-            View view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
+        View view;
+            if(SharedData.SIMPLE_VIEW_MODE){
+                view=inflater.inflate(R.layout.filemanager_listview_item,parent,false);
+            }else{
+                view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
+            }
             return new ViewHolder(view,mContext,mManager,mFileFiller);
 
     }
