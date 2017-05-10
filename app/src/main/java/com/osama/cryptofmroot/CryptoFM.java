@@ -21,6 +21,7 @@ package com.osama.cryptofmroot;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 
 /**
  * Created by tripleheader on 1/26/17.
@@ -40,5 +41,13 @@ public class CryptoFM extends Application {
             instance=new  CryptoFM();
         }
         return instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 }

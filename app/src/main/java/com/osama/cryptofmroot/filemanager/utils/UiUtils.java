@@ -38,6 +38,7 @@ import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
+import java.net.URI;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -97,12 +98,12 @@ public class UiUtils {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                Uri uri = FileProvider.getUriForFile(
+               /* Uri uri = FileProvider.getUriForFile(
                         CryptoFM.getContext(),
                         CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
                         FileUtils.getFile(filename)
-                );
+                );*/
+                Uri uri=Uri.fromFile(FileUtils.getFile(filename));
                 intent.setDataAndType(uri, mimeType);
             } else {
                 intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
