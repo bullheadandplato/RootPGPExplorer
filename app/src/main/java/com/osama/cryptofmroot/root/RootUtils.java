@@ -82,7 +82,10 @@ public final class RootUtils {
     }
     public static void copyFile(String source,String destination) throws IOException {
         mountRw();
-         Runtime.getRuntime().exec("su -c cp -r \"" +source + "\" \""+destination+"\"");
+        String command="cp -r \""+source+"\" \""+destination+"\"";
+        Log.d(TAG, "copyFile: Command is: "+command);
+         //Runtime.getRuntime().exec("su -c cp -r \"" +source + "\" \""+destination+"\"");
+        Shell.SU.run(command);
     }
     public static void deleteFile(String filename){
         Shell.SU.run("rm -rf \""+filename+"\"");
@@ -110,11 +113,16 @@ public final class RootUtils {
     }
     public static void voidSElinuxApp(){
         String ds="supolicy --live \"allow untrusted_app rootfs file { append create open execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton } \"";
+      String ds1 ="supolicy --live \"allow untrusted_app rootfs dir { append create open execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton } \"";
        Shell.SU.run(ds);
+        Shell.SU.run(ds1);
     }
     public static void  restoreSElinuxApp(){
-        String ds="supolicy --live \"deny untrusted_app rootfs file { append create execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton }\"";
+        String ds="supolicy --live \"deny untrusted_app rootfs file { open rmdir append create execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton }\"";
+
+        String ds1 ="supolicy --live \"deny untrusted_app rootfs dir { append create open execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton } \"";
        Shell.SU.run(ds);
+        Shell.SU.run(ds1);
     }
     public static void restoreCon(String filename){
         Shell.SU.run("restorecon \""+filename+"\"");
