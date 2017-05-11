@@ -82,10 +82,11 @@ public final class RootUtils {
     }
     public static void copyFile(String source,String destination) throws IOException {
         mountRw();
-         Runtime.getRuntime().exec("su -c cp '" +source + "' '"+destination+"'");
+         Runtime.getRuntime().exec("su -c cp -r \"" +source + "\" \""+destination+"\"");
     }
     public static void deleteFile(String filename){
-        Shell.SU.run("rm -rf '"+filename+"'");
+        mountRw();
+        Shell.SU.run("rm -rf \""+filename+"\"");
     }
 
     public static void createFolder(String s) {

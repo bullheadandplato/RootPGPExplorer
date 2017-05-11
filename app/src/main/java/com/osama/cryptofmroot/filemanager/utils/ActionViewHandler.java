@@ -73,7 +73,7 @@ public class ActionViewHandler implements ActionMode.Callback {
             finishFileSelection();
         }
         else if(item.getItemId()==R.id.delete_menu_item){
-            mTaskHandler.deleteFile();
+            mTaskHandler.deleteFile((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
             finishFileSelection();
 
         }

@@ -99,7 +99,7 @@ public class TaskHandler {
             }
         });
     }
-    public void deleteFile(){
+    public void deleteFile(final ArrayList<String> files){
         SharedData.DO_NOT_RESET_ICON=true;
         final AlertDialog dialog=new AlertDialog.Builder(mContext).create();
         dialog.setTitle("Delete confirmation");
@@ -113,7 +113,8 @@ public class TaskHandler {
                         DeleteTask task=new DeleteTask(
                                 mContext,
                                 mAdapter,
-                                (ArrayList<String>) mFileSelectionManagement.getmSelectedFilePaths().clone());
+                                files
+                        );
                         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         dialog.dismiss();
 
