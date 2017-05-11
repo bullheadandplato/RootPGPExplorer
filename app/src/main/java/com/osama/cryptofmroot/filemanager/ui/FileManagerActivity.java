@@ -195,12 +195,14 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(SharedData.IS_IN_COPY_MODE){
             return super.onPrepareOptionsMenu(menu);
         }
-        MenuItem item=menu.getItem(0);
-        if(SharedData.GRID_LAYOUTMANAGER){
-            item.setIcon(getDrawable(R.drawable.ic_gridview));
-        }
-        if(SharedData.SIMPLE_VIEW_MODE){
-            menu.getItem(2).setTitle("Card view");
+        if(menu.size()>2) {
+            MenuItem item = menu.getItem(0);
+            if (SharedData.GRID_LAYOUTMANAGER) {
+                item.setIcon(getDrawable(R.drawable.ic_gridview));
+            }
+            if (SharedData.SIMPLE_VIEW_MODE) {
+                menu.getItem(2).setTitle("Card view");
+            }
         }
         return true;
     }
@@ -511,12 +513,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         actionMode.finish();
         invalidateOptionsMenu();
         openOptionsMenu();
-        //change directory to root path of current fragment
-        if(mCurrentFragment==null){
-            mCurrentFragment=mFragmentOnes[0];
-        }
-        changeTitle(mCurrentFragment.getRootPath());
-        mCurrentFragment.changeDirectory(mCurrentFragment.getRootPath(),1);
 
     }
 
