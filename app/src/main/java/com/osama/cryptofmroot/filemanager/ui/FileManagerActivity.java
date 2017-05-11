@@ -500,7 +500,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 actionMode.getMenu().removeItem(R.id.openwith_menu_item);
             }
         }else{
-            if(SharedData.SELECT_COUNT<2){
+            if(SharedData.SELECT_COUNT<2 && actionMode.getMenu().findItem(R.id.openwith_menu_item)==null){
                 SharedData.IS_OPENWITH_SHOWN=false;
                 actionMode.getMenu().add(0,R.id.openwith_menu_item,0,"Open with");
             }

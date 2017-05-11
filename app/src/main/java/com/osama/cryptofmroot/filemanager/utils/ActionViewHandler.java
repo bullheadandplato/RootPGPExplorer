@@ -73,17 +73,15 @@ public class ActionViewHandler implements ActionMode.Callback {
             finishFileSelection();
         }
         else if(item.getItemId()==R.id.delete_menu_item){
-            finishFileSelection();
             mTaskHandler.deleteFile();
+            finishFileSelection();
 
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
-           finishFileSelection();
             mTaskHandler.encryptTask(mManager.getmSelectedFilePaths());
-
+            finishFileSelection();
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
-            finishFileSelection();
             if(SharedData.KEY_PASSWORD==null) {
                 final Dialog dialog = new Dialog(mContext);
                 dialog.setCancelable(false);
@@ -122,6 +120,8 @@ public class ActionViewHandler implements ActionMode.Callback {
                         mManager.getmSelectedFilePaths()
                 );
             }
+
+            finishFileSelection();
         }
         else if(item.getItemId()==R.id.selectall_menu_item){
             mManager.selectAllFiles();
@@ -140,8 +140,8 @@ public class ActionViewHandler implements ActionMode.Callback {
             ((FileManagerActivity)mContext).showCopyDialog();
 
         }else if(item.getItemId()==R.id.openwith_menu_item){
-           finishFileSelection();
             mTaskHandler.openWith();
+            finishFileSelection();
 
         }
         return true;
