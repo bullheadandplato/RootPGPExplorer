@@ -178,6 +178,7 @@ public class TaskHandler {
         if(!SharedData.KEYS_GENERATED){
             //generate keys first
             generateKeys();
+            UiUtils.reloadData(mAdapter);
             return;
         }
         SharedData.IS_TASK_CANCELED=false;

@@ -111,9 +111,6 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
                 );
             }
         }
-        UiUtils.reloadData(
-                mAdapter
-        );
     }
 
     @Override

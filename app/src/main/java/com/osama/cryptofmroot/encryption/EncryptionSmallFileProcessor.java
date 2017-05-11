@@ -100,9 +100,6 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
     public boolean decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass) throws Exception {
         InputStream in =new BufferedInputStream(new FileInputStream(inputFile));
         in = PGPUtil.getDecoderStream(in);
-
-        try
-        {
             JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
             PGPEncryptedDataList enc;
 
@@ -191,16 +188,6 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             {
                 System.err.println("no message integrity check");
             }
-        }
-        catch (PGPException e)
-        {
-            e.printStackTrace();
-            if (e.getUnderlyingException() != null)
-            {
-                e.getUnderlyingException().printStackTrace();
-            }
-            throw e;
-        }
         in.close();
         secKeyFile.close();
         //decryption was successful if execution got here

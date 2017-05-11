@@ -118,6 +118,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     performNormalFormDecryption();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return e.getLocalizedMessage();
                 }
 
             }else{
