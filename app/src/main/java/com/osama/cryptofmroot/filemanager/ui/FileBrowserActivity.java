@@ -334,6 +334,11 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	}
 
+	@Override
+	public void selectedFileType(boolean isFolder) {
+
+	}
+
 	/**
 	 * end of task executing section
 	 */

@@ -431,17 +431,18 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         }
     }
 
+
     @Override
     public void decrementSelectionCount() {
         if(actionMode!=null){
-            actionMode.setTitle(--SharedData.SELECT_COUNT+"");
+            --SharedData.SELECT_COUNT;
             if(SharedData.SELECT_COUNT==0){
                 actionMode.finish();
             }
-            else if(SharedData.SELECT_COUNT<2){
-                actionMode.getMenu().add(0,R.id.rename_menu_item,0,"Rename");
-                actionMode.getMenu().add(0,R.id.openwith_menu_item,0,"Open with");
+            else if(SharedData.SELECT_COUNT<2) {
+                actionMode.getMenu().add(0, R.id.rename_menu_item, 0, "Rename");
             }
+        actionMode.setTitle(SharedData.SELECT_COUNT+"");
         }
     }
 
@@ -490,6 +491,21 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     public void animateForward(String path) {
         mCurrentFragment.changeDirectory(path,0);
     }
+    @Override
+    public void selectedFileType(boolean isFolder) {
+        Log.d(TAG, "selectedFileType: file selected and it it folder? "+isFolder);
+        if(isFolder){
+            if(SharedData.SELECT_COUNT<2 && !SharedData.IS_OPENWITH_SHOWN){
+                SharedData.IS_OPENWITH_SHOWN=true;
+                actionMode.getMenu().removeItem(R.id.openwith_menu_item);
+            }
+        }else{
+            if(SharedData.SELECT_COUNT<2){
+                SharedData.IS_OPENWITH_SHOWN=false;
+                actionMode.getMenu().add(0,R.id.openwith_menu_item,0,"Open with");
+            }
+        }
+    }
 
     public void showCopyDialog() {
         actionMode.finish();
@@ -506,7 +522,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
     @Override
     public void onMenuExpanded() {
-        Log.d("osama123", "onMenuExpanded: yes it worked");
         if(mCurrentFragment==null) {
             mCurrentFragment=mFragmentOnes[0];
         }

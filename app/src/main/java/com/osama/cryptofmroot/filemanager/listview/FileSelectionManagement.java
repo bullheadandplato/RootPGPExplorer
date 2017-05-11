@@ -91,7 +91,11 @@ public class FileSelectionManagement {
             Log.d(TAG, "selectionOperation: fixing a bug in files selection");
             mSelectedFilePaths.remove(mDataModel.getFilePath());
             mDataModel.setSelected(false);
+            mSelectedPosition.remove(Integer.valueOf(position));
             clickCallBack.decrementSelectionCount();
+            if(mSelectedPosition.size()==1){
+                clickCallBack.selectedFileType(!mFileFiller.getFileAtPosition(mSelectedPosition.get(0)).getFile());
+            }
             if(mDataModel.getFile()){
                 mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
             }else{
@@ -111,6 +115,7 @@ public class FileSelectionManagement {
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
             clickCallBack.incrementSelectionCount();
+            clickCallBack.selectedFileType(!mDataModel.getFile());
 
         }
     }

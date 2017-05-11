@@ -32,4 +32,5 @@ public interface AdapterCallbacks {
     void showNoFilesFragment();
     void removeNoFilesFragment();
     void animateForward(String path);
+    void selectedFileType(boolean isFolder);
 }
