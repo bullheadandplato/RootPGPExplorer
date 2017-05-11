@@ -85,7 +85,6 @@ public final class RootUtils {
          Runtime.getRuntime().exec("su -c cp -r \"" +source + "\" \""+destination+"\"");
     }
     public static void deleteFile(String filename){
-        mountRw();
         Shell.SU.run("rm -rf \""+filename+"\"");
     }
 
