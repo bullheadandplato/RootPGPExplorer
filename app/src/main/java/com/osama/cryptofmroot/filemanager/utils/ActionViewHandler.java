@@ -153,12 +153,10 @@ public class ActionViewHandler implements ActionMode.Callback {
         finishFileSelection();
     }
     private void finishFileSelection(){
-       SharedData.SELECT_COUNT=0;
+        SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=false;
         SharedData.IS_OPENWITH_SHOWN=false;
-        if(!SharedData.DO_NOT_RESET_ICON){
-            mManager.resetFileIcons();
-        }
+        mManager.resetFileIcons();
         mManager.setmSelectionMode(false);
     }
 
