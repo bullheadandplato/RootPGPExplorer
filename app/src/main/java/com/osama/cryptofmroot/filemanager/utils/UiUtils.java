@@ -33,8 +33,10 @@ import android.widget.Button;
 
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
+import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.root.RootUtils;
+import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
@@ -82,7 +84,7 @@ public class UiUtils {
         adapter.getmFileFiller().fillData(path,adapter);
     }
 
-    public static void openFile(String filename){
+    public static void openFile(String filename,Context ctx){
           if(RootUtils.isRootPath(filename)){
                     /*String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
                     Shell.SU.run("cat '"+filename+"' > '"+ sPath+"'");
@@ -99,19 +101,47 @@ public class UiUtils {
             Intent intent = new Intent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-               /*Uri uri = FileProvider.getUriForFile(
+               Uri uri = FileProvider.getUriForFile(
                         CryptoFM.getContext(),
                         CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
                         FileUtils.getFile(filename)
-                );*/
-                Uri uri=Uri.fromFile(FileUtils.getFile(filename));
+                );
+                //Uri uri=Uri.fromFile(FileUtils.getFile(filename));
                 intent.setDataAndType(uri, mimeType);
             } else {
                 intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
             }
             intent.setAction(Intent.ACTION_VIEW);
             Intent x = Intent.createChooser(intent, "Open with: ");
-            CryptoFM.getContext().startActivity(x);
+            if(intent.resolveActivity(ctx.getPackageManager())!=null){
+                ctx.startActivity(x);
+            }else{
+                //TODO
+                openWith(filename,ctx);
+            }
         RootUtils.restoreCon(filename);
         }
+        public static void openWith(final String filename,final Context ctx){
+
+        Log.d("nullpov", "openWith: filename is: "+filename);
+        final Dialog dialog=new Dialog(ctx);
+        dialog.setContentView(R.layout.openwith_dialog_layout);
+        dialog.findViewById(R.id.openwith_texteditor_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent=new Intent(ctx, TextEditorActivity.class);
+                intent.putExtra(CommonConstants.TEXTEDITACT_PARAM_PATH,filename);
+                ctx.startActivity(intent);
+            }
+        });
+        dialog.findViewById(R.id.openwith_installed_app_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+    }
 }

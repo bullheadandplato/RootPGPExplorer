@@ -222,7 +222,7 @@ public class FileSelectionManagement {
             }
 
         }else{
-            UiUtils.openFile(filename);
+            UiUtils.openFile(filename,mContext);
         }
     }
 

@@ -140,7 +140,7 @@ public class ActionViewHandler implements ActionMode.Callback {
             ((FileManagerActivity)mContext).showCopyDialog();
 
         }else if(item.getItemId()==R.id.openwith_menu_item){
-            mTaskHandler.openWith();
+            UiUtils.openWith(mManager.getmSelectedFilePaths().get(0),mContext);
             finishFileSelection();
 
         }
