@@ -100,7 +100,7 @@ public final class RootUtils {
         Shell.SU.run("chmod 666 \""+filename+"\"");
         
         //test
-        String ds="supolicy --live \"allow untrusted_app rootfs file { append create execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton ";
+
         File file=FileUtils.getFile(filename);
         if(file.canRead()){
             Log.d(TAG, "chmod666: Can read files");
@@ -108,7 +108,20 @@ public final class RootUtils {
             Log.d(TAG, "chmod666: Cannot read file");
         }
     }
+    public static void voidSElinuxApp(){
+        String ds="supolicy --live \"allow untrusted_app rootfs file { append create open execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton } \"";
+       Shell.SU.run(ds);
+    }
+    public static void  restoreSElinuxApp(){
+        String ds="supolicy --live \"deny untrusted_app rootfs file { append create execute write relabelfrom link unlink ioctl getattr setattr read rename lock mounton }\"";
+       Shell.SU.run(ds);
+    }
     public static void restoreCon(String filename){
         Shell.SU.run("restorecon \""+filename+"\"");
+    }
+
+    public static void createNewFile(String absolutePath) {
+        mountRw();
+        Shell.SU.run("touch \""+absolutePath+"\"");
     }
 }

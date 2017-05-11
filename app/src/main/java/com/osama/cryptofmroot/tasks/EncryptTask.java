@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.tasks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -31,10 +32,13 @@ import com.osama.cryptofmroot.encryption.EncryptionWrapper;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by home on 12/29/16.
@@ -47,6 +51,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private MyProgressDialog        mProgressDialog;
     private Context                 mContext;
     private File                    pubKeyFile;
+    private boolean                 isRootPath=false;
 
     private ArrayList<File>         mCreatedFiles=new ArrayList<>();
     private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
@@ -66,8 +71,17 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
+            if(RootUtils.isRootPath(mFilePaths.get(0))){
+                RootUtils.voidSElinuxApp();
+                RootUtils.mountRw();
+                isRootPath=true;
+            }
             for (String path : mFilePaths) {
+                publishProgress(path);
                 if(!isCancelled()){
+                    if(isRootPath){
+                        RootUtils.chmod666(path);
+                    }
                     File f = TasksFileUtils.getFile(path);
                         encryptFile(f);
                 }
@@ -89,6 +103,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 }
             }else {
                 File out = new File(f.getAbsolutePath()+".pgp");
+                if(isRootPath){
+                    out=new File(mContext.getExternalCacheDir().getAbsolutePath()+f.getAbsolutePath()+".pgp");
+                }
                 if(out.createNewFile()){
                     Log.d(TAG, "encryptFile: created file to encrypt into");
                 }
@@ -96,8 +113,15 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                         ((FileUtils.getReadableSize((f.length())))));
                 mCreatedFiles.add(out);
                 mUnencryptedFiles.add(f.getAbsolutePath());
-                EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
 
+                if(out.canWrite()){
+                    Log.d(TAG, "encryptFile: yes I can write");
+                }
+                EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
+                if(isRootPath){
+                    String path=out.getAbsolutePath().replace(mContext.getExternalCacheDir().getAbsolutePath(),"");
+                    RootUtils.renameFile(out.getAbsolutePath(),path);
+                }
             }
         }
 
@@ -125,6 +149,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 Toast.LENGTH_SHORT
         ).show();
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+        if(isRootPath){
+            RootUtils.restoreSElinuxApp();
+        }
 
     }
 
@@ -164,6 +191,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 get.delete();
             }
         }else{
+            if(isRootPath){
+                RootUtils.restoreSElinuxApp();
+            }
             for (File f : mCreatedFiles) {
                 f.delete();
             }

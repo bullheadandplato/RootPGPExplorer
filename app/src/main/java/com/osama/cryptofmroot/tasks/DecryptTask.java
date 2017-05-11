@@ -36,6 +36,7 @@ import com.osama.cryptofmroot.encryption.EncryptionWrapper;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -72,6 +73,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     private static final String TAG                        = DecryptTask.class.getName();
     private static final String DECRYPTION_SUCCESS_MESSAGE = "Decryption successful";
+    private boolean isRootPath=false;
 
     public DecryptTask(Context context,FileListAdapter adapter,
                        ArrayList<String> filePaths,
@@ -112,9 +114,14 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }
             rootPath=root.getPath();
 
+
             if(mFileName==null){
                     //do the normal files decryption
                 try {
+                    if(RootUtils.isRootPath(mFilePaths.get(0))){
+                        isRootPath=true;
+                        RootUtils.voidSElinuxApp();
+                    }
                     performNormalFormDecryption();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -122,6 +129,10 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
 
             }else{
+                if(RootUtils.isRootPath(mFileName)){
+                    RootUtils.voidSElinuxApp();
+                    RootUtils.chmod666(mFileName);
+                }
                 Log.d(TAG, "doInBackground: Filename is: "+mFileName);
                 File in= TasksFileUtils.getFile(mFileName);
                 File out= TasksFileUtils.getFile(root.getPath() + "/" + in.getName().substring(0, in.getName().lastIndexOf('.')));
@@ -145,6 +156,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         int size=mFilePaths.size();
         for (int i = 0; i < size; i++) {
             Log.d(TAG, "getOnlyEncryptedFiles: file path is: "+mFilePaths.get(i));
+            if(isRootPath){
+                RootUtils.chmod666(mFilePaths.get(i));
+            }
             File f=TasksFileUtils.getFile(mFilePaths.get(i));
             if(f.isDirectory()){
                 File[] fs=f.listFiles();
@@ -210,6 +224,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
 
         if (singleFileMode){
+            if(RootUtils.isRootPath(mFileName)){
+                RootUtils.restoreSElinuxApp();
+            }
             if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
                 singleModeDialog.dismiss();
                 Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
@@ -223,6 +240,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                         .show();
             }
         } else{
+            if (isRootPath){
+                RootUtils.restoreSElinuxApp();
+            }
             mProgressDialog.dismiss("Decryption completed");
             SharedData.CURRENT_RUNNING_OPERATIONS.clear();
             Toast.makeText(mContext,
