@@ -126,7 +126,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 }
                 EncryptionWrapper.encryptFile(f,out,pubKeyFile,true);
                 if(isRootPath){
-                   String path=out.getAbsolutePath().replace(mRootHandlingPath,"");
+                    String path=out.getAbsolutePath().replace(mRootHandlingPath,"");
                     Log.d(TAG, "encryptFile: "+path.substring(0,path.lastIndexOf('.')));
                     RootUtils.deleteFile(path.substring(0,path.lastIndexOf('.')));
                     RootUtils.renameFile(out.getAbsolutePath(),path);

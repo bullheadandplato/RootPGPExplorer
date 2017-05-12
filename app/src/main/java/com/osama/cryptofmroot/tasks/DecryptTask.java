@@ -31,6 +31,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
 import com.osama.cryptofmroot.encryption.EncryptionWrapper;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
@@ -67,12 +68,16 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     private String              rootPath;
     private ProgressDialog      singleModeDialog;
     private String              destFilename;
+    private File                mRootHandlingFile;
+    private String              mCurrentPath;
 
     private ArrayList<File>     mCreatedFiles=new ArrayList<>();
     private boolean             singleFileMode=false;
+    private String              mRootHandlingPath= SharedData.FILES_ROOT_DIRECTORY+"CryptoFM/dec";
 
     private static final String TAG                        = DecryptTask.class.getName();
     private static final String DECRYPTION_SUCCESS_MESSAGE = "Decryption successful";
+
     private boolean isRootPath=false;
 
     public DecryptTask(Context context,FileListAdapter adapter,
@@ -87,6 +92,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mSecKey            = getSecretKey();
         this.mProgressDialog    = new MyProgressDialog(mContext,"Decrypting",this);
         this.mPubKey            = new File(mContext.getFilesDir(),"pub.asc");
+        this.mCurrentPath       = mAdapter.getmFileFiller().getCurrentPath();
+        this.mRootHandlingPath  = mRootHandlingPath+mAdapter.getmFileFiller().getCurrentPath();
 
 
     }
@@ -100,6 +107,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         this.mSecKey            = getSecretKey();
         this.singleModeDialog   = new ProgressDialog(mContext);
         this.singleFileMode     = true;
+        this.mCurrentPath       = mAdapter.getmFileFiller().getCurrentPath();
+        this.mRootHandlingPath  = mRootHandlingPath+mAdapter.getmFileFiller().getCurrentPath();
 
     }
     @Override
@@ -113,14 +122,15 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
             }
             rootPath=root.getPath();
-
-
             if(mFileName==null){
                     //do the normal files decryption
                 try {
                     if(RootUtils.isRootPath(mFilePaths.get(0))){
+                        mRootHandlingFile=new File(mRootHandlingPath);
+                        if(mRootHandlingFile.mkdirs()){
+                            Log.d(TAG, "doInBackground: yes I have capability");
+                        }
                         isRootPath=true;
-                        RootUtils.voidSElinuxApp();
                     }
                     performNormalFormDecryption();
                 } catch (Exception e) {
@@ -130,8 +140,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
             }else{
                 if(RootUtils.isRootPath(mFileName)){
-                    RootUtils.voidSElinuxApp();
-                    RootUtils.chmod666(mFileName);
+                    mRootHandlingFile=new File(mRootHandlingPath);
+                    mRootHandlingFile.mkdirs();
+                    RootUtils.copyFile(mFileName,mRootHandlingPath);
                 }
                 Log.d(TAG, "doInBackground: Filename is: "+mFileName);
                 File in= TasksFileUtils.getFile(mFileName);
@@ -154,12 +165,11 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     private ArrayList<String> getOnlyEncryptedFiles(ArrayList<String> mFilePaths) throws IOException {
         int size=mFilePaths.size();
+        Log.d(TAG, "getOnlyEncryptedFiles: size is: "+size);
         for (int i = 0; i < size; i++) {
-            Log.d(TAG, "getOnlyEncryptedFiles: file path is: "+mFilePaths.get(i));
-            if(isRootPath){
-                RootUtils.chmod666(mFilePaths.get(i));
-            }
-            File f=TasksFileUtils.getFile(mFilePaths.get(i));
+            String path=mFilePaths.get(i);
+            Log.d(TAG, "getOnlyEncryptedFiles: file path is: "+path);
+            File f=TasksFileUtils.getFile(path);
             if(f.isDirectory()){
                 File[] fs=f.listFiles();
                 ArrayList<String> tmp1=new ArrayList<>();
@@ -169,15 +179,16 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 }
                 getOnlyEncryptedFiles(tmp1);
             }
-                if(FileUtils.isEncryptedFile(mFilePaths.get(i))){
-                tmp.add(mFilePaths.get(i));
+                if(FileUtils.isEncryptedFile(path)){
+                tmp.add(path);
             }
         }
         if(tmp.size()<1){
-            throw new IllegalArgumentException("No encrypted files found");
+            //throw new IllegalArgumentException("No encrypted files found");
         }
         return tmp;
     }
+
 
     private void decryptFile(File f) throws Exception{
         Log.d(TAG, "decryptFile: task is running");
@@ -203,6 +214,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     }
                 }
             }
+            if(isRootPath){
+                f.delete();
+            }
         }
 
     }
@@ -224,9 +238,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
 
         if (singleFileMode){
-            if(RootUtils.isRootPath(mFileName)){
-                RootUtils.restoreSElinuxApp();
-            }
             if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
                 singleModeDialog.dismiss();
                 Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
@@ -240,9 +251,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                         .show();
             }
         } else{
-            if (isRootPath){
-                RootUtils.restoreSElinuxApp();
-            }
             mProgressDialog.dismiss("Decryption completed");
             SharedData.CURRENT_RUNNING_OPERATIONS.clear();
             Toast.makeText(mContext,
@@ -300,10 +308,23 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
 
 
-
+private void perfromRootOperation() throws IOException{
+    ArrayList<String> tmp=new ArrayList<>();
+    for (int i = 0; i < mFilePaths.size(); i++) {
+        String path=mFilePaths.get(i);
+        path=path.replace(mCurrentPath,"");
+        RootUtils.copyFile(path,mRootHandlingPath);
+        path=mRootHandlingPath+path+"/";
+        tmp.add(path);
+    }
+    mFilePaths=tmp;
+}
     private void performNormalFormDecryption() throws Exception{
         tmp.clear();
         //refactor list to hold only encrypted files
+        if(isRootPath){
+            perfromRootOperation();
+        }
         mFilePaths=getOnlyEncryptedFiles(mFilePaths);
         for (String s : mFilePaths) {
             if(!isCancelled()) {
