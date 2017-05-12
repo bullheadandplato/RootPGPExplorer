@@ -335,8 +335,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     private void setToolbar(){
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Home");
-        toolbar.setSubtitle("/storage/emulated/0");
+        toolbar.setTitle(mStorageTitles.get(0));
+        toolbar.setSubtitle(mStoragePaths.get(0));
         setSupportActionBar(toolbar);
 
 
@@ -459,6 +459,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         if(path.equals(SharedData.FILES_ROOT_DIRECTORY)){
             path="Home";
+        }else if(path.equals("/")){
+            path="Root";
         }
         else{
             Log.d(TAG, "changeTitle: Path is: "+path);
