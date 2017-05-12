@@ -51,8 +51,8 @@
             app:fab_colorNormal="@color/white"
             app:fab_title="Create folder"
             android:onClick="onAddFloatingClicked"
-            android:src="@drawable/ic_default_folder"
-
+            android:src="@drawable/ic_create_new_folder"
+            android:tint="@color/pagercolor3"
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -61,7 +61,8 @@
             app:fab_colorNormal="@color/white"
             app:fab_size="normal"
             app:fab_title="Create file"
-            android:src="@drawable/ic_application_text"
+            android:src="@drawable/ic_create_file"
+            android:tint="@color/pagercolor2"
             android:id="@+id/createFilebutton"
             android:onClick="onCreateFileButtonClick"
             />
