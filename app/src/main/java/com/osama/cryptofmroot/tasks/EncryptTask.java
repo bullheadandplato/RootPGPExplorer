@@ -58,6 +58,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     private ArrayList<DocumentFile> mCreatedDocumentFiles=new ArrayList<>();
     private String                  mRootHandlingPath=SharedData.FILES_ROOT_DIRECTORY+"CryptoFM/enc";
     private File                    mRootHandlingFile;
+    private String                  mCurrentPath;
 
     private static final String TAG                         = EncryptTask.class.getName();
     private static final String ENCRYPTION_SUCCESS_MESSAGE  = "Successfully encrypted files";
@@ -68,6 +69,8 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         this.mFilePaths         = filePaths;
         this.mProgressDialog    = new MyProgressDialog(context,"Encrypting",this);
         this.pubKeyFile         = new File(mContext.getFilesDir(),"pub.asc");
+        mCurrentPath            = mAdapter.getmFileFiller().getCurrentPath();
+        mRootHandlingPath       = mRootHandlingPath+mCurrentPath;
     }
 
     @Override
@@ -75,15 +78,16 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         try {
             if(RootUtils.isRootPath(mFilePaths.get(0))){
                 mRootHandlingFile=new File(mRootHandlingPath);
-                mRootHandlingFile.mkdir();
+                if(!mRootHandlingFile.mkdirs()){
+                    Log.d(TAG, "doInBackground: cannot create directory");
+                }
                 isRootPath=true;
             }
             for (String path : mFilePaths) {
-                publishProgress(path);
                 if(!isCancelled()){
                     if(isRootPath){
-                        if()
-                        RootUtils.copyFile(path,mRootHandlingPath+path.substring(0,path.lastIndexOf('/')));
+                        path=path.replace(mCurrentPath,"");
+                        RootUtils.copyFile(path,mRootHandlingPath);
                         path=mRootHandlingPath+path+"/";
                         Log.d(TAG, "doInBackground: path is: "+path);
                     }
