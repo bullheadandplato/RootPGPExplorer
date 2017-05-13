@@ -83,7 +83,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#818181"
+            android:background="#C1C1C1"
             android:layout_below="@id/relative_layout2"
             android:layout_marginTop="5dp"
             />
