@@ -21,8 +21,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:foreground="?android:selectableItemBackground"
     android:layout_height="wrap_content">
 
@@ -31,13 +29,14 @@
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/list_imageview"
         android:layout_height="48dp"
-        android:layout_width="30dp" />
+        android:layout_width="40dp"
+        android:layout_margin="2dp"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:layout_marginTop="5dp"
         >
 
         <TextView
@@ -64,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/folder_size_textview"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/nofiles_textview"
                 android:textColor="@color/textColorTertiary" />
@@ -75,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nofiles_textview"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="@color/textColorTertiary" />
         </RelativeLayout>
 
