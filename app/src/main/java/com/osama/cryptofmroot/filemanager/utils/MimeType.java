@@ -123,7 +123,9 @@ public class MimeType {
                 fileExtensionOrItems.equalsIgnoreCase("xls")){
             return IconManager.EXCEL;
         }
-        else {
+        else if(fileExtensionOrItems.equalsIgnoreCase("apk")) {
+            return IconManager.APK;
+        }else{
             return IconManager.BLANK_ICON;
         }
     }
