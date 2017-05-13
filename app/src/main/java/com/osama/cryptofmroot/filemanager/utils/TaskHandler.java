@@ -57,6 +57,7 @@ public class TaskHandler {
     private Context                 mContext;
     private FileSelectionManagement mFileSelectionManagement;
     private ArrayList<String>       mSelectedFiles;
+    private static final String TAG=TaskHandler.class.getCanonicalName();
     public TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
         this.mContext=context;
         mAdapter=adapter;
@@ -162,14 +163,13 @@ public class TaskHandler {
                         return;
                     } else {
                         SharedData.KEY_PASSWORD = editText.getText().toString();
-                        decryptFile(username,keypass,dbpass,files);
+                        Log.d(TAG, "onClick: set the password");
+                        decryptFile(username,SharedData.KEY_PASSWORD,dbpass,files);
                         dialog.dismiss();
                     }
                 }
             });
         } else {
-
-
             SharedData.IS_TASK_CANCELED = false;
             int size = files.size();
             for (int i = 0; i < size; i++) {

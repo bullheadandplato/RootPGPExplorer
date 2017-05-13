@@ -86,8 +86,8 @@ public class ActionViewHandler implements ActionMode.Callback {
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWORD,
-                                    mManager.getmSelectedFilePaths()
-                                    );
+                     (ArrayList<String>) mManager.getmSelectedFilePaths().clone()
+             );
 
             finishFileSelection();
         }
