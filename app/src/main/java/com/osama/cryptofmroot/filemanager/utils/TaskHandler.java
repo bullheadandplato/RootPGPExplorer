@@ -98,6 +98,7 @@ public class TaskHandler {
                 }
             }
         });
+
     }
     public void deleteFile(final ArrayList<String> files){
         SharedData.DO_NOT_RESET_ICON=true;
@@ -132,44 +133,77 @@ public class TaskHandler {
         dialog.show();
     }
 
-    public void decryptFile(final String username, final String keypass, final String dbpass,ArrayList<String> files) {
-        SharedData.DO_NOT_RESET_ICON=true;
-        if(!SharedData.KEYS_GENERATED){
+    public void decryptFile(final String username, final String keypass, final String dbpass, final ArrayList<String> files) {
+        SharedData.DO_NOT_RESET_ICON = true;
+        if (!SharedData.KEYS_GENERATED) {
             //generate keys first
             generateKeys();
+            relaod();
             return;
         }
-        SharedData.IS_TASK_CANCELED=false;
-        int size=files.size();
-        for (int i = 0; i < size; i++) {
-            if(SharedData.checkIfInRunningTask(files.get(i))){
-                            Toast.makeText(
-                    mContext,
-                    "Another operation is already running on files, please wait",
-                    Toast.LENGTH_LONG
-            ).show();
-            return;
+        if (SharedData.KEY_PASSWORD == null) {
+            final Dialog dialog = new Dialog(mContext);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.password_dialog_layout);
+            dialog.show();
+            dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    relaod();
+                }
+            });
+            final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
+            dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (editText.getText().length() < 1) {
+                        editText.setError("please give me your encryption password");
+                        return;
+                    } else {
+                        SharedData.KEY_PASSWORD = editText.getText().toString();
+                        decryptFile(username,keypass,dbpass,files);
+                        dialog.dismiss();
+                    }
+                }
+            });
+        } else {
+
+
+            SharedData.IS_TASK_CANCELED = false;
+            int size = files.size();
+            for (int i = 0; i < size; i++) {
+                if (SharedData.checkIfInRunningTask(files.get(i))) {
+                    Toast.makeText(
+                            mContext,
+                            "Another operation is already running on files, please wait",
+                            Toast.LENGTH_LONG
+                    ).show();
+                    relaod();
+                    return;
+                }
             }
-        }
 
-        SharedData.CURRENT_RUNNING_OPERATIONS=files;
+            SharedData.CURRENT_RUNNING_OPERATIONS = files;
 
-        mDecryptTask=new DecryptTask(
-                mContext,
-                mAdapter,
-                (ArrayList<String>) files.clone(),
-                dbpass,
-                username,
-                keypass
-        );
-        try{
-            mDecryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }catch (IllegalStateException ex){
-            Toast.makeText(
+            mDecryptTask = new DecryptTask(
                     mContext,
-                    "Already decrypting files",
-                    Toast.LENGTH_LONG
-            ).show();
+                    mAdapter,
+                    (ArrayList<String>) files.clone(),
+                    dbpass,
+                    username,
+                    keypass
+            );
+            try {
+                mDecryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } catch (IllegalStateException ex) {
+                Toast.makeText(
+                        mContext,
+                        "Already decrypting files",
+                        Toast.LENGTH_LONG
+                ).show();
+                relaod();
+            }
         }
     }
     public void encryptTask(ArrayList<String> files){
@@ -179,7 +213,7 @@ public class TaskHandler {
         if(!SharedData.KEYS_GENERATED){
             //generate keys first
             generateKeys();
-            UiUtils.reloadData(mAdapter);
+            relaod();
             return;
         }
         SharedData.IS_TASK_CANCELED=false;
@@ -191,6 +225,7 @@ public class TaskHandler {
                     "Another operation is already running on files, please wait",
                     Toast.LENGTH_LONG
             ).show();
+                relaod();
             return ;
             }
         }
@@ -246,6 +281,10 @@ public class TaskHandler {
 
     public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
         this.mSelectedFiles = mSelectedFiles;
+    }
+
+    private void relaod(){
+        UiUtils.reloadData(mAdapter);
     }
 
 }

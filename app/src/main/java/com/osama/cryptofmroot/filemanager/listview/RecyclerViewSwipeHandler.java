@@ -71,46 +71,13 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
         if(direction==ItemTouchHelper.RIGHT){
             mTaskHandler.encryptTask((tmp));
         }else{
-            if(SharedData.KEY_PASSWORD==null) {
-                final Dialog dialog = new Dialog(mContext);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.password_dialog_layout);
-                dialog.show();
-                dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
-                dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (editText.getText().length() < 1) {
-                            editText.setError("please give me your encryption password");
-                        } else {
-                            SharedData.KEY_PASSWORD = editText.getText().toString();
-                            dialog.dismiss();
-                            ArrayList<String> innerTmp=new ArrayList<>();
-                            innerTmp.add(filePath);
-                            mTaskHandler.decryptFile(
-                                    SharedData.USERNAME,
-                                    SharedData.KEY_PASSWORD,
-                                    SharedData.DB_PASSWORD,
-                                    innerTmp
-                            );
-                        }
-                    }
-                });
-            }else{
-                mTaskHandler.decryptFile(
-                        SharedData.USERNAME,
-                        SharedData.KEY_PASSWORD,
-                        SharedData.DB_PASSWORD,
-                        tmp
-                );
+            mTaskHandler.decryptFile(
+                    SharedData.USERNAME,
+                    SharedData.KEY_PASSWORD,
+                    SharedData.DB_PASSWORD,
+                    tmp
+            );
             }
-        }
     }
 
     @Override

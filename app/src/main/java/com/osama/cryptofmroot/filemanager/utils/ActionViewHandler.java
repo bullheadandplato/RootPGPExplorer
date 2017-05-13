@@ -82,44 +82,12 @@ public class ActionViewHandler implements ActionMode.Callback {
             finishFileSelection();
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
-            if(SharedData.KEY_PASSWORD==null) {
-                final Dialog dialog = new Dialog(mContext);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.password_dialog_layout);
-                dialog.show();
-                dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
-                dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (editText.getText().length() < 1) {
-                            editText.setError("please give me your encryption password");
-                            return;
-                        } else {
-                            SharedData.KEY_PASSWORD = editText.getText().toString();
-                            dialog.dismiss();
-                            mTaskHandler.decryptFile(
+             mTaskHandler.decryptFile(
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWORD,
                                     mManager.getmSelectedFilePaths()
                                     );
-                        }
-                    }
-                });
-            }else{
-                mTaskHandler.decryptFile(
-                        SharedData.USERNAME,
-                        SharedData.KEY_PASSWORD,
-                        SharedData.DB_PASSWORD,
-                        mManager.getmSelectedFilePaths()
-                );
-            }
 
             finishFileSelection();
         }
