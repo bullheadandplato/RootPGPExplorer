@@ -107,7 +107,8 @@
             android:parentActivityName=".filemanager.ui.FileManagerActivity" />
         <activity android:name=".about.ShowTeam" />
         <activity android:name=".about.ShowTeamActivity" />
-        <activity android:name=".about.ShowTermsActivity"></activity>
+        <activity android:name=".about.ShowTermsActivity" />
+        <activity android:name=".extras.KeyDetailsActivity"></activity>
     </application>
 
 </manifest>
