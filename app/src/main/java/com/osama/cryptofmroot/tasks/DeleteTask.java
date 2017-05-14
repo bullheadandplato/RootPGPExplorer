@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
 import com.osama.cryptofmroot.root.RootUtils;
+import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,6 +95,10 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
         }
         if (!f.delete()) {
             throw new IOException("error in deleting file");
+        }else{
+            //reflect the change in file system
+            FileUtils.removeMediaStore(mContext,f);
+            FileUtils.notifyChange(mContext,f.getAbsolutePath());
         }
 
     }

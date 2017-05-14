@@ -19,19 +19,22 @@
 
 package com.osama.cryptofmroot.utils;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
-import com.osama.cryptofmroot.filemanager.utils.SharedData;
-import com.osama.cryptofmroot.root.RootUtils;
+import com.osama.cryptofmroot.CryptoFM;
 
 import java.io.File;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by tripleheader on 12/17/16.
@@ -40,6 +43,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class FileUtils {
     private static final String TAG     = "files";
+    public static final Uri FILE_URI = MediaStore.Files.getContentUri("external");
 
     public static long getFileSize(File file){
         return file.length();
@@ -150,5 +154,46 @@ public class FileUtils {
     public static boolean checkReadStatus(File f){
         return f.canRead();
     }
+public static void notifyChange(Context ctx,String path){
+        Log.d(TAG, "notifyChange: notifying change");
+        ctx.getContentResolver().notifyChange(getUri(path),null,false);
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, getUri(path));
+        ctx.sendBroadcast(mediaScanIntent);
+    }
 
+    public static void removeMediaStore(Context context, File file) {
+        try {
+            final ContentResolver resolver = context.getContentResolver();
+
+            // Remove media store entries for any files inside this directory, using
+            // path prefix match. Logic borrowed from MtpDatabase.
+            if (file.isDirectory()) {
+                final String path = file.getAbsolutePath() + "/";
+                resolver.delete(FILE_URI,
+                        "_data LIKE ?1 AND lower(substr(_data,1,?2))=lower(?3)",
+                        new String[] { path + "%", Integer.toString(path.length()), path });
+            }
+
+            // Remove media store entry for this exact file.
+            final String path = file.getAbsolutePath();
+            resolver.delete(FILE_URI,
+                    "_data LIKE ?1 AND lower(_data)=lower(?2)",
+                    new String[] { path, path });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static Uri getUri(String filePath){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(
+                    CryptoFM.getContext(),
+                    CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
+                    FileUtils.getFile(filePath)
+            );
+        }else{
+            return Uri.fromFile(FileUtils.getFile(filePath));
+        }
+    }
 }

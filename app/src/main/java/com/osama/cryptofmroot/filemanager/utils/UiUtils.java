@@ -23,26 +23,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 
-import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
-
-import java.io.File;
-import java.net.URI;
-
-import eu.chainfire.libsuperuser.Shell;
 
 
 /**
@@ -53,6 +45,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class UiUtils {
     public static ActionMode actionMode;
+
     private static final String TAG=UiUtils.class.getCanonicalName();
 
     public static Dialog createDialog(Context context, String title, String buttonTitle){
@@ -102,18 +95,10 @@ public class UiUtils {
                             );
 
             Intent intent = new Intent();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-               Uri uri = FileProvider.getUriForFile(
-                        CryptoFM.getContext(),
-                        CryptoFM.getContext().getApplicationContext().getPackageName() + ".provider",
-                        FileUtils.getFile(filename)
-                );
-                //Uri uri=Uri.fromFile(FileUtils.getFile(filename));
+        Uri uri=FileUtils.getUri(filename);
+
                 intent.setDataAndType(uri, mimeType);
-            } else {
-                intent.setDataAndType(Uri.fromFile(FileUtils.getFile(filename)), mimeType);
-            }
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setAction(Intent.ACTION_VIEW);
             Intent x = Intent.createChooser(intent, "Open with: ");
             if(intent.resolveActivity(ctx.getPackageManager())!=null){
@@ -145,4 +130,7 @@ public class UiUtils {
         });
         dialog.show();
     }
+
 }
+
+

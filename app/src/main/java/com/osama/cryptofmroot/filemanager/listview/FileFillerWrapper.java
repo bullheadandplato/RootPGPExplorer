@@ -105,6 +105,7 @@ public  class FileFillerWrapper {
             currentPath=s;
             allFiles= RootUtils.getFileNames(s);
             totalFilesCount=allFiles.size();
+            sortData();
         }
 
         @Override
