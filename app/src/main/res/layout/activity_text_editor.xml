@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.osama.cryptofmroot.extras.TextEditorActivity">
-    <android.support.v7.widget.AppCompatEditText
-        android:layout_width="wrap_content"
+
+
+    <com.osama.cryptofmroot.extras.CustomEditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/type_here"
+        android:hint="Type here..."
+        android:textColorHint="#BDBDBD"
+        android:inputType="textMultiLine"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:id="@+id/editor_area"
+        android:backgroundTint="@android:color/transparent"
         />
 
-</android.support.constraint.ConstraintLayout>
+    </ScrollView>
+

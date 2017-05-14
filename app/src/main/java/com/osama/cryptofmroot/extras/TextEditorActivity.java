@@ -6,12 +6,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.osama.cryptofmroot.R;
@@ -37,19 +45,19 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class TextEditorActivity extends AppCompatActivity{
     private static final String TAG=TextEditorActivity.class.getCanonicalName();
+    int prevNumber=1;
 
     private File mFile;
     private EditText mEditText;
     private ProgressDialog mProgressDialog;
     private boolean isNewFile=false;
     private String mPath;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_editor);
-        mEditText=(EditText) findViewById(R.id.editor_area);
         mProgressDialog =new ProgressDialog(this);
-        
         String path=getIntent().getExtras().getString(CommonConstants.TEXTEDITACT_PARAM_PATH);
         if(path!=null){
             mFile=new File(path);
@@ -106,8 +114,8 @@ public class TextEditorActivity extends AppCompatActivity{
         }else{
             new FileSaveTask().execute("",mEditText.getText().toString());
         }
-    }
 
+    }
     private class FileSaveTask extends AsyncTask<String,Void,Boolean>{
 
         @Override
