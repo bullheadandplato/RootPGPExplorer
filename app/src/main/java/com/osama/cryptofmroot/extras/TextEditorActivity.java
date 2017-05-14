@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -52,6 +53,8 @@ public class TextEditorActivity extends AppCompatActivity{
     private ProgressDialog mProgressDialog;
     private boolean isNewFile=false;
     private String mPath;
+    private KeyListener mkeylistener;
+    private int mlength;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,10 @@ public class TextEditorActivity extends AppCompatActivity{
         setContentView(R.layout.activity_text_editor);
         mEditText=(EditText) findViewById(R.id.editor_area);
         mProgressDialog =new ProgressDialog(this);
+        mlength=mEditText.getText().length();
+        mkeylistener=mEditText.getKeyListener();
+        mEditText.setKeyListener(null);
+        mEditText.setEnabled(false);
         String path=getIntent().getExtras().getString(CommonConstants.TEXTEDITACT_PARAM_PATH);
         if(path!=null){
             mFile=new File(path);
@@ -85,6 +92,11 @@ public class TextEditorActivity extends AppCompatActivity{
             case R.id.save_file_menuitem:
                 saveFile();
                 break;
+            case R.id.edit_file_menuitem:
+                mEditText.setKeyListener(mkeylistener);
+                mEditText.setEnabled(true);
+                break;
+
         }
         return true;
     }
