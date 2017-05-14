@@ -116,10 +116,8 @@ public class UiUtils {
             if(intent.resolveActivity(ctx.getPackageManager())!=null){
                 ctx.startActivity(x);
             }else{
-                //TODO
                 openWith(filename,ctx);
             }
-        RootUtils.restoreCon(filename);
         }
         public static void openWith(final String filename,final Context ctx){
 
