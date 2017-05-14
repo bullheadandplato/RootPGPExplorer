@@ -41,6 +41,12 @@ public class KeyDetailsActivity extends AppCompatActivity {
             PGPPublicKey key=MyPGPUtil.readPublicKey(getFilesDir()+"/"+"pub.asc");
             ((TextView)findViewById(R.id.key_details_keyid_textview)).setText(""+key.getKeyID());
             ((TextView)findViewById(R.id.key_details_keysize_textview)).setText(""+key.getBitStrength());
+            if(key.getValidSeconds()==0){
+                ((TextView)findViewById(R.id.key_details_keyalgo_textview)).setText("Key does not expire");
+            }else{
+                ((TextView)findViewById(R.id.key_details_keyalgo_textview)).setText(""+key.getValidSeconds());
+            }
+            ((TextView)findViewById(R.id.key_details_keytime_textview)).setText(""+key.getCreationTime());
         } catch (IOException | PGPException e) {
             e.printStackTrace();
         }

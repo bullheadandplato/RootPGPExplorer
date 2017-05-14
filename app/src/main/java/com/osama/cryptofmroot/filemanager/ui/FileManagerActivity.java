@@ -81,20 +81,19 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         mStoragePaths =new ArrayList<>();
         mStorageTitles =new ArrayList<>();
         //check root access
-        if(RootTools.isRootAvailable()){
-            if(RootTools.isAccessGiven()){
+        if(RootTools.isRootAvailable()) {
+            if (RootTools.isAccessGiven()) {
                 Log.d(TAG, "onCreate: Root access is available and given");
                 mStoragePaths.add("/");
-                mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+                mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
                 mStorageTitles.add("root");
                 mStorageTitles.add("home");
+            } else {
+                Log.d(TAG, "onCreate: Root access is not available");
+                rootUnavailableOp();
             }
         }else{
-            Log.d(TAG, "onCreate: Root access is not available");
-            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
-            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
-            mStorageTitles.add("home");
-            mStorageTitles.add("download");
+            rootUnavailableOp();
         }
         setContentView(R.layout.activity_filemanager_tabs);
         SharedData.STARTED_IN_SELECTION_MODE=false;
@@ -119,6 +118,14 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
 
     }
+
+    private void rootUnavailableOp() {
+            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/");
+            mStorageTitles.add("home");
+            mStorageTitles.add("download");
+    }
+
     @ActionHandler(layoutResource = R.id.fab_add_folder)
     public void onAddFloatingClicked(View v){
         UiUtils.actionMode = this.actionMode;
