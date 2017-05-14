@@ -51,4 +51,8 @@ public class CustomEditText extends android.support.v7.widget.AppCompatEditText 
         }
         super.onDraw(canvas);
     }
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        this.setSelection(this.getText().length());
+    }
 }

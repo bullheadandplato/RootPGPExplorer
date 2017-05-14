@@ -6,4 +6,9 @@
     app:showAsAction="never"
     android:id="@+id/save_file_menuitem"
     />
+    <item
+        android:title="@string/edit_file"
+        app:showAsAction="never"
+        android:id="@+id/edit_file_menuitem"
+        />
 </menu>

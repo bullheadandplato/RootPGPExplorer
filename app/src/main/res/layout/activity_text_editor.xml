@@ -13,10 +13,11 @@
         android:hint="Type here..."
         android:textColorHint="#BDBDBD"
         android:inputType="textMultiLine"
-        android:paddingLeft="16dp"
+        android:paddingLeft="35dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
+        android:clickable="false"
         android:id="@+id/editor_area"
         android:backgroundTint="@android:color/transparent"
         />
