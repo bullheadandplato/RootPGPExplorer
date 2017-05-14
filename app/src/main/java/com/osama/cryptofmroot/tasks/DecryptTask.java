@@ -208,8 +208,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 if (out.exists()) {
                     if(!out.delete()){
                         throw new IOException("Error in deleting already present file");
-                    }else{
-                        FileUtils.notifyChange(mContext,out.getAbsolutePath());
                     }
                 }
 
@@ -220,11 +218,12 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     if(out.delete()){
                         throw new Exception("Error in decrypting file");
                     }
+                }else{
+                    FileUtils.notifyChange(mContext,out.getAbsolutePath());
                 }
             }
             if(isRootPath){
                 f.delete();
-                FileUtils.notifyChange(mContext,f.getAbsolutePath());
             }
         }
 
@@ -245,7 +244,6 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
-
         if (singleFileMode){
             if( s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
                 singleModeDialog.dismiss();
