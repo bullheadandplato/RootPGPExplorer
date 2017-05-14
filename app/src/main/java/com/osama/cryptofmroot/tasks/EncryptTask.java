@@ -55,7 +55,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     private ArrayList<File>         mCreatedFiles=new ArrayList<>();
     private ArrayList<String>       mUnencryptedFiles=new ArrayList<>();
-    private ArrayList<DocumentFile> mCreatedDocumentFiles=new ArrayList<>();
     private String                  mRootHandlingPath=SharedData.FILES_ROOT_DIRECTORY+"CryptoFM/enc";
     private File                    mRootHandlingFile;
     private String                  mCurrentPath;
@@ -157,7 +156,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 s,
                 Toast.LENGTH_SHORT
         ).show();
-        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+
         if(isRootPath){
             RootUtils.deleteFile(mRootHandlingPath);
         }
@@ -194,21 +193,9 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
 
     @Override
     protected void onCancelled() {
-        if(mCreatedDocumentFiles.size()>0){
-            //this means encryption was performed on document files
-            for (DocumentFile get:mCreatedDocumentFiles) {
-                get.delete();
-            }
-        }else{
-            if(isRootPath){
-                RootUtils.restoreSElinuxApp();
-            }
             for (File f : mCreatedFiles) {
                 f.delete();
             }
-        }
-
-
         Toast.makeText(
                 mContext,
                 "Encryption canceled",

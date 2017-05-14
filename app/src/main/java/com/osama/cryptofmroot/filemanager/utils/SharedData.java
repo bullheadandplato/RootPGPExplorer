@@ -20,6 +20,7 @@
 package com.osama.cryptofmroot.filemanager.utils;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class SharedData {
     public static boolean           IS_TASK_CANCELED=false;
     public static boolean           ALREADY_INSTANTIATED=false;
     public static boolean           IS_COPYING_NOT_MOVING=false;
-    public static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
+    public volatile static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
     public static final String      FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
     public static int               SELECT_COUNT=0;
     public static String            USERNAME;
@@ -56,16 +57,19 @@ public class SharedData {
 
     /**
      *
-     * @param path to check if any operation is going on it
+     * @param paths to check if any operation is going on it
      * @return true if no operation is going on else false
      */
-    public static boolean checkIfInRunningTask(String path){
-        if(CURRENT_RUNNING_OPERATIONS.size()<1){
+    public synchronized static boolean checkIfInRunningTask(ArrayList<String> paths){
+        if(SharedData.CURRENT_RUNNING_OPERATIONS.size()<1){
             return false;
         }
-        for (String p: CURRENT_RUNNING_OPERATIONS) {
-            if(path.contains(p) || p.contains(path)){
-                return true;
+        for (int i = 0; i < SharedData.CURRENT_RUNNING_OPERATIONS.size(); i++) {
+            for (String p:paths) {
+                Log.d("fucked", "checkIfInRunningTask: "+p);
+                if(SharedData.CURRENT_RUNNING_OPERATIONS.get(i).equalsIgnoreCase(p)){
+                    return true;
+                }
             }
         }
         return false;

@@ -65,7 +65,9 @@ public class TaskHandler {
     }
 
     public void renameFile(){
-        SharedData.DO_NOT_RESET_ICON=true;
+        if(!isOperationNotRunning(mFileSelectionManagement.getmSelectedFilePaths())){
+            return;
+        }
         final Dialog dialog = UiUtils.createDialog(
                 mContext,
                 "Rename file",
@@ -102,7 +104,9 @@ public class TaskHandler {
 
     }
     public void deleteFile(final ArrayList<String> files){
-        SharedData.DO_NOT_RESET_ICON=true;
+        if(!isOperationNotRunning(files)){
+            return;
+        }
         final AlertDialog dialog=new AlertDialog.Builder(mContext).create();
         dialog.setTitle("Delete confirmation");
         dialog.setMessage("Do you really want to delete these files(s)?");
@@ -135,11 +139,10 @@ public class TaskHandler {
     }
 
     public void decryptFile(final String username, final String keypass, final String dbpass, final ArrayList<String> files) {
-        SharedData.DO_NOT_RESET_ICON = true;
+
         if (!SharedData.KEYS_GENERATED) {
             //generate keys first
             generateKeys();
-            relaod();
             return;
         }
         if (SharedData.KEY_PASSWORD == null) {
@@ -151,7 +154,6 @@ public class TaskHandler {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
-                    relaod();
                 }
             });
             final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
@@ -170,26 +172,16 @@ public class TaskHandler {
                 }
             });
         } else {
-            SharedData.IS_TASK_CANCELED = false;
-            int size = files.size();
-            for (int i = 0; i < size; i++) {
-                if (SharedData.checkIfInRunningTask(files.get(i))) {
-                    Toast.makeText(
-                            mContext,
-                            "Another operation is already running on files, please wait",
-                            Toast.LENGTH_LONG
-                    ).show();
-                    relaod();
-                    return;
-                }
+            if(!isOperationNotRunning(files)){
+                return;
             }
 
-            SharedData.CURRENT_RUNNING_OPERATIONS = files;
-
+            SharedData.IS_TASK_CANCELED = false;
+            SharedData.CURRENT_RUNNING_OPERATIONS = new ArrayList<>(files);
             mDecryptTask = new DecryptTask(
                     mContext,
                     mAdapter,
-                    (ArrayList<String>) files.clone(),
+                    new ArrayList<>(files),
                     dbpass,
                     username,
                     keypass
@@ -202,38 +194,28 @@ public class TaskHandler {
                         "Already decrypting files",
                         Toast.LENGTH_LONG
                 ).show();
-                relaod();
+
             }
         }
     }
     public void encryptTask(ArrayList<String> files){
-        SharedData.DO_NOT_RESET_ICON=true;
         //check if user hasn't generate keys
-
         if(!SharedData.KEYS_GENERATED){
             //generate keys first
             generateKeys();
-            relaod();
             return;
         }
-        SharedData.IS_TASK_CANCELED=false;
-        int size=files.size();
-        for (int i = 0; i < size; i++) {
-            if(SharedData.checkIfInRunningTask(files.get(i))){
-             Toast.makeText(
-                    mContext,
-                    "Another operation is already running on files, please wait",
-                    Toast.LENGTH_LONG
-            ).show();
-                relaod();
-            return ;
-            }
+
+        if(!isOperationNotRunning(files)){
+            return;
         }
-        SharedData.CURRENT_RUNNING_OPERATIONS=files;
+
+        SharedData.IS_TASK_CANCELED=false;
+        SharedData.CURRENT_RUNNING_OPERATIONS=new ArrayList<>(files);
         mEncryptTask=new EncryptTask(
                 mContext,
                 mAdapter,
-                (ArrayList<String>) files.clone()
+                new ArrayList<>(files)
         );
         mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -250,11 +232,10 @@ public class TaskHandler {
                  //get the password
                 Intent intent = new Intent(mContext, OptionActivity.class);
                 mContext.startActivity(intent);
+                UiUtils.reloadData(mAdapter);
             }
         });
         dialog.show();
-
-
     }
 
     public DecryptTask getDecryptTask() {
@@ -266,11 +247,13 @@ public class TaskHandler {
     }
 
     public void moveFiles(String dest,FileListAdapter m){
-        SharedData.DO_NOT_RESET_ICON=true;
         //make sure files have been placed
         assert mSelectedFiles!=null;
         if(mSelectedFiles.size()<1){
             Log.d("MoveTask", "moveFiles: files are not added");
+        }
+        if(!isOperationNotRunning(mSelectedFiles)){
+            return;
         }
         new MoveTask(mContext,mSelectedFiles,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -282,9 +265,13 @@ public class TaskHandler {
     public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
         this.mSelectedFiles = mSelectedFiles;
     }
-
-    private void relaod(){
-        UiUtils.reloadData(mAdapter);
+    private boolean isOperationNotRunning(ArrayList<String> files){
+       if(SharedData.checkIfInRunningTask(files)){
+            Toast.makeText(mContext,"Another operation is already running on selected files. please wait",Toast.LENGTH_LONG).show();
+            return false;
+       }
+       return true;
     }
+
 
 }

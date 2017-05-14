@@ -76,12 +76,15 @@ public class UiUtils {
 
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         if(actionMode!=null){
-            SharedData.DO_NOT_RESET_ICON=true;
             actionMode.finish();
+        }else {
+           refill(adapter);
         }
+    }
+    public static void refill(FileListAdapter adapter){
         Log.d(TAG, "reloadData: Happy here");
-        String path= adapter.getmFileFiller().getCurrentPath();
-        adapter.getmFileFiller().fillData(path,adapter);
+            String path = adapter.getmFileFiller().getCurrentPath();
+            adapter.getmFileFiller().fillData(path, adapter);
     }
 
     public static void openFile(String filename,Context ctx){

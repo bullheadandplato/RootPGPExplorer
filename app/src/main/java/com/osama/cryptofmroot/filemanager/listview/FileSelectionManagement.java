@@ -105,7 +105,9 @@ public class FileSelectionManagement {
         }else{
             selectFile(position);
         }
-        mFileListAdapter.notifyItemChanged(position);
+        if(!(mSelectedPosition.size()<1)){
+            mFileListAdapter.notifyItemChanged(position);
+        }
     }
     private void selectFile(int position){
         if(!mDataModel.getSelected()) {
@@ -152,20 +154,10 @@ public class FileSelectionManagement {
         }
     }
 
-    public void resetFileIcons(){
-        for (Integer pos:
-                mSelectedPosition) {
-            mDataModel = mFileFiller.getFileAtPosition(pos);
-            mDataModel.setBackgroundColor(ContextCompat.getColor(CryptoFM.getContext(),R.color.white));
-            if(mDataModel.getFile()){
-                mDataModel.setFileIcon(MimeType.getIcon(mDataModel.getFileExtension()));
-            }else{
-                mDataModel.setFileIcon(mFolderIcon);
-            }
-            Log.d(TAG, "resetFileIcons: Reseting file icon");
-            mFileListAdapter.notifyItemChanged(pos);
 
-        }
+
+    public FileListAdapter getmFileListAdapter() {
+        return mFileListAdapter;
     }
 
     public ArrayList<String> getmSelectedFilePaths() {

@@ -68,6 +68,7 @@ public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
         final String filePath=mAdapter.getmFileFiller().getCurrentPath() +((ViewHolder)viewHolder).mTextView.getText();
         ArrayList<String> tmp=new ArrayList<>();
         tmp.add(filePath);
+        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
         if(direction==ItemTouchHelper.RIGHT){
             mTaskHandler.encryptTask((tmp));
         }else{

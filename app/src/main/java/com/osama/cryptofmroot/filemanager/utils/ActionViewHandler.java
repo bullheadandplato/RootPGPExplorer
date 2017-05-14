@@ -70,26 +70,22 @@ public class ActionViewHandler implements ActionMode.Callback {
 
         if (item.getItemId()==R.id.rename_menu_item){
             mTaskHandler.renameFile();
-            finishFileSelection();
         }
         else if(item.getItemId()==R.id.delete_menu_item){
-            mTaskHandler.deleteFile((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
-            finishFileSelection();
+            mTaskHandler.deleteFile(new ArrayList<String>(mManager.getmSelectedFilePaths()));
 
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
             mTaskHandler.encryptTask(mManager.getmSelectedFilePaths());
-            finishFileSelection();
         }
         else if(item.getItemId()==R.id.decrypt_menu_item){
              mTaskHandler.decryptFile(
                                     SharedData.USERNAME,
                                     SharedData.KEY_PASSWORD,
                                     SharedData.DB_PASSWORD,
-                     (ArrayList<String>) mManager.getmSelectedFilePaths().clone()
-             );
+                     new ArrayList<String>(mManager.getmSelectedFilePaths())
 
-            finishFileSelection();
+             );
         }
         else if(item.getItemId()==R.id.selectall_menu_item){
             mManager.selectAllFiles();
@@ -99,18 +95,16 @@ public class ActionViewHandler implements ActionMode.Callback {
             SharedData.IS_IN_COPY_MODE=true;
             SharedData.IS_COPYING_NOT_MOVING=false;
             //set the files to be move or copied
-            mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
+            mTaskHandler.setmSelectedFiles(new ArrayList<String>(mManager.getmSelectedFilePaths()));
             ((FileManagerActivity)mContext).showCopyDialog();
         }else if(item.getItemId()==R.id.copy_menu_item){
             SharedData.IS_IN_COPY_MODE=true;
             SharedData.IS_COPYING_NOT_MOVING=true;
-            mTaskHandler.setmSelectedFiles((ArrayList<String>) mManager.getmSelectedFilePaths().clone());
+            mTaskHandler.setmSelectedFiles(new ArrayList<String>(mManager.getmSelectedFilePaths()));
             ((FileManagerActivity)mContext).showCopyDialog();
 
         }else if(item.getItemId()==R.id.openwith_menu_item){
             UiUtils.openWith(mManager.getmSelectedFilePaths().get(0),mContext);
-            finishFileSelection();
-
         }
         return true;
     }
@@ -124,11 +118,8 @@ public class ActionViewHandler implements ActionMode.Callback {
         SharedData.SELECT_COUNT=0;
         SharedData.SELECTION_MODE=false;
         SharedData.IS_OPENWITH_SHOWN=false;
-        mManager.resetFileIcons();
+        //mManager.resetFilesProperties();
         mManager.setmSelectionMode(false);
+        UiUtils.refill(mManager.getmFileListAdapter());
     }
-
-    /**
-     * end of action mode section
-     */
 }
