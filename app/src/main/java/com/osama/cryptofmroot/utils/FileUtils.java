@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.utils;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -154,11 +155,14 @@ public class FileUtils {
     public static boolean checkReadStatus(File f){
         return f.canRead();
     }
-public static void notifyChange(Context ctx,String path){
+    public static void notifyChange(Context ctx,String... path){
         Log.d(TAG, "notifyChange: notifying change");
-        ctx.getContentResolver().notifyChange(getUri(path),null,false);
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, getUri(path));
-        ctx.sendBroadcast(mediaScanIntent);
+        MediaScannerConnection.scanFile(ctx, path, null, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+                Log.d(TAG, "onScanCompleted: scan completed: "+path);
+            }
+        });
     }
 
     public static void removeMediaStore(Context context, File file) {

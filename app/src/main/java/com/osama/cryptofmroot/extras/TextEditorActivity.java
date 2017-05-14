@@ -120,6 +120,7 @@ public class TextEditorActivity extends AppCompatActivity{
                     if (folderName.length() < 1) {
                         folderEditText.setError("Give me the file name");
                     } else {
+                        dialog.dismiss();
                         new FileSaveTask().execute(folderName,mEditText.getText().toString());
                     }
                 }
@@ -141,7 +142,8 @@ public class TextEditorActivity extends AppCompatActivity{
                 }else{
                     filename=mPath;
                 }
-                if(RootUtils.isRootPath(mPath)){
+                Log.d(TAG, "doInBackground: Path is: "+mPath);
+                if(RootUtils.isRootPath(mPath+"/")){
                     Log.d(TAG, "doInBackground: full path and filename is: "+filename);
                     RootUtils.mountRw();
                     Shell.SU.run("echo \'"+text+"\' >> "+filename);
@@ -150,6 +152,8 @@ public class TextEditorActivity extends AppCompatActivity{
                 mFile=new File(filename);
                 if(!mFile.exists()){
                     mFile.createNewFile();
+                    //FileUtils.notifyChange(TextEditorActivity.this,mFile.getAbsolutePath());
+                    Log.d(TAG, "doInBackground: inserting new file");
                     FileUtils.notifyChange(TextEditorActivity.this,mFile.getAbsolutePath());
                 }
                 BufferedWriter writer=new BufferedWriter(new FileWriter(mFile));

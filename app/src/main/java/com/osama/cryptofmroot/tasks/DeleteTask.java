@@ -98,6 +98,7 @@ public class DeleteTask extends AsyncTask<Void,String,String>{
         }else{
             //reflect the change in file system
             FileUtils.removeMediaStore(mContext,f);
+
             FileUtils.notifyChange(mContext,f.getAbsolutePath());
         }
 
