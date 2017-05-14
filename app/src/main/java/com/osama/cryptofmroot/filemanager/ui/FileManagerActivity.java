@@ -166,6 +166,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                         ).show();
                     }else{
                         dialog.dismiss();
+                    FileUtils.notifyChange(FileManagerActivity.this,mCurrentFragment.getmCurrentPath()+folderName);
                         UiUtils.reloadData(
                                 mCurrentFragment.getmFileAdapter()
                         );

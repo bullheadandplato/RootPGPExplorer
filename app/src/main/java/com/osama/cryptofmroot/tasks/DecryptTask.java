@@ -154,6 +154,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
                 if(isRootPath){
                     in.delete();
+                    FileUtils.notifyChange(mContext,in.getAbsolutePath());
                 }
             }
 
@@ -207,6 +208,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 if (out.exists()) {
                     if(!out.delete()){
                         throw new IOException("Error in deleting already present file");
+                    }else{
+                        FileUtils.notifyChange(mContext,out.getAbsolutePath());
                     }
                 }
 
@@ -221,6 +224,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             }
             if(isRootPath){
                 f.delete();
+                FileUtils.notifyChange(mContext,f.getAbsolutePath());
             }
         }
 

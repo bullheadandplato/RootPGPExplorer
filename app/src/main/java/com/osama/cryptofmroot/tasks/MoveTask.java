@@ -30,6 +30,7 @@ import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
 import com.osama.cryptofmroot.root.RootUtils;
+import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -145,6 +146,7 @@ public class MoveTask extends AsyncTask<String,String,String> {
             File tmp=new File(mDestinationFolder);
             if(!tmp.exists()){
                 tmp.mkdir();
+                FileUtils.notifyChange(mContext,tmp.getAbsolutePath());
             }else{
                 return;
             }
@@ -163,6 +165,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
             File destinationFile   =new File(mDestinationFolder+f.getName());
             if(destinationFile.exists()){
                 return;
+            }else{
+                FileUtils.notifyChange(mContext,destinationFile.getAbsolutePath());
             }
 
         innerMove(
@@ -178,6 +182,8 @@ public class MoveTask extends AsyncTask<String,String,String> {
         }
         if(!f.delete()){
             throw new IOException("cannot move files");
+        }else{
+            FileUtils.notifyChange(mContext,f.getAbsolutePath());
         }
     }
     private void innerMove(InputStream in,OutputStream out, long totalFileLength) throws Exception{

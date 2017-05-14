@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -36,6 +37,8 @@ public class BackupKeysTask extends AsyncTask<String,Void,Boolean> {
                 if(!dir.mkdir()){
                     errorMessage="Cannot create directory to store keys.";
                     return false;
+                }else{
+                    FileUtils.notifyChange(CryptoFM.getContext(),dir.getAbsolutePath());
                 }
             }
             File secKey=new File(SharedData.FILES_ROOT_DIRECTORY+"CryptoFM/sec.key");
@@ -43,6 +46,8 @@ public class BackupKeysTask extends AsyncTask<String,Void,Boolean> {
                 if(!secKey.createNewFile()){
                     errorMessage="Cannot create key file.";
                     return false;
+                }else{
+                    FileUtils.notifyChange(CryptoFM.getContext(),secKey.getAbsolutePath());
                 }
             }
             BufferedOutputStream out=new BufferedOutputStream(
@@ -58,6 +63,8 @@ public class BackupKeysTask extends AsyncTask<String,Void,Boolean> {
                 if(!outPubKey.createNewFile()){
                     errorMessage="Cannot create key file.";
                     return false;
+                }else{
+                    FileUtils.notifyChange(CryptoFM.getContext(),pubKey.getAbsolutePath());
                 }
             }
             BufferedInputStream in=new BufferedInputStream(new FileInputStream(pubKey));

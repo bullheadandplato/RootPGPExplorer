@@ -150,6 +150,7 @@ public class TextEditorActivity extends AppCompatActivity{
                 mFile=new File(filename);
                 if(!mFile.exists()){
                     mFile.createNewFile();
+                    FileUtils.notifyChange(TextEditorActivity.this,mFile.getAbsolutePath());
                 }
                 BufferedWriter writer=new BufferedWriter(new FileWriter(mFile));
                 writer.write(text);

@@ -114,6 +114,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
                 File out = new File(f.getAbsolutePath()+".pgp");
                 if(out.createNewFile()){
                     Log.d(TAG, "encryptFile: created file to encrypt into");
+                    FileUtils.notifyChange(mContext,out.getAbsolutePath());
                 }
                 publishProgress(f.getName(),""+
                         ((FileUtils.getReadableSize((f.length())))));
@@ -195,6 +196,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     protected void onCancelled() {
             for (File f : mCreatedFiles) {
                 f.delete();
+                FileUtils.notifyChange(mContext,f.getAbsolutePath());
             }
         Toast.makeText(
                 mContext,
