@@ -8,7 +8,8 @@
     />
     <item
         android:title="@string/edit_file"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:id="@+id/edit_file_menuitem"
+        android:icon="@drawable/ic_edit_black_24dp"
         />
 </menu>
