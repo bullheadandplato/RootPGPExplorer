@@ -57,6 +57,7 @@ public class TextEditorActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_editor);
+        mEditText=(EditText) findViewById(R.id.editor_area);
         mProgressDialog =new ProgressDialog(this);
         String path=getIntent().getExtras().getString(CommonConstants.TEXTEDITACT_PARAM_PATH);
         if(path!=null){
