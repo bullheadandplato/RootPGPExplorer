@@ -143,6 +143,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     mRootHandlingFile=new File(mRootHandlingPath);
                     mRootHandlingFile.mkdirs();
                     RootUtils.copyFile(mFileName,mRootHandlingPath);
+                    mFileName=mRootHandlingPath+mFileName;
+                    isRootPath=true;
                 }
                 Log.d(TAG, "doInBackground: Filename is: "+mFileName);
                 File in= TasksFileUtils.getFile(mFileName);
@@ -150,6 +152,9 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 destFilename=out.getAbsolutePath();
                 mSecKey=getSecretKey();
                 EncryptionWrapper.decryptFile(in,out,mPubKey,getSecretKey(),mKeyPass);
+                if(isRootPath){
+                    in.delete();
+                }
             }
 
         }catch (Exception ex){
