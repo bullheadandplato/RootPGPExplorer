@@ -46,6 +46,7 @@ import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.about.AboutActivity;
+import com.osama.cryptofmroot.extras.KeyDetailsActivity;
 import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.AdapterCallbacks;
 import com.osama.cryptofmroot.filemanager.utils.FragmentCallbacks;
@@ -247,6 +248,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         else if(item.getItemId()==R.id.items_view_menu_item){
             SharedData.GRID_LAYOUTMANAGER=!SharedData.GRID_LAYOUTMANAGER;
         mCurrentFragment.toggleLayout(item);
+        }else if(item.getItemId()==R.id.keydetails_menu_item){
+            startActivity(new Intent(this, KeyDetailsActivity.class));
         }
 
         return true;

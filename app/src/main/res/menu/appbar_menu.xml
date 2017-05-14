@@ -34,6 +34,10 @@
         android:id="@+id/viewmode_menu_item"
         app:showAsAction="never"
         />
+    <item android:title="Key details"
+        android:id="@+id/keydetails_menu_item"
+        app:showAsAction="never"
+        />
     <item android:title="@string/backup_keys"
         android:id="@+id/backup_menu_item"
         app:showAsAction="never"

@@ -147,7 +147,7 @@ public class MyPGPUtil
      * @throws IOException on a problem with using the input stream.
      * @throws PGPException if there is an issue parsing the input stream.
      */
-    static PGPSecretKey readSecretKey(InputStream input) throws IOException, PGPException
+    public static PGPSecretKey readSecretKey(InputStream input) throws IOException, PGPException
     {
         PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
                 PGPUtil.getDecoderStream(input), new JcaKeyFingerprintCalculator());
