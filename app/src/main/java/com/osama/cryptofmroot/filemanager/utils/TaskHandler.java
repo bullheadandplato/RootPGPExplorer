@@ -36,6 +36,7 @@ import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.listview.FileSelectionManagement;
 import com.osama.cryptofmroot.startup.OptionActivity;
+import com.osama.cryptofmroot.tasks.CompressTask;
 import com.osama.cryptofmroot.tasks.DecryptTask;
 import com.osama.cryptofmroot.tasks.DeleteTask;
 import com.osama.cryptofmroot.tasks.EncryptTask;
@@ -256,6 +257,14 @@ public class TaskHandler {
             return;
         }
         new MoveTask(mContext,mSelectedFiles,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    public void compressTask(ArrayList<String> files,boolean uncompress){
+        if(!isOperationNotRunning(files)){
+            return;
+        }
+        ArrayList<String> tmp=new ArrayList<>(files);
+        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
+        new CompressTask(tmp,mContext,mAdapter,uncompress,mAdapter.getmFileFiller().getCurrentPath()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public ArrayList<String> getmSelectedFiles() {

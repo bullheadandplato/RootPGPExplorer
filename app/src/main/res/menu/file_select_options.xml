@@ -60,4 +60,8 @@
         android:title="Open with"
         app:showAsAction="never"
         />
+    <item android:id="@+id/compress_menu_item"
+        android:title="Compress"
+        app:showAsAction="never"
+        />
 </menu>
