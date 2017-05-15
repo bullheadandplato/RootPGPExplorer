@@ -200,4 +200,11 @@ public class FileUtils {
             return Uri.fromFile(FileUtils.getFile(filePath));
         }
     }
+    public static String getNameFromFilename(String filename) {
+        int dotPosition = filename.lastIndexOf('.');
+        if (dotPosition != -1) {
+            return filename.substring(0, dotPosition);
+        }
+        return "";
+    }
 }
