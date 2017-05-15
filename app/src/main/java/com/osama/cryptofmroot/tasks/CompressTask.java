@@ -86,7 +86,7 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
 
     private boolean compressFile(File parent, List<File> files) throws Exception{
         boolean success = false;
-            File dest = new File(parent, FileUtils.getNameFromFilename(files.get(0).getName()) + ".zip");
+            File dest = new File(parent, files.get(0).getName()+ ".zip");
             ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(dest));
             compressFile("", zout, files.toArray(new File[files.size()]));
             zout.close();
