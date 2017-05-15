@@ -249,7 +249,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                 singleModeDialog.dismiss();
                 Log.d(TAG, "onPostExecute: destination filename is: " + destFilename);
                 //open file
-                UiUtils.openFile(destFilename,mContext);
+                UiUtils.openFile(destFilename,mContext,mAdapter);
             }else{
                 singleModeDialog.dismiss();
                 Toast.makeText(mContext,

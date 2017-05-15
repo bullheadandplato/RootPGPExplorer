@@ -214,7 +214,7 @@ public class FileSelectionManagement {
             }
 
         }else{
-            UiUtils.openFile(filename,mContext);
+            UiUtils.openFile(filename,mContext,mFileListAdapter);
         }
     }
 

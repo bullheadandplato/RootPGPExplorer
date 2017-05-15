@@ -20,9 +20,11 @@
 package com.osama.cryptofmroot.filemanager.utils;
 
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
@@ -33,8 +35,11 @@ import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.extras.TextEditorActivity;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.root.RootUtils;
+import com.osama.cryptofmroot.tasks.CompressTask;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -80,12 +85,16 @@ public class UiUtils {
             adapter.getmFileFiller().fillData(path, adapter);
     }
 
-    public static void openFile(String filename,Context ctx){
+    public static void openFile(String filename,Context ctx,FileListAdapter adapter){
           if(RootUtils.isRootPath(filename)){
                     /*String sPath=CryptoFM.getContext().getExternalCacheDir().getAbsolutePath()+"/"+new File(filename).getName();
                     Shell.SU.run("cat '"+filename+"' > '"+ sPath+"'");
                     filename=sPath;*/
                     RootUtils.chmod666(filename);
+                }
+                if(FileUtils.getExtension(filename).equalsIgnoreCase("zip")){
+                    openZipFile(filename,ctx,adapter);
+                    return;
                 }
          String mimeType =
                     MimeTypeMap.getSingleton().
@@ -107,7 +116,14 @@ public class UiUtils {
                 openWith(filename,ctx);
             }
         }
-        public static void openWith(final String filename,final Context ctx){
+
+    private static void openZipFile(final String filename,Context ctx,FileListAdapter adapter) {
+        ArrayList<String> tmp=new ArrayList<>();
+        tmp.add(filename);
+        new CompressTask(tmp,ctx,adapter,true,adapter.getmFileFiller().getCurrentPath()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public static void openWith(final String filename,final Context ctx){
 
         Log.d("nullpov", "openWith: filename is: "+filename);
         final Dialog dialog=new Dialog(ctx);
