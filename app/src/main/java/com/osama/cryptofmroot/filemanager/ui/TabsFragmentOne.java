@@ -214,6 +214,7 @@ public class TabsFragmentOne extends Fragment {
                 }
                 mHelper.attachToRecyclerView(mRecyclerView);
                 mRecyclerView.setLayoutManager(mLinearLayoutManager);
+                reloadDataSet();
                 new SharedPreferencesTask().execute(true);
             }else{
                 item.setIcon(mContext.getDrawable(R.drawable.ic_listview));
@@ -222,9 +223,9 @@ public class TabsFragmentOne extends Fragment {
                 }
                 mHelper.attachToRecyclerView(null);
                 mRecyclerView.setLayoutManager(mGridLayoutManager);
+                reloadDataSet();
                 new SharedPreferencesTask().execute(false);
             }
-            mRecyclerView.requestLayout();
         }
     }
 
@@ -244,16 +245,6 @@ public class TabsFragmentOne extends Fragment {
         mTaskHandler.moveFiles(mCurrentPath,mFileAdapter);
     }
 
-    public void toggleViewMode() {
-        SharedData.SIMPLE_VIEW_MODE=!SharedData.SIMPLE_VIEW_MODE;
-        SharedPreferences prefs=getActivity().getSharedPreferences("done",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=prefs.edit();
-        editor.putBoolean(CommonConstants.VIEW_MODE_SHARED_PREF,SharedData.SIMPLE_VIEW_MODE);
-        editor.apply();
-        editor.commit();
-
-reloadDataSet();
-    }
     public void reloadDataSet(){
        mRecyclerView.setAdapter(null);
         mRecyclerView.setAdapter(mFileAdapter);

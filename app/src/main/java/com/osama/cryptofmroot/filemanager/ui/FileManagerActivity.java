@@ -40,7 +40,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.osama.RootTools.RootTools;
 import com.osama.cryptofmroot.CryptoFM;
@@ -112,7 +111,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
             SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
         }
-        SharedData.GRID_LAYOUTMANAGER=getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
+        SharedData.LINEAR_LAYOUTMANAGER =getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
         setToolbar();
         mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
@@ -206,14 +205,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(SharedData.IS_IN_COPY_MODE){
             return super.onPrepareOptionsMenu(menu);
         }
-        if(menu.size()>2) {
             MenuItem item = menu.getItem(0);
-            if (SharedData.GRID_LAYOUTMANAGER) {
+            if (SharedData.LINEAR_LAYOUTMANAGER) {
                 item.setIcon(getDrawable(R.drawable.ic_gridview));
-            }
-            if (SharedData.SIMPLE_VIEW_MODE) {
-                menu.getItem(2).setTitle("Card view");
-            }
         }
         return true;
     }
@@ -245,19 +239,12 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 showBackupDialog();
         }else if (item.getItemId()==R.id.refresh_menu_item){
             UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
-        }else if(item.getItemId()==R.id.viewmode_menu_item){
-            mCurrentFragment.toggleViewMode();
-            viewChanged=true;
-            if(SharedData.SIMPLE_VIEW_MODE){
-                item.setTitle("Card view");
-            }else{
-                item.setTitle("Simple view");
-            }
-
         }
         else if(item.getItemId()==R.id.items_view_menu_item){
-            SharedData.GRID_LAYOUTMANAGER=!SharedData.GRID_LAYOUTMANAGER;
-        mCurrentFragment.toggleLayout(item);
+
+            SharedData.LINEAR_LAYOUTMANAGER =!SharedData.LINEAR_LAYOUTMANAGER;
+            mCurrentFragment.toggleLayout(item);
+
         }else if(item.getItemId()==R.id.keydetails_menu_item){
             startActivity(new Intent(this, KeyDetailsActivity.class));
         }

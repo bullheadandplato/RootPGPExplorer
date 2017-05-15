@@ -30,10 +30,7 @@
         android:id="@+id/refresh_menu_item"
         app:showAsAction="ifRoom|collapseActionView"
         />
-    <item android:title="Simple view"
-        android:id="@+id/viewmode_menu_item"
-        app:showAsAction="never"
-        />
+
     <item android:title="Key details"
         android:id="@+id/keydetails_menu_item"
         app:showAsAction="never"

@@ -47,7 +47,7 @@ public class SharedData {
     public static String            KEY_PASSWORD;
     public static boolean           DO_NOT_RESET_ICON=false;
     public static HashMap<String,String> symbolicLinks =new HashMap<>();
-    public static boolean           GRID_LAYOUTMANAGER=false;
+    public static boolean LINEAR_LAYOUTMANAGER =false;
     public static boolean           IS_OPENWITH_SHOWN=false;
     /**
      * prevent public instance creation

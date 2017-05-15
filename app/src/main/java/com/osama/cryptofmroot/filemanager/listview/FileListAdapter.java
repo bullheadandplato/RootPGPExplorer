@@ -20,7 +20,6 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +32,6 @@ import com.osama.cryptofmroot.filemanager.utils.SharedData;
 
 
 import java.util.HashMap;
-
-import static com.osama.cryptofmroot.CryptoFM.getContext;
 
 
 /**
@@ -64,7 +61,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
         View view;
-            if(SharedData.SIMPLE_VIEW_MODE){
+            if(SharedData.LINEAR_LAYOUTMANAGER){
                 view=inflater.inflate(R.layout.filemanager_listview_item,parent,false);
             }else{
                 view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
