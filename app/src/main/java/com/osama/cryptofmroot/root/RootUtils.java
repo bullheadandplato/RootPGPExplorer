@@ -88,13 +88,17 @@ public final class RootUtils {
         Shell.SU.run(command);
     }
     public static void deleteFile(String filename){
+        mountRw();
         Shell.SU.run("rm -rf \""+filename+"\"");
     }
 
     public static void createFolder(String s) {
+        mountRw();
         Shell.SU.run("mkdir '"+s+"'");
     }
     public static void renameFile(String from,String to){
+        Log.d(TAG, "renameFile: "+from+" to "+to);
+        mountRw();
         Shell.SU.run("mv '"+from+ "' '"+to+"'");
     }
 

@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
+import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.filemanager.utils.UiUtils;
+import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
 
 import java.io.BufferedInputStream;
@@ -32,26 +34,63 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
     private FileListAdapter mAdapter;
     private boolean uncompress=false;
     private String mCurrentPath;
+    private boolean isRootPath=false;
+    private File rootHandlingFile;
+    private Context mContex;
+    private String zipFileName;
+    private String rootHandlingPath= SharedData.FILES_ROOT_DIRECTORY+"CryptoFM/comp";
 
     public CompressTask(ArrayList<String> mFiles, Context mContext,  FileListAdapter mAdapter, boolean uncompress,String mCurrentPath) {
         this.mFiles = mFiles;
         this.mAdapter = mAdapter;
         this.uncompress=uncompress;
         this.mCurrentPath=mCurrentPath;
-        this.mProgressDialog=new MyProgressDialog(mContext,"Compressing files",this);
+        this.mContex=mContext;
+        String title="Compressing files";
+        if(uncompress){
+            title="Uncompressing files";
+        }
+        this.mProgressDialog=new MyProgressDialog(mContext,title,this);
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
+            if(RootUtils.isRootPath(mFiles.get(0))){
+                isRootPath=true;
+                rootHandlingPath=rootHandlingPath+mCurrentPath;
+                rootHandlingFile=new File(rootHandlingPath);
+                rootHandlingFile.mkdirs();
+                ArrayList<String> tmp=new ArrayList<>();
+                for (String path:mFiles) {
+                    String filename=FileUtils.getFile(path).getName();
+                    RootUtils.copyFile(path,rootHandlingPath+filename);
+                    tmp.add(rootHandlingPath+filename);
+                }
+                mFiles=tmp;
+            }
             if(uncompress){
                 uncompress(FileUtils.getFile(mFiles.get(0)));
+                if(isRootPath){
+                    File f=FileUtils.getFile(mFiles.get(0));
+                    f.delete();
+                    FileUtils.notifyChange(mContex,f.getAbsolutePath());
+                }
             }else{
                 List<File> tmp=new ArrayList<>();
                 for (String p:mFiles) {
                     tmp.add(FileUtils.getFile(p));
                 }
-                compressFile(FileUtils.getFile(mCurrentPath),tmp);
+                if(isRootPath){
+                    compressFile(FileUtils.getFile(rootHandlingPath),tmp);
+                    for (File f:tmp) {
+                        f.delete();
+                    }
+                    RootUtils.copyFile(rootHandlingPath+zipFileName,mCurrentPath);
+                    FileUtils.getFile(rootHandlingPath+zipFileName).delete();
+                }else{
+                    compressFile(FileUtils.getFile(mCurrentPath),tmp);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -86,10 +125,14 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
 
     private boolean compressFile(File parent, List<File> files) throws Exception{
         boolean success = false;
-            File dest = new File(parent, files.get(0).getName()+ ".zip");
+        zipFileName=files.get(0).getName()+".zip";
+            File dest = new File(parent, zipFileName);
             ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(dest));
             compressFile("", zout, files.toArray(new File[files.size()]));
             zout.close();
+        if(!isRootPath){
+            FileUtils.notifyChange(mContex,dest.getAbsolutePath());
+        }
             success = true;
         return success;
     }
@@ -128,7 +171,7 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
             File destFolder = new File(zipFile.getParent(), FileUtils.getNameFromFilename(zipFile.getName()));
             destFolder.mkdirs();
             while ((entry = zis.getNextEntry()) != null) {
-                publishProgress(entry.getName());
+                publishProgress(entry.getName().substring(1));
                 publishProgress(""+0);
                 File dest = new File(destFolder, entry.getName());
                 dest.getParentFile().mkdirs();
@@ -151,6 +194,7 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
                     }
                     bos.flush();
                     bos.close();
+                    FileUtils.notifyChange(mContex,dest.getAbsolutePath());
                 }
                 zis.closeEntry();
             }
