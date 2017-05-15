@@ -67,7 +67,7 @@ public final class RootUtils {
                 temp.setFileIcon(MimeType.getIcon(FileUtils.getExtension(filename)));
                 temp.setEncrypted(FileUtils.isEncryptedFile(filename));
             }
-            temp.setFileDate(parts[DATE_INDEX]+" "+parts[DATE_INDEX+1]);
+            temp.setFileDate(parts[DATE_INDEX]);
             temp.setmFilePath(path+filename);
             names.add(temp);
         }

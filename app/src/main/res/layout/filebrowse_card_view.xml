@@ -18,13 +18,60 @@
   ~
   -->
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-    android:foreground="?android:selectableItemBackground"
-    >
-        <include layout="@layout/filemanager_listview_item"/>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:foreground="?android:selectableItemBackground">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <ImageView
+                app:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/grid_imageview"
+                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                />
+            <TextView
+                android:text="TextView"
+                android:id="@+id/grid_textview"
+                android:lines="1"
+                android:textColor="@color/textColorPrimary"
+                android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gridfolder_size_textview"
+                    android:textSize="12sp"
+                  android:layout_marginLeft="30dp"
+                    android:textColor="@color/textColorTertiary"
+                   />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gridnofiles_textview"
+                    android:textSize="12sp"
+                    android:paddingLeft="4dp"
+                    android:textColor="@color/textColorTertiary" />
+            </LinearLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 

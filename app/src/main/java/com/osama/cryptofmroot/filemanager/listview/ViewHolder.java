@@ -62,7 +62,14 @@ class ViewHolder extends RecyclerView.ViewHolder{
                     mFileSelectionManagement.selectionOperation(getAdapterPosition(),view);
                     return;
                 }
-                TextView textView   = (TextView)view.findViewById(R.id.list_textview);
+                TextView textView;
+                if(SharedData.LINEAR_LAYOUTMANAGER){
+                    textView   = (TextView)view.findViewById(R.id.list_textview);
+
+                }else{
+                    textView   = (TextView)view.findViewById(R.id.grid_textview);
+
+                }
                 String filename1     = textView.getText().toString();
                 String completeFilename=mFileFiller.getCurrentPath()+filename1;
 
@@ -98,12 +105,17 @@ class ViewHolder extends RecyclerView.ViewHolder{
 
             }
         });
-
-        mTextView               = (TextView)itemView.findViewById(R.id.list_textview);
-        mImageView              = (ImageView)itemView.findViewById(R.id.list_imageview);
-        mNumberFilesTextView    = (TextView)itemView.findViewById(R.id.nofiles_textview);
-        mFolderSizeTextView     = (TextView)itemView.findViewById(R.id.folder_size_textview);
-
+        if(SharedData.LINEAR_LAYOUTMANAGER) {
+            mTextView = (TextView) itemView.findViewById(R.id.list_textview);
+            mImageView = (ImageView) itemView.findViewById(R.id.list_imageview);
+            mNumberFilesTextView = (TextView) itemView.findViewById(R.id.nofiles_textview);
+            mFolderSizeTextView = (TextView) itemView.findViewById(R.id.folder_size_textview);
+        }else{
+            mTextView = (TextView) itemView.findViewById(R.id.grid_textview);
+            mImageView = (ImageView) itemView.findViewById(R.id.grid_imageview);
+            mNumberFilesTextView = (TextView) itemView.findViewById(R.id.gridnofiles_textview);
+            mFolderSizeTextView = (TextView) itemView.findViewById(R.id.gridfolder_size_textview);
+        }
     }
 
 }
