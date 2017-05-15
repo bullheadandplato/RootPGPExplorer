@@ -100,7 +100,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         SharedData.DO_NOT_RESET_ICON=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
-        SharedData.SIMPLE_VIEW_MODE=prefs.getBoolean(CommonConstants.VIEW_MODE_SHARED_PREF,false);
         if(!isServiceStarted){
             startService(new Intent(CryptoFM.getContext(),CleanupService.class));
             isServiceStarted=true;
@@ -211,9 +210,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             if (SharedData.GRID_LAYOUTMANAGER) {
                 item.setIcon(getDrawable(R.drawable.ic_gridview));
             }
-            if (SharedData.SIMPLE_VIEW_MODE) {
-                menu.getItem(2).setTitle("Card view");
-            }
         }
         return true;
     }
@@ -245,15 +241,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 showBackupDialog();
         }else if (item.getItemId()==R.id.refresh_menu_item){
             UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
-        }else if(item.getItemId()==R.id.viewmode_menu_item){
-            mCurrentFragment.toggleViewMode();
-            viewChanged=true;
-            if(SharedData.SIMPLE_VIEW_MODE){
-                item.setTitle("Card view");
-            }else{
-                item.setTitle("Simple view");
-            }
-
         }
         else if(item.getItemId()==R.id.items_view_menu_item){
             SharedData.GRID_LAYOUTMANAGER=!SharedData.GRID_LAYOUTMANAGER;
@@ -264,6 +251,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         return true;
     }
+
 
     private void showBackupDialog() {
       final Dialog dialog=new Dialog(this);

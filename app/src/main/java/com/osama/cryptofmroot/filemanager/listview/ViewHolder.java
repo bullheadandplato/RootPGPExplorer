@@ -99,10 +99,10 @@ class ViewHolder extends RecyclerView.ViewHolder{
             }
         });
 
-        mTextView               = (TextView)itemView.findViewById(R.id.list_textview);
-        mImageView              = (ImageView)itemView.findViewById(R.id.list_imageview);
-        mNumberFilesTextView    = (TextView)itemView.findViewById(R.id.nofiles_textview);
-        mFolderSizeTextView     = (TextView)itemView.findViewById(R.id.folder_size_textview);
+            mTextView = (TextView) itemView.findViewById(R.id.list_textview);
+            mImageView = (ImageView) itemView.findViewById(R.id.list_imageview);
+            mNumberFilesTextView = (TextView) itemView.findViewById(R.id.nofiles_textview);
+            mFolderSizeTextView = (TextView) itemView.findViewById(R.id.folder_size_textview);
 
     }
 

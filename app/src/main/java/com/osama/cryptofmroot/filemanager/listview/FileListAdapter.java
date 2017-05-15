@@ -64,10 +64,10 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             Context context=parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
         View view;
-            if(SharedData.SIMPLE_VIEW_MODE){
+            if(!SharedData.GRID_LAYOUTMANAGER){
                 view=inflater.inflate(R.layout.filemanager_listview_item,parent,false);
             }else{
-                view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
+                view = inflater.inflate(R.layout.activity_grid_view,parent,false);
             }
             return new ViewHolder(view,mContext,mManager,mFileFiller);
 
