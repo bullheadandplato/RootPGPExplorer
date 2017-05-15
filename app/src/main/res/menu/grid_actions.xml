@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:title="Encrypt"
+    android:id="@+id/grid_menu_encrypt_item"
+    />
+    <item android:id="@+id/grid_menu_decrypt_item"
+        android:title="Decrypt"
+        />
+</menu>

@@ -20,12 +20,17 @@
 package com.osama.cryptofmroot.filemanager.listview;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
@@ -40,7 +45,7 @@ import eu.chainfire.libsuperuser.Shell;
  * View holder
  */
 
-class ViewHolder extends RecyclerView.ViewHolder{
+class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener{
     private FileSelectionManagement mFileSelectionManagement;
     private FileFillerWrapper mFileFiller;
     private static final String TAG="ViewHolder";
@@ -50,7 +55,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
     TextView         mFolderSizeTextView;
 
 
-    ViewHolder(View itemView, Context c,FileSelectionManagement m,FileFillerWrapper wrapper){
+    ViewHolder(final View itemView, Context c, FileSelectionManagement m, FileFillerWrapper wrapper){
         super(itemView);
         mFileSelectionManagement= m;
         mFileFiller=wrapper;
@@ -65,10 +70,14 @@ class ViewHolder extends RecyclerView.ViewHolder{
                 TextView textView;
                 if(SharedData.LINEAR_LAYOUTMANAGER){
                     textView   = (TextView)view.findViewById(R.id.list_textview);
-
                 }else{
                     textView   = (TextView)view.findViewById(R.id.grid_textview);
-
+                    itemView.findViewById(R.id.grid_menu_button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPopUpMenu(v);
+                        }
+                    });
                 }
                 String filename1     = textView.getText().toString();
                 String completeFilename=mFileFiller.getCurrentPath()+filename1;
@@ -118,4 +127,17 @@ class ViewHolder extends RecyclerView.ViewHolder{
         }
     }
 
+    private void showPopUpMenu(View v){
+        PopupMenu popup = new PopupMenu(v.getContext(), v);
+        popup.setOnMenuItemClickListener(this);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.grid_actions, popup.getMenu());
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Snackbar.make(itemView,"To be implemented", Snackbar.LENGTH_LONG).show();
+        return true;
+    }
 }

@@ -37,40 +37,63 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
                 />
-            <TextView
-                android:text="TextView"
-                android:id="@+id/grid_textview"
-                android:lines="1"
-                android:textColor="@color/textColorPrimary"
-                android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
-                android:layout_marginTop="50dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:layout_marginTop="50dp"
+                android:weightSum="100"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:text="TextView"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/gridfolder_size_textview"
-                    android:textSize="12sp"
-                  android:layout_marginLeft="30dp"
-                    android:textColor="@color/textColorTertiary"
-                   />
+                    android:layout_weight="98"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/grid_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:lines="1"
+                        android:text="TextView"
+                        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+                        android:textColor="@color/textColorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/gridfolder_size_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="TextView"
+                            android:textColor="@color/textColorTertiary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/gridnofiles_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:text="TextView"
+                            android:textColor="@color/textColorTertiary"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <TextView
-                    android:text="TextView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/grid_menu_button"
+                    android:layout_width="15dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/gridnofiles_textview"
-                    android:textSize="12sp"
-                    android:paddingLeft="4dp"
-                    android:textColor="@color/textColorTertiary" />
+                    android:text="&#8942;"
+                    android:textAppearance="?android:textAppearanceLarge" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

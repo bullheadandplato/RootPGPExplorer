@@ -99,7 +99,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         SharedData.DO_NOT_RESET_ICON=false;
         SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
         SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
-        SharedData.SIMPLE_VIEW_MODE=prefs.getBoolean(CommonConstants.VIEW_MODE_SHARED_PREF,false);
         if(!isServiceStarted){
             startService(new Intent(CryptoFM.getContext(),CleanupService.class));
             isServiceStarted=true;
