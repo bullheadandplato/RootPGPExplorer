@@ -22,6 +22,7 @@ package com.osama.cryptofmroot.filemanager.ui;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -62,6 +64,12 @@ import com.osama.cryptofmroot.utils.ActionHandler;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class FileManagerActivity extends AppCompatActivity implements AdapterCallbacks,
@@ -540,23 +548,132 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
     }
 
     private void setupRoot(){
-        ProgressDialog dialog=new ProgressDialog(this);
+        if(alreadySetup()){
+            afterInitSetup(true);
+            return;
+        }
+        final ProgressDialog dialog=new ProgressDialog(this);
         dialog.setIndeterminate(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setTitle("Setting up root");
-        dialog.setMessage("Downloading required files. Please wait....");
-        String os=System.getProperty("os.arch");
+        dialog.setCancelable(false);
+       ;
+        dialog.setMax(100);
+        final String os=System.getProperty("os.arch");
         Log.d(TAG, "setupRoot: architecture is: "+os);
-        afterInitSetup(true);
+        //afterInitSetup(true);
         class Setup extends AsyncTask<Void,Integer,Boolean>{
-
+            private String errorMessage;
             @Override
             protected Boolean doInBackground(Void... params) {
-                String os=System.getProperty("os.arch");
-                Log.d(TAG, "doInBackground: os");
+                final String ur="http://www.landley.net/toybox/bin/toybox-"+os;
+                Log.d(TAG, "doInBackground: Url is: "+ur);
+                InputStream input = null;
+                OutputStream output = null;
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(ur);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
 
+                    // expect HTTP 200 OK, so we don't mistakenly save error report
+                    // instead of the file
+                    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                        errorMessage= "Server returned HTTP " + connection.getResponseCode()
+                                + " " + connection.getResponseMessage();
+                    }
+
+                    // this will be useful to display download percentage
+                    // might be -1: server did not report the length
+                    int fileLength = connection.getContentLength();
+
+                    // download the file
+                    input = connection.getInputStream();
+                    output = new FileOutputStream(SharedData.CRYPTO_FM_PATH+"toybox");
+
+                    byte data[] = new byte[4096];
+                    long total = 0;
+                    int count;
+                    while ((count = input.read(data)) != -1) {
+                        // allow canceling with back button
+                        if (isCancelled()) {
+                            input.close();
+                            return null;
+                        }
+                        total += count;
+                        // publishing the progress....
+                        if (fileLength > 0) // only if total length is known
+                            publishProgress((int) (total * 100 / fileLength));
+                        output.write(data, 0, count);
+                    }
+                    RootUtils.initRoot();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    errorMessage=e.getMessage();
+                    return false;
+                } finally {
+                    try {
+                        if (output != null)
+                            output.close();
+                        if (input != null)
+                            input.close();
+                    } catch (IOException ignored) {
+                        ignored.printStackTrace();
+                        errorMessage=ignored.getMessage();
+                    }
+
+                    if (connection != null)
+                        connection.disconnect();
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                dialog.setMessage("Downloading required files. Please wait....");
+                dialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                dialog.dismiss();
+                if (aBoolean) {
+                    SharedPreferences.Editor prefs=
+                            getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,
+                                    Context.MODE_PRIVATE).edit();
+                    prefs.putBoolean(CommonConstants.ROOT_TOYBOX,true);
+                    prefs.apply();
+                    prefs.commit();
+                    afterInitSetup(true);
+
+                } else {
+                    AlertDialog.Builder dial=new AlertDialog.Builder(FileManagerActivity.this);
+                    dial.setMessage("Cannot download files: "+errorMessage);
+                    dial.setCancelable(false);
+                    dial.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new Setup().execute();
+                        }
+                    });
+                    dial.show();
+                }
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                dialog.setProgress(values[0]);
             }
         }
+        new Setup().execute();
 
+    }
+
+    private boolean alreadySetup() {
+        SharedPreferences prefs=
+                            getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,
+                                    Context.MODE_PRIVATE);
+        return prefs.getBoolean(CommonConstants.ROOT_TOYBOX,false);
     }
 
 

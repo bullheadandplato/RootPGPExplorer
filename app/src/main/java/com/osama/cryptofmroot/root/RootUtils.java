@@ -28,13 +28,14 @@ public final class RootUtils {
     private static final int DATE_INDEX=3;
     private static final int NO_OF_ITEMS_INDEX=1;
     private static final int FILENAME_INDEX=5;
+    private static final String TOYBOX_PATH="/cryptofm/toybox ";
 
 
     public static ArrayList<DataModelFiles> getFileNames(String path){
         ArrayList<DataModelFiles> names=new ArrayList<>();
         Log.d(TAG, "getFileNames: path is: "+path);
        // Log.d(TAG, "getFileNames: test: "+test.size());
-            List<String> test=Shell.SU.run("ls -lAhpog -1 "+path);
+            List<String> test=Shell.SU.run(TOYBOX_PATH+"ls -lAhpog -1 "+path);
 
         for (int i = 1; i < test.size(); i++) {
             String currentString=test.get(i);
@@ -136,5 +137,12 @@ public final class RootUtils {
     public static void createNewFile(String absolutePath) {
         mountRw();
         Shell.SU.run("touch \""+absolutePath+"\"");
+    }
+
+    public static void initRoot(){
+        mountRw();
+        Shell.SU.run("mkdir /cryptofm");
+        Shell.SU.run("cp "+SharedData.CRYPTO_FM_PATH+"toybox /cryptofm" );
+        Shell.SU.run("chmod 667 /cryptofm/toybox");
     }
 }

@@ -36,9 +36,11 @@ import android.widget.EditText;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
 import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
+import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.startup.fragments.InitActivityFirstFragment;
 import com.osama.cryptofmroot.startup.fragments.InitFragmentCallbacks;
 import com.osama.cryptofmroot.utils.ActionHandler;
+import com.osama.cryptofmroot.utils.CommonConstants;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -121,7 +123,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     private void commitInitActivity() {
         //put in shared preferences
-        SharedPreferences preferences=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedPreferences preferences=getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putBoolean("done",true);
         editor.putString("username",mUserName);
