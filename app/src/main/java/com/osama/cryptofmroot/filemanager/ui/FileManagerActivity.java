@@ -20,9 +20,11 @@
 package com.osama.cryptofmroot.filemanager.ui;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
@@ -83,40 +85,16 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         //check root access
         if(RootTools.isRootAvailable()) {
             if (RootTools.isAccessGiven()) {
-                Log.d(TAG, "onCreate: Root access is available and given");
-                mStoragePaths.add("/");
-                mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
-                mStorageTitles.add("root");
-                mStorageTitles.add("home");
+                setupRoot();
+
             } else {
                 Log.d(TAG, "onCreate: Root access is not available");
-                rootUnavailableOp();
+                afterInitSetup(false);
             }
         }else{
-            rootUnavailableOp();
+            afterInitSetup(false);
         }
-        setContentView(R.layout.activity_filemanager_tabs);
-        SharedData.STARTED_IN_SELECTION_MODE=false;
-        SharedData.DO_NOT_RESET_ICON=false;
-        SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
-        SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
-        if(!isServiceStarted){
-            startService(new Intent(CryptoFM.getContext(),CleanupService.class));
-            isServiceStarted=true;
-        }
-        //see the external dirs
 
-        mTotalStorage = mStoragePaths.size();
-        if(SharedData.DB_PASSWORD==null ){
-            SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
-            SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
-        }
-        SharedData.LINEAR_LAYOUTMANAGER =getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
-        setToolbar();
-        mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
-        mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
-
-        setButtonClickListeners();
 
     }
 
@@ -559,5 +537,59 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             mCurrentFragment=mFragmentOnes[0];
         }
         mCurrentFragment.toggleBlur();
+    }
+
+    private void setupRoot(){
+        ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setIndeterminate(false);
+        dialog.setTitle("Setting up root");
+        dialog.setMessage("Downloading required files. Please wait....");
+        String os=System.getProperty("os.arch");
+        Log.d(TAG, "setupRoot: architecture is: "+os);
+        afterInitSetup(true);
+        class Setup extends AsyncTask<Void,Integer,Boolean>{
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                String os=System.getProperty("os.arch");
+                Log.d(TAG, "doInBackground: os");
+
+            }
+        }
+
+    }
+
+
+    private void afterInitSetup(boolean isRoot){
+        setContentView(R.layout.activity_filemanager_tabs);
+        if(!isRoot){
+            rootUnavailableOp();
+        }else{
+            mStoragePaths.add("/");
+            mStoragePaths.add(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
+            mStorageTitles.add("root");
+            mStorageTitles.add("home");
+        }
+        SharedData.STARTED_IN_SELECTION_MODE=false;
+        SharedData.DO_NOT_RESET_ICON=false;
+        SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedData.KEYS_GENERATED=prefs.getBoolean("keys_gen",false);
+        if(!isServiceStarted){
+            startService(new Intent(CryptoFM.getContext(),CleanupService.class));
+            isServiceStarted=true;
+        }
+        //see the external dirs
+
+        mTotalStorage = mStoragePaths.size();
+        if(SharedData.DB_PASSWORD==null ){
+            SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
+            SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
+        }
+        SharedData.LINEAR_LAYOUTMANAGER =getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
+        setToolbar();
+        mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
+        mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
+
+        setButtonClickListeners();
     }
 }
