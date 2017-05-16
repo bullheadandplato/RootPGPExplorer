@@ -37,13 +37,13 @@
                 android:layout_height="48dp"
                 android:layout_width="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="80dp"
                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="80dp"
                 android:weightSum="100"
                 android:orientation="horizontal">
                 <ImageView
@@ -65,7 +65,7 @@
                         android:id="@+id/grid_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:lines="1"
                         android:text="TextView"
                         android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
@@ -80,7 +80,7 @@
                             android:id="@+id/gridfolder_size_textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="5dp"
                             android:text="TextView"
                             android:textColor="@color/textColorTertiary"
                             android:textSize="12sp" />

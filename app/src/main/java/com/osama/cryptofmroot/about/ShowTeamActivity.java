@@ -7,21 +7,24 @@ import android.widget.TextView;
 import com.osama.cryptofmroot.R;
 
 public class ShowTeamActivity extends AppCompatActivity {
- private String firstDevelporName="Android Developers\nUsama Bin Omar";
-    private String secondDevelporsName="Asad Yasin";
-    private String workFirstDevelpor="Application backend architect";
-    private String workSecondDevelpor="Application design engineer";
+ private String mfirstDevelporName="Usama Bin Omar";
+    private String msecondDevelporsName="Asad Yasin";
+    private String mworkFirstDevelpor="Application backend architect";
+    private String mworkSecondDevelpor="Application design engineer";
+    private String mdvelopers="Develpor's";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_team);
+        TextView develportextview=(TextView)findViewById(R.id.develpor_textview);
         TextView fdtextview=(TextView)findViewById(R.id.firstdevelpor_textview);
         TextView sdtextview=(TextView)findViewById(R.id.seconddevelpor_textview);
         TextView fdworktextview=(TextView)findViewById(R.id.work_first_develpor_textview);
         TextView sdworktextview=(TextView)findViewById(R.id.work_second_develpor_textview);
-        fdtextview.setText(firstDevelporName);
-        fdworktextview.setText(workFirstDevelpor);
-        sdtextview.setText(secondDevelporsName);
-        sdworktextview.setText(workSecondDevelpor);
+        develportextview.setText(mdvelopers);
+        fdtextview.setText(mfirstDevelporName);
+        fdworktextview.setText(mworkFirstDevelpor);
+        sdtextview.setText(msecondDevelporsName);
+        sdworktextview.setText(mworkSecondDevelpor);
     }
 }
