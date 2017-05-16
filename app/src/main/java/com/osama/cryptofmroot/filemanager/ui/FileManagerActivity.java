@@ -240,13 +240,14 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
         }
         else if(item.getItemId()==R.id.items_view_menu_item){
-            viewChanged=true;
-            SharedData.LINEAR_LAYOUTMANAGER =!SharedData.LINEAR_LAYOUTMANAGER;
             if(SharedData.LINEAR_LAYOUTMANAGER){
-                item.setIcon(getDrawable(R.drawable.ic_gridview));
-            }else{
+                SharedData.LINEAR_LAYOUTMANAGER=false;
                 item.setIcon(getDrawable(R.drawable.ic_listview));
+            }else{
+                SharedData.LINEAR_LAYOUTMANAGER=true;
+                item.setIcon(getDrawable(R.drawable.ic_gridview));
             }
+            viewChanged=true;
             mCurrentFragment.toggleLayout();
 
         }else if(item.getItemId()==R.id.keydetails_menu_item){

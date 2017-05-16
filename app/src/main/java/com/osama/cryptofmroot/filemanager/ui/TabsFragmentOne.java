@@ -205,17 +205,17 @@ public class TabsFragmentOne extends Fragment {
     }
 
     public void toggleLayout() {
-        Log.d(TAG, "toggleLayout: Changing layout");
-        if(SharedData.LINEAR_LAYOUTMANAGER){
-            if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
-                if(mLinearLayoutManager==null){
-                    mLinearLayoutManager=new LinearLayoutManager(mContext);
-                }
-                mHelper.attachToRecyclerView(mRecyclerView);
-                mRecyclerView.setLayoutManager(mLinearLayoutManager);
-                reloadDataSet();
-                new SharedPreferencesTask().execute(true);
-            }else{
+        if(SharedData.LINEAR_LAYOUTMANAGER) {
+            Log.d(TAG, "toggleLayout: setting linear layout manager");
+            if (mLinearLayoutManager == null) {
+                mLinearLayoutManager = new LinearLayoutManager(mContext);
+            }
+            mHelper.attachToRecyclerView(mRecyclerView);
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            reloadDataSet();
+            new SharedPreferencesTask().execute(true);
+        }else{
+            Log.d(TAG, "toggleLayout: setting grid layout manager");
                 if(mGridLayoutManager==null){
                     mGridLayoutManager=new GridLayoutManager(mContext,2);
                 }
@@ -224,7 +224,6 @@ public class TabsFragmentOne extends Fragment {
                 reloadDataSet();
                 new SharedPreferencesTask().execute(false);
             }
-        }
     }
 
     public FileListAdapter getmFileAdapter() {

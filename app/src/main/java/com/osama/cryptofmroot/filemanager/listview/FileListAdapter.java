@@ -64,7 +64,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             if(SharedData.LINEAR_LAYOUTMANAGER){
                 view=inflater.inflate(R.layout.filemanager_listview_item,parent,false);
             }else{
-                view               = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
+                view = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
             }
             return new ViewHolder(view,mContext,mManager,mFileFiller);
 
