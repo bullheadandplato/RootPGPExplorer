@@ -100,9 +100,11 @@
 
                 <TextView
                     android:id="@+id/grid_menu_button"
-                    android:layout_width="15dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="&#8942;"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp"
                     android:textAppearance="?android:textAppearanceLarge" />
             </LinearLayout>
         </LinearLayout>
