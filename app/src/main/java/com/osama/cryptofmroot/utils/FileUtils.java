@@ -85,7 +85,7 @@ public class FileUtils {
     }
 
     public static boolean isEncryptedFile(String filename){
-        return filename.contains(".pgp") || filename.contains(".gpg");
+        return FileUtils.getExtension(filename).contains("pgp") || FileUtils.getExtension(filename).contains("gpg");
     }
 
     public static int getNumberOfFiles(File file ){

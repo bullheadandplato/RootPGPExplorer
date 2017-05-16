@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -125,7 +126,7 @@ public class CompressTask extends AsyncTask<Void,String,Boolean>{
 
     private boolean compressFile(File parent, List<File> files) throws Exception{
         boolean success = false;
-        zipFileName=files.get(0).getName()+".zip";
+        zipFileName=""+System.currentTimeMillis()+".zip";
             File dest = new File(parent, zipFileName);
             ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(dest));
             compressFile("", zout, files.toArray(new File[files.size()]));
