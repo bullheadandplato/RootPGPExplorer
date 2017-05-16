@@ -67,7 +67,7 @@ public class DataModelFiles  {
             this.isEncrypted=FileUtils.isEncryptedFile(file.getName());
             this.isFile=true;
         }else {
-            this.fileIcon = CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder);
+            this.fileIcon = ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_default_folder);
             //in case of folder file extension will be number of items in folder
             this.fileExtensionOrItems = FileUtils.getNumberOfFiles(file) + " items";
             this.isEncrypted = false;
@@ -89,7 +89,7 @@ public class DataModelFiles  {
 
     public Drawable getFileEncryptionStatus() {
         if(isEncrypted){
-            return CryptoFM.getContext().getDrawable(R.drawable.ic_encrypt);
+            return ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_encrypt);
         }else{
             return null;
         }

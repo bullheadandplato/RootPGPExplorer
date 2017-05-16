@@ -91,7 +91,6 @@ public class FileBrowserActivity extends AppCompatActivity
 			assert getSupportActionBar()!=null;
 			getSupportActionBar().setTitle("Select Key files");
 			//hide the floating button
-			findViewById(R.id.floating_add).setVisibility(View.GONE);
 		}else{
 			setResult(RESULT_OK);
 			SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
@@ -175,7 +174,6 @@ public class FileBrowserActivity extends AppCompatActivity
 		return true;
 	}
 
-	@ActionHandler(layoutResource = R.id.floating_add)
 	public void onAddFloatingClicked(View v){
        UiUtils.actionMode = this.actionMode;
 		if(emptyFiles) {

@@ -68,8 +68,8 @@ public class FileSelectionManagement {
 
     public FileSelectionManagement(Context context, FileListAdapter adapter){
         this.mContext     = context;
-        mSelectedFileIcon = mContext.getDrawable(R.drawable.ic_check_circle_white_48dp);
-        mFolderIcon       = mContext.getDrawable(R.drawable.ic_default_folder);
+        mSelectedFileIcon = ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_check_circle_white_48dp);
+        mFolderIcon       = ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_default_folder);
         clickCallBack     = (AdapterCallbacks)mContext;
         mFileListAdapter  =adapter;
         mFileFiller       =adapter.getmFileFiller();
