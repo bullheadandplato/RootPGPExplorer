@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.osama.cryptofmroot.CryptoFM;
 
@@ -94,6 +95,14 @@ public class FileUtils {
         }else{
             return 0;
         }
+    }
+    public static String getMimeType(String filename){
+           return  MimeTypeMap.getSingleton().
+                            getMimeTypeFromExtension(
+                                    FileUtils.getExtension(filename
+                                    )
+                            );
+
     }
 
     public static String getExtension(String fileName){

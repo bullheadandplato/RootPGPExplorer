@@ -107,6 +107,8 @@ public class ActionViewHandler implements ActionMode.Callback {
             UiUtils.openWith(mManager.getmSelectedFilePaths().get(0),mContext);
         }else if(item.getItemId()==R.id.compress_menu_item){
             mTaskHandler.compressTask(mManager.getmSelectedFilePaths(),false);
+        }else if(item.getItemId()==R.id.share_menu_item){
+            UiUtils.shareFile(mManager.getmSelectedFilePaths().get(0),mContext);
         }
         return true;
     }

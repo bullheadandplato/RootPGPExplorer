@@ -52,6 +52,12 @@
         android:icon="@drawable/ic_cut"
         />
     <item
+        app:showAsAction="ifRoom"
+        android:title="Share"
+        android:id="@+id/share_menu_item"
+        android:icon="@drawable/ic_share_black"
+        />
+    <item
         android:id="@+id/rename_menu_item"
         android:title="Rename"
         />

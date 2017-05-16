@@ -39,6 +39,8 @@ import com.osama.cryptofmroot.tasks.CompressTask;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -96,25 +98,8 @@ public class UiUtils {
                     openZipFile(filename,ctx,adapter);
                     return;
                 }
-         String mimeType =
-                    MimeTypeMap.getSingleton().
-                            getMimeTypeFromExtension(
-                                    FileUtils.getExtension(filename
-                                    )
-                            );
+         startActivity(Intent.ACTION_VIEW,filename,ctx);
 
-            Intent intent = new Intent();
-        Uri uri=FileUtils.getUri(filename);
-
-                intent.setDataAndType(uri, mimeType);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setAction(Intent.ACTION_VIEW);
-            Intent x = Intent.createChooser(intent, "Open with: ");
-            if(intent.resolveActivity(ctx.getPackageManager())!=null){
-                ctx.startActivity(x);
-            }else{
-                openWith(filename,ctx);
-            }
         }
 
     private static void openZipFile(final String filename,Context ctx,FileListAdapter adapter) {
@@ -147,6 +132,41 @@ public class UiUtils {
         dialog.show();
     }
 
+    public static void shareFile(String s,Context ctx) {
+        if(RootUtils.isRootPath(s)){
+            try {
+                File f=FileUtils.getFile(SharedData.CRYPTO_FM_PATH+"share");
+                if (!f.exists()){
+                    f.mkdirs();
+                }
+                RootUtils.copyFile(s,f.getAbsolutePath());
+                s=f.getAbsolutePath()+s;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        startActivity(Intent.ACTION_SEND,s,ctx);
+    }
+
+    private static void startActivity(String action,String filename,Context ctx){
+        Uri uri=FileUtils.getUri(filename);
+        Intent intent=new Intent();
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setAction(action);
+        intent.setDataAndType(uri,FileUtils.getMimeType(filename));
+        Intent chooser;
+        if(action.equals(Intent.ACTION_SEND)){
+            chooser=Intent.createChooser(intent,"Sharing....");
+            ctx.startActivity(chooser);
+        }else{
+            chooser=Intent.createChooser(intent,"Open with....");
+            if(intent.resolveActivity(ctx.getPackageManager())!=null){
+                ctx.startActivity(chooser);
+            }else{
+                openWith(filename,ctx);
+            }
+        }
+    }
 }
 
 

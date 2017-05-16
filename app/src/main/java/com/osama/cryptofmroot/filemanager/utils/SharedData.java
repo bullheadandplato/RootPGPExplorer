@@ -46,6 +46,7 @@ public class SharedData {
     public static String            DB_PASSWORD;
     public static String            KEY_PASSWORD;
     public static boolean           DO_NOT_RESET_ICON=false;
+    public static final String      CRYPTO_FM_PATH=FILES_ROOT_DIRECTORY+"CryptoFM/";
     public static HashMap<String,String> symbolicLinks =new HashMap<>();
     public static boolean LINEAR_LAYOUTMANAGER =false;
     public static boolean           IS_OPENWITH_SHOWN=false;
