@@ -1,5 +1,6 @@
 package com.osama.cryptofmroot.root;
 
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.osama.RootTools.RootTools;
@@ -59,7 +60,7 @@ public final class RootUtils {
                 temp.setFile(false);
                 temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]+" links");
                 temp.setFileName(filename.substring(0,filename.lastIndexOf('/')));
-                temp.setFileIcon(CryptoFM.getContext().getDrawable(R.drawable.ic_default_folder));
+                temp.setFileIcon(ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_default_folder));
             }else{
                 temp.setFile(true);
                 temp.setFileExtensionOrItems(FileUtils.getExtension(filename));

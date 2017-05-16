@@ -105,14 +105,12 @@
         <activity
             android:name=".extras.TextEditorActivity"
             android:parentActivityName=".filemanager.ui.FileManagerActivity" />
-
         <activity android:name=".about.ShowTeamActivity" />
         <activity android:name=".about.ShowTermsActivity" />
-        <activity android:name=".extras.KeyDetailsActivity"
-            android:parentActivityName=".filemanager.ui.FileManagerActivity"
-            >
-
-        </activity>
+        <activity
+            android:name=".extras.KeyDetailsActivity"
+            android:parentActivityName=".filemanager.ui.FileManagerActivity"></activity>
+        <activity android:name=".extras.FileInfoActivity"></activity>
     </application>
 
 </manifest>

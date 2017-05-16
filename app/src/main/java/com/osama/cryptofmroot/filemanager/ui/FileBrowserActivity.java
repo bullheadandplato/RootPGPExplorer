@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -154,14 +155,14 @@ public class FileBrowserActivity extends AppCompatActivity
 		}
 		if(item.getItemId()==R.id.items_view_menu_item){
 			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
-				item.setIcon(getDrawable(R.drawable.ic_gridview));
+				item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_gridview));
 				if(mFileViewLinearLayoutManager==null){
 					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 				}
 				mHelper.attachToRecyclerView(mFileListView);
 				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 			}else{
-				item.setIcon(getDrawable(R.drawable.ic_listview));
+				item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_listview));
 				if(mFileViewGridLayoutManager==null){
 					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 				}

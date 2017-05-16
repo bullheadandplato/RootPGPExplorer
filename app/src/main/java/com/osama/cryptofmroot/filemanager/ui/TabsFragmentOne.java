@@ -47,6 +47,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.osama.cryptofmroot.R;
+import com.osama.cryptofmroot.extras.BlurHelper;
 import com.osama.cryptofmroot.filemanager.listview.FileFillerWrapper;
 import com.osama.cryptofmroot.filemanager.listview.FileListAdapter;
 import com.osama.cryptofmroot.filemanager.listview.FileSelectionManagement;
@@ -323,13 +324,19 @@ public class TabsFragmentOne extends Fragment {
             Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
 
             RenderScript rs = RenderScript.create(context);
-            ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+            ScriptIntrinsicBlur theIntrinsic = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+                Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
             Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
             theIntrinsic.setRadius(BLUR_RADIUS);
             theIntrinsic.setInput(tmpIn);
             theIntrinsic.forEach(tmpOut);
             tmpOut.copyTo(outputBitmap);
+            }else{
+                outputBitmap= BlurHelper.doBlur(image,(int)BLUR_RADIUS,false);
+            }
+
 
             return outputBitmap;
 

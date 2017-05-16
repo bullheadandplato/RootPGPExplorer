@@ -23,7 +23,9 @@ package com.osama.cryptofmroot.startup;
  * Created by Shadow on 1/12/2017.
  */
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -62,7 +64,7 @@ public class PreStartActivity extends AppCompatActivity {
         radioButton3    = (RadioButton)  findViewById(R.id.radioButton3);
 
         prestartlayout  =(RelativeLayout)findViewById(R.id.pre_start);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor1));
+        setColors(ContextCompat.getColor(this,R.color.pagercolor1));
 
         //set ViewPager adapter
         viewPager   = (ViewPager) findViewById(R.id.pager);
@@ -103,21 +105,20 @@ public class PreStartActivity extends AppCompatActivity {
             case 0:
                 radioButton1.setChecked(true);
                 prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorAccent));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+
                 break;
             case 1:
 
                 radioButton2.setChecked(true);
                 prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                setColors(ContextCompat.getColor(this,R.color.pagercolor2));
+                setColors(ContextCompat.getColor(this,R.color.pagercolor2));
                 break;
             case 2:
                 radioButton3.setChecked(true);
                 prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
-                getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
-                getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.pagercolor3));
+                setColors(ContextCompat.getColor(this,R.color.pagercolor3));
+                setColors(ContextCompat.getColor(this,R.color.pagercolor3));
                 animateButtonAndShow();
                 break;
 
@@ -129,6 +130,11 @@ public class PreStartActivity extends AppCompatActivity {
         //animate
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.done_button_anim);
         button.startAnimation(animation);
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setColors(int color){
+        getWindow().setNavigationBarColor(color);
+        getWindow().setStatusBarColor(color);
     }
 
 }

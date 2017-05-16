@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -206,7 +207,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         }
             MenuItem item = menu.getItem(0);
             if (SharedData.LINEAR_LAYOUTMANAGER) {
-                item.setIcon(getDrawable(R.drawable.ic_gridview));
+                item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_gridview));
         }
         return true;
     }
@@ -242,10 +243,10 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         else if(item.getItemId()==R.id.items_view_menu_item){
             if(SharedData.LINEAR_LAYOUTMANAGER){
                 SharedData.LINEAR_LAYOUTMANAGER=false;
-                item.setIcon(getDrawable(R.drawable.ic_listview));
+                item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_listview));
             }else{
                 SharedData.LINEAR_LAYOUTMANAGER=true;
-                item.setIcon(getDrawable(R.drawable.ic_gridview));
+                item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_gridview));
             }
             viewChanged=true;
             mCurrentFragment.toggleLayout();
