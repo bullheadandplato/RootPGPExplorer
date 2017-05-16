@@ -240,9 +240,14 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             UiUtils.reloadData(mCurrentFragment.getmFileAdapter());
         }
         else if(item.getItemId()==R.id.items_view_menu_item){
-
+            viewChanged=true;
             SharedData.LINEAR_LAYOUTMANAGER =!SharedData.LINEAR_LAYOUTMANAGER;
-            mCurrentFragment.toggleLayout(item);
+            if(SharedData.LINEAR_LAYOUTMANAGER){
+                item.setIcon(getDrawable(R.drawable.ic_gridview));
+            }else{
+                item.setIcon(getDrawable(R.drawable.ic_listview));
+            }
+            mCurrentFragment.toggleLayout();
 
         }else if(item.getItemId()==R.id.keydetails_menu_item){
             startActivity(new Intent(this, KeyDetailsActivity.class));
@@ -384,7 +389,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
                 }if(viewChanged){
                     viewChanged=false;
-                    mCurrentFragment.reloadDataSet();
+                    mCurrentFragment.toggleLayout();
                 }
                 else{
                     removeNoFilesFragment();

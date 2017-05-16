@@ -204,11 +204,10 @@ public class TabsFragmentOne extends Fragment {
         return mActionViewHandler;
     }
 
-    public void toggleLayout(MenuItem item) {
+    public void toggleLayout() {
         Log.d(TAG, "toggleLayout: Changing layout");
-        if(item.getItemId()==R.id.items_view_menu_item){
+        if(SharedData.LINEAR_LAYOUTMANAGER){
             if(mRecyclerView.getLayoutManager()==mGridLayoutManager){
-                item.setIcon(mContext.getDrawable(R.drawable.ic_gridview));
                 if(mLinearLayoutManager==null){
                     mLinearLayoutManager=new LinearLayoutManager(mContext);
                 }
@@ -217,7 +216,6 @@ public class TabsFragmentOne extends Fragment {
                 reloadDataSet();
                 new SharedPreferencesTask().execute(true);
             }else{
-                item.setIcon(mContext.getDrawable(R.drawable.ic_listview));
                 if(mGridLayoutManager==null){
                     mGridLayoutManager=new GridLayoutManager(mContext,2);
                 }
