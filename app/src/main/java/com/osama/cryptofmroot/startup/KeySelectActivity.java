@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -62,6 +63,8 @@ public class KeySelectActivity extends AppCompatActivity {
     private String                  mSecretKeyFilename;
     private TextView                mSecKeyEditText;
     private ProgressDialog          mProgressDialog;
+    private AppCompatButton mBrwoseButton;
+    private AppCompatButton mLetsgoButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,9 +74,21 @@ public class KeySelectActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
         }
         mProgressDialog=new ProgressDialog(this);
-
-
         mSecKeyEditText=(TextView) findViewById(R.id.sec_key_edit_text);
+        mBrwoseButton=(AppCompatButton)findViewById(R.id.button_select_secret_key);
+        mLetsgoButton=(AppCompatButton)findViewById(R.id.button_letsgo_keys_select);
+        mBrwoseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBrowseButtonClick(view);
+            }
+        });
+        mLetsgoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onImportKeys(view);
+            }
+        });
 
     }
     @ActionHandler(layoutResource = R.id.button_letsgo_keys_select)

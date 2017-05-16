@@ -53,7 +53,6 @@
                 android:layout_width="match_parent"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-
                 app:cardBackgroundColor="@color/colorAccent"
                 >
                 <RelativeLayout
@@ -83,7 +82,6 @@
                             android:background="@drawable/shadow_rect"
                             android:text="Browse"
                             android:textColor="#FFF"
-                            android:onClick="onBrowseButtonClick"
                             android:textSize="12sp"
                             android:layout_gravity="center_vertical"
                             />
@@ -95,7 +93,6 @@
                         android:textColor="#FFF"
                         android:padding="10dp"
                         android:id="@+id/sec_key_edit_text"
-
                         android:text="@string/filename_text"
                         />
                 </RelativeLayout>
@@ -109,7 +106,6 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:background="@drawable/shadow_rect"
-            android:onClick="onImportKeys"
             android:text="Let's Go"
             android:textColor="#FFF"
             android:textSize="18sp"

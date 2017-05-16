@@ -27,14 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Terms and condition"
-                android:id="@+id/develpor_textview"
-                android:textSize="18dp"
-                android:textColor="#212121"
-                android:clickable="false"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Terms and condition"
                 android:id="@+id/firstdevelpor_textview"
                 android:textSize="18dp"
                 android:layout_marginTop="15dp"
