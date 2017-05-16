@@ -40,7 +40,6 @@
         android:textColor="@color/textColorTertiary"
         android:layout_below="@id/no_files_image"
         android:layout_centerHorizontal="true"
-        android:textAppearance="@android:style/TextAppearance.Material.Headline"
         />
 
 

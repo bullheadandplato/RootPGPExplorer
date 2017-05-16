@@ -40,20 +40,6 @@
             >
         </android.support.v7.widget.RecyclerView>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/floating_add"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:tint="#FFFFFF"
-            android:onClick="onAddFloatingClicked"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:background="?android:selectableItemBackground"
-            android:clickable="true"
-
-            />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

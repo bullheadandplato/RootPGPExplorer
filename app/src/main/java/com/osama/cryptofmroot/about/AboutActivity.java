@@ -26,14 +26,23 @@ import android.view.View;
 
 import com.osama.cryptofmroot.R;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        findViewById(R.id.credit).setOnClickListener(this);
+        findViewById(R.id.termsandcondition_textview).setOnClickListener(this);
+        findViewById(R.id.team).setOnClickListener(this);
     }
     public void onLicenseClick(View view){
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
         switch (view.getId())
         {
             case R.id.credit:
@@ -46,7 +55,5 @@ public class AboutActivity extends AppCompatActivity {
                 startActivity(new Intent(this,ShowTeamActivity.class));
                 break;
         }
-
     }
-
 }

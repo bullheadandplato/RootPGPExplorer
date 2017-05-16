@@ -43,9 +43,8 @@
                 android:id="@+id/cancel_file_button"
                 android:text="Cancel"
                 android:textColor="@color/dialogButtonColor"
-                android:textAppearance="@android:style/TextAppearance.Material.Button"
                 android:textSize="14sp"
-                style="@android:style/Widget.Material.Button" />
+                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,9 +53,8 @@
                 android:id="@+id/create_file_button"
                 android:text="Create"
                 android:textColor="@color/dialogButtonColor"
-                android:textAppearance="@android:style/TextAppearance.Material.Button"
                 android:elevation="0dp"
-                style="@android:style/Widget.Material.Light.Button" />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

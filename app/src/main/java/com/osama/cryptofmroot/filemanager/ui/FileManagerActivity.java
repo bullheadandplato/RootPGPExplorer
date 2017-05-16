@@ -116,6 +116,23 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         mFloatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fab_add_folder);
         mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(this);
 
+        setButtonClickListeners();
+
+    }
+
+    private void setButtonClickListeners() {
+        findViewById(R.id.createFilebutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCreateFileButtonClick(v);
+            }
+        });
+        findViewById(R.id.create_folder_floating_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAddFloatingClicked(v);
+            }
+        });
     }
 
     private void rootUnavailableOp() {

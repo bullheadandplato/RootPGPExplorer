@@ -89,6 +89,12 @@ public class PreStartActivity extends AppCompatActivity {
 
             }
         });
+        findViewById(R.id.pre_start_skip_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSkipButtonClick(v);
+            }
+        });
     }
 
     @ActionHandler(layoutResource = R.id.pre_start_skip_button)

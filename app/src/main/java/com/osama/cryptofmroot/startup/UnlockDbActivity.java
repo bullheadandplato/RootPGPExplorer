@@ -43,6 +43,12 @@ public class UnlockDbActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unlock_db);
         setResult(RESULT_OK);
+        findViewById(R.id.button_unlock_db).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUnlockButtonClick(v);
+            }
+        });
     }
 
     @ActionHandler(layoutResource = R.id.button_unlock_db)

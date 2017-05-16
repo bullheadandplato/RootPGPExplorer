@@ -63,6 +63,18 @@ public class OptionActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
         }
         mProgressDialog=new ProgressDialog(this);
+        findViewById(R.id.button_select_key).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseNextActivity(v);
+            }
+        });
+        findViewById(R.id.button_generate_key).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseNextActivity(v);
+            }
+        });
 
     }
     @ActionHandler(layoutResource = R.id.button_generate_key)

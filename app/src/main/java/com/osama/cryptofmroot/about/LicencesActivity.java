@@ -28,15 +28,22 @@ import com.osama.cryptofmroot.R;
 
 
 
-public class LicencesActivity extends AppCompatActivity {
+public class LicencesActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_licences);
+        findViewById(R.id.spongy_castle_license).setOnClickListener(this);
+        findViewById(R.id.easy_permission_license).setOnClickListener(this);
+        findViewById(R.id.sqlcipher_license).setOnClickListener(this);
+        findViewById(R.id.numix_icon_license).setOnClickListener(this);
     }
-    public void licenseClick(View view){
-        Intent intent=new Intent(this,ShowLicenseActivity.class);
+
+
+    @Override
+    public void onClick(View view) {
+    Intent intent=new Intent(this,ShowLicenseActivity.class);
         String key="license";
         switch (view.getId()){
             case R.id.spongy_castle_license:{

@@ -46,7 +46,6 @@
             android:id="@+id/list_textview"
             android:lines="1"
             android:textColor="@color/textColorPrimary"
-            android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
             android:paddingTop="2dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
@@ -69,7 +68,9 @@
                 android:textSize="12sp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/nofiles_textview"
-                android:textColor="@color/textColorTertiary" />
+                android:textColor="@color/textColorTertiary"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/nofiles_textview" />
 
             <TextView
                 android:text="TextView"
@@ -78,7 +79,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/nofiles_textview"
                 android:textSize="12sp"
-                android:textColor="@color/textColorTertiary" />
+                android:textColor="@color/textColorTertiary"
+                android:layout_marginLeft="10dp" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
