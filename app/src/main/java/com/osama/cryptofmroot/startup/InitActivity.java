@@ -37,7 +37,7 @@ import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
 import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
 import com.osama.cryptofmroot.startup.fragments.InitActivityFirstFragment;
-import com.osama.cryptofmroot.startup.fragments.InitActivityThirdFragment;
+import com.osama.cryptofmroot.startup.fragments.InitFragmentCallbacks;
 import com.osama.cryptofmroot.utils.ActionHandler;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -49,7 +49,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , InitActivityThirdFragment.FragmentCreated{
+public class InitActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks , InitFragmentCallbacks{
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
@@ -72,6 +72,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
                         R.anim.enter_from_left, R.anim.exit_to_right).
                 replace(R.id.fragment_frame_layout, new InitActivityFirstFragment()).
                 commit();
+
 
 
     }
@@ -199,13 +200,25 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         super.onBackPressed();
     }
 
-    @Override
-    public void onThirdFragmentCreated() {
-        Log.d("fragment","yes the fragment created");
-    }
 
 
     private ProgressDialog dialog;
+
+    @Override
+    public void viewCreated() {
+        findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNextButtonClick(v);
+            }
+        });
+    }
+
+    @Override
+    public void activityCreated() {
+
+    }
+
     private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {

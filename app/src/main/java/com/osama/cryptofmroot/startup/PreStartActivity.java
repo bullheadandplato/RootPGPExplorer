@@ -131,10 +131,11 @@ public class PreStartActivity extends AppCompatActivity {
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.done_button_anim);
         button.startAnimation(animation);
     }
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setColors(int color){
-        getWindow().setNavigationBarColor(color);
-        getWindow().setStatusBarColor(color);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(color);
+            getWindow().setStatusBarColor(color);
+        }
     }
 
 }

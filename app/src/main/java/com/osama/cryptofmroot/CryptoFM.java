@@ -21,6 +21,7 @@ package com.osama.cryptofmroot;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.StrictMode;
 
 /**
@@ -48,6 +49,8 @@ public class CryptoFM extends Application {
         super.onCreate();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            builder.detectFileUriExposure();
+        }
     }
 }

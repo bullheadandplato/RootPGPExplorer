@@ -27,18 +27,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.osama.cryptofmroot.R;
+import com.osama.cryptofmroot.startup.InitActivity;
 
 /**
  * Created by tripleheader on 11/28/16.
  */
 
 public class InitActivityFirstFragment extends Fragment {
+    InitFragmentCallbacks callbacks;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.first_fragment,null);
     }
 
-
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        callbacks=(InitActivity)getActivity();
+        callbacks.viewCreated();
+    }
 }
