@@ -72,12 +72,6 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
                     textView   = (TextView)view.findViewById(R.id.list_textview);
                 }else{
                     textView   = (TextView)view.findViewById(R.id.grid_textview);
-                    itemView.findViewById(R.id.grid_menu_button).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showPopUpMenu(v);
-                        }
-                    });
                 }
                 String filename1     = textView.getText().toString();
                 String completeFilename=mFileFiller.getCurrentPath()+filename1;
@@ -124,6 +118,12 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
             mImageView = (ImageView) itemView.findViewById(R.id.grid_imageview);
             mNumberFilesTextView = (TextView) itemView.findViewById(R.id.gridnofiles_textview);
             mFolderSizeTextView = (TextView) itemView.findViewById(R.id.gridfolder_size_textview);
+            itemView.findViewById(R.id.grid_menu_button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showPopUpMenu(v);
+                        }
+                    });
         }
     }
 
