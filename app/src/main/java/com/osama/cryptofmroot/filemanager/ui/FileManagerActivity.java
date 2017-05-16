@@ -435,6 +435,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(SharedData.SELECT_COUNT>1){
             actionMode.getMenu().removeItem(R.id.rename_menu_item);
             actionMode.getMenu().removeItem(R.id.openwith_menu_item);
+            actionMode.getMenu().removeItem(R.id.share_menu_item);
         }
     }
 
@@ -507,11 +508,13 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             if(SharedData.SELECT_COUNT<2 && !SharedData.IS_OPENWITH_SHOWN){
                 SharedData.IS_OPENWITH_SHOWN=true;
                 actionMode.getMenu().removeItem(R.id.openwith_menu_item);
+                actionMode.getMenu().removeItem(R.id.share_menu_item);
             }
         }else{
             if(SharedData.SELECT_COUNT<2 && actionMode.getMenu().findItem(R.id.openwith_menu_item)==null){
                 SharedData.IS_OPENWITH_SHOWN=false;
                 actionMode.getMenu().add(0,R.id.openwith_menu_item,0,"Open with");
+                actionMode.getMenu().add(0,R.id.share_menu_item,0,"Share");
             }
         }
     }
