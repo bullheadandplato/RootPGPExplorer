@@ -169,6 +169,7 @@ public class TabsFragmentOne extends Fragment {
         mFileAdapter.setmFileFiller(mFileFiller);
         mManager=mFileAdapter.getmManager();
         mTaskHandler=new TaskHandler(mContext,mFileAdapter,mManager);
+        mFileAdapter.setmTaskHandler(mTaskHandler);
         mActionViewHandler=new ActionViewHandler(mContext,mManager,mTaskHandler);
 
         mHelper=new ItemTouchHelper(new RecyclerViewSwipeHandler(mContext,mTaskHandler,mFileAdapter));

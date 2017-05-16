@@ -35,8 +35,11 @@ import android.widget.Toast;
 import com.osama.cryptofmroot.CryptoFM;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.filemanager.utils.TaskHandler;
 import com.osama.cryptofmroot.root.RootUtils;
 import com.osama.cryptofmroot.utils.FileUtils;
+
+import java.util.ArrayList;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -48,17 +51,21 @@ import eu.chainfire.libsuperuser.Shell;
 class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener{
     private FileSelectionManagement mFileSelectionManagement;
     private FileFillerWrapper mFileFiller;
+    private TaskHandler mTaskHandler;
+
     private static final String TAG="ViewHolder";
     ImageView        mImageView;
     TextView         mTextView;
     TextView         mNumberFilesTextView;
     TextView         mFolderSizeTextView;
+    ImageView           mGridSmallIcon;
 
 
-    ViewHolder(final View itemView, Context c, FileSelectionManagement m, FileFillerWrapper wrapper){
+    ViewHolder(final View itemView, Context c, FileSelectionManagement m, FileFillerWrapper wrapper,TaskHandler mTaskHandler){
         super(itemView);
         mFileSelectionManagement= m;
         mFileFiller=wrapper;
+        this.mTaskHandler=mTaskHandler;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +125,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
             mImageView = (ImageView) itemView.findViewById(R.id.grid_imageview);
             mNumberFilesTextView = (TextView) itemView.findViewById(R.id.gridnofiles_textview);
             mFolderSizeTextView = (TextView) itemView.findViewById(R.id.gridfolder_size_textview);
+            mGridSmallIcon=(ImageView)itemView.findViewById(R.id.grid_imageview2);
             itemView.findViewById(R.id.grid_menu_button).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -137,7 +145,13 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Snackbar.make(itemView,"To be implemented", Snackbar.LENGTH_LONG).show();
+        String filePath=mFileFiller.getCurrentPath()+mFileFiller.getFileAtPosition(getAdapterPosition()).getFileName();
+        ArrayList<String> tmp=new ArrayList<>();
+        tmp.add(filePath);
+        switch (item.getItemId()){
+            case R.id.grid_menu_encrypt_item: mTaskHandler.encryptTask(tmp); break;
+            case R.id.grid_menu_decrypt_item: mTaskHandler.decryptFile(SharedData.USERNAME,SharedData.KEY_PASSWORD,SharedData.DB_PASSWORD,tmp);
+        }
         return true;
     }
 }

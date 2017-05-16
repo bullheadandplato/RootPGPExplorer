@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.filemanager.utils.SharedData;
+import com.osama.cryptofmroot.filemanager.utils.TaskHandler;
 
 
 import java.util.HashMap;
@@ -47,7 +48,8 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private Context mContext;
     private FileFillerWrapper mFileFiller;
     private FileSelectionManagement mManager;
-    private HashMap<Integer,View> mAllView=new HashMap<>();
+    private TaskHandler mTaskHandler;
+
 
     public FileListAdapter(Context context){
             this.mContext=context;
@@ -66,13 +68,17 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             }else{
                 view = inflater.inflate(R.layout.filebrowse_card_view,parent,false);
             }
-            return new ViewHolder(view,mContext,mManager,mFileFiller);
+            return new ViewHolder(view,mContext,mManager,mFileFiller,mTaskHandler);
 
     }
 
     public void setmFileFiller(FileFillerWrapper mFileFiller) {
         this.mFileFiller = mFileFiller;
         mManager=new FileSelectionManagement(mContext,this);
+    }
+
+    public void setmTaskHandler(TaskHandler mTaskHandler) {
+        this.mTaskHandler = mTaskHandler;
     }
 
     public FileSelectionManagement getmManager() {
@@ -94,6 +100,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
             TextView textView1=holder.mTextView;
             ImageView imageView=holder.mImageView;
             TextView textView2=holder.mFolderSizeTextView;
+        ImageView imageView1=holder.mGridSmallIcon;
 
             TextView textView4=holder.mNumberFilesTextView;
 
@@ -101,6 +108,9 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
                 textView2.setText(mDataModel.getFileDate());
                 textView4.setText(mDataModel.getFileExtension());
                 imageView.setImageDrawable(mDataModel.getFileIcon());
+        if(!SharedData.LINEAR_LAYOUTMANAGER){
+            imageView1.setImageDrawable(mDataModel.getFileIcon());
+        }
         holder.itemView.setBackgroundColor(mDataModel.getBackgroundColor());
 
     }
