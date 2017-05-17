@@ -145,4 +145,11 @@ public final class RootUtils {
         Shell.SU.run("mv "+ toyboxPath+ " /cryptofm");
         Shell.SU.run("chmod 667 /cryptofm/toybox");
     }
+
+    public static boolean toyboxExist() {
+        List<String> tmp=Shell.SU.run("ls /cryptofm/");
+
+        return tmp.size()>0 && tmp.get(0).equals("toybox");
+
+    }
 }

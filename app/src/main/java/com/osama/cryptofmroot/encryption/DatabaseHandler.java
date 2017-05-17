@@ -46,6 +46,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
 
         if(!isCreated){
+            databaseFile.delete();
             Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);

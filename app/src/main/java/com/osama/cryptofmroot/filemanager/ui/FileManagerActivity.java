@@ -556,101 +556,38 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             return;
         }
         final ProgressDialog dialog=new ProgressDialog(this);
-        dialog.setIndeterminate(false);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setIndeterminate(true);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("Setting up root");
         dialog.setCancelable(false);
        ;
         dialog.setMax(100);
         final String os= SystemUtils.getSystemArchitecture();
         Log.d(TAG, "setupRoot: architecture is: "+os);
-        //afterInitSetup(true);
-        class Setup extends AsyncTask<Void,Integer,Boolean>{
-            private String errorMessage;
+        class Setup extends AsyncTask<Void,Integer,Boolean> {
+
             @Override
             protected Boolean doInBackground(Void... params) {
 
-                /*final String ur="http://www.landley.net/toybox/bin/toybox-"+os;
-                Log.d(TAG, "doInBackground: Url is: "+ur);
-                InputStream input = null;
-                OutputStream output = null;
-                HttpURLConnection connection = null;
+                String filename = getFilesDir().getAbsolutePath() + "/toybox";
+                AssetManager asset = getAssets();
                 try {
-                    URL url = new URL(ur);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.connect();
 
-                    // expect HTTP 200 OK, so we don't mistakenly save error report
-                    // instead of the file
-                    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                        errorMessage= "Server returned HTTP " + connection.getResponseCode()
-                                + " " + connection.getResponseMessage();
-                    }
+                    InputStream stream = asset.open("toybox");
 
-                    // this will be useful to display download percentage
-                    // might be -1: server did not report the length
-                    int fileLength = connection.getContentLength();
-
-                    // download the file
-                    input = connection.getInputStream();
-                    if(!(FileUtils.getFile(SharedData.CRYPTO_FM_PATH).exists())){
-                        FileUtils.getFile(SharedData.CRYPTO_FM_PATH).mkdirs();
-                    }
-                    output = new FileOutputStream(SharedData.CRYPTO_FM_PATH+"toybox");
-
-                    byte data[] = new byte[4096];
-                    long total = 0;
-                    int count;
-                    while ((count = input.read(data)) != -1) {
-                        // allow canceling with back button
-                        if (isCancelled()) {
-                            input.close();
-                            return null;
-                        }
-                        total += count;
-                        // publishing the progress....
-                        if (fileLength > 0) // only if total length is known
-                            publishProgress((int) (total * 100 / fileLength));
-                        output.write(data, 0, count);
-                    }
-                    RootUtils.initRoot();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    errorMessage=e.getMessage();
-                    return false;
-                } finally {
-                    try {
-                        if (output != null)
-                            output.close();
-                        if (input != null)
-                            input.close();
-                    } catch (IOException ignored) {
-                        ignored.printStackTrace();
-                        errorMessage=ignored.getMessage();
-                    }
-
-                    if (connection != null)
-                        connection.disconnect();
-                }*/
-                String filename=getFilesDir().getAbsolutePath()+"/toybox";
-                AssetManager asset=getAssets();
-                try{
-
-                    InputStream stream=asset.open("toybox");
-
-                    OutputStream out=new FileOutputStream(filename);
-                    byte[] buffer=new byte[4096];
+                    OutputStream out = new FileOutputStream(filename);
+                    byte[] buffer = new byte[4096];
                     int read;
-                    int total=0;
-                    while((read=stream.read(buffer))!=-1){
-                        total+=read;
-                        out.write(buffer,0,read);
+                    int total = 0;
+                    while ((read = stream.read(buffer)) != -1) {
+                        total += read;
+                        out.write(buffer, 0, read);
                     }
-                    Log.d(TAG, "doInBackground: total written bytes: "+total);
+                    Log.d(TAG, "doInBackground: total written bytes: " + total);
                     stream.close();
                     out.flush();
                     out.close();
-                }catch (IOException ex){
+                } catch (IOException ex) {
                     ex.printStackTrace();
                     return false;
                 }
@@ -661,7 +598,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
             @Override
             protected void onPreExecute() {
-                dialog.setMessage("Downloading required files. Please wait....");
+                dialog.setMessage("Please wait....");
                 dialog.show();
             }
 
@@ -669,42 +606,27 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             protected void onPostExecute(Boolean aBoolean) {
                 dialog.dismiss();
                 if (aBoolean) {
-                    SharedPreferences.Editor prefs=
+                    SharedPreferences.Editor prefs =
                             getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,
                                     Context.MODE_PRIVATE).edit();
-                    prefs.putBoolean(CommonConstants.ROOT_TOYBOX,true);
+                    prefs.putBoolean(CommonConstants.ROOT_TOYBOX, true);
                     prefs.apply();
                     prefs.commit();
                     afterInitSetup(true);
 
                 } else {
-                    AlertDialog.Builder dial=new AlertDialog.Builder(FileManagerActivity.this);
-                    dial.setMessage("Cannot download files: "+errorMessage);
-                    dial.setCancelable(false);
-                    dial.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new Setup().execute();
-                        }
-                    });
-                    dial.show();
+                    afterInitSetup(aBoolean);
                 }
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                dialog.setProgress(values[0]);
             }
         }
         new Setup().execute();
-
     }
 
     private boolean alreadySetup() {
         SharedPreferences prefs=
                             getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,
                                     Context.MODE_PRIVATE);
-        return prefs.getBoolean(CommonConstants.ROOT_TOYBOX,false);
+        return prefs.getBoolean(CommonConstants.ROOT_TOYBOX,false) && RootUtils.toyboxExist();
     }
     private void afterInitSetup(boolean isRoot){
         setContentView(R.layout.activity_filemanager_tabs);
