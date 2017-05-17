@@ -36,9 +36,11 @@ import android.widget.EditText;
 import com.osama.cryptofmroot.R;
 import com.osama.cryptofmroot.encryption.DatabaseHandler;
 import com.osama.cryptofmroot.filemanager.ui.FileManagerActivity;
+import com.osama.cryptofmroot.filemanager.utils.SharedData;
 import com.osama.cryptofmroot.startup.fragments.InitActivityFirstFragment;
 import com.osama.cryptofmroot.startup.fragments.InitFragmentCallbacks;
 import com.osama.cryptofmroot.utils.ActionHandler;
+import com.osama.cryptofmroot.utils.CommonConstants;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -65,7 +67,6 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         Log.d(TAG, "onCreate: Creating activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-        SQLiteDatabase.loadLibs(this);
         //add first fragment
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,
@@ -121,7 +122,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
 
     private void commitInitActivity() {
         //put in shared preferences
-        SharedPreferences preferences=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedPreferences preferences=getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putBoolean("done",true);
         editor.putString("username",mUserName);
@@ -222,6 +223,7 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
     private class DatabaseSetupTask extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... voids) {
+            SQLiteDatabase.loadLibs(InitActivity.this,getFilesDir());
           new DatabaseHandler(
                     InitActivity.this,
                     mUserSecretDatabase,

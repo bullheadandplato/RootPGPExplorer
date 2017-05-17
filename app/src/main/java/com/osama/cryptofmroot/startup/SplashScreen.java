@@ -31,6 +31,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.osama.cryptofmroot.utils.CommonConstants;
+
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -101,7 +103,7 @@ public class SplashScreen extends AppCompatActivity implements EasyPermissions.P
     }
 
     private void performTask(){
-        SharedPreferences prefs=getSharedPreferences("done",Context.MODE_PRIVATE);
+        SharedPreferences prefs=getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME,Context.MODE_PRIVATE);
         if(prefs.getBoolean("done",false)){
             Intent intent = new Intent(this,UnlockDbActivity.class);
             intent.putExtra("username",prefs.getString("username","test"));
