@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -63,7 +64,9 @@ import com.osama.cryptofmroot.tasks.BackupKeysTask;
 import com.osama.cryptofmroot.utils.ActionHandler;
 import com.osama.cryptofmroot.utils.CommonConstants;
 import com.osama.cryptofmroot.utils.FileUtils;
+import com.osama.cryptofmroot.utils.SystemUtils;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -559,14 +562,15 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         dialog.setCancelable(false);
        ;
         dialog.setMax(100);
-        final String os=System.getProperty("os.arch");
+        final String os= SystemUtils.getSystemArchitecture();
         Log.d(TAG, "setupRoot: architecture is: "+os);
         //afterInitSetup(true);
         class Setup extends AsyncTask<Void,Integer,Boolean>{
             private String errorMessage;
             @Override
             protected Boolean doInBackground(Void... params) {
-                final String ur="http://www.landley.net/toybox/bin/toybox-"+os;
+
+                /*final String ur="http://www.landley.net/toybox/bin/toybox-"+os;
                 Log.d(TAG, "doInBackground: Url is: "+ur);
                 InputStream input = null;
                 OutputStream output = null;
@@ -589,6 +593,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
                     // download the file
                     input = connection.getInputStream();
+                    if(!(FileUtils.getFile(SharedData.CRYPTO_FM_PATH).exists())){
+                        FileUtils.getFile(SharedData.CRYPTO_FM_PATH).mkdirs();
+                    }
                     output = new FileOutputStream(SharedData.CRYPTO_FM_PATH+"toybox");
 
                     byte data[] = new byte[4096];
@@ -624,7 +631,31 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
                     if (connection != null)
                         connection.disconnect();
+                }*/
+                String filename=getFilesDir().getAbsolutePath()+"/toybox";
+                AssetManager asset=getAssets();
+                try{
+
+                    InputStream stream=asset.open("toybox");
+
+                    OutputStream out=new FileOutputStream(filename);
+                    byte[] buffer=new byte[4096];
+                    int read;
+                    int total=0;
+                    while((read=stream.read(buffer))!=-1){
+                        total+=read;
+                        out.write(buffer,0,read);
+                    }
+                    Log.d(TAG, "doInBackground: total written bytes: "+total);
+                    stream.close();
+                    out.flush();
+                    out.close();
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                    return false;
                 }
+                RootUtils.initRoot(filename);
+
                 return true;
             }
 
@@ -675,8 +706,6 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                                     Context.MODE_PRIVATE);
         return prefs.getBoolean(CommonConstants.ROOT_TOYBOX,false);
     }
-
-
     private void afterInitSetup(boolean isRoot){
         setContentView(R.layout.activity_filemanager_tabs);
         if(!isRoot){

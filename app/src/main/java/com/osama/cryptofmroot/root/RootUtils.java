@@ -139,10 +139,10 @@ public final class RootUtils {
         Shell.SU.run("touch \""+absolutePath+"\"");
     }
 
-    public static void initRoot(){
+    public static void initRoot(String toyboxPath){
         mountRw();
         Shell.SU.run("mkdir /cryptofm");
-        Shell.SU.run("cp "+SharedData.CRYPTO_FM_PATH+"toybox /cryptofm" );
+        Shell.SU.run("mv "+ toyboxPath+ " /cryptofm");
         Shell.SU.run("chmod 667 /cryptofm/toybox");
     }
 }
