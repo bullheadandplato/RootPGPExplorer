@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2017. Osama Bin Omar
-  ~    This file is part of Crypto File Manager also known as Crypto FM
+  ~ Copyright (c) 2017. slownet5
+  ~  This file is part of RootPGPExplorer also known as CryptoFM
   ~
-  ~     Crypto File Manager is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
+  ~       RootPGPExplorer a is free software: you can redistribute it and/or modify
+  ~       it under the terms of the GNU General Public License as published by
+  ~       the Free Software Foundation, either version 3 of the License, or
+  ~       (at your option) any later version.
   ~
-  ~     Crypto File Manager is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
+  ~       RootPGPExplorer is distributed in the hope that it will be useful,
+  ~       but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~       GNU General Public License for more details.
   ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with Crypto File Manager.  If not, see <http://www.gnu.org/licenses/>.
-  ~
+  ~       You should have received a copy of the GNU General Public License
+  ~       along with RootPGPExplorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <RelativeLayout
@@ -29,7 +28,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.osama.cryptofmroot.startup.PreStartActivity">
+    tools:context="com.slownet5.pgprootexplorer.startup.PreStartActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"

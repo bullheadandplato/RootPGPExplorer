@@ -1,3 +1,21 @@
+<!--
+  ~ Copyright (c) 2017. slownet5
+  ~  This file is part of RootPGPExplorer also known as CryptoFM
+  ~
+  ~       RootPGPExplorer a is free software: you can redistribute it and/or modify
+  ~       it under the terms of the GNU General Public License as published by
+  ~       the Free Software Foundation, either version 3 of the License, or
+  ~       (at your option) any later version.
+  ~
+  ~       RootPGPExplorer is distributed in the hope that it will be useful,
+  ~       but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~       GNU General Public License for more details.
+  ~
+  ~       You should have received a copy of the GNU General Public License
+  ~       along with RootPGPExplorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <vector android:height="24dp" android:viewportHeight="48.0"
     android:viewportWidth="48.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#c19553" android:pathData="M3.64,2C2.33,2 1.03,3.27 1.03,4.54L1.03,43.92c0,1.2 1.31,2.47 2.54,2.47l40.64,0c1.23,0 2.54,-1.27 2.54,-2.47L46.75,4.47c0,-1.2 -1.31,-2.47 -2.54,-2.47z"/>

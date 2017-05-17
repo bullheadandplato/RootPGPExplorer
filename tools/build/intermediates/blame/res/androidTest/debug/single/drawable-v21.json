@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_edit_text_material.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/drawable-v21/abc_edit_text_material.xml"
+    }
+]

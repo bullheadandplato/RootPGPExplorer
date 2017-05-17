@@ -1,0 +1,78 @@
+[
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_spinner.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/switch_thumb_material_light.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_btn_checkable.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_hint_foreground_material_dark.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_hint_foreground_material_dark.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_seek_thumb.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_search_url_text.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_search_url_text.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_primary_text_disable_only_material_light.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_primary_text_material_light.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_hint_foreground_material_light.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_hint_foreground_material_light.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_secondary_text_material_dark.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_secondary_text_material_dark.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/switch_thumb_material_dark.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_primary_text_material_dark.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_secondary_text_material_light.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_default.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_default.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_edittext.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_switch_thumb.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_switch_thumb.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_tint_switch_track.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/color/abc_btn_colored_borderless_text_material.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/color/abc_btn_colored_borderless_text_material.xml"
+    }
+]

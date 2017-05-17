@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/home/bullhead/projects/stunning-octo-invention/tools/build/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/home/bullhead/.android/build-cache/d348cab86841fda1575253c4b71b17ad2839793f/output/res/layout-v21/notification_action_tombstone.xml"
+    }
+]

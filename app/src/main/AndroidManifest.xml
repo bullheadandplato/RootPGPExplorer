@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2017. Osama Bin Omar
-  ~    This file is part of Crypto File Manager also known as Crypto FM
+  ~ Copyright (c) 2017. slownet5
+  ~  This file is part of RootPGPExplorer also known as CryptoFM
   ~
-  ~     Crypto File Manager is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
+  ~       RootPGPExplorer a is free software: you can redistribute it and/or modify
+  ~       it under the terms of the GNU General Public License as published by
+  ~       the Free Software Foundation, either version 3 of the License, or
+  ~       (at your option) any later version.
   ~
-  ~     Crypto File Manager is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
+  ~       RootPGPExplorer is distributed in the hope that it will be useful,
+  ~       but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~       GNU General Public License for more details.
   ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with Crypto File Manager.  If not, see <http://www.gnu.org/licenses/>.
-  ~
--->
+  ~       You should have received a copy of the GNU General Public License
+  ~       along with RootPGPExplorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.osama.cryptofmroot">
+    package="com.slownet5.pgprootexplorer">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".CryptoFM"
+        android:name="com.slownet5.pgprootexplorer.CryptoFM"
         android:allowBackup="false"
         android:allowClearUserData="false"
         android:icon="@mipmap/iconfinal"
@@ -33,18 +32,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".startup.InitActivity"
+            android:name="com.slownet5.pgprootexplorer.startup.InitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".startup.UnlockDbActivity"
+            android:name="com.slownet5.pgprootexplorer.startup.UnlockDbActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".filemanager.ui.FileBrowserActivity"
+            android:name="com.slownet5.pgprootexplorer.filemanager.ui.FileBrowserActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- first and splash activity -->
         <activity
-            android:name=".startup.SplashScreen"
+            android:name="com.slownet5.pgprootexplorer.startup.SplashScreen"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -56,7 +55,7 @@
 
         <!-- Pre start activity -->
         <activity
-            android:name=".filemanager.ui.FileManagerActivity"
+            android:name="com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/TabsTheme">
             <intent-filter tools:ignore="GoogleAppIndexingWarning">
@@ -64,32 +63,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".startup.PreStartActivity"
+            android:name="com.slownet5.pgprootexplorer.startup.PreStartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PreActivityThemeFragmentTwo" />
         <activity
-            android:name=".startup.OptionActivity"
+            android:name="com.slownet5.pgprootexplorer.startup.OptionActivity"
             android:theme="@style/KeySelectStyle" />
 
         <!-- Key select activity  have different theme -->
         <activity
-            android:name=".startup.KeySelectActivity"
+            android:name="com.slownet5.pgprootexplorer.startup.KeySelectActivity"
             android:theme="@style/KeySelectStyle" />
         <activity
-            android:name=".about.AboutActivity"
-            android:parentActivityName=".filemanager.ui.FileManagerActivity" />
+            android:name="com.slownet5.pgprootexplorer.about.AboutActivity"
+            android:parentActivityName="com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity" />
         <activity
-            android:name=".about.LicencesActivity"
-            android:parentActivityName=".about.AboutActivity" />
+            android:name="com.slownet5.pgprootexplorer.about.LicencesActivity"
+            android:parentActivityName="com.slownet5.pgprootexplorer.about.AboutActivity" />
         <activity
-            android:name=".about.ShowLicenseActivity"
-            android:parentActivityName=".about.LicencesActivity" />
+            android:name="com.slownet5.pgprootexplorer.about.ShowLicenseActivity"
+            android:parentActivityName="com.slownet5.pgprootexplorer.about.LicencesActivity" />
         <!-- End of activities -->
 
 
         <!-- started service section -->
         <service
-            android:name=".services.CleanupService"
+            android:name="com.slownet5.pgprootexplorer.services.CleanupService"
             android:stopWithTask="false" />
 
         <!-- file read provider -->
@@ -104,14 +103,14 @@
         </provider>
 
         <activity
-            android:name=".extras.TextEditorActivity"
-            android:parentActivityName=".filemanager.ui.FileManagerActivity" />
-        <activity android:name=".about.ShowTeamActivity" />
-        <activity android:name=".about.ShowTermsActivity" />
+            android:name="com.slownet5.pgprootexplorer.extras.TextEditorActivity"
+            android:parentActivityName="com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity" />
+        <activity android:name="com.slownet5.pgprootexplorer.about.ShowTeamActivity" />
+        <activity android:name="com.slownet5.pgprootexplorer.about.ShowTermsActivity" />
         <activity
-            android:name=".extras.KeyDetailsActivity"
-            android:parentActivityName=".filemanager.ui.FileManagerActivity"></activity>
-        <activity android:name=".extras.FileInfoActivity"></activity>
+            android:name="com.slownet5.pgprootexplorer.extras.KeyDetailsActivity"
+            android:parentActivityName="com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity"></activity>
+        <activity android:name="com.slownet5.pgprootexplorer.extras.FileInfoActivity"></activity>
     </application>
 
 </manifest>
