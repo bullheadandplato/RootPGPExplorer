@@ -42,14 +42,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private SQLiteDatabase mDB;
     public DatabaseHandler(Context context,String pass,Boolean isCreated){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
-        SQLiteDatabase.loadLibs(context);
-        Log.d(TAG, "DatabaseHandler: this is somewhat messed up ");
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
 
         if(!isCreated){
-            databaseFile.mkdirs();
-            databaseFile.delete();
             Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);
             mDB.execSQL(FeedReaderContract.CREATE_TABLE_SECRING);
