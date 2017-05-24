@@ -69,4 +69,8 @@
         android:title="Compress"
         app:showAsAction="never"
         />
+    <item android:id="@+id/fileinfo_menuitem"
+        android:title="Info"
+        app:showAsAction="never"
+        />
 </menu>

@@ -20,8 +20,12 @@ package com.slownet5.pgprootexplorer.extras;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.slownet5.pgprootexplorer.R;
+import com.slownet5.pgprootexplorer.filemanager.listview.DataModelFiles;
+import com.slownet5.pgprootexplorer.utils.CommonConstants;
 import com.slownet5.pgprootexplorer.utils.MainUtils;
 
 public class FileInfoActivity extends AppCompatActivity {
@@ -31,5 +35,18 @@ public class FileInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_info);
         MainUtils.closeActionBarButton(this);
+        init();
+    }
+    private void init(){
+        DataModelFiles files=getIntent().getExtras().getParcelable(CommonConstants.DATA_MODEL_INTENT);
+        ((ImageView)findViewById(R.id.fileinfo_image)).setImageDrawable(files.getFileIcon());
+        ((TextView)findViewById(R.id.fileinfo_name_textview)).setText(files.getFileName());
+        if(files.getFile()){
+            ((TextView)findViewById(R.id.fileinfo_size_textview)).setText(files.getFileDate());
+        }else {
+            ((TextView) findViewById(R.id.fileinfo_size_textview)).setText(files.getFileExtension());
+        }
+        String tmp=files.isEncrypted() ? "Encrypted" : "Not encrypted";
+        ((TextView)findViewById(R.id.fileinfo_permission_textview)).setText(tmp);
     }
 }

@@ -20,6 +20,8 @@ package com.slownet5.pgprootexplorer.filemanager.listview;
 
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -35,7 +37,7 @@ import java.io.File;
  * Data model for the recyclerview
  */
 
-public class DataModelFiles  {
+public class DataModelFiles implements Parcelable {
     private String      fileName;
     private String      fileExtensionOrItems;
     private String fileDate;
@@ -85,14 +87,6 @@ public class DataModelFiles  {
         return fileName;
     }
 
-    public Drawable getFileEncryptionStatus() {
-        if(isEncrypted){
-            return ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_encrypt);
-        }else{
-            return null;
-        }
-    }
-
     public String getFileExtension() {
         return fileExtensionOrItems;
     }
@@ -103,6 +97,11 @@ public class DataModelFiles  {
     public Drawable getFileIcon(){
         return this.fileIcon;
     }
+
+    public boolean isEncrypted() {
+        return isEncrypted;
+    }
+
     public void setFileIcon(Drawable drawable){
         this.fileIcon=drawable;
     }
@@ -144,5 +143,15 @@ public class DataModelFiles  {
 
     public void setEncrypted(boolean encrypted) {
         isEncrypted = encrypted;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
