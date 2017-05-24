@@ -278,7 +278,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		if(SharedData.SELECTION_MODE) {
 			//actionMode = startActionMode(new ActionViewHandler(this));
 		}
-		//UiUtils.actionMode=actionMode;
+		//MainUtils.actionMode=actionMode;
 	}
 	@Override
 	public void incrementSelectionCount(){

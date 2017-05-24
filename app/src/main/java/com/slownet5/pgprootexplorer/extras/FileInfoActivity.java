@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.slownet5.pgprootexplorer.R;
+import com.slownet5.pgprootexplorer.utils.MainUtils;
 
 public class FileInfoActivity extends AppCompatActivity {
 
@@ -29,5 +30,6 @@ public class FileInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_info);
+        MainUtils.closeActionBarButton(this);
     }
 }

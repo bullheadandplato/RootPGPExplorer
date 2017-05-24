@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.encryption.MyPGPUtil;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
+import com.slownet5.pgprootexplorer.filemanager.utils.UiUtils;
+import com.slownet5.pgprootexplorer.utils.MainUtils;
 
 import org.spongycastle.openpgp.PGPException;
 import org.spongycastle.openpgp.PGPPublicKey;
@@ -38,6 +40,7 @@ public class KeyDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_key_details);
+        MainUtils.closeActionBarButton(this);
         ((TextView)findViewById(R.id.key_details_name_textview)).setText(SharedData.USERNAME);
         fillKeyDetails();
     }

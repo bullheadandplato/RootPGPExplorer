@@ -38,6 +38,7 @@ import com.slownet5.pgprootexplorer.filemanager.utils.UiUtils;
 import com.slownet5.pgprootexplorer.root.RootUtils;
 import com.slownet5.pgprootexplorer.utils.CommonConstants;
 import com.slownet5.pgprootexplorer.utils.FileUtils;
+import com.slownet5.pgprootexplorer.utils.MainUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -69,6 +70,7 @@ public class TextEditorActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_editor);
+        MainUtils.closeActionBarButton(this);
         mEditText=(EditText) findViewById(R.id.editor_area);
         mProgressDialog =new ProgressDialog(this);
         mlength=mEditText.getText().length();

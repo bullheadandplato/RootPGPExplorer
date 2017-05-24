@@ -115,6 +115,7 @@ public class UiUtils {
             public void onClick(View v) {
                 dialog.dismiss();
                 Intent intent=new Intent(ctx, TextEditorActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra(CommonConstants.TEXTEDITACT_PARAM_PATH,filename);
                 ctx.startActivity(intent);
             }
