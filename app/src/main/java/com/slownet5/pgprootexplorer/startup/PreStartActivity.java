@@ -18,9 +18,6 @@
 
 package com.slownet5.pgprootexplorer.startup;
 
-/**
- * Created by Shadow on 1/12/2017.
- */
 
 import android.content.Intent;
 import android.os.Build;
@@ -40,15 +37,10 @@ import com.slownet5.pgprootexplorer.startup.adapters.PagerAdapter;
 import com.slownet5.pgprootexplorer.utils.ActionHandler;
 
 public class PreStartActivity extends AppCompatActivity {
-    //app compat activity can also act as FragmentActivity
-
-
-
-
-    ViewPager   viewPager;
-    PagerAdapter pAdapter;
-    RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
-    RelativeLayout prestartlayout;
+    private RadioButton     radioButton1;
+    private RadioButton     radioButton2;
+    private RadioButton     radioButton3;
+    private RelativeLayout  preStartLayout;
 
 
     @Override
@@ -61,12 +53,12 @@ public class PreStartActivity extends AppCompatActivity {
         radioButton2    = (RadioButton)  findViewById(R.id.radioButton2);
         radioButton3    = (RadioButton)  findViewById(R.id.radioButton3);
 
-        prestartlayout  =(RelativeLayout)findViewById(R.id.pre_start);
-        setColors(ContextCompat.getColor(this,R.color.pagercolor1));
+        preStartLayout =(RelativeLayout)findViewById(R.id.pre_start);
+        setColors(ContextCompat.getColor(this,R.color.colorAccent));
 
         //set ViewPager adapter
-        viewPager   = (ViewPager) findViewById(R.id.pager);
-        pAdapter    = new PagerAdapter(getSupportFragmentManager());
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        PagerAdapter pAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pAdapter);
         radioButton1.setChecked(true);
         checkRadioButton(0);
@@ -108,19 +100,19 @@ public class PreStartActivity extends AppCompatActivity {
         switch (num) {
             case 0:
                 radioButton1.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
 
                 break;
             case 1:
 
                 radioButton2.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor2));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor2));
                 break;
             case 2:
                 radioButton3.setChecked(true);
-                prestartlayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor3));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor3));
                 animateButtonAndShow();
