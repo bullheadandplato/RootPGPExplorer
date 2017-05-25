@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.listview.DataModelFiles;
+import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.utils.CommonConstants;
 import com.slownet5.pgprootexplorer.utils.MainUtils;
 
@@ -38,7 +39,7 @@ public class FileInfoActivity extends AppCompatActivity {
         init();
     }
     private void init(){
-        DataModelFiles files=getIntent().getExtras().getParcelable(CommonConstants.DATA_MODEL_INTENT);
+        DataModelFiles files= SharedData.CURRENT_FILE_FOR_INFO;
         ((ImageView)findViewById(R.id.fileinfo_image)).setImageDrawable(files.getFileIcon());
         ((TextView)findViewById(R.id.fileinfo_name_textview)).setText(files.getFileName());
         if(files.getFile()){

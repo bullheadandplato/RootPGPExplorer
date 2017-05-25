@@ -226,4 +226,11 @@ public class FileSelectionManagement {
         clickCallBack.onLongClick();
     }
 
+    public Drawable getmFolderIcon() {
+        return mFolderIcon;
+    }
+
+    public ArrayList<Integer> getmSelectedPosition() {
+        return mSelectedPosition;
+    }
 }

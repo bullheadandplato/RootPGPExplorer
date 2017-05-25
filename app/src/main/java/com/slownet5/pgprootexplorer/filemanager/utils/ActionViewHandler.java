@@ -19,6 +19,7 @@
 package com.slownet5.pgprootexplorer.filemanager.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -26,8 +27,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.slownet5.pgprootexplorer.R;
+import com.slownet5.pgprootexplorer.filemanager.listview.DataModelFiles;
 import com.slownet5.pgprootexplorer.filemanager.listview.FileSelectionManagement;
 import com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity;
+import com.slownet5.pgprootexplorer.utils.CommonConstants;
+import com.slownet5.pgprootexplorer.extras.FileInfoActivity;
 
 import java.util.ArrayList;
 
@@ -105,6 +109,18 @@ public class ActionViewHandler implements ActionMode.Callback {
             mTaskHandler.compressTask(mManager.getmSelectedFilePaths(),false);
         }else if(item.getItemId()==R.id.share_menu_item){
             UiUtils.shareFile(mManager.getmSelectedFilePaths().get(0),mContext);
+        }else if(item.getItemId()==R.id.fileinfo_menuitem) {
+            Intent intent=new Intent(mContext,FileInfoActivity.class);
+            SharedData.CURRENT_FILE_FOR_INFO= mManager.getmFileListAdapter()
+                    .getmFileFiller()
+                    .getFileAtPosition(mManager.getmSelectedPosition().get(0));
+            if(SharedData.CURRENT_FILE_FOR_INFO.getFile()){
+                SharedData.CURRENT_FILE_FOR_INFO.setFileIcon(
+                        MimeType.getIcon(SharedData.CURRENT_FILE_FOR_INFO.getFileExtension()));
+            }else{
+                SharedData.CURRENT_FILE_FOR_INFO.setFileIcon(mManager.getmFolderIcon());
+            }
+            mContext.startActivity(intent);
         }
         return true;
     }

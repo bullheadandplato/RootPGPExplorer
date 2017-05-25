@@ -21,6 +21,8 @@ package com.slownet5.pgprootexplorer.filemanager.utils;
 import android.os.Environment;
 import android.util.Log;
 
+import com.slownet5.pgprootexplorer.filemanager.listview.DataModelFiles;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,8 +49,9 @@ public class SharedData {
     public static boolean           DO_NOT_RESET_ICON=false;
     public static final String      CRYPTO_FM_PATH=FILES_ROOT_DIRECTORY+"CryptoFM/";
     public static HashMap<String,String> symbolicLinks =new HashMap<>();
-    public static boolean LINEAR_LAYOUTMANAGER =false;
+    public static boolean           LINEAR_LAYOUTMANAGER =false;
     public static boolean           IS_OPENWITH_SHOWN=false;
+    public static DataModelFiles    CURRENT_FILE_FOR_INFO;
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method

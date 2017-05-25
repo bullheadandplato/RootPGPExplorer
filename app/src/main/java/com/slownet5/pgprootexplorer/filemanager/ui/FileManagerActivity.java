@@ -437,6 +437,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             actionMode.getMenu().removeItem(R.id.rename_menu_item);
             actionMode.getMenu().removeItem(R.id.openwith_menu_item);
             actionMode.getMenu().removeItem(R.id.share_menu_item);
+            actionMode.getMenu().removeItem(R.id.fileinfo_menuitem);
         }
     }
 
@@ -450,6 +451,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             }
             else if(SharedData.SELECT_COUNT<2) {
                 actionMode.getMenu().add(0, R.id.rename_menu_item, 0, "Rename");
+                actionMode.getMenu().add(0,R.id.fileinfo_menuitem,0,"Info");
             }
         actionMode.setTitle(SharedData.SELECT_COUNT+"");
         }
