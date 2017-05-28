@@ -52,7 +52,7 @@ public class DataModelFiles  {
     }
     public DataModelFiles(File file) {
         this.fileName   = file.getName();
-        this.mFilePath  = file.getPath();
+        this.mFilePath  = file.getPath().replace(this.fileName,"");
         //check if i can read file
         backgroundColor= ContextCompat.getColor(CryptoFM.getContext(),R.color.white);
         if(FileUtils.isFile(file)){

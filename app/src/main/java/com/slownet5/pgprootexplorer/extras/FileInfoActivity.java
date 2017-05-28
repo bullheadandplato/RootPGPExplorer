@@ -20,6 +20,7 @@ package com.slownet5.pgprootexplorer.extras;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class FileInfoActivity extends AppCompatActivity {
         if(RootUtils.isRootPath(completeFilename)){
             fileSize=RootUtils.getFileSize(completeFilename);
         }else {
+            Log.d("looo", "init: complete filename is: "+completeFilename);
             fileSize=files.getFile() ? files.getFileDate() : FileUtils.getFolderSize(completeFilename);
         }
         ((TextView)findViewById(R.id.fileinfo_size_textview)).setText(fileSize);
