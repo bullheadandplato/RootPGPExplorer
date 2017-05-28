@@ -24,7 +24,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.slownet5.pgprootexplorer.extras.FileInfoActivity">
+    android:padding="50dp"
+    >
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="50dp"

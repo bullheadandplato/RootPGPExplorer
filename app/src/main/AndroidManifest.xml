@@ -110,7 +110,6 @@
         <activity
             android:name="com.slownet5.pgprootexplorer.extras.KeyDetailsActivity"
             android:parentActivityName="com.slownet5.pgprootexplorer.filemanager.ui.FileManagerActivity"></activity>
-        <activity android:name="com.slownet5.pgprootexplorer.extras.FileInfoActivity"></activity>
     </application>
 
 </manifest>
