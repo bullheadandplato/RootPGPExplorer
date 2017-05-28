@@ -99,21 +99,15 @@ public class FileBrowserActivity extends AppCompatActivity
 		//set layout manager for the recycler view according to user choice
 		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
 		boolean linearLayout           	= preferences.getBoolean("key",false);
-		if(linearLayout || mStartedInSelectionMode){
+		if(linearLayout){
 			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
 			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
 		}else{
 			mFileViewGridLayoutManager=new GridLayoutManager(this,2);
 			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
 		}
-//hello change
-
 		mFileListView.setAdapter(mmFileListAdapter);
 		mFileFillerWrapper.fillData(mCurrentPath,mmFileListAdapter);
-
-		startService(new Intent(this,CleanupService.class));
-
-
 
 	}
 
@@ -150,69 +144,12 @@ public class FileBrowserActivity extends AppCompatActivity
 				finish();
 			}
 		}
-		if(item.getItemId()==R.id.items_view_menu_item){
-			if(mFileListView.getLayoutManager()==mFileViewGridLayoutManager){
-				item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_gridview));
-				if(mFileViewLinearLayoutManager==null){
-					mFileViewLinearLayoutManager=new LinearLayoutManager(this);
-				}
-				mHelper.attachToRecyclerView(mFileListView);
-				mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
-			}else{
-				item.setIcon(ContextCompat.getDrawable(this,R.drawable.ic_listview));
-				if(mFileViewGridLayoutManager==null){
-					mFileViewGridLayoutManager=new GridLayoutManager(this,2);
-				}
-				mHelper.attachToRecyclerView(null);
-				mFileListView.setLayoutManager(mFileViewGridLayoutManager);
-
-			}
-			mFileListView.requestLayout();
-		}
-		return true;
-	}
-
-	public void onAddFloatingClicked(View v){
-       UiUtils.actionMode = this.actionMode;
-		if(emptyFiles) {
-			removeNoFilesFragment();
-		}
-		final Dialog dialog = UiUtils.createDialog(
-				this,
-				"Create Folder",
-				"create"
-		);
-
-		final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
-		Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
-
-		okayButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				String folderName=folderEditText.getText().toString();
-				if(folderName.length()<1){
-					folderEditText.setError("Give me the folder name");
-				}else{
-					if(!FileUtils.createFolder(folderName)){
-						Toast.makeText(
-								FileBrowserActivity.this,
-								"Folder name already exist",
-								Toast.LENGTH_SHORT
-						).show();
-					}else{
-						dialog.dismiss();
-						UiUtils.reloadData(
-								mmFileListAdapter
-						);
-					}
-				}
-			}
-		});
+	return true;
 	}
 
 	void changeDirectory(String path) {
+		mCurrentPath=path;
 		changeTitle(path);
-		Log.d("filesc","current path: "+path);
 		mFileFillerWrapper.fillData(path,mmFileListAdapter);
 		if(mFileFillerWrapper.getTotalFilesCount()<1){
 			showNoFilesFragment();
@@ -220,8 +157,7 @@ public class FileBrowserActivity extends AppCompatActivity
 		}else if(emptyFiles){
 			removeNoFilesFragment();
 		}
-		//mmFileListAdapter.notifyDataSetChanged();
-
+		mmFileListAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -328,7 +264,7 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	@Override
 	public void animateForward(String path) {
-
+		changeDirectory(path);
 	}
 
 	@Override
