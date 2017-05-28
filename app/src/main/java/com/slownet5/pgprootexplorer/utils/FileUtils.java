@@ -49,7 +49,7 @@ public class FileUtils {
         return file.length();
     }
 
-    public static long getFolderSize(String folderPath) {
+    private static long getFolderSize(String folderPath,int x) {
         File dir  = new File(folderPath);
         long size = 0;
 
@@ -58,9 +58,12 @@ public class FileUtils {
                 size += file.length();
             }
             else
-                size += getFolderSize(file.getPath());
+                size += getFolderSize(file.getPath(),0);
         }
         return size;
+    }
+    public static String getFolderSize(String folderPath){
+        return getReadableSize(getFolderSize(folderPath,0));
     }
     public static boolean isEncryptedFolder(File dir){
         //if file is not a directory but just a file

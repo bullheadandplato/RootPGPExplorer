@@ -87,7 +87,7 @@ public final class RootUtils {
                 temp.setEncrypted(FileUtils.isEncryptedFile(filename));
             }
             temp.setFileDate(parts[DATE_INDEX]);
-            temp.setmFilePath(path+filename);
+            temp.setmFilePath(path);
             names.add(temp);
         }
         return names;
@@ -165,8 +165,12 @@ public final class RootUtils {
 
     public static boolean toyboxExist() {
         List<String> tmp=Shell.SU.run("ls /cryptofm/");
-
         return tmp.size()>0 && tmp.get(0).equals("toybox");
 
+    }
+    public static String getFileSize(String filename){
+        Log.d(TAG, "getFileSize: filename is: "+filename);
+        List<String> tmp=Shell.SU.run(TOYBOX_PATH+"du -sh '"+filename+"'");
+        return tmp.get(0).split(" ")[0];
     }
 }

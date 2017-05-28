@@ -26,7 +26,9 @@ import android.widget.TextView;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.listview.DataModelFiles;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
+import com.slownet5.pgprootexplorer.root.RootUtils;
 import com.slownet5.pgprootexplorer.utils.CommonConstants;
+import com.slownet5.pgprootexplorer.utils.FileUtils;
 import com.slownet5.pgprootexplorer.utils.MainUtils;
 
 public class FileInfoActivity extends AppCompatActivity {
@@ -42,11 +44,14 @@ public class FileInfoActivity extends AppCompatActivity {
         DataModelFiles files= SharedData.CURRENT_FILE_FOR_INFO;
         ((ImageView)findViewById(R.id.fileinfo_image)).setImageDrawable(files.getFileIcon());
         ((TextView)findViewById(R.id.fileinfo_name_textview)).setText(files.getFileName());
-        if(files.getFile()){
-            ((TextView)findViewById(R.id.fileinfo_size_textview)).setText(files.getFileDate());
+        String fileSize;
+        String completeFilename=files.getFilePath()+files.getFileName();
+        if(RootUtils.isRootPath(completeFilename)){
+            fileSize=RootUtils.getFileSize(completeFilename);
         }else {
-            ((TextView) findViewById(R.id.fileinfo_size_textview)).setText(files.getFileExtension());
+            fileSize=files.getFile() ? files.getFileDate() : FileUtils.getFolderSize(completeFilename);
         }
+        ((TextView)findViewById(R.id.fileinfo_size_textview)).setText(fileSize);
         String tmp=files.isEncrypted() ? "Encrypted" : "Not encrypted";
         ((TextView)findViewById(R.id.fileinfo_permission_textview)).setText(tmp);
     }
