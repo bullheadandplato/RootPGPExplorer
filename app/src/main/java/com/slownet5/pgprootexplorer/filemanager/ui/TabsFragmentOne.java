@@ -244,6 +244,10 @@ public class TabsFragmentOne extends Fragment {
         mFileAdapter.notifyDataSetChanged();
     }
 
+    public RecyclerView getmRecyclerView() {
+        return mRecyclerView;
+    }
+
     private class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
 
         @Override

@@ -300,6 +300,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         if(path.equals(mCurrentFragment.getRootPath())){
             super.onBackPressed();
         }else{
+            // stop scrolling so that there will be no inconsistency
+            mCurrentFragment.getmRecyclerView().stopScroll();
+
             path		   = path.substring(0,path.lastIndexOf('/'));
             path 		   = path.substring(0,path.lastIndexOf('/')+1);
             Log.d(TAG, "onBackPressed: Changing directory");
