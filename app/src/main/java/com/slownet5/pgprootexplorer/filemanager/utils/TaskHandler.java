@@ -199,7 +199,30 @@ public class TaskHandler {
             }
         }
     }
+
+    private boolean continueEncryption=false;
     public void encryptTask(ArrayList<String> files){
+        if(SharedData.ASK_ENCRYPTION_CONFIG){
+            AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+            builder.setTitle("Encryption");
+            builder.setMessage("Do you really want to encrypt the selected files?");
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    continueEncryption=false;
+                }
+            });
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    continueEncryption=true;
+                }
+            });
+            builder.show();
+        }
+        if(!continueEncryption){
+            return;
+        }
         //check if user hasn't generate keys
         if(!SharedData.KEYS_GENERATED){
             //generate keys first
