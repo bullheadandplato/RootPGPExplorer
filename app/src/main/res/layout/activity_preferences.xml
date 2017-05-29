@@ -27,6 +27,7 @@
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:id="@+id/prefs_askenc_box"
             android:layout_weight=".5" />
     </LinearLayout>
 
@@ -54,6 +55,7 @@
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:id="@+id/prefs_autodel_box"
             android:layout_weight=".5" />
     </LinearLayout>
 
@@ -81,6 +83,7 @@
         <CheckBox
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:id="@+id/prefs_savepass_box"
             android:layout_weight=".5" />
     </LinearLayout>
 
