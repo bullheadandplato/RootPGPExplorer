@@ -18,22 +18,12 @@
 
 package com.slownet5.pgprootexplorer.filemanager.utils;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.listview.FileListAdapter;
 import com.slownet5.pgprootexplorer.filemanager.listview.FileSelectionManagement;
-import com.slownet5.pgprootexplorer.startup.OptionActivity;
 import com.slownet5.pgprootexplorer.tasks.CompressTask;
 import com.slownet5.pgprootexplorer.tasks.DecryptTask;
 import com.slownet5.pgprootexplorer.tasks.DeleteTask;
@@ -54,131 +44,39 @@ public class TaskHandler {
     private FileListAdapter         mAdapter;
     private Context                 mContext;
     private FileSelectionManagement mFileSelectionManagement;
-    private ArrayList<String>       mSelectedFiles;
+
     private static final String TAG=TaskHandler.class.getCanonicalName();
-    public TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
-        this.mContext=context;
-        mAdapter=adapter;
-        mFileSelectionManagement=m;
+    protected TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
+        this.mContext               = context;
+        mAdapter                    = adapter;
+        mFileSelectionManagement    = m;
     }
 
-    public void renameFile(){
-        if(!isOperationNotRunning(mFileSelectionManagement.getmSelectedFilePaths())){
-            return;
-        }
-        final Dialog dialog = UiUtils.createDialog(
-                mContext,
-                "Rename file",
-                "rename"
-        );
+    protected void renameFile(final String filename,final String destName){
 
-        final EditText folderEditText = (EditText)dialog.findViewById(R.id.foldername_edittext);
-        Button okayButton			  = (Button)dialog.findViewById(R.id.create_file_button);
-        String currentFileName		  = mFileSelectionManagement.getmSelectedFilePaths().get(0);
-
-        currentFileName = currentFileName.substring(
-                currentFileName.lastIndexOf('/')+1,
-                currentFileName.length()
-        );
-        folderEditText.setText(currentFileName);
-
-        okayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String folderName=folderEditText.getText().toString();
-                if(folderName.length()<1){
-                    folderEditText.setError("Give me the folder name");
-                }else{
-                    new RenameTask(
+         new RenameTask(
                             mContext,
                             mAdapter,
-                            mFileSelectionManagement.getmSelectedFilePaths().get(0),
-                            folderName
-                    ).execute();
-                    dialog.dismiss();
-                }
-            }
-        });
+                            filename,
+                            destName
+
+         ).execute();
+
 
     }
-    public void deleteFile(final ArrayList<String> files){
-        if(!isOperationNotRunning(files)){
-            return;
-        }
-        final AlertDialog dialog=new AlertDialog.Builder(mContext).create();
-        dialog.setTitle("Delete confirmation");
-        dialog.setMessage("Do you really want to delete these files(s)?");
-        dialog.setButton(
-                DialogInterface.BUTTON_POSITIVE,
-                "yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        DeleteTask task=new DeleteTask(
+    protected void deleteFile(final ArrayList<String> files){
+        beforeStartingTask(files);
+        DeleteTask task=new DeleteTask(
                                 mContext,
                                 mAdapter,
                                 files
                         );
-                        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        dialog.dismiss();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-                    }
-                });
-        dialog.setButton(
-                DialogInterface.BUTTON_NEUTRAL,
-                "No",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //do nothing
-                    }
-                });
-        dialog.show();
     }
 
-    private boolean isCalled=false;
-    public void decryptFile(final String username, final String keypass, final String dbpass, final ArrayList<String> files) {
-
-        if (!SharedData.KEYS_GENERATED) {
-            //generate keys first
-            generateKeys();
-            return;
-        }
-        if ((SharedData.KEY_PASSWORD == null || !SharedData.ASK_KEY_PASSS_CONFIG)&& !isCalled) {
-            final Dialog dialog = new Dialog(mContext);
-            dialog.setCancelable(false);
-            dialog.setContentView(R.layout.password_dialog_layout);
-            dialog.show();
-            dialog.findViewById(R.id.cancel_decrypt_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            final EditText editText = (EditText) dialog.findViewById(R.id.key_password);
-            dialog.findViewById(R.id.decrypt_file_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (editText.getText().length() < 1) {
-                        editText.setError("please give me your encryption password");
-                        return;
-                    } else {
-                        isCalled=true;
-                        SharedData.KEY_PASSWORD = editText.getText().toString();
-                        Log.d(TAG, "onClick: set the password");
-                        decryptFile(username,SharedData.KEY_PASSWORD,dbpass,files);
-                        dialog.dismiss();
-                    }
-                }
-            });
-        } else {
-            isCalled=false;
-            if(!isOperationNotRunning(files)){
-                return;
-            }
-
-            SharedData.IS_TASK_CANCELED = false;
-            SharedData.CURRENT_RUNNING_OPERATIONS = new ArrayList<>(files);
+    protected void decryptFile(final String username, final String keypass, final String dbpass, final ArrayList<String> files) {
+           beforeStartingTask(files);
             mDecryptTask = new DecryptTask(
                     mContext,
                     mAdapter,
@@ -198,48 +96,8 @@ public class TaskHandler {
 
             }
         }
-    }
-
-    private boolean continueEncryption=false;
-    public void encryptTask(final ArrayList<String> files){
-        if(SharedData.ASK_ENCRYPTION_CONFIG && !continueEncryption){
-            continueEncryption=false;
-            AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-            builder.setTitle("Encryption");
-            builder.setMessage("Do you really want to encrypt the selected files?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    continueEncryption=false;
-                }
-            });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    continueEncryption=true;
-                    encryptTask(files);
-                }
-            });
-            builder.show();
-        }
-        if(!continueEncryption){
-            return;
-        }else{
-            continueEncryption=false;
-        }
-        //check if user hasn't generate keys
-        if(!SharedData.KEYS_GENERATED){
-            //generate keys first
-            generateKeys();
-            return;
-        }
-
-        if(!isOperationNotRunning(files)){
-            return;
-        }
-
-        SharedData.IS_TASK_CANCELED=false;
-        SharedData.CURRENT_RUNNING_OPERATIONS=new ArrayList<>(files);
+    protected void encryptTask(final ArrayList<String> files){
+        beforeStartingTask(files);
         mEncryptTask=new EncryptTask(
                 mContext,
                 mAdapter,
@@ -248,66 +106,33 @@ public class TaskHandler {
         mEncryptTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void generateKeys() {
-        //show user of what Im going to do
-        final AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
-        dialog.setCancelable(false);
-        dialog.setTitle("Keys not generated");
-        dialog.setMessage("Looks like you haven't generated your keys. You need to generate keys now");
-        dialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                 //get the password
-                Intent intent = new Intent(mContext, OptionActivity.class);
-                mContext.startActivity(intent);
-                UiUtils.reloadData(mAdapter);
-            }
-        });
-        dialog.show();
-    }
-
-    public DecryptTask getDecryptTask() {
+    protected DecryptTask getDecryptTask() {
         return mDecryptTask;
     }
 
-    public EncryptTask getEncryptTask() {
+    protected EncryptTask getEncryptTask() {
         return mEncryptTask;
     }
 
-    public void moveFiles(String dest,FileListAdapter m){
-        //make sure files have been placed
-        assert mSelectedFiles!=null;
-        if(mSelectedFiles.size()<1){
-            Log.d("MoveTask", "moveFiles: files are not added");
-        }
-        if(!isOperationNotRunning(mSelectedFiles)){
-            return;
-        }
-        new MoveTask(mContext,mSelectedFiles,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    protected void moveFiles(String dest,FileListAdapter m,ArrayList<String> files){
+        beforeStartingTask(files);
+        new MoveTask(mContext,files,dest,m).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    public void compressTask(ArrayList<String> files,boolean uncompress){
-        if(!isOperationNotRunning(files)){
-            return;
-        }
-        ArrayList<String> tmp=new ArrayList<>(files);
-        SharedData.CURRENT_RUNNING_OPERATIONS=tmp;
-        new CompressTask(tmp,mContext,mAdapter,uncompress,mAdapter.getmFileFiller().getCurrentPath()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    protected void compressTask(ArrayList<String> files,boolean uncompress){
+        beforeStartingTask(files);
+        new CompressTask(
+                files,
+                mContext,
+                mAdapter,
+                uncompress,
+                mAdapter.getmFileFiller().getCurrentPath()
+        ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-
-    public ArrayList<String> getmSelectedFiles() {
-        return mSelectedFiles;
+    private void beforeStartingTask(ArrayList<String> files){
+        SharedData.CURRENT_RUNNING_OPERATIONS=files;
+        SharedData.IS_TASK_CANCELED=true;
     }
 
-    public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
-        this.mSelectedFiles = mSelectedFiles;
-    }
-    private boolean isOperationNotRunning(ArrayList<String> files){
-       if(SharedData.checkIfInRunningTask(files)){
-            Toast.makeText(mContext,"Another operation is already running on selected files. please wait",Toast.LENGTH_LONG).show();
-            return false;
-       }
-       return true;
-    }
 
 
 }
