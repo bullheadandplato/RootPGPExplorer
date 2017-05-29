@@ -28,5 +28,5 @@ public final class  CommonConstants {
     public static final String VIEW_MODE_SHARED_PREF="viewmode";
     public static final String COMMON_SHARED_PEREFS_NAME="done";
     public static final String ROOT_TOYBOX="toybox";
-    public static final String DATA_MODEL_INTENT="datamodel";
+    public static final String SUCCESS_MESSAGE="success";
 }

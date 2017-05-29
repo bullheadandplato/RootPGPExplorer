@@ -45,6 +45,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private FileFillerWrapper mFileFiller;
     private FileSelectionManagement mManager;
     private TaskHandler mTaskHandler;
+    private RecyclerView recyclerView;
 
 
     public FileListAdapter(Context context){
@@ -53,6 +54,15 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView=recyclerView;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

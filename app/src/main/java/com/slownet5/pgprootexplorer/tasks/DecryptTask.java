@@ -250,15 +250,18 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                         Toast.LENGTH_LONG)
                         .show();
             }
-        } else{
-            mProgressDialog.dismiss("Decryption completed");
-            SharedData.CURRENT_RUNNING_OPERATIONS.clear();
-            Toast.makeText(mContext,
+        } else if(s.equals(DECRYPTION_SUCCESS_MESSAGE)){
+            UiUtils.reloadData(mAdapter);
+        }else{
+          Toast.makeText(mContext,
                     s,
                     Toast.LENGTH_LONG)
                     .show();
-            UiUtils.reloadData(mAdapter);
+            SharedData.KEY_PASSWORD=null;
         }
+        mProgressDialog.dismiss("Decryption completed");
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+
 
     }
 

@@ -19,6 +19,7 @@
 package com.slownet5.pgprootexplorer.filemanager.listview;
 
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.slownet5.pgprootexplorer.root.RootUtils;
@@ -110,6 +111,9 @@ public  class FileFillerWrapper {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Log.d(TAG, "onPostExecute: changing google");
+            RecyclerView view=mAdapter.getRecyclerView();
+            view.setAdapter(null);
+            view.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }
     }
