@@ -104,7 +104,7 @@ public class FileSelectionManagement {
         if(!mDataModel.getSelected()) {
            mDataModel.setBackgroundColor(ContextCompat.getColor(CryptoFM.getContext(),R.color.cardSelectedColor));
             mSelectedPosition.add(position);
-            mSelectedFilePaths.add(mDataModel.getFilePath());
+            mSelectedFilePaths.add(mDataModel.getFilePath()+mDataModel.getFileName());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
             clickCallBack.incrementSelectionCount();
@@ -123,7 +123,7 @@ public class FileSelectionManagement {
         }
             mDataModel=mFileFiller.getFileAtPosition(position);
             mSelectedPosition.add(position);
-            mSelectedFilePaths.add(mDataModel.getFilePath());
+            mSelectedFilePaths.add(mDataModel.getFilePath()+mDataModel.getFileName());
             mDataModel.setFileIcon(mSelectedFileIcon);
             mDataModel.setSelected(true);
         mFileListAdapter.notifyItemChanged(position);
