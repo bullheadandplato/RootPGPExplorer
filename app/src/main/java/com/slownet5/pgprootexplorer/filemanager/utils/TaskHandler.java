@@ -201,8 +201,9 @@ public class TaskHandler {
     }
 
     private boolean continueEncryption=false;
-    public void encryptTask(ArrayList<String> files){
-        if(SharedData.ASK_ENCRYPTION_CONFIG){
+    public void encryptTask(final ArrayList<String> files){
+        if(SharedData.ASK_ENCRYPTION_CONFIG && !continueEncryption){
+            continueEncryption=false;
             AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
             builder.setTitle("Encryption");
             builder.setMessage("Do you really want to encrypt the selected files?");
@@ -216,12 +217,15 @@ public class TaskHandler {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     continueEncryption=true;
+                    encryptTask(files);
                 }
             });
             builder.show();
         }
         if(!continueEncryption){
             return;
+        }else{
+            continueEncryption=false;
         }
         //check if user hasn't generate keys
         if(!SharedData.KEYS_GENERATED){
