@@ -24,17 +24,6 @@
     android:background="@android:color/transparent">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/logofinal"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:tint="#DDDDDD"
-        />
-
     <TextView
         android:text="@string/start_message1"
         android:layout_width="wrap_content"
