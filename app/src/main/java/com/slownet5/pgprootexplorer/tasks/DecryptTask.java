@@ -224,8 +224,8 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
 
     private InputStream getSecretKey() {
         SQLiteDatabase.loadLibs(mContext);
-        DatabaseHandler handler=new DatabaseHandler(mContext,mDbPassword,true);
         try {
+            DatabaseHandler handler=new DatabaseHandler(mContext,mDbPassword,true);
             mSecKey= new BufferedInputStream(new ByteArrayInputStream(handler.getSecretKeyFromDb(mUsername)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,7 +260,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             SharedData.KEY_PASSWORD=null;
         }
         mProgressDialog.dismiss("Decryption completed");
-        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
+            SharedData.CURRENT_RUNNING_OPERATIONS.clear();
 
 
     }

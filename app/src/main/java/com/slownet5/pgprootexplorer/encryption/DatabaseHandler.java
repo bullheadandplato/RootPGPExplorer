@@ -39,12 +39,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME   ="pierce";
     private static final int DATABASE_VERSION   =1;
     private SQLiteDatabase mDB;
-    public DatabaseHandler(Context context,String pass,Boolean isCreated){
+    public DatabaseHandler(Context context,String pass,Boolean isCreated) throws Exception {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
         this.context=context;
         File databaseFile=context.getDatabasePath(DATABASE_NAME+".db");
 
         if(!isCreated){
+            Log.d(TAG, "DatabaseHandler: im here");
+            if(databaseFile.mkdirs()){
+                Log.d(TAG, "DatabaseHandler: created dir");
+            }else{
+                throw new Exception("Cannot create dir");
+            }
             databaseFile.delete();
             Log.d(TAG,"database was not present, so created");
             mDB=SQLiteDatabase.openOrCreateDatabase(databaseFile,pass,null);

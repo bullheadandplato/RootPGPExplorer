@@ -64,6 +64,7 @@ import com.slownet5.pgprootexplorer.utils.FileUtils;
 import com.slownet5.pgprootexplorer.utils.SystemUtils;
 import com.slownet5.pgprootexplorer.extras.PreferencesActivity;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -570,8 +571,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
             @Override
             protected Boolean doInBackground(Void... params) {
-
-                String filename = getFilesDir().getAbsolutePath() + "/toybox";
+                new File(SharedData.CRYPTO_FM_PATH).mkdirs();
+                String filename = SharedData.CRYPTO_FM_PATH + "/toybox";
                 AssetManager asset = getAssets();
                 try {
 

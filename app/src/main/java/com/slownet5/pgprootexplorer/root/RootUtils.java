@@ -159,7 +159,8 @@ public final class RootUtils {
     public static void initRoot(String toyboxPath){
         mountRw();
         Shell.SU.run("mkdir /cryptofm");
-        Shell.SU.run("mv "+ toyboxPath+ " /cryptofm");
+        Shell.SU.run("cp "+ toyboxPath+ " /cryptofm");
+        Shell.SU.run("rm "+toyboxPath);
         Shell.SU.run("chmod 667 /cryptofm/toybox");
     }
 

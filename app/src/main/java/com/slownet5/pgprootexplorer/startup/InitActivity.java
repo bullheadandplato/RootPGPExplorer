@@ -213,11 +213,15 @@ public class InitActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected Void doInBackground(Void... voids) {
             SQLiteDatabase.loadLibs(InitActivity.this,getFilesDir());
-          new DatabaseHandler(
-                    InitActivity.this,
-                    mUserSecretDatabase,
-                    false
-            );
+            try {
+                new DatabaseHandler(
+                          InitActivity.this,
+                          mUserSecretDatabase,
+                          false
+                  );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
