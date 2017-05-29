@@ -62,6 +62,7 @@ import com.slownet5.pgprootexplorer.utils.ActionHandler;
 import com.slownet5.pgprootexplorer.utils.CommonConstants;
 import com.slownet5.pgprootexplorer.utils.FileUtils;
 import com.slownet5.pgprootexplorer.utils.SystemUtils;
+import com.slownet5.pgprootexplorer.extras.PreferencesActivity;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -253,6 +254,8 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         }else if(item.getItemId()==R.id.keydetails_menu_item){
             startActivity(new Intent(this, KeyDetailsActivity.class));
+        }else if(item.getItemId()==R.id.prefs_menu_item){
+            startActivity(new Intent(this,PreferencesActivity.class));
         }
 
         return true;

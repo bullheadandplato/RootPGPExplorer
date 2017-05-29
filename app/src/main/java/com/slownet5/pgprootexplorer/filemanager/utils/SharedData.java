@@ -33,25 +33,32 @@ import java.util.HashMap;
 
 public class SharedData {
 
-    public static boolean           KEYS_GENERATED = false;
-    public static boolean           SELECTION_MODE = false;
-    public static boolean           STARTED_IN_SELECTION_MODE=false;
-    public static boolean           IS_IN_COPY_MODE = false;
-    public static boolean           IS_TASK_CANCELED=false;
-    public static boolean           ALREADY_INSTANTIATED=false;
-    public static boolean           IS_COPYING_NOT_MOVING=false;
-    public volatile static ArrayList<String> CURRENT_RUNNING_OPERATIONS=new ArrayList<>();
-    public static final String      FILES_ROOT_DIRECTORY= Environment.getExternalStorageDirectory().getPath()+"/";
-    public static int               SELECT_COUNT=0;
+    public static boolean           ASK_ENCRYPTION_CONFIG       = false;
+    public static boolean           KEYS_GENERATED              = false;
+    public static boolean           SELECTION_MODE              = false;
+    public static boolean           STARTED_IN_SELECTION_MODE   = false;
+    public static boolean           IS_IN_COPY_MODE             = false;
+    public static boolean           IS_TASK_CANCELED            = false;
+    public static boolean           ALREADY_INSTANTIATED        = false;
+    public static boolean           IS_COPYING_NOT_MOVING       = false;
+    public static boolean           LINEAR_LAYOUTMANAGER        = false;
+    public static boolean           IS_OPENWITH_SHOWN           = false;
+    public static boolean           DO_NOT_RESET_ICON           = false;
+    public static boolean           ASK_KEY_PASSS_CONFIG        = false;
+    public static boolean           ASK_DEL_AFTER_ENCRYPTION    = false;
+    public static int               SELECT_COUNT                = 0;
+
     public static String            USERNAME;
     public static String            DB_PASSWORD;
     public static String            KEY_PASSWORD;
-    public static boolean           DO_NOT_RESET_ICON=false;
-    public static final String      CRYPTO_FM_PATH=FILES_ROOT_DIRECTORY+"CryptoFM/";
-    public static HashMap<String,String> symbolicLinks =new HashMap<>();
-    public static boolean           LINEAR_LAYOUTMANAGER =false;
-    public static boolean           IS_OPENWITH_SHOWN=false;
     public static DataModelFiles    CURRENT_FILE_FOR_INFO;
+
+    public static final String      FILES_ROOT_DIRECTORY    = Environment.getExternalStorageDirectory().getPath()+"/";
+    public static final String      CRYPTO_FM_PATH          = FILES_ROOT_DIRECTORY+"CryptoFM/";
+
+    public static HashMap<String,String>        symbolicLinks               = new HashMap<>();
+    public volatile static ArrayList<String>    CURRENT_RUNNING_OPERATIONS  = new ArrayList<>();
+
     /**
      * prevent public instance creation
      * Only can get instance via getInstance() method
