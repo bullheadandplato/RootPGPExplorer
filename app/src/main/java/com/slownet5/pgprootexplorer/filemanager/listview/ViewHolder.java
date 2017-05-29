@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandler;
+import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandlerWrapper;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener{
     private FileSelectionManagement mFileSelectionManagement;
     private FileFillerWrapper mFileFiller;
-    private TaskHandler mTaskHandler;
+    private TaskHandlerWrapper mTaskHandler;
 
     private static final String TAG="ViewHolder";
     ImageView        mImageView;
@@ -52,7 +53,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
     ImageView           mGridSmallIcon;
 
 
-    ViewHolder(final View itemView, Context c, FileSelectionManagement m, FileFillerWrapper wrapper,TaskHandler mTaskHandler){
+    ViewHolder(final View itemView, Context c, FileSelectionManagement m, FileFillerWrapper wrapper,TaskHandlerWrapper mTaskHandler){
         super(itemView);
         mFileSelectionManagement= m;
         mFileFiller=wrapper;

@@ -32,6 +32,7 @@ import android.view.View;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandler;
+import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandlerWrapper;
 
 import java.util.ArrayList;
 
@@ -43,9 +44,9 @@ import java.util.ArrayList;
 public class RecyclerViewSwipeHandler extends ItemTouchHelper.SimpleCallback{
     private Paint           p;
     private Context         mContext;
-    private TaskHandler     mTaskHandler;
+    private TaskHandlerWrapper mTaskHandler;
     private FileListAdapter mAdapter;
-    public RecyclerViewSwipeHandler(Context context, TaskHandler taskHandler, FileListAdapter adapter){
+    public RecyclerViewSwipeHandler(Context context, TaskHandlerWrapper taskHandler, FileListAdapter adapter){
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         p=new Paint();
         this.mContext=context;

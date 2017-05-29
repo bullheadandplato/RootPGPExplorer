@@ -27,14 +27,15 @@ import java.util.ArrayList;
 
 public class TaskHandlerWrapper extends TaskHandler{
     private Context mContext;
+    private ArrayList<String> mSelectedFiles;
 
-    public TaskHandlerWrapper(Context context, FileListAdapter adapter, FileSelectionManagement m){
-        super(context,adapter,m);
+    public TaskHandlerWrapper(Context context, FileListAdapter adapter){
+        super(context,adapter);
         this.mContext=context;
     }
 
     @Override
-    protected DecryptTask getDecryptTask() {
+    public DecryptTask getDecryptTask() {
         return super.getDecryptTask();
     }
 
@@ -84,17 +85,15 @@ public class TaskHandlerWrapper extends TaskHandler{
         }
     }
 
-    @Override
-    public void moveFiles(String dest, FileListAdapter m, ArrayList<String> tmp) {
-        ArrayList<String> files=new ArrayList<>(tmp);
+    public void moveFiles(String dest, FileListAdapter m) {
         //make sure files have been placed
-        if(files.size()<1){
+        if(mSelectedFiles.size()<1){
             Log.d("MoveTask", "moveFiles: files are not added");
         }
-        if(!isOperationNotRunning(files)){
+        if(!isOperationNotRunning(mSelectedFiles)){
             return;
         }
-        super.moveFiles(dest,m,files);
+        super.moveFiles(dest,m,mSelectedFiles);
     }
 
     @Override
@@ -245,4 +244,11 @@ public class TaskHandlerWrapper extends TaskHandler{
         dialog.show();
     }
 
+    public void setmSelectedFiles(ArrayList<String> mSelectedFiles) {
+        this.mSelectedFiles = new ArrayList<>(mSelectedFiles);
+    }
+
+    public ArrayList<String> getmSelectedFiles() {
+        return mSelectedFiles;
+    }
 }

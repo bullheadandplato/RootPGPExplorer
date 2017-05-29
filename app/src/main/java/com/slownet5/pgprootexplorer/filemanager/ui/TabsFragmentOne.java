@@ -51,6 +51,7 @@ import com.slownet5.pgprootexplorer.filemanager.utils.ActionViewHandler;
 import com.slownet5.pgprootexplorer.filemanager.utils.FragmentCallbacks;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandler;
+import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandlerWrapper;
 
 
 public class TabsFragmentOne extends Fragment {
@@ -66,7 +67,7 @@ public class TabsFragmentOne extends Fragment {
     private String                  mCurrentPath;
     private Context                 mContext;
     private FileFillerWrapper       mFileFiller;
-    private TaskHandler             mTaskHandler;
+    private TaskHandlerWrapper      mTaskHandler;
     private ActionViewHandler       mActionViewHandler;
     private int                     mFragmentPosition;
     private boolean                 mIsEmptyFolder=false;
@@ -163,7 +164,7 @@ public class TabsFragmentOne extends Fragment {
         mFileAdapter= new FileListAdapter(mContext);
         mFileAdapter.setmFileFiller(mFileFiller);
         mManager=mFileAdapter.getmManager();
-        mTaskHandler=new TaskHandler(mContext,mFileAdapter,mManager);
+        mTaskHandler=new TaskHandlerWrapper(mContext,mFileAdapter);
         mFileAdapter.setmTaskHandler(mTaskHandler);
         mActionViewHandler=new ActionViewHandler(mContext,mManager,mTaskHandler);
 
@@ -261,7 +262,7 @@ public class TabsFragmentOne extends Fragment {
         }
     }
 
-    public TaskHandler getmTaskHandler(){
+    public TaskHandlerWrapper getmTaskHandler(){
         return this.mTaskHandler;
     }
 

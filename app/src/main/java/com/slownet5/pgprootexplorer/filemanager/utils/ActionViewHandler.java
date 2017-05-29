@@ -41,8 +41,8 @@ import java.util.ArrayList;
 public class ActionViewHandler implements ActionMode.Callback {
     private Context mContext;
     private FileSelectionManagement mManager;
-    private TaskHandler mTaskHandler;
-    public ActionViewHandler(Context context,FileSelectionManagement m,TaskHandler taskHandler){
+    private TaskHandlerWrapper mTaskHandler;
+    public ActionViewHandler(Context context,FileSelectionManagement m,TaskHandlerWrapper taskHandler){
         this.mContext=context;
         this.mManager=m;
         this.mTaskHandler=taskHandler;
@@ -66,10 +66,10 @@ public class ActionViewHandler implements ActionMode.Callback {
 
 
         if (item.getItemId()==R.id.rename_menu_item){
-            mTaskHandler.renameFile();
+            mTaskHandler.renameFile(mManager.getmSelectedFilePaths());
         }
         else if(item.getItemId()==R.id.delete_menu_item){
-            mTaskHandler.deleteFile(new ArrayList<String>(mManager.getmSelectedFilePaths()));
+            mTaskHandler.deleteFile(mManager.getmSelectedFilePaths());
 
         }
         else if(item.getItemId()==R.id.encrypt_menu_item){
@@ -92,12 +92,12 @@ public class ActionViewHandler implements ActionMode.Callback {
             SharedData.IS_IN_COPY_MODE=true;
             SharedData.IS_COPYING_NOT_MOVING=false;
             //set the files to be move or copied
-            mTaskHandler.setmSelectedFiles(new ArrayList<String>(mManager.getmSelectedFilePaths()));
+            mTaskHandler.setmSelectedFiles(mManager.getmSelectedFilePaths());
             ((FileManagerActivity)mContext).showCopyDialog();
         }else if(item.getItemId()==R.id.copy_menu_item){
             SharedData.IS_IN_COPY_MODE=true;
             SharedData.IS_COPYING_NOT_MOVING=true;
-            mTaskHandler.setmSelectedFiles(new ArrayList<String>(mManager.getmSelectedFilePaths()));
+            mTaskHandler.setmSelectedFiles(mManager.getmSelectedFilePaths());
             ((FileManagerActivity)mContext).showCopyDialog();
 
         }else if(item.getItemId()==R.id.openwith_menu_item){

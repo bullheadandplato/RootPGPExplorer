@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandler;
+import com.slownet5.pgprootexplorer.filemanager.utils.TaskHandlerWrapper;
 
 
 /**
@@ -44,7 +45,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
     private Context mContext;
     private FileFillerWrapper mFileFiller;
     private FileSelectionManagement mManager;
-    private TaskHandler mTaskHandler;
+    private TaskHandlerWrapper mTaskHandler;
     private RecyclerView recyclerView;
 
 
@@ -83,7 +84,7 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
         mManager=new FileSelectionManagement(mContext,this);
     }
 
-    public void setmTaskHandler(TaskHandler mTaskHandler) {
+    public void setmTaskHandler(TaskHandlerWrapper mTaskHandler) {
         this.mTaskHandler = mTaskHandler;
     }
 

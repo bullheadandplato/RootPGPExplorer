@@ -43,17 +43,13 @@ public class TaskHandler {
     private DecryptTask             mDecryptTask;
     private FileListAdapter         mAdapter;
     private Context                 mContext;
-    private FileSelectionManagement mFileSelectionManagement;
 
-    private static final String TAG=TaskHandler.class.getCanonicalName();
-    protected TaskHandler(Context context,FileListAdapter adapter,FileSelectionManagement m){
+    protected TaskHandler(Context context,FileListAdapter adapter){
         this.mContext               = context;
         mAdapter                    = adapter;
-        mFileSelectionManagement    = m;
     }
 
     protected void renameFile(final String filename,final String destName){
-
          new RenameTask(
                             mContext,
                             mAdapter,
