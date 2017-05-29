@@ -15,7 +15,7 @@ public final class ConfigManager {
     public static final String ASK_DEL         = "askdel";
     public static final String ASK_KEY_PASS    = "passask";
 
-    public static void loadCurrentConfig(){
+    public static void loadConfig(){
         SharedPreferences prefs=CryptoFM.getContext()
                 .getSharedPreferences(CommonConstants.COMMON_SHARED_PEREFS_NAME, Context.MODE_PRIVATE);
 

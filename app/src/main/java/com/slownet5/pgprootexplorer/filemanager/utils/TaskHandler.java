@@ -136,6 +136,7 @@ public class TaskHandler {
         dialog.show();
     }
 
+    private boolean isCalled=false;
     public void decryptFile(final String username, final String keypass, final String dbpass, final ArrayList<String> files) {
 
         if (!SharedData.KEYS_GENERATED) {
@@ -143,7 +144,7 @@ public class TaskHandler {
             generateKeys();
             return;
         }
-        if (SharedData.KEY_PASSWORD == null) {
+        if ((SharedData.KEY_PASSWORD == null || !SharedData.ASK_KEY_PASSS_CONFIG)&& !isCalled) {
             final Dialog dialog = new Dialog(mContext);
             dialog.setCancelable(false);
             dialog.setContentView(R.layout.password_dialog_layout);
@@ -162,6 +163,7 @@ public class TaskHandler {
                         editText.setError("please give me your encryption password");
                         return;
                     } else {
+                        isCalled=true;
                         SharedData.KEY_PASSWORD = editText.getText().toString();
                         Log.d(TAG, "onClick: set the password");
                         decryptFile(username,SharedData.KEY_PASSWORD,dbpass,files);
@@ -170,6 +172,7 @@ public class TaskHandler {
                 }
             });
         } else {
+            isCalled=false;
             if(!isOperationNotRunning(files)){
                 return;
             }

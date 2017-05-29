@@ -23,6 +23,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.slownet5.pgprootexplorer.utils.ConfigManager;
+
 /**
  * Created by tripleheader on 1/26/17.
  * Main application class
@@ -51,5 +53,6 @@ public class CryptoFM extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             builder.detectFileUriExposure();
         }
+        ConfigManager.loadConfig();
     }
 }

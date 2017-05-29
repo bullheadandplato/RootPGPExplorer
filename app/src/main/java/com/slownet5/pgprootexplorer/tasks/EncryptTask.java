@@ -140,10 +140,13 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     @Override
     protected void onPostExecute(String s) {
         if(s.equals(ENCRYPTION_SUCCESS_MESSAGE)){
-//            deleteAlertDialog();
-            DeleteTask task=new DeleteTask(mContext,mAdapter,mUnencryptedFiles);
-            task.setRunningFromEncryption(true);
-            task.execute();
+            if(!SharedData.ASK_DEL_AFTER_ENCRYPTION){
+                deleteAlertDialog();
+            }else {
+                DeleteTask task = new DeleteTask(mContext, mAdapter, mUnencryptedFiles);
+                task.setRunningFromEncryption(true);
+                task.execute();
+            }
 
         }
         mProgressDialog.dismiss(s);
@@ -167,7 +170,6 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
         dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 new DeleteTask(mContext,mAdapter,mUnencryptedFiles).execute();
             }
         });
