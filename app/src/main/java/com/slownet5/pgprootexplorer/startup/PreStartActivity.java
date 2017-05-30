@@ -36,10 +36,9 @@ import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.startup.adapters.PagerAdapter;
 import com.slownet5.pgprootexplorer.utils.ActionHandler;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class PreStartActivity extends AppCompatActivity {
-    private RadioButton     radioButton1;
-    private RadioButton     radioButton2;
-    private RadioButton     radioButton3;
     private RelativeLayout  preStartLayout;
 
 
@@ -48,20 +47,19 @@ public class PreStartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_start);
 
-        //initialize UI elements
-        radioButton1    = (RadioButton)  findViewById(R.id.radioButton1);
-        radioButton2    = (RadioButton)  findViewById(R.id.radioButton2);
-        radioButton3    = (RadioButton)  findViewById(R.id.radioButton3);
-
         preStartLayout =(RelativeLayout)findViewById(R.id.pre_start);
         setColors(ContextCompat.getColor(this,R.color.colorAccent));
 
         //set ViewPager adapter
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        PagerAdapter pAdapter = new PagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pAdapter);
-        radioButton1.setChecked(true);
-        checkRadioButton(0);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        //set pager indicator
+        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
+        viewPager.setAdapter(pagerAdapter);
+        indicator.setViewPager(viewPager);
+        changePage(0);
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -71,7 +69,7 @@ public class PreStartActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                checkRadioButton(position);
+                changePage(position);
             }
 
             @Override
@@ -96,22 +94,18 @@ public class PreStartActivity extends AppCompatActivity {
         finish();
     }
 
-    public void checkRadioButton(int num) {
+    public void changePage(int num) {
         switch (num) {
             case 0:
-                radioButton1.setChecked(true);
                 preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
-
+                setColors(ContextCompat.getColor(this,R.color.colorAccent));
                 break;
             case 1:
-
-                radioButton2.setChecked(true);
                 preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor2));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor2));
                 break;
             case 2:
-                radioButton3.setChecked(true);
                 preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor3));
                 setColors(ContextCompat.getColor(this,R.color.pagercolor3));

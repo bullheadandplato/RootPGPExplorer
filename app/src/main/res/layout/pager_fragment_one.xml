@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Welcome to Crypto File Manager"
+        android:text="Welcome to PGP Root Explorer"
         android:layout_width="wrap_content"
         android:textColor="#FAFAFA"
         android:textStyle="bold"
@@ -46,6 +46,5 @@
         android:id="@+id/textView"
         android:layout_marginTop="47dp"
         android:gravity="center"
-        android:layout_below="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        />
 </RelativeLayout>

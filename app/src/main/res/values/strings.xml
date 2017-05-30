@@ -944,21 +944,20 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRA
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
     </string>
-    <string name="start_message1">Crypto File Manager helps to safely encrypt
-        your all internal and external storage data
-        and secure your data to spy.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
-        for user files.</string>
-    <string name="start_message3">Crypto FM encryption keys
-        unique for every user so keep   backup of your keys because in case
+    <string name="start_message1"><b>PGP Root Explorer</b> helps you to encrypt
+        all your files.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
+        encryption on Android devices.</string>
+    <string name="start_message3">PGP Root Explorer encryption keys are
+        unique for every user so    backup of your keys because in case
         of app uninstall or data clear you must   have keys to decrypt your data
-        <b>backing up keys is your own responsibility</b></string>
+        <b>backing up keys iw your own responsibility</b></string>
     <string name="backup_keys">Backup keys</string>
     <string name="change_view">change view</string>
     <string name="about">About</string>
-    <string name="start_message2">In Crypto FM you have your
-        database password that\'s used   for decrypting you data.If you
-        forget your password keep in mind   <b>you will lost your all data.</b>
-        You will   unable to decrypt your data.</string>
+    <string name="start_message2">PGP Root Explorer provides impervious
+        security.\n Your keys will be stored in encrypted database \n and Private key is also self
+        encrypted.
+        </string>
 
     <string name="type_here">Type here...</string>
     <string name="terms_and_condition">We are not responsible if you forget your password or do not clear your data otherwise your keys will be deleted and you will be not able to decrypt your data again. </string>
