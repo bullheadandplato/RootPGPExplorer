@@ -32,43 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/termsandconditions"
-        android:paddingTop="10dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="10dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Terms and condition"
-            android:id="@+id/termsandcondition_textview"
-            android:textSize="18dp"
-            android:textColor="#212121"
-            android:clickable="false"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:text="View our terms and conditions"
-            android:textSize="15dp"
-            android:textColor="#9E9E9E"
-            android:clickable="false"
-            />
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#BDBDBD"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:id="@+id/team"
         android:paddingTop="10dp"
         android:paddingLeft="16dp"
