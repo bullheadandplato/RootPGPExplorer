@@ -28,6 +28,7 @@ import com.slownet5.pgprootexplorer.utils.ConfigManager;
 /**
  * Created by tripleheader on 1/26/17.
  * Main application class
+ *
  */
 
 public class CryptoFM extends Application {
