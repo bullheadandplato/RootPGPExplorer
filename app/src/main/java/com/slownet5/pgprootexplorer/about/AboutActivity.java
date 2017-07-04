@@ -32,7 +32,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         findViewById(R.id.credit).setOnClickListener(this);
-        findViewById(R.id.termsandcondition_textview).setOnClickListener(this);
         findViewById(R.id.team).setOnClickListener(this);
     }
     public void onLicenseClick(View view){
@@ -46,9 +45,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         {
             case R.id.credit:
                 startActivity(new Intent(this,LicencesActivity.class));
-                break;
-            case R.id.termsandconditions:
-                startActivity(new Intent(this,ShowTermsActivity.class));
                 break;
             case R.id.team:
                 startActivity(new Intent(this,ShowTeamActivity.class));
