@@ -17,24 +17,13 @@
   ~       along with RootPGPExplorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
-
-
-    <TextView
-        android:text="@string/start_message1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FAFAFA"
-        android:layout_marginTop="44dp"
-        android:gravity="center"
-        android:id="@+id/textView8"
-        android:textSize="16sp"
-        android:layout_alignTop="@+id/textView"
-        android:layout_centerHorizontal="true" />
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    android:layout_centerHorizontal="true">
 
     <TextView
         android:text="Welcome to PGP Root Explorer"
@@ -44,7 +33,20 @@
         android:textSize="20sp"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_marginTop="47dp"
         android:gravity="center"
+        android:layout_gravity="center_horizontal"
         />
-</RelativeLayout>
+    <TextView
+        android:text="@string/start_message1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FAFAFA"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:id="@+id/textView8"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        />
+
+
+</LinearLayout>

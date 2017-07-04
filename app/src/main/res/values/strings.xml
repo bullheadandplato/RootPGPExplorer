@@ -950,7 +950,7 @@ DEALINGS IN THE SOFTWARE.
     <string name="start_message3">PGP Root Explorer encryption keys are
         unique for every user so    backup of your keys because in case
         of app uninstall or data clear you must   have keys to decrypt your data
-        <b>backing up keys iw your own responsibility</b></string>
+        <b>backing up keys is your own responsibility</b></string>
     <string name="backup_keys">Backup keys</string>
     <string name="change_view">change view</string>
     <string name="about">About</string>

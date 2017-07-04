@@ -36,13 +36,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textSize="18dp"
+            android:textColor="#212121" />
 
         <TextView
             android:id="@+id/key_details_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            android:textSize="15dp"
+            android:textColor="#9E9E9E" />
     </LinearLayout>
 
     <TextView
@@ -50,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Key details"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textSize="18dp"
+        android:textColor="#212121" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,14 +73,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Size"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:textSize="17dp"
+                android:textColor="#212121" />
 
             <TextView
                 android:id="@+id/key_details_keysize_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="null"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:textSize="15dp"
+                android:textColor="#9E9E9E" />
 
         </LinearLayout>
 
@@ -92,14 +97,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ID"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:textSize="17dp"
+                android:textColor="#212121" />
 
             <TextView
                 android:id="@+id/key_details_keyid_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="null"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:textSize="15dp"
+                android:textColor="#9E9E9E" />
 
         </LinearLayout>
     </LinearLayout>
@@ -122,7 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Creation time"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:textSize="17dp"
+                android:textColor="#212121"/>
 
             <TextView
                 android:id="@+id/key_details_keytime_textview"
@@ -144,7 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Expiration"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:textSize="17dp"
+                android:textColor="#212121" />
 
             <TextView
                 android:id="@+id/key_details_keyalgo_textview"

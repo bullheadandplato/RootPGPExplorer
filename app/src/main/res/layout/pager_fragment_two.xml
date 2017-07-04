@@ -25,9 +25,9 @@
 
     <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/imageView3"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+        android:gravity="center"
     android:layout_centerHorizontal="true">
     <TextView
         android:text="Instructions to Use Application"
@@ -37,7 +37,7 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:textColor="#FAFAFA"
-        android:layout_marginBottom="20dp"
+        android:gravity="center"
         android:id="@+id/textView5" />
 
     <TextView
@@ -45,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FAFAFA"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textSize="16sp"
