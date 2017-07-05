@@ -41,6 +41,9 @@ public class KeyDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_key_details);
         MainUtils.closeActionBarButton(this);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("Key Details");
+        }
         ((TextView)findViewById(R.id.key_details_name_textview)).setText(SharedData.USERNAME);
         fillKeyDetails();
     }

@@ -41,5 +41,8 @@ public class ShowTeamActivity extends AppCompatActivity {
         fdworktextview.setText(mworkFirstDevelpor);
         sdtextview.setText(msecondDevelporsName);
         sdworktextview.setText(mworkSecondDevelpor);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("Developers");
+        }
     }
 }

@@ -71,6 +71,9 @@ public class TextEditorActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_editor);
         MainUtils.closeActionBarButton(this);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("Editor");
+        }
         mEditText=(EditText) findViewById(R.id.editor_area);
         mProgressDialog =new ProgressDialog(this);
         mlength=mEditText.getText().length();

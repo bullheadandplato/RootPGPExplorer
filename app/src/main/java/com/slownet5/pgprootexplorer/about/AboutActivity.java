@@ -33,6 +33,9 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_about);
         findViewById(R.id.credit).setOnClickListener(this);
         findViewById(R.id.team).setOnClickListener(this);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("About");
+        }
     }
     public void onLicenseClick(View view){
 

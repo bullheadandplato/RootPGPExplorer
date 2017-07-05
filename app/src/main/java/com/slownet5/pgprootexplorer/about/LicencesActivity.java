@@ -37,6 +37,9 @@ public class LicencesActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.easy_permission_license).setOnClickListener(this);
         findViewById(R.id.sqlcipher_license).setOnClickListener(this);
         findViewById(R.id.numix_icon_license).setOnClickListener(this);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("Licences");
+        }
     }
 
 

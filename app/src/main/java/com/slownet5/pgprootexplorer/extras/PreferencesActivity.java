@@ -19,6 +19,9 @@ public class PreferencesActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
         MainUtils.closeActionBarButton(this);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setTitle("Preferences");
+        }
         setBoxes();
     }
 
