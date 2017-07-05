@@ -251,15 +251,10 @@ public class FileBrowserActivity extends AppCompatActivity
 
 	boolean emptyFiles;
 	public void showNoFilesFragment() {
-		Log.d(TAG, "showNoFilesFragment: Adding no files layput");
-		emptyFiles=true;
-		mNoFilesFragment=new NoFilesFragment();
-		getSupportFragmentManager().beginTransaction().replace(R.id.no_files_frame,mNoFilesFragment).commit();
+
 	}
 	public void removeNoFilesFragment(){
-		Log.d(TAG, "removeNoFilesFragment: removing no files layout");
-		emptyFiles=false;
-		getSupportFragmentManager().beginTransaction().remove(mNoFilesFragment).commit();
+
 	}
 
 	@Override
