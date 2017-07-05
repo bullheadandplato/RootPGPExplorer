@@ -65,7 +65,4 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.2@aar'
     testCompile 'junit:junit:4.12'
 }
-repositories {
-    mavenCentral()
-}
 apply plugin: 'com.google.gms.google-services'
