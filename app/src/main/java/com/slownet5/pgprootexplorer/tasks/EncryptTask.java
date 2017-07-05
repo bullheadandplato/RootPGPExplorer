@@ -149,6 +149,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             }
 
         }
+        SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         mProgressDialog.dismiss(s);
         Toast.makeText(
                 mContext,
