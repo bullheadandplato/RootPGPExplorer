@@ -89,6 +89,7 @@ public class TextEditorActivity extends AppCompatActivity{
                 new FileOpenTask().execute();
             }
         }
+
     }
 
     @Override
@@ -100,6 +101,9 @@ public class TextEditorActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.home:
+                finish();
+                break;
             case R.id.save_file_menuitem:
                 saveFile();
                 break;

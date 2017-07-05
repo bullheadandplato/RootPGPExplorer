@@ -109,7 +109,9 @@
         <activity
             android:name=".extras.KeyDetailsActivity"
             android:parentActivityName=".filemanager.ui.FileManagerActivity" />
-        <activity android:name=".extras.PreferencesActivity"></activity>
+        <activity android:name=".extras.PreferencesActivity"
+            android:parentActivityName=".filemanager.ui.FileManagerActivity"
+            />
     </application>
 
 </manifest>

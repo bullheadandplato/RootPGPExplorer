@@ -2,6 +2,7 @@ package com.slownet5.pgprootexplorer.extras;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -32,6 +33,14 @@ public class PreferencesActivity extends AppCompatActivity implements View.OnCli
         box2.setOnClickListener(this);
         box3.setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home: finish(); break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
