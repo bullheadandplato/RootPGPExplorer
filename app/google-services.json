@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "595261504665",
+    "firebase_url": "https://root-explorer-45a38.firebaseio.com",
+    "project_id": "root-explorer-45a38",
+    "storage_bucket": "root-explorer-45a38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595261504665:android:828eb12c6aa0cbc1",
+        "android_client_info": {
+          "package_name": "com.slownet5.pgprootexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595261504665-ubph83qaqc049rq8cjpvl4q315rj3gb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAA1sXSApeTrLDf_dKgFJKue6wyeHLNpE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
