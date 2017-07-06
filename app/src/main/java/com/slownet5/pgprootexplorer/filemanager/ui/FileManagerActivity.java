@@ -653,8 +653,10 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
         mTotalStorage = mStoragePaths.size();
         if(SharedData.DB_PASSWORD==null ){
-            SharedData.DB_PASSWORD  = getIntent().getExtras().getString("dbpass");
-            SharedData.USERNAME	    = getIntent().getExtras().getString("username","default");
+            if (getIntent().getExtras()!=null) {
+                SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
+                SharedData.USERNAME = getIntent().getExtras().getString("username", "default");
+            }
         }
         SharedData.LINEAR_LAYOUTMANAGER =getPreferences(Context.MODE_PRIVATE).getBoolean("layout",true);
         setToolbar();
