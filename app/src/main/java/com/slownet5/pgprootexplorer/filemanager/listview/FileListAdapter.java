@@ -116,7 +116,9 @@ public class FileListAdapter extends RecyclerView.Adapter<ViewHolder>{
                 textView4.setText(mDataModel.getFileExtension());
                 imageView.setImageDrawable(mDataModel.getFileIcon());
         if(!SharedData.LINEAR_LAYOUTMANAGER){
-            imageView1.setImageDrawable(mDataModel.getFileIcon());
+            if (imageView1!=null) {
+                imageView1.setImageDrawable(mDataModel.getFileIcon());
+            }
         }
         holder.itemView.setBackgroundColor(mDataModel.getBackgroundColor());
 
