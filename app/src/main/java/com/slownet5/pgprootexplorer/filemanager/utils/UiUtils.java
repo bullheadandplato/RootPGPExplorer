@@ -73,7 +73,9 @@ public class UiUtils {
 
         SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         if(actionMode!=null){
+            Log.d(TAG, "reloadData: finish adapter");
             actionMode.finish();
+            actionMode=null;
         }else {
            refill(adapter);
         }

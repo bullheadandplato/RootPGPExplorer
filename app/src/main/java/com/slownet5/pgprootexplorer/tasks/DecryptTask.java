@@ -253,6 +253,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             mProgressDialog.dismiss("Decryption completed");
             SharedData.CURRENT_RUNNING_OPERATIONS.clear();
         if (s.equals(DECRYPTION_SUCCESS_MESSAGE)) {
+            Toast.makeText(mContext,"Decrypted files can be found in your home folder.",Toast.LENGTH_LONG).show();
             UiUtils.reloadData(mAdapter);
         } else {
             Toast.makeText(mContext,
@@ -264,6 +265,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
     }
 
     }
+
 
     @Override
     protected void onProgressUpdate(String... values) {

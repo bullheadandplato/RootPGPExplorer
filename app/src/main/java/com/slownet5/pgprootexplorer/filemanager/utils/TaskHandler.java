@@ -126,7 +126,6 @@ public class TaskHandler {
     }
     private void beforeStartingTask(ArrayList<String> files){
         SharedData.CURRENT_RUNNING_OPERATIONS=files;
-        SharedData.IS_TASK_CANCELED=true;
     }
 
 
