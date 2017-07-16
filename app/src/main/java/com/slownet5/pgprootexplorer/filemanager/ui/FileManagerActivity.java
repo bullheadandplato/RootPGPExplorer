@@ -383,7 +383,9 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
                 //again if is in copy mode
                 // had to do it twice because the instance of current fragment changes
                 if(SharedData.IS_IN_COPY_MODE){
-                    Log.d(TAG, "onPageSelected: Setting selected files list: "+fileList.size());
+                    if (fileList==null){
+                        fileList=new ArrayList<String>();
+                    }
                     mCurrentFragment.getmTaskHandler().setmSelectedFiles(fileList);
                 }
                 if(actionMode!=null){
