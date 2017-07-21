@@ -249,6 +249,8 @@ public class TabsFragmentOne extends Fragment {
         return mRecyclerView;
     }
 
+
+
     private class SharedPreferencesTask extends AsyncTask<Boolean,Void,Void>{
 
         @Override

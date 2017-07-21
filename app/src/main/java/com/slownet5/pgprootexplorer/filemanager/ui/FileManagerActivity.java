@@ -292,6 +292,11 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
     @Override
     public void onBackPressed() {
+        if (mFloatingActionsMenu.isExpanded()){
+            mFloatingActionsMenu.collapse();
+            mCurrentFragment.toggleBlur();
+            return;
+        }
         //change the current path in fragment
         if(mCurrentFragment==null){
             mCurrentFragment=mFragmentOnes[0];
