@@ -38,7 +38,7 @@
             android:name=".startup.UnlockDbActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".filemanager.ui.FileBrowserActivity"
+            android:name=".filemanager.ui.FileSelectionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- first and splash activity -->

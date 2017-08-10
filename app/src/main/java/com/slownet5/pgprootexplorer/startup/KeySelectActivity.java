@@ -37,7 +37,7 @@ import android.widget.Toast;
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.encryption.DatabaseHandler;
 import com.slownet5.pgprootexplorer.encryption.MyPGPUtil;
-import com.slownet5.pgprootexplorer.filemanager.ui.FileBrowserActivity;
+import com.slownet5.pgprootexplorer.filemanager.ui.FileSelectionActivity;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
 import com.slownet5.pgprootexplorer.utils.ActionHandler;
 
@@ -124,7 +124,7 @@ public class KeySelectActivity extends AppCompatActivity {
     }
 
     private void startFileBrowsing(int requestCode){
-        Intent intent=new Intent(this, FileBrowserActivity.class);
+        Intent intent=new Intent(this, FileSelectionActivity.class);
         intent.putExtra("select",true);
         startActivityForResult(intent,requestCode);
     }

@@ -18,25 +18,16 @@
 
 package com.slownet5.pgprootexplorer.filemanager.ui;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.slownet5.pgprootexplorer.R;
@@ -45,24 +36,16 @@ import com.slownet5.pgprootexplorer.filemanager.listview.FileFillerWrapper;
 import com.slownet5.pgprootexplorer.filemanager.listview.FileListAdapter;
 import com.slownet5.pgprootexplorer.filemanager.listview.FileSelectionManagement;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
-import com.slownet5.pgprootexplorer.filemanager.utils.UiUtils;
-import com.slownet5.pgprootexplorer.services.CleanupService;
-import com.slownet5.pgprootexplorer.utils.FileUtils;
 
 
 
-public class FileBrowserActivity extends AppCompatActivity
+public class FileSelectionActivity extends AppCompatActivity
 		implements AdapterCallbacks {
 
 	private String 						mCurrentPath;
 	private String 						mRootPath;
     private FileListAdapter 			mmFileListAdapter;
-	private RecyclerView 				mFileListView;
-	private LinearLayoutManager			mFileViewLinearLayoutManager;
-	private GridLayoutManager			mFileViewGridLayoutManager;
-	private ItemTouchHelper				mHelper;
-    private static final String 		TAG = "FileBrowser";
-	private NoFilesFragment 			mNoFilesFragment;
+	private static final String 		TAG = "FileBrowser";
 	private boolean						mStartedInSelectionMode=false;
 	private FileFillerWrapper 			mFileFillerWrapper;
 	private FileSelectionManagement 	mFileSelectionManagement;
@@ -75,9 +58,8 @@ public class FileBrowserActivity extends AppCompatActivity
 
 		mCurrentPath 	           	= Environment.getExternalStorageDirectory().getPath()+"/";
 		mRootPath	 	           	= mCurrentPath;
-		mFileListView				= (RecyclerView) findViewById(R.id.fileListView);
+		RecyclerView mFileListView = (RecyclerView) findViewById(R.id.fileListView);
 		mmFileListAdapter 			= new FileListAdapter(this);
-		mNoFilesFragment			= new NoFilesFragment();
 		mFileFillerWrapper			= new FileFillerWrapper();
 		mmFileListAdapter.setmFileFiller(mFileFillerWrapper);
 		mFileSelectionManagement	= mmFileListAdapter.getmManager();
@@ -89,23 +71,10 @@ public class FileBrowserActivity extends AppCompatActivity
 			assert getSupportActionBar()!=null;
 			getSupportActionBar().setTitle("Select Key files");
 			//hide the floating button
-		}else{
-			setResult(RESULT_OK);
-			SharedData.DB_PASSWORD = getIntent().getExtras().getString("dbpass");
-			SharedData.USERNAME		    = getIntent().getExtras().getString("username","default");
 		}
 
-
-		//set layout manager for the recycler view according to user choice
-		SharedPreferences preferences   = getPreferences(Context.MODE_PRIVATE);
-		boolean linearLayout           	= preferences.getBoolean("key",false);
-		if(linearLayout){
-			mFileViewLinearLayoutManager=new LinearLayoutManager(this);
+		LinearLayoutManager mFileViewLinearLayoutManager = new LinearLayoutManager(this);
 			mFileListView.setLayoutManager(mFileViewLinearLayoutManager);
-		}else{
-			mFileViewGridLayoutManager=new GridLayoutManager(this,2);
-			mFileListView.setLayoutManager(mFileViewGridLayoutManager);
-		}
 		mFileListView.setAdapter(mmFileListAdapter);
 		mFileFillerWrapper.fillData(mCurrentPath,mmFileListAdapter);
 
@@ -204,37 +173,21 @@ public class FileBrowserActivity extends AppCompatActivity
 	@Override
 	protected void onStart() {
 		Log.d(TAG,"Starting activity");
-		actionMode=null;
 		super.onStart();
 	}
 
-	ActionMode actionMode;
 	@Override
 	public void onLongClick() {
-		if(SharedData.SELECTION_MODE) {
-			//actionMode = startActionMode(new ActionViewHandler(this));
-		}
-		//MainUtils.actionMode=actionMode;
+
 	}
 	@Override
 	public void incrementSelectionCount(){
-		actionMode.setTitle(++SharedData.SELECT_COUNT+"");
-		if(SharedData.SELECT_COUNT>1){
-			actionMode.getMenu().removeItem(R.id.rename_menu_item);
-		}
+
 	}
 
 	@Override
 	public void decrementSelectionCount() {
-		if(actionMode!=null){
-			actionMode.setTitle(--SharedData.SELECT_COUNT+"");
-			if(SharedData.SELECT_COUNT==0){
-				actionMode.finish();
-			}
-			else if(SharedData.SELECT_COUNT<2){
-				actionMode.getMenu().add(0,R.id.rename_menu_item,0,"rename");
-			}
-		}
+
 	}
 
 	@Override
@@ -270,5 +223,6 @@ public class FileBrowserActivity extends AppCompatActivity
 	/**
 	 * end of task executing section
 	 */
+
 
 }
