@@ -128,7 +128,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
                     performNormalFormDecryption();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return e.getLocalizedMessage();
+                    return e.getMessage()+"Error";
                 }
 
             }else{
@@ -155,7 +155,7 @@ public class DecryptTask extends AsyncTask<Void,String,String> {
             //let the activity know that password is incorrect and don't save it
             SharedData.KEY_PASSWORD=null;
             ex.printStackTrace();
-            return ex.getMessage();
+            return ex.getMessage()+"error";
         }
 
         return DECRYPTION_SUCCESS_MESSAGE;
