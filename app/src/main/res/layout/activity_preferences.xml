@@ -20,16 +20,16 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
+            android:layout_weight="4"
             android:text="Ask before encrypting file"
             android:textSize="18dp"
             android:textColor="#212121"/>
 
-        <CheckBox
+        <Switch
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/prefs_askenc_box"
-            android:layout_weight=".5" />
+            android:layout_weight="1" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -48,16 +48,16 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
+            android:layout_weight="4"
             android:text="Automatically delete source after encryption"
             android:textSize="18dp"
             android:textColor="#212121"/>
 
-        <CheckBox
+        <Switch
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/prefs_autodel_box"
-            android:layout_weight=".5" />
+            android:layout_weight="1" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -76,16 +76,16 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
+            android:layout_weight="4"
             android:text="Save key password for a session"
             android:textSize="18dp"
             android:textColor="#212121"/>
 
-        <CheckBox
+        <Switch
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/prefs_savepass_box"
-            android:layout_weight=".5" />
+            android:layout_weight="1" />
 
     </LinearLayout>
     <View

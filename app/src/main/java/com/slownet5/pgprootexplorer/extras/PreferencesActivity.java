@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Switch;
 
 
 import com.slownet5.pgprootexplorer.R;
@@ -26,9 +27,9 @@ public class PreferencesActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setBoxes() {
-        CheckBox box1=((CheckBox)findViewById(R.id.prefs_autodel_box));
-        CheckBox box2=((CheckBox)findViewById(R.id.prefs_askenc_box));
-        CheckBox box3=((CheckBox)findViewById(R.id.prefs_savepass_box));
+        Switch box1= (Switch) findViewById(R.id.prefs_autodel_box);
+        Switch box2= (Switch) findViewById(R.id.prefs_askenc_box);
+        Switch box3= (Switch) findViewById(R.id.prefs_savepass_box);
         box1.setChecked(SharedData.ASK_DEL_AFTER_ENCRYPTION);
         box2.setChecked(SharedData.ASK_ENCRYPTION_CONFIG);
         box3.setChecked(SharedData.ASK_KEY_PASSS_CONFIG);
@@ -49,7 +50,7 @@ public class PreferencesActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view){
         int id=view.getId();
-        boolean value=((CheckBox)view).isChecked();
+        boolean value=((Switch)view).isChecked();
         String config=null;
         switch(id){
             case R.id.prefs_askenc_box:      config=ConfigManager.ASK_ENCRYPTION; break;
