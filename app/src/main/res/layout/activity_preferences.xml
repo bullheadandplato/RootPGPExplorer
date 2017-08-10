@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Ask before encrypting file"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="#212121"/>
 
         <Switch
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Automatically delete source after encryption"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="#212121"/>
 
         <Switch
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Save key password for a session"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="#212121"/>
 
         <Switch
