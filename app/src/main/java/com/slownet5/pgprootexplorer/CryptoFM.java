@@ -24,6 +24,8 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import com.slownet5.pgprootexplorer.utils.ConfigManager;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by tripleheader on 1/26/17.
@@ -49,6 +51,7 @@ public class CryptoFM extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

@@ -233,8 +233,11 @@ public class TextEditorActivity extends AppCompatActivity{
         protected void onPostExecute(Boolean aBoolean) {
             mProgressDialog.dismiss();
             if(aBoolean){
-                Log.d(TAG, "onPostExecute: setting text "+builder.toString());
-                mEditText.setText(builder.toString());
+                try {
+                    mEditText.setText(builder.toString());
+                }catch (OutOfMemoryError error){
+                    Toast.makeText(TextEditorActivity.this,"Unable to open file.",Toast.LENGTH_LONG).show();
+                }
             }else{
                 Toast.makeText(TextEditorActivity.this,"Cannot open file.",Toast.LENGTH_LONG).show();
             }

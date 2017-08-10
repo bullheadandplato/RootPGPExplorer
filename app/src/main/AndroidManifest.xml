@@ -112,6 +112,9 @@
         <activity android:name=".extras.PreferencesActivity"
             android:parentActivityName=".filemanager.ui.FileManagerActivity"
             />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="322635579c67217410b2812b03f9a3bbef04083b" />
     </application>
 
 </manifest>

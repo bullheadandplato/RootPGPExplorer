@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 /*
  * Copyright (c) 2017. slownet5
  *  This file is part of RootPGPExplorer also known as CryptoFM
@@ -17,6 +26,12 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 
 android {
@@ -26,8 +41,8 @@ android {
         applicationId "com.slownet5.pgprootexplorer"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -64,5 +79,8 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'me.relex:circleindicator:1.2.2@aar'
     testCompile 'junit:junit:4.12'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 }
 apply plugin: 'com.google.gms.google-services'
