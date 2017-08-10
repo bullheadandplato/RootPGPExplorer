@@ -209,7 +209,13 @@ public class OptionActivity extends AppCompatActivity {
                         OptionActivity.this,
                         "Successfully generated keys. Now you can encrypt files",
                         Toast.LENGTH_LONG).show();
-                mProgressDialog.dismiss();
+                try {
+                    if (mProgressDialog!=null && mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                }catch (IllegalArgumentException ex){
+                    ex.printStackTrace();
+                }
                 SharedData.KEYS_GENERATED=true;
                 finish();
             }else{
