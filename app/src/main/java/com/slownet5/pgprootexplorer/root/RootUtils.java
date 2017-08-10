@@ -53,43 +53,44 @@ public final class RootUtils {
         Log.d(TAG, "getFileNames: path is: "+path);
        // Log.d(TAG, "getFileNames: test: "+test.size());
             List<String> test=Shell.SU.run(TOYBOX_PATH+"ls -lAhpog -1 "+path);
-
-        for (int i = 1; i < test.size(); i++) {
-            String currentString=test.get(i);
-            currentString=currentString.trim().replaceAll(" +"," ");
-            String[] parts=currentString.split(" ");
-            DataModelFiles temp=new DataModelFiles();
-            String filename=parts[FILENAME_INDEX];
-            for (int j = FILENAME_INDEX+1; j < parts.length; j++) {
-                if(parts[j].contains("->")){
-                    String linksPath="";
-                    for (int k = j+1; k <parts.length ; k++) {
-                        linksPath=linksPath+parts[k];
+            if (test!=null) {
+                for (int i = 1; i < test.size(); i++) {
+                    String currentString = test.get(i);
+                    currentString = currentString.trim().replaceAll(" +", " ");
+                    String[] parts = currentString.split(" ");
+                    DataModelFiles temp = new DataModelFiles();
+                    String filename = parts[FILENAME_INDEX];
+                    for (int j = FILENAME_INDEX + 1; j < parts.length; j++) {
+                        if (parts[j].contains("->")) {
+                            String linksPath = "";
+                            for (int k = j + 1; k < parts.length; k++) {
+                                linksPath = linksPath + parts[k];
+                            }
+                            Log.d(TAG, "getFileNames: Link path is: " + linksPath);
+                            SharedData.symbolicLinks.put(filename, linksPath);
+                            filename = filename + "/";
+                            break;
+                        }
+                        filename = filename + " " + parts[j];
                     }
-                    Log.d(TAG, "getFileNames: Link path is: "+linksPath);
-                    SharedData.symbolicLinks.put(filename,linksPath);
-                    filename=filename+"/";
-                    break;
+                    filename = filename.trim();
+                    if (filename.contains("/")) {
+                        temp.setFile(false);
+                        temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX] + " links");
+                        temp.setFileName(filename.substring(0, filename.lastIndexOf('/')));
+                        temp.setFileIcon(ContextCompat.getDrawable(CryptoFM.getContext(), R.drawable.ic_default_folder));
+                    } else {
+                        temp.setFile(true);
+                        temp.setFileExtensionOrItems(FileUtils.getExtension(filename));
+                        temp.setFileName(filename);
+                        temp.setFileIcon(MimeType.getIcon(FileUtils.getExtension(filename)));
+                        temp.setEncrypted(FileUtils.isEncryptedFile(filename));
+                    }
+                    temp.setFileDate(parts[DATE_INDEX]);
+                    temp.setmFilePath(path);
+                    names.add(temp);
                 }
-                filename=filename+" "+parts[j];
             }
-            filename=filename.trim();
-            if(filename.contains("/")){
-                temp.setFile(false);
-                temp.setFileExtensionOrItems(parts[NO_OF_ITEMS_INDEX]+" links");
-                temp.setFileName(filename.substring(0,filename.lastIndexOf('/')));
-                temp.setFileIcon(ContextCompat.getDrawable(CryptoFM.getContext(),R.drawable.ic_default_folder));
-            }else{
-                temp.setFile(true);
-                temp.setFileExtensionOrItems(FileUtils.getExtension(filename));
-                temp.setFileName(filename);
-                temp.setFileIcon(MimeType.getIcon(FileUtils.getExtension(filename)));
-                temp.setEncrypted(FileUtils.isEncryptedFile(filename));
-            }
-            temp.setFileDate(parts[DATE_INDEX]);
-            temp.setmFilePath(path);
-            names.add(temp);
-        }
         return names;
     }
 
