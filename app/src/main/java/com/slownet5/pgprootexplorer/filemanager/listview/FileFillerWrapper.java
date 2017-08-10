@@ -48,7 +48,11 @@ public  class FileFillerWrapper {
        new FileFillerTask().execute(current);
     }
     public  DataModelFiles getFileAtPosition(int position){
-        return allFiles.get(position);
+        if (position<allFiles.size()-1) {
+            return allFiles.get(position);
+        }else{
+           return allFiles.get(allFiles.size()-1);
+        }
     }
 
     public  int getTotalFilesCount() {
