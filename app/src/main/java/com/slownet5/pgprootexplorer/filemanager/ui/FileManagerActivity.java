@@ -342,10 +342,10 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
 
     @Override
     public void setCurrentFragment(TabsFragmentOne m, int position) {
-        Log.d(TAG, "setCurrentFragment: Setting fragments at position: "+position);
-        mFragmentOnes[position]=m;
-        Log.d(TAG, "setCurrentFragment: fragment at position: "+position+"has path: "+m.getmCurrentPath());
-        mFragmentOnes[position].setmCurrentPath(mStoragePaths.get(position));
+        if (mFragmentOnes!=null) {
+            mFragmentOnes[position] = m;
+            mFragmentOnes[position].setmCurrentPath(mStoragePaths.get(position));
+        }
 
     }
 
@@ -356,6 +356,12 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
         toolbar.setSubtitle(mStoragePaths.get(0));
         setSupportActionBar(toolbar);
 
+      if(mTotalStorage <=1){
+            Log.d(TAG, "setToolbar: Tab layout is hiding itself");
+            tabLayout.setVisibility(View.GONE);
+        }
+
+        mFragmentOnes=new TabsFragmentOne[mTotalStorage];
 
         final ViewPager viewPager  = (ViewPager) findViewById(R.id.pager);
         TabsPagerAdapter mTabsPagerAdapter = new TabsPagerAdapter
@@ -420,12 +426,7 @@ public class FileManagerActivity extends AppCompatActivity implements AdapterCal
             }
         });
 
-        if(mTotalStorage <=1){
-            Log.d(TAG, "setToolbar: Tab layout is hiding itself");
-            tabLayout.setVisibility(View.GONE);
-        }
 
-        mFragmentOnes=new TabsFragmentOne[mTotalStorage];
     }
 
     /**
