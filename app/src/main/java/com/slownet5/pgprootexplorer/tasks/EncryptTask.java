@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.slownet5.pgprootexplorer.encryption.EncryptionWrapper;
@@ -164,26 +165,30 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
     }
 
     private void deleteAlertDialog(){
-        //ask the user if he/she wants to delete the unencrypted version of file
-        AlertDialog.Builder dialog=new AlertDialog.Builder(mContext);
-        dialog.setCancelable(false);
-        dialog.setMessage("Do you want to delete the unencrypted version of folders?");
-        dialog.setTitle("Delete unencrypted files");
-        dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                new DeleteTask(mContext,mAdapter,mUnencryptedFiles).execute();
-            }
-        });
-        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                UiUtils.reloadData(
-                        mAdapter
-                );
-            }
-        });
-        dialog.show();
+        try {
+            //ask the user if he/she wants to delete the unencrypted version of file
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setCancelable(false);
+            dialog.setMessage("Do you want to delete the unencrypted version of folders?");
+            dialog.setTitle("Delete unencrypted files");
+            dialog.setPositiveButton("Yes, Sure!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    new DeleteTask(mContext, mAdapter, mUnencryptedFiles).execute();
+                }
+            });
+            dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    UiUtils.reloadData(
+                            mAdapter
+                    );
+                }
+            });
+            dialog.show();
+        }catch (WindowManager.BadTokenException ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override
