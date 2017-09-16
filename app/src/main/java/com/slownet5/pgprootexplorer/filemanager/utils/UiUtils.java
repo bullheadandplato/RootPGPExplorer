@@ -109,7 +109,6 @@ public class UiUtils {
 
     public static void openWith(final String filename,final Context ctx){
 
-        Log.d("nullpov", "openWith: filename is: "+filename);
         final Dialog dialog=new Dialog(ctx);
         dialog.setContentView(R.layout.openwith_dialog_layout);
         dialog.findViewById(R.id.openwith_texteditor_button).setOnClickListener(new View.OnClickListener() {
@@ -157,7 +156,9 @@ public class UiUtils {
         Intent chooser;
         if(action.equals(Intent.ACTION_SEND)){
             chooser=Intent.createChooser(intent,"Sharing....");
-            ctx.startActivity(chooser);
+            if(intent.resolveActivity(ctx.getPackageManager())!=null) {
+                ctx.startActivity(chooser);
+            }
         }else{
             chooser=Intent.createChooser(intent,"Open with....");
             if(intent.resolveActivity(ctx.getPackageManager())!=null){
