@@ -187,6 +187,7 @@ public class EncryptTask extends AsyncTask<Void,String,String> {
             });
             dialog.show();
         }catch (WindowManager.BadTokenException ex){
+            Toast.makeText(mContext,"Encryption done.",Toast.LENGTH_LONG).show();
             ex.printStackTrace();
         }
     }
