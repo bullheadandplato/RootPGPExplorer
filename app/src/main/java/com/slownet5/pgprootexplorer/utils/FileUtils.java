@@ -92,7 +92,11 @@ public class FileUtils {
 
     public static int getNumberOfFiles(File file ){
         if(file.canRead()){
-            return file.listFiles().length;
+            if (file.listFiles()!=null) {
+                return file.listFiles().length;
+            }else{
+                return 0;
+            }
         }else{
             return 0;
         }
