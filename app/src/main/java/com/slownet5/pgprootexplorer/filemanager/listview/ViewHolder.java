@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.slownet5.pgprootexplorer.R;
 import com.slownet5.pgprootexplorer.filemanager.utils.SharedData;
@@ -44,6 +45,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
     private FileSelectionManagement mFileSelectionManagement;
     private FileFillerWrapper mFileFiller;
     private TaskHandlerWrapper mTaskHandler;
+    private Context context;
 
     private static final String TAG="ViewHolder";
     ImageView        mImageView;
@@ -58,6 +60,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
         mFileSelectionManagement= m;
         mFileFiller=wrapper;
         this.mTaskHandler=mTaskHandler;
+        this.context=c;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +140,10 @@ class ViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItem
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        if (mTaskHandler==null){
+            Toast.makeText(context,"Oops caught an error in executing this operation.",Toast.LENGTH_LONG).show();
+            return false;
+        }
         String filePath=mFileFiller.getCurrentPath()+mFileFiller.getFileAtPosition(getAdapterPosition()).getFileName();
         ArrayList<String> tmp=new ArrayList<>();
         tmp.add(filePath);
